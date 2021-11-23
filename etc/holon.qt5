@@ -1,0 +1,14 @@
+#!/usr/bin/qtloader5
+
+[MainWindow]
+class = HolonMainWindow
+title = Holon
+minimumWidth = 400
+minimumHeight = 200
+
+[MainWindow/MenuBar]
+class = HolonMenuBar
+
+[MainWindow/MenuBar/File]
+class = HolonMenu
+title = File
