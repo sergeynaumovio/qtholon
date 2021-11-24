@@ -20,11 +20,9 @@
 #include <QLoaderSettings>
 #include <QMainWindow>
 
-HolonMenuBar::HolonMenuBar(QLoaderSettings *settings, QWidget *parent)
+HolonMenuBar::HolonMenuBar(QLoaderSettings *settings, QMainWindow *parent)
 :   QMenuBar(parent),
     QLoaderSettings(settings)
 {
-    QMainWindow *mainwindow = qobject_cast<QMainWindow*>(parent);
-    if (mainwindow)
-        mainwindow->setMenuBar(this);
+    parent->setMenuBar(this);
 }

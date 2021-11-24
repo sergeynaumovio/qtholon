@@ -23,12 +23,14 @@
 #include <QMenuBar>
 #include <QLoaderSettings>
 
+class QMainWindow;
+
 class Q_HOLON_EXPORT HolonMenuBar : public QMenuBar, public QLoaderSettings
 {
     Q_OBJECT
 
 public:
-    HolonMenuBar(QLoaderSettings *settings, QWidget *parent);
+    HolonMenuBar(QLoaderSettings *settings, QMainWindow *parent);
 };
 
 #endif // HOLONMENUBAR_H
