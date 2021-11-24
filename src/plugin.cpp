@@ -37,6 +37,8 @@ public:
             QWidget *widget = qobject_cast<QWidget*>(parent);
             if (!parent || (parent && widget))
                 return new HolonMainWindow(settings, widget);
+
+            return nullptr;
         }
 
         if (!qstrcmp(className, "HolonMenuBar"))
@@ -44,6 +46,8 @@ public:
             QMainWindow *mainwindow = qobject_cast<QMainWindow*>(parent);
             if (mainwindow)
                 return new HolonMenuBar(settings, mainwindow);
+
+            return nullptr;
         }
 
         return nullptr;
