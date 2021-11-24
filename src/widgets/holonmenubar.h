@@ -27,6 +27,7 @@ class QMainWindow;
 class HolonMenuBar : public QMenuBar, public QLoaderSettings
 {
     Q_OBJECT
+    Q_INTERFACES(QLoaderSettings)
 
 public:
     HolonMenuBar(QLoaderSettings *settings, QMainWindow *parent);
