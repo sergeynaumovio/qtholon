@@ -30,17 +30,16 @@ class Plugin : public QObject, QLoaderInterface
 public:
     QObject *object(QLoaderSettings *settings, QObject *parent) override
     {
-        QWidget *widget = qobject_cast<QWidget*>(parent);
         const char *className = settings->className();
-        if ((parent && widget) || !parent)
-        {
-            if (!qstrcmp(className, "HolonMainWindow"))
-                return new HolonMainWindow(settings, widget);
 
-            if (!qstrcmp(className, "HolonMenuBar"))
-                return new HolonMenuBar(settings, widget);
-        }
+        QWidget *widget = qobject_cast<QWidget*>(parent);
+        if (((parent && widget) || !parent) && !qstrcmp(className, "HolonMainWindow"))
+            return new HolonMainWindow(settings, widget);
 
+        QMainWindow *mainwindow = qobject_cast<QMainWindow*>(parent);
+        if (mainwindow && !qstrcmp(className, "HolonMenuBar"))
+            return new HolonMenuBar(settings, widget);
+\
         return nullptr;
     }
 };
