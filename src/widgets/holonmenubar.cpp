@@ -24,7 +24,7 @@ HolonMenuBar::HolonMenuBar(QLoaderSettings *settings, QWidget *parent)
 :   QMenuBar(parent),
     QLoaderSettings(settings)
 {
-    QMainWindow *mainWindow = qobject_cast<QMainWindow*>(parent);
-    if (mainWindow)
-        mainWindow->setMenuBar(this);
+    QMainWindow *mainwindow = qobject_cast<QMainWindow*>(parent);
+    if (mainwindow)
+        mainwindow->setMenuBar(this);
 }
