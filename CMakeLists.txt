@@ -47,11 +47,6 @@ target_include_directories(${QT_HOLON_LIBRARY}
 )
 
 set(QT_HOLON_PUBLIC_HEADERS
-    src/core/qtholonglobal.h
-    src/widgets/HolonMainWindow
-    src/widgets/holonmainwindow.h
-    src/widgets/HolonMenuBar
-    src/widgets/holonmenubar.h
 )
 
 set_target_properties(${QT_HOLON_LIBRARY} PROPERTIES

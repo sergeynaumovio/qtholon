@@ -19,11 +19,10 @@
 #ifndef HOLONMAINWINDOW_H
 #define HOLONMAINWINDOW_H
 
-#include "qtholonglobal.h"
 #include <QMainWindow>
 #include <QLoaderSettings>
 
-class Q_HOLON_EXPORT HolonMainWindow : public QMainWindow, public QLoaderSettings
+class HolonMainWindow : public QMainWindow, public QLoaderSettings
 {
     Q_OBJECT
 

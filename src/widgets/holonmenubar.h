@@ -19,13 +19,12 @@
 #ifndef HOLONMENUBAR_H
 #define HOLONMENUBAR_H
 
-#include "qtholonglobal.h"
 #include <QMenuBar>
 #include <QLoaderSettings>
 
 class QMainWindow;
 
-class Q_HOLON_EXPORT HolonMenuBar : public QMenuBar, public QLoaderSettings
+class HolonMenuBar : public QMenuBar, public QLoaderSettings
 {
     Q_OBJECT
 
