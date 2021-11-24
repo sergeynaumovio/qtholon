@@ -32,14 +32,20 @@ public:
     {
         const char *className = settings->className();
 
-        QWidget *widget = qobject_cast<QWidget*>(parent);
-        if (((parent && widget) || !parent) && !qstrcmp(className, "HolonMainWindow"))
-            return new HolonMainWindow(settings, widget);
+        if (!qstrcmp(className, "HolonMainWindow"))
+        {
+            QWidget *widget = qobject_cast<QWidget*>(parent);
+            if (!parent || (parent && widget))
+                return new HolonMainWindow(settings, widget);
+        }
 
-        QMainWindow *mainwindow = qobject_cast<QMainWindow*>(parent);
-        if (mainwindow && !qstrcmp(className, "HolonMenuBar"))
-            return new HolonMenuBar(settings, widget);
-\
+        if (!qstrcmp(className, "HolonMenuBar"))
+        {
+            QMainWindow *mainwindow = qobject_cast<QMainWindow*>(parent);
+            if (mainwindow)
+                return new HolonMenuBar(settings, mainwindow);
+        }
+
         return nullptr;
     }
 };
