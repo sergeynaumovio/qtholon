@@ -38,7 +38,7 @@ public:
             if (!parent || (parent && widget))
                 return new HolonMainWindow(settings, widget);
 
-            return nullptr;
+            return parent;
         }
 
         if (!qstrcmp(className, "HolonMenuBar"))
@@ -47,7 +47,7 @@ public:
             if (mainwindow)
                 return new HolonMenuBar(settings, mainwindow);
 
-            return nullptr;
+            return parent;
         }
 
         return nullptr;
