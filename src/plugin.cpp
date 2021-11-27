@@ -17,8 +17,9 @@
 ****************************************************************************/
 
 #include "holonmainwindow.h"
-#include "holonmenu.h"
 #include "holonmenubar.h"
+#include "holonmenu.h"
+#include "holonexitaction.h"
 #include <QLoaderInterface>
 #include <QLoaderSettings>
 
@@ -42,6 +43,15 @@ public:
             return parent;
         }
 
+        if (!qstrcmp(className, "HolonMenuBar"))
+        {
+            QMainWindow *mainwindow = qobject_cast<QMainWindow*>(parent);
+            if (mainwindow && !mainwindow->findChild<QMenuBar*>())
+                return new HolonMenuBar(settings, mainwindow);
+
+            return parent;
+        }
+
         if (!qstrcmp(className, "HolonMenu"))
         {
             QMenuBar *menubar = qobject_cast<QMenuBar*>(parent);
@@ -51,11 +61,11 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(className, "HolonMenuBar"))
+        if (!qstrcmp(className, "HolonExitAction"))
         {
-            QMainWindow *mainwindow = qobject_cast<QMainWindow*>(parent);
-            if (mainwindow && !mainwindow->findChild<QMenuBar*>())
-                return new HolonMenuBar(settings, mainwindow);
+            QMenu *menu = qobject_cast<QMenu*>(parent);
+            if (menu)
+                return new HolonExitAction(settings, menu);
 
             return parent;
         }

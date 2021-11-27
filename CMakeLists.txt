@@ -35,6 +35,8 @@ add_library(${QT_HOLON_LIBRARY} SHARED)
 target_sources(${QT_HOLON_LIBRARY}
     PRIVATE src/plugin.cpp
             src/core/qtholonglobal.h
+            src/widgets/actions/holonexitaction.h
+            src/widgets/actions/holonexitaction.cpp
             src/widgets/holonmainwindow.h
             src/widgets/holonmainwindow.cpp
             src/widgets/holonmenu.h
@@ -45,6 +47,7 @@ target_sources(${QT_HOLON_LIBRARY}
 
 target_include_directories(${QT_HOLON_LIBRARY}
     PRIVATE src/core
+            src/widgets/actions
             src/widgets
 )
 
