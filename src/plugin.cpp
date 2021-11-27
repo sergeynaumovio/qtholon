@@ -17,6 +17,7 @@
 ****************************************************************************/
 
 #include "holonmainwindow.h"
+#include "holonmenu.h"
 #include "holonmenubar.h"
 #include <QLoaderInterface>
 #include <QLoaderSettings>
@@ -37,6 +38,15 @@ public:
             QWidget *widget = qobject_cast<QWidget*>(parent);
             if (!parent || (parent && widget))
                 return new HolonMainWindow(settings, widget);
+
+            return parent;
+        }
+
+        if (!qstrcmp(className, "HolonMenu"))
+        {
+            QMenuBar *menubar = qobject_cast<QMenuBar*>(parent);
+            if (menubar)
+                return new HolonMenu(settings, menubar);
 
             return parent;
         }
