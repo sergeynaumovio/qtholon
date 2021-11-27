@@ -24,6 +24,6 @@ HolonMenu::HolonMenu(QLoaderSettings *settings, QMenuBar *parent)
 :   QMenu(parent),
     QLoaderSettings(settings)
 {
-    setTitle("File");
+    setTitle("&File");
     parent->addMenu(this);
 }
