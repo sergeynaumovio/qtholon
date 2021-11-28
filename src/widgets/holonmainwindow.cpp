@@ -18,11 +18,15 @@
 
 #include "holonmainwindow.h"
 #include <QLoaderSettings>
+#include <QVariant>
 
 HolonMainWindow::HolonMainWindow(QLoaderSettings *settings, QWidget *parent)
 :   QLoaderSettings(settings)
 {
     setParent(parent);
+
+    if (contains("title"))
+        setWindowTitle(value("title").toString());
 
     if (!parent)
         show();
