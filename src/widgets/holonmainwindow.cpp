@@ -25,9 +25,6 @@ HolonMainWindow::HolonMainWindow(QLoaderSettings *settings, QWidget *parent)
 {
     setParent(parent);
 
-    if (contains("title"))
-        setWindowTitle(value("title").toString());
-
     if (!parent)
         show();
 }

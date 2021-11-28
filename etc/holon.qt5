@@ -2,7 +2,7 @@
 
 [MainWindow]
 class = HolonMainWindow
-title = Holon
+windowTitle = Holon
 minimumWidth = 400
 minimumHeight = 200
 
