@@ -19,13 +19,26 @@
 #include "holonexitaction.h"
 #include <QLoaderSettings>
 #include <QMenu>
-#include <QCoreApplication>
 
 HolonExitAction::HolonExitAction(QLoaderSettings *settings, QMenu *parent)
 :   QAction(parent),
     QLoaderSettings(settings)
 {
     setText("E&xit");
-    connect(this, &QAction::triggered, [] { QCoreApplication::exit(); });
+
+    connect(this, &QAction::triggered, this, [parent]
+    {
+        QObject *root{};
+        QObject *object = parent;
+        while (object)
+        {
+            root = object;
+            object = object->parent();
+        }
+
+        if (root)
+            root->deleteLater();
+    });
+
     parent->addAction(this);
 }
