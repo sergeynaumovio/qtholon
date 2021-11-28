@@ -24,8 +24,6 @@ HolonExitAction::HolonExitAction(QLoaderSettings *settings, QMenu *parent)
 :   QAction(parent),
     QLoaderSettings(settings)
 {
-    setText("E&xit");
-
     connect(this, &QAction::triggered, this, [parent]
     {
         QObject *root{};

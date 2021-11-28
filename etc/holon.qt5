@@ -11,7 +11,8 @@ class = HolonMenuBar
 
 [MainWindow/MenuBar/File]
 class = HolonMenu
-title = File
+title = &File
 
 [MainWindow/MenuBar/File/Exit]
 class = HolonExitAction
+text = E&xit
