@@ -43,6 +43,8 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonmenu.cpp
             src/widgets/holonmenubar.h
             src/widgets/holonmenubar.cpp
+            src/widgets/holonstatusbar.h
+            src/widgets/holonstatusbar.cpp
 )
 
 target_include_directories(${QT_HOLON_LIBRARY}

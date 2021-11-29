@@ -20,6 +20,7 @@
 #include "holonmenubar.h"
 #include "holonmenu.h"
 #include "holonexitaction.h"
+#include "holonstatusbar.h"
 #include <QLoaderInterface>
 #include <QLoaderSettings>
 
@@ -66,6 +67,15 @@ public:
             QMenu *menu = qobject_cast<QMenu*>(parent);
             if (menu)
                 return new HolonExitAction(settings, menu);
+
+            return parent;
+        }
+
+        if (!qstrcmp(className, "HolonStatusBar"))
+        {
+            QMainWindow *mainwindow = qobject_cast<QMainWindow*>(parent);
+            if (mainwindow && !mainwindow->findChild<QStatusBar*>())
+                return new HolonStatusBar(settings, mainwindow);
 
             return parent;
         }

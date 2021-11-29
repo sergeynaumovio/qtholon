@@ -16,3 +16,6 @@ title = &File
 [MainWindow/MenuBar/File/Exit]
 class = HolonExitAction
 text = E&xit
+
+[MainWindow/StatusBar]
+class = HolonStatusBar
