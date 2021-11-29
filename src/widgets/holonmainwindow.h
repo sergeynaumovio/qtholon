@@ -27,6 +27,9 @@ class HolonMainWindow : public QMainWindow, public QLoaderSettings
     Q_OBJECT
     Q_INTERFACES(QLoaderSettings)
 
+protected:
+    void closeEvent(QCloseEvent*) override;
+
 public:
     HolonMainWindow(QLoaderSettings *settings, QWidget *parent);
 };

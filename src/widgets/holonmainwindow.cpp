@@ -28,3 +28,9 @@ HolonMainWindow::HolonMainWindow(QLoaderSettings *settings, QWidget *parent)
     if (!parent)
         show();
 }
+
+void HolonMainWindow::closeEvent(QCloseEvent*)
+{
+    hide();
+    deleteLater();
+}
