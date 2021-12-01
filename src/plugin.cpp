@@ -46,7 +46,7 @@ public:
 
         if (!qstrcmp(className, "HolonMenuBar"))
         {
-            QMainWindow *mainwindow = qobject_cast<QMainWindow*>(parent);
+            HolonMainWindow *mainwindow = qobject_cast<HolonMainWindow*>(parent);
             if (mainwindow && !mainwindow->findChild<QMenuBar*>())
                 return new HolonMenuBar(settings, mainwindow);
 
@@ -73,7 +73,7 @@ public:
 
         if (!qstrcmp(className, "HolonStatusBar"))
         {
-            QMainWindow *mainwindow = qobject_cast<QMainWindow*>(parent);
+            HolonMainWindow *mainwindow = qobject_cast<HolonMainWindow*>(parent);
             if (mainwindow && !mainwindow->findChild<QStatusBar*>())
                 return new HolonStatusBar(settings, mainwindow);
 
