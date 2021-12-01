@@ -19,12 +19,22 @@
 #include "holonmenubar.h"
 #include "holonmainwindow.h"
 #include <QLoaderSettings>
+#include <QMenu>
+#include <QAction>
 
 HolonMenuBar::HolonMenuBar(QLoaderSettings *settings, HolonMainWindow *parent)
 :   QMenuBar(parent),
     QLoaderSettings(settings)
 {
     parent->setMenuBar(this);
+
+    QMenu *file = new QMenu("&File", this);
+    addMenu(file);
+
+    QAction *exit = new QAction("E&xit", file);
+    file->addAction(exit);
+
+    connect(exit, &QAction::triggered, this, [this] { mainWindow()->deleteLater(); });
 }
 
 HolonMainWindow *HolonMenuBar::mainWindow() const
