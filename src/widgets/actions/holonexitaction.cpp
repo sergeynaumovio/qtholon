@@ -17,26 +17,20 @@
 ****************************************************************************/
 
 #include "holonexitaction.h"
+#include "holonmenu.h"
+#include "holonmainwindow.h"
 #include <QLoaderSettings>
-#include <QMenu>
 
-HolonExitAction::HolonExitAction(QLoaderSettings *settings, QMenu *parent)
+HolonExitAction::HolonExitAction(QLoaderSettings *settings, HolonMenu *parent)
 :   QAction(parent),
     QLoaderSettings(settings)
 {
-    connect(this, &QAction::triggered, this, [parent]
-    {
-        QObject *root{};
-        QObject *object = parent;
-        while (object)
-        {
-            root = object;
-            object = object->parent();
-        }
-
-        if (root)
-            root->deleteLater();
-    });
+    connect(this, &QAction::triggered, this, [this] { mainWindow()->deleteLater(); });
 
     parent->addAction(this);
+}
+
+HolonMainWindow *HolonExitAction::mainWindow() const
+{
+    return static_cast<HolonMenu*>(parent())->mainWindow();
 }

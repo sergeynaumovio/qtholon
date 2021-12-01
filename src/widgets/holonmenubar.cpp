@@ -17,12 +17,17 @@
 ****************************************************************************/
 
 #include "holonmenubar.h"
+#include "holonmainwindow.h"
 #include <QLoaderSettings>
-#include <QMainWindow>
 
-HolonMenuBar::HolonMenuBar(QLoaderSettings *settings, QMainWindow *parent)
+HolonMenuBar::HolonMenuBar(QLoaderSettings *settings, HolonMainWindow *parent)
 :   QMenuBar(parent),
     QLoaderSettings(settings)
 {
     parent->setMenuBar(this);
+}
+
+HolonMainWindow *HolonMenuBar::mainWindow() const
+{
+    return static_cast<HolonMainWindow*>(parent());
 }

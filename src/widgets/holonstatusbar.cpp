@@ -17,12 +17,17 @@
 ****************************************************************************/
 
 #include "holonstatusbar.h"
+#include "holonmainwindow.h"
 #include <QLoaderSettings>
-#include <QMainWindow>
 
-HolonStatusBar::HolonStatusBar(QLoaderSettings *settings, QMainWindow *parent)
+HolonStatusBar::HolonStatusBar(QLoaderSettings *settings, HolonMainWindow *parent)
 :   QStatusBar(parent),
     QLoaderSettings(settings)
 {
     parent->setStatusBar(this);
+}
+
+HolonMainWindow *HolonStatusBar::mainWindow() const
+{
+    return static_cast<HolonMainWindow*>(parent());
 }

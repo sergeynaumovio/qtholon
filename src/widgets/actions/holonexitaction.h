@@ -22,7 +22,8 @@
 #include <QAction>
 #include <QLoaderSettings>
 
-class QMenu;
+class HolonMenu;
+class HolonMainWindow;
 
 class HolonExitAction : public QAction, public QLoaderSettings
 {
@@ -30,7 +31,9 @@ class HolonExitAction : public QAction, public QLoaderSettings
     Q_INTERFACES(QLoaderSettings)
 
 public:
-    HolonExitAction(QLoaderSettings *settings, QMenu *parent);
+    HolonExitAction(QLoaderSettings *settings, HolonMenu *parent);
+
+    HolonMainWindow *mainWindow() const;
 };
 
 #endif // HOLONEXITACTION_H

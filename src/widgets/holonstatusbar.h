@@ -19,18 +19,21 @@
 #ifndef HOLONSTATUSBAR_H
 #define HOLONSTATUSBAR_H
 
+#include "qtholonglobal.h"
 #include <QStatusBar>
 #include <QLoaderSettings>
 
-class QMainWindow;
+class HolonMainWindow;
 
-class HolonStatusBar : public QStatusBar, public QLoaderSettings
+class Q_HOLON_EXPORT HolonStatusBar : public QStatusBar, public QLoaderSettings
 {
     Q_OBJECT
     Q_INTERFACES(QLoaderSettings)
 
 public:
-    HolonStatusBar(QLoaderSettings *settings, QMainWindow *parent);
+    HolonStatusBar(QLoaderSettings *settings, HolonMainWindow *parent);
+
+    HolonMainWindow *mainWindow() const;
 };
 
 #endif // HOLONSTATUSBAR_H
