@@ -16,28 +16,18 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONMAINWINDOW_H
-#define HOLONMAINWINDOW_H
+#ifndef HOLONMAINWINDOW_P_H
+#define HOLONMAINWINDOW_P_H
 
-#include "qtholonglobal.h"
-#include <QMainWindow>
-#include <QLoaderSettings>
+class HolonMainWindow;
 
-class HolonMainWindowPrivate;
-
-class Q_HOLON_EXPORT HolonMainWindow : public QMainWindow, public QLoaderSettings
+class HolonMainWindowPrivate
 {
-    Q_OBJECT
-    Q_INTERFACES(QLoaderSettings)
-
-protected:
-    const QScopedPointer<HolonMainWindowPrivate> d_ptr;
-
-    void closeEvent(QCloseEvent*) override;
-
 public:
-    HolonMainWindow(QLoaderSettings *settings, QWidget *parent);
-    ~HolonMainWindow();
+    HolonMainWindow *const q_ptr;
+
+    HolonMainWindowPrivate(HolonMainWindow *q);
+    virtual ~HolonMainWindowPrivate();
 };
 
-#endif // HOLONMAINWINDOW_H
+#endif // HOLONMAINWINDOW_P_H

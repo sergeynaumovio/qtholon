@@ -17,17 +17,22 @@
 ****************************************************************************/
 
 #include "holonmainwindow.h"
+#include "holonmainwindow_p.h"
 #include <QLoaderSettings>
 #include <QVariant>
 
 HolonMainWindow::HolonMainWindow(QLoaderSettings *settings, QWidget *parent)
-:   QLoaderSettings(settings)
+:   QLoaderSettings(settings),
+    d_ptr(new HolonMainWindowPrivate(this))
 {
     setParent(parent);
 
     if (!parent)
         show();
 }
+
+HolonMainWindow::~HolonMainWindow()
+{ }
 
 void HolonMainWindow::closeEvent(QCloseEvent*)
 {
