@@ -55,7 +55,7 @@ public:
 
         if (!qstrcmp(className, "HolonMenu"))
         {
-            QMenuBar *menubar = qobject_cast<QMenuBar*>(parent);
+            HolonMenuBar *menubar = qobject_cast<HolonMenuBar*>(parent);
             if (menubar)
                 return new HolonMenu(settings, menubar);
 
@@ -64,7 +64,7 @@ public:
 
         if (!qstrcmp(className, "HolonExitAction"))
         {
-            QMenu *menu = qobject_cast<QMenu*>(parent);
+            HolonMenu *menu = qobject_cast<HolonMenu*>(parent);
             if (menu)
                 return new HolonExitAction(settings, menu);
 
