@@ -24,11 +24,12 @@
 #include <QLoaderSettings>
 
 class HolonMainWindowPrivate;
+class HolonAreaSideBar;
+class HolonSideWidget;
 
 class Q_HOLON_EXPORT HolonMainWindow : public QMainWindow, public QLoaderSettings
 {
     Q_OBJECT
-    Q_INTERFACES(QLoaderSettings)
 
 protected:
     const QScopedPointer<HolonMainWindowPrivate> d_ptr;
@@ -38,6 +39,9 @@ protected:
 public:
     HolonMainWindow(QLoaderSettings *settings, QWidget *parent);
     ~HolonMainWindow();
+
+    void addSideBar(HolonAreaSideBar *area);
+    void addSideWidget(HolonSideWidget *widget);
 };
 
 #endif // HOLONMAINWINDOW_H

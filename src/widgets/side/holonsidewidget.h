@@ -16,22 +16,27 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONMAINWINDOW_P_H
-#define HOLONMAINWINDOW_P_H
+#ifndef HOLONSIDEWIDGET_H
+#define HOLONSIDEWIDGET_H
 
-#include <QHash>
+#include "qtholonglobal.h"
+#include <QLoaderSettings>
 
-class HolonSideWidget;
 class HolonMainWindow;
+class HolonSideBar;
+class QWidget;
 
-class HolonMainWindowPrivate
+class Q_HOLON_EXPORT HolonSideWidget : public QObject, public QLoaderSettings
 {
-public:
-    HolonMainWindow *const q_ptr;
-    QHash<QString, HolonSideWidget*> sidewidgets;
+    Q_OBJECT
 
-    HolonMainWindowPrivate(HolonMainWindow *q);
-    virtual ~HolonMainWindowPrivate();
+protected:
+    HolonSideWidget(QLoaderSettings *settings, HolonMainWindow *parent);
+    HolonSideWidget(QLoaderSettings *settings, HolonSideBar *parent);
+    HolonMainWindow *mainWindow() const;
+
+public:
+    virtual QWidget *widget() = 0;
 };
 
-#endif // HOLONMAINWINDOW_P_H
+#endif // HOLONSIDEWIDGET_H

@@ -16,23 +16,33 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONMENUBAR_H
-#define HOLONMENUBAR_H
+#include "holonareasidebars.h"
+#include "holonmainwindow.h"
 
-#include <QMenuBar>
-#include <QLoaderSettings>
-
-class HolonMainWindow;
-
-class HolonMenuBar : public QMenuBar, public QLoaderSettings
+HolonTopSideBar::HolonTopSideBar(QLoaderSettings *settings, HolonMainWindow *parent)
+:   HolonAreaSideBar(settings, parent)
 {
-    Q_OBJECT
-    Q_INTERFACES(QLoaderSettings)
+    setProperty("area", "top");
+    parent->addSideBar(this);
+}
 
-public:
-    HolonMenuBar(QLoaderSettings *settings, HolonMainWindow *parent);
+HolonRightSideBar::HolonRightSideBar(QLoaderSettings *settings, HolonMainWindow *parent)
+:   HolonAreaSideBar(settings, parent)
+{
+    setProperty("area", "right");
+    parent->addSideBar(this);
+}
 
-    HolonMainWindow *mainWindow() const;
-};
+HolonBottomSideBar::HolonBottomSideBar(QLoaderSettings *settings, HolonMainWindow *parent)
+:   HolonAreaSideBar(settings, parent)
+{
+    setProperty("area", "bottom");
+    parent->addSideBar(this);
+}
 
-#endif // HOLONMENUBAR_H
+HolonLeftSideBar::HolonLeftSideBar(QLoaderSettings *settings, HolonMainWindow *parent)
+:   HolonAreaSideBar(settings, parent)
+{
+    setProperty("area", "left");
+    parent->addSideBar(this);
+}

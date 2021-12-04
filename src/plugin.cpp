@@ -17,8 +17,12 @@
 ****************************************************************************/
 
 #include "holonmainwindow.h"
-#include "holonmenubar.h"
-#include "holonstatusbar.h"
+#include "holonareasidebars.h"
+#include "holonsidebar.h"
+
+#include "holonnewtask.h"
+#include "holonopentasks.h"
+
 #include <QLoaderInterface>
 #include <QLoaderSettings>
 
@@ -42,20 +46,74 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(className, "HolonMenuBar"))
+        if (!qstrcmp(className, "HolonTopSideBar"))
         {
             HolonMainWindow *mainwindow = qobject_cast<HolonMainWindow*>(parent);
-            if (mainwindow && !mainwindow->findChild<QMenuBar*>())
-                return new HolonMenuBar(settings, mainwindow);
+            if (mainwindow && !mainwindow->findChild<HolonTopSideBar*>())
+                return new HolonTopSideBar(settings, mainwindow);
 
             return parent;
         }
 
-        if (!qstrcmp(className, "HolonStatusBar"))
+        if (!qstrcmp(className, "HolonRightSideBar"))
         {
             HolonMainWindow *mainwindow = qobject_cast<HolonMainWindow*>(parent);
-            if (mainwindow && !mainwindow->findChild<QStatusBar*>())
-                return new HolonStatusBar(settings, mainwindow);
+            if (mainwindow && !mainwindow->findChild<HolonRightSideBar*>())
+                return new HolonRightSideBar(settings, mainwindow);
+
+            return parent;
+        }
+
+        if (!qstrcmp(className, "HolonBottomSideBar"))
+        {
+            HolonMainWindow *mainwindow = qobject_cast<HolonMainWindow*>(parent);
+            if (mainwindow && !mainwindow->findChild<HolonBottomSideBar*>())
+                return new HolonBottomSideBar(settings, mainwindow);
+
+            return parent;
+        }
+
+        if (!qstrcmp(className, "HolonLeftSideBar"))
+        {
+            HolonMainWindow *mainwindow = qobject_cast<HolonMainWindow*>(parent);
+            if (mainwindow && !mainwindow->findChild<HolonLeftSideBar*>())
+                return new HolonLeftSideBar(settings, mainwindow);
+
+            return parent;
+        }
+
+        if (!qstrcmp(className, "HolonSideBar"))
+        {
+            HolonAreaSideBar *area = qobject_cast<HolonAreaSideBar*>(parent);
+            HolonMainWindow *mainwindow = qobject_cast<HolonMainWindow*>(area->parent());
+            if (area && mainwindow && mainwindow->findChildren<HolonSideBar*>().size() < 9)
+                return new HolonSideBar(settings, area);
+
+            return parent;
+        }
+
+        if (!qstrcmp(className, "HolonNewTask"))
+        {
+            HolonMainWindow *mainwindow = qobject_cast<HolonMainWindow*>(parent);
+            if (mainwindow && !mainwindow->findChild<HolonNewTask*>("", Qt::FindDirectChildrenOnly))
+                return new HolonNewTask(settings, mainwindow);
+
+            HolonSideBar *sidebar = qobject_cast<HolonSideBar*>(parent);
+            if (sidebar && !sidebar->findChild<HolonNewTask*>())
+                return new HolonNewTask(settings, sidebar);
+
+            return parent;
+        }
+
+        if (!qstrcmp(className, "HolonOpenTasks"))
+        {
+            HolonMainWindow *mainwindow = qobject_cast<HolonMainWindow*>(parent);
+            if (mainwindow && !mainwindow->findChild<HolonOpenTasks*>("", Qt::FindDirectChildrenOnly))
+                return new HolonOpenTasks(settings, mainwindow);
+
+            HolonSideBar *sidebar = qobject_cast<HolonSideBar*>(parent);
+            if (sidebar && !sidebar->findChild<HolonOpenTasks*>())
+                return new HolonOpenTasks(settings, sidebar);
 
             return parent;
         }

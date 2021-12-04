@@ -16,28 +16,22 @@
 **
 ****************************************************************************/
 
-#include "holonmenubar.h"
-#include "holonmainwindow.h"
-#include <QLoaderSettings>
-#include <QMenu>
-#include <QAction>
+#ifndef HOLONOPENTASKS_H
+#define HOLONOPENTASKS_H
 
-HolonMenuBar::HolonMenuBar(QLoaderSettings *settings, HolonMainWindow *parent)
-:   QMenuBar(parent),
-    QLoaderSettings(settings)
+#include "holonsidewidget.h"
+
+class HolonSideBar;
+
+class HolonOpenTasks : public HolonSideWidget
 {
-    parent->setMenuBar(this);
+    Q_OBJECT
 
-    QMenu *file = new QMenu("&File", this);
-    addMenu(file);
+public:
+    HolonOpenTasks(QLoaderSettings *settings, HolonMainWindow *parent);
+    HolonOpenTasks(QLoaderSettings *settings, HolonSideBar *parent);
 
-    QAction *exit = new QAction("E&xit", file);
-    file->addAction(exit);
+    QWidget *widget() override;
+};
 
-    connect(exit, &QAction::triggered, this, [this] { mainWindow()->deleteLater(); });
-}
-
-HolonMainWindow *HolonMenuBar::mainWindow() const
-{
-    return static_cast<HolonMainWindow*>(parent());
-}
+#endif // HOLONOPENTASKS_H

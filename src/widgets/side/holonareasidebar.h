@@ -16,22 +16,20 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONMAINWINDOW_P_H
-#define HOLONMAINWINDOW_P_H
+#ifndef HOLONAREASIDEBAR_H
+#define HOLONAREASIDEBAR_H
 
-#include <QHash>
+#include <QStackedWidget>
+#include <QLoaderSettings>
 
-class HolonSideWidget;
 class HolonMainWindow;
 
-class HolonMainWindowPrivate
+class HolonAreaSideBar : public QStackedWidget, public QLoaderSettings
 {
-public:
-    HolonMainWindow *const q_ptr;
-    QHash<QString, HolonSideWidget*> sidewidgets;
+    Q_OBJECT
 
-    HolonMainWindowPrivate(HolonMainWindow *q);
-    virtual ~HolonMainWindowPrivate();
+protected:
+    HolonAreaSideBar(QLoaderSettings *settings, HolonMainWindow *parent);
 };
 
-#endif // HOLONMAINWINDOW_P_H
+#endif // HOLONAREASIDEBAR_H

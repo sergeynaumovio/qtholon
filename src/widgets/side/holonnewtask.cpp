@@ -16,22 +16,23 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONMAINWINDOW_P_H
-#define HOLONMAINWINDOW_P_H
+#include "holonnewtask.h"
+#include "holonmainwindow.h"
+#include "holonsidebar.h"
 
-#include <QHash>
-
-class HolonSideWidget;
-class HolonMainWindow;
-
-class HolonMainWindowPrivate
+HolonNewTask::HolonNewTask(QLoaderSettings *settings, HolonMainWindow *parent)
+:   HolonSideWidget(settings, parent)
 {
-public:
-    HolonMainWindow *const q_ptr;
-    QHash<QString, HolonSideWidget*> sidewidgets;
+    parent->addSideWidget(this);
+}
 
-    HolonMainWindowPrivate(HolonMainWindow *q);
-    virtual ~HolonMainWindowPrivate();
-};
+HolonNewTask::HolonNewTask(QLoaderSettings *settings, HolonSideBar *parent)
+:   HolonSideWidget(settings, parent)
+{
+    parent->addSideWidget(this);
+}
 
-#endif // HOLONMAINWINDOW_P_H
+QWidget *HolonNewTask::widget()
+{
+    return nullptr;
+}

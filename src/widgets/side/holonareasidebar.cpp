@@ -16,23 +16,11 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONSTATUSBAR_H
-#define HOLONSTATUSBAR_H
+#include "holonareasidebar.h"
+#include "holonmainwindow.h"
 
-#include <QStatusBar>
-#include <QLoaderSettings>
+HolonAreaSideBar::HolonAreaSideBar(QLoaderSettings *settings, HolonMainWindow *parent)
+:   QStackedWidget(parent),
+    QLoaderSettings(settings)
+{ }
 
-class HolonMainWindow;
-
-class HolonStatusBar : public QStatusBar, public QLoaderSettings
-{
-    Q_OBJECT
-    Q_INTERFACES(QLoaderSettings)
-
-public:
-    HolonStatusBar(QLoaderSettings *settings, HolonMainWindow *parent);
-
-    HolonMainWindow *mainWindow() const;
-};
-
-#endif // HOLONSTATUSBAR_H

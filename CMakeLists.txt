@@ -39,16 +39,24 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonmainwindow.cpp
             src/widgets/holonmainwindow_p.h
             src/widgets/holonmainwindow_p.cpp
-            src/widgets/holonmenubar.h
-            src/widgets/holonmenubar.cpp
-            src/widgets/holonstatusbar.h
-            src/widgets/holonstatusbar.cpp
+            src/widgets/side/holonareasidebar.h
+            src/widgets/side/holonareasidebar.cpp
+            src/widgets/side/holonareasidebars.cpp
+            src/widgets/side/holonareasidebars.h
+            src/widgets/side/holonsidebar.h
+            src/widgets/side/holonsidebar.cpp
+            src/widgets/side/holonsidewidget.h
+            src/widgets/side/holonsidewidget.cpp
+            src/widgets/side/holonnewtask.h
+            src/widgets/side/holonnewtask.cpp
+            src/widgets/side/holonopentasks.h
+            src/widgets/side/holonopentasks.cpp
 )
 
 target_include_directories(${QT_HOLON_LIBRARY}
     PRIVATE src/core
-            src/widgets/actions
             src/widgets
+            src/widgets/side
 )
 
 set(QT_HOLON_PUBLIC_HEADERS

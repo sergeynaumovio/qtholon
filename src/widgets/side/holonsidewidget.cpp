@@ -16,22 +16,29 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONMAINWINDOW_P_H
-#define HOLONMAINWINDOW_P_H
+#include "holonsidewidget.h"
+#include "holonsidebar.h"
+#include "holonmainwindow.h"
 
-#include <QHash>
-
-class HolonSideWidget;
-class HolonMainWindow;
-
-class HolonMainWindowPrivate
+HolonSideWidget::HolonSideWidget(QLoaderSettings *settings, HolonMainWindow *parent)
+:   QObject(parent),
+    QLoaderSettings(settings)
 {
-public:
-    HolonMainWindow *const q_ptr;
-    QHash<QString, HolonSideWidget*> sidewidgets;
+    parent->addSideWidget(this);
+}
 
-    HolonMainWindowPrivate(HolonMainWindow *q);
-    virtual ~HolonMainWindowPrivate();
-};
+HolonSideWidget::HolonSideWidget(QLoaderSettings *settings, HolonSideBar *parent)
+:   QObject(parent),
+    QLoaderSettings(settings)
+{
+    parent->addSideWidget(this);
+}
 
-#endif // HOLONMAINWINDOW_P_H
+HolonMainWindow *HolonSideWidget::mainWindow() const
+{
+    HolonMainWindow *mainwindow = qobject_cast<HolonMainWindow*>(parent());
+    if (mainwindow)
+        return mainwindow;
+
+    return static_cast<HolonMainWindow*>(parent()->parent());
+}

@@ -18,14 +18,52 @@
 
 #include "holonmainwindow.h"
 #include "holonmainwindow_p.h"
-#include <QLoaderSettings>
-#include <QVariant>
+#include "holonareasidebar.h"
+#include "holonsidewidget.h"
+#include <QMenuBar>
+#include <QStatusBar>
+#include <QPushButton>
+
+void HolonMainWindow::closeEvent(QCloseEvent*)
+{
+    hide();
+    deleteLater();
+}
 
 HolonMainWindow::HolonMainWindow(QLoaderSettings *settings, QWidget *parent)
 :   QLoaderSettings(settings),
     d_ptr(new HolonMainWindowPrivate(this))
 {
     setParent(parent);
+
+// Menu Bar --------------------------------------------------------------------
+    QMenuBar *menubar = new QMenuBar(this);
+
+    QMenu *file = new QMenu("&File", menubar);
+    menubar->addMenu(file);
+
+    QAction *exit = new QAction("E&xit", file);
+    file->addAction(exit);
+
+    connect(exit, &QAction::triggered, menubar, [this]
+    {
+        deleteLater();
+    });
+
+    setMenuBar(menubar);
+
+// Status Bar ------------------------------------------------------------------
+    QStatusBar *statusbar = new QStatusBar(this);
+    QPushButton *button = new QPushButton("\u2261", statusbar);
+    button->setFlat(true);
+    statusbar->addWidget(button);
+
+    QMenu *menu = new QMenu(button);
+    button->setMenu(menu);
+
+    setStatusBar(statusbar);
+
+// -----------------------------------------------------------------------------
 
     if (!parent)
         show();
@@ -34,8 +72,25 @@ HolonMainWindow::HolonMainWindow(QLoaderSettings *settings, QWidget *parent)
 HolonMainWindow::~HolonMainWindow()
 { }
 
-void HolonMainWindow::closeEvent(QCloseEvent*)
+void HolonMainWindow::addSideBar(HolonAreaSideBar *area)
 {
-    hide();
-    deleteLater();
+    QString side = area->property("area").toString();
+    if (side == "top")
+    {
+    }
+    else if (side == "right")
+    {
+    }
+    else if (side == "bottom")
+    {
+    }
+    else
+    {
+    }
+}
+
+void HolonMainWindow::addSideWidget(HolonSideWidget *widget)
+{
+    QString title = widget->property("title").toString();
+    d_ptr->sidewidgets[title] = widget;
 }

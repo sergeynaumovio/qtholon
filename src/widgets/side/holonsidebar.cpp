@@ -16,22 +16,17 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONMAINWINDOW_P_H
-#define HOLONMAINWINDOW_P_H
+#include "holonsidebar.h"
+#include "holonareasidebar.h"
+#include "holonsidewidget.h"
 
-#include <QHash>
-
-class HolonSideWidget;
-class HolonMainWindow;
-
-class HolonMainWindowPrivate
+HolonSideBar::HolonSideBar(QLoaderSettings *settings, HolonAreaSideBar *parent)
+:   QLoaderSettings(settings)
 {
-public:
-    HolonMainWindow *const q_ptr;
-    QHash<QString, HolonSideWidget*> sidewidgets;
+    setParent(parent);
+}
 
-    HolonMainWindowPrivate(HolonMainWindow *q);
-    virtual ~HolonMainWindowPrivate();
-};
+void HolonSideBar::addSideWidget(HolonSideWidget *)
+{
+}
 
-#endif // HOLONMAINWINDOW_P_H

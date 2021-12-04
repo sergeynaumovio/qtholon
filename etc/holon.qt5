@@ -5,9 +5,25 @@ class = HolonMainWindow
 windowTitle = Holon
 minimumWidth = 400
 minimumHeight = 200
+layout = vertical
 
-[MainWindow/MenuBar]
-class = HolonMenuBar
+[MainWindow/TopSideBar]
+class = HolonTopSideBar
 
-[MainWindow/StatusBar]
-class = HolonStatusBar
+[MainWindow/TopSideBar/1]
+class = HolonSideBar
+
+[MainWindow/TopSideBar/1/NewTask]
+class = HolonNewTask
+
+[MainWindow/RightSideBar]
+class = HolonRightSideBar
+
+[MainWindow/BottomSideBar]
+class = HolonBottomSideBar
+
+[MainWindow/LeftSideBar]
+class = HolonLeftSideBar
+
+[MainWindow/NewTask]
+class = HolonNewTask
