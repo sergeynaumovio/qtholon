@@ -1,13 +1,7 @@
 #!/usr/bin/qtloader6
 
-[MainWindow]
-class = HolonMainWindow
+[Main]
+class = HolonMain
 windowTitle = Holon
 minimumWidth = 400
 minimumHeight = 200
-
-[MainWindow/MenuBar]
-class = HolonMenuBar
-
-[MainWindow/StatusBar]
-class = HolonStatusBar
