@@ -19,20 +19,23 @@
 #ifndef HOLONTILED_H
 #define HOLONTILED_H
 
-#include "qtholonglobal.h"
 #include <QMainWindow>
 #include <QLoaderSettings>
 
 class HolonStacked;
 class HolonWidgetInterface;
+class HolonMain;
 
 class HolonTiled : public QMainWindow, public QLoaderSettings
 {
     Q_OBJECT
 
-public:
+protected:
     HolonTiled(QLoaderSettings *settings, HolonStacked *parent);
 
+    HolonMain *mainWindow() const;
+
+public:
     void addWidget(HolonWidgetInterface *widget);
 };
 

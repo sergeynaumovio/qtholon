@@ -28,3 +28,8 @@ HolonTiled::HolonTiled(QLoaderSettings *settings, HolonStacked *parent)
 void HolonTiled::addWidget(HolonWidgetInterface* /*widget*/)
 {
 }
+
+HolonMain *HolonTiled::mainWindow() const
+{
+    return static_cast<HolonStacked*>(parent())->mainWindow();
+}
