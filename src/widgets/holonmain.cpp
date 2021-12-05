@@ -60,6 +60,11 @@ HolonMain::HolonMain(QLoaderSettings *settings, QWidget *parent)
     QMenu *menu = new QMenu(button);
     button->setMenu(menu);
 
+    connect(this, &HolonMain::sidebarAdded, menu, [menu](QString name)
+    {
+        menu->addAction(name);
+    });
+
     setStatusBar(statusbar);
 
 // -----------------------------------------------------------------------------

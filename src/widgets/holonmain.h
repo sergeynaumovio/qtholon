@@ -40,6 +40,9 @@ protected:
 
     void closeEvent(QCloseEvent*) override;
 
+Q_SIGNALS:
+    void sidebarAdded(QString name);
+
 public:
     HolonMain(QLoaderSettings *settings, QWidget *parent);
     ~HolonMain();
