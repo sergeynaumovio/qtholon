@@ -16,11 +16,11 @@
 **
 ****************************************************************************/
 
-#include "holonmain.h"
-#include "holonsplitted.h"
 #include "holonlabel.h"
-#include "holonstacked.h"
-#include "holontiled.h"
+#include "holonmain.h"
+#include "holonsidebar.h"
+#include "holonsidebararea.h"
+#include "holonsplitted.h"
 
 #include "holonnewtask.h"
 #include "holonopentasks.h"
@@ -61,29 +61,34 @@ public:
             return parent;
         }
 
+        if (!qstrcmp(className, "HolonSidebarArea"))
+        {
+            HolonSplitted *splitted = qobject_cast<HolonSplitted*>(parent);
+
+            if (splitted && splitted->mainWindow()->findChildren<HolonSidebarArea*>().size() < 4)
+                return new HolonSidebarArea(settings, splitted);
+
+            return parent;
+        }
+
+        if (!qstrcmp(className, "HolonSidebar"))
+        {
+            HolonSidebarArea *area = qobject_cast<HolonSidebarArea*>(parent);
+            if (area && area->mainWindow()->findChildren<HolonSidebar*>().size() < 9)
+                return new HolonSidebar(settings, area);
+
+            return parent;
+        }
+
         if (!qstrcmp(className, "HolonLabel"))
         {
             HolonSplitted *splitted = qobject_cast<HolonSplitted*>(parent);
             if (splitted)
                 return new HolonLabel(settings, splitted);
 
-            return parent;
-        }
-
-        if (!qstrcmp(className, "HolonStacked"))
-        {
-            HolonSplitted *splitted = qobject_cast<HolonSplitted*>(parent);
-            if (splitted)
-                return new HolonStacked(settings, splitted);
-
-            return parent;
-        }
-
-        if (!qstrcmp(className, "HolonTiled"))
-        {
-            HolonStacked *stacked = qobject_cast<HolonStacked*>(parent);
-            if (stacked)
-                return new HolonTiled(settings, stacked);
+            HolonSidebar *sidebar = qobject_cast<HolonSidebar*>(parent);
+            if (sidebar)
+                return new HolonLabel(settings, sidebar);
 
             return parent;
         }
