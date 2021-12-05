@@ -47,6 +47,10 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonstacked.cpp
             src/widgets/holontiled.cpp
             src/widgets/holontiled.h
+            src/widgets/holonsidebar.h
+            src/widgets/holonsidebar.cpp
+            src/widgets/holonsidebararea.h
+            src/widgets/holonsidebararea.cpp
             src/widgets/holonwidgetinterface.h
             src/widgets/holonwidgetinterface.cpp
 
