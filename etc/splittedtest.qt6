@@ -1,4 +1,4 @@
-#!/usr/bin/qtloader5
+#!/usr/bin/qtloader6
 
 [Main]
 class = HolonMain
