@@ -65,7 +65,7 @@ public:
         {
             HolonSplitted *splitted = qobject_cast<HolonSplitted*>(parent);
 
-            if (splitted && splitted->mainWindow()->findChildren<HolonSidebarArea*>().size() < 4)
+            if (splitted && splitted->mainWindow()->findChildren<HolonSidebarArea*>().size() < 9)
                 return new HolonSidebarArea(settings, splitted);
 
             return parent;
