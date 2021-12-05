@@ -31,6 +31,8 @@ class HolonSplitted : public QSplitter, public QLoaderSettings
 public:
     HolonSplitted(QLoaderSettings *settings, HolonMain *parent);
     HolonSplitted(QLoaderSettings *settings, HolonSplitted *parent);
+
+    HolonMain *mainWindow() const;
 };
 
 #endif // HOLONSPLITTED_H

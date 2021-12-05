@@ -46,3 +46,21 @@ HolonSplitted::HolonSplitted(QLoaderSettings *settings, HolonSplitted *parent)
 
     parent->addWidget(this);
 }
+
+HolonMain *HolonSplitted::mainWindow() const
+{
+    QObject *object = parent();
+    while (object)
+    {
+        HolonMain *mainwindow = qobject_cast<HolonMain*>(object);
+
+        if (mainwindow)
+            return mainwindow;
+
+        object = object->parent();
+    }
+
+    Q_ASSERT(object);
+
+    return nullptr;
+}
