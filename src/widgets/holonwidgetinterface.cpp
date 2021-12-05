@@ -16,33 +16,36 @@
 **
 ****************************************************************************/
 
-#include "holonareasidebars.h"
-#include "holonmainwindow.h"
+#include "holonwidgetinterface.h"
+#include "holonmain.h"
+#include "holontiled.h"
 
-HolonTopSideBar::HolonTopSideBar(QLoaderSettings *settings, HolonMainWindow *parent)
-:   HolonAreaSideBar(settings, parent)
+HolonWidgetInterface::HolonWidgetInterface(QLoaderSettings *settings, HolonMain *parent)
+:   QObject(parent),
+    QLoaderSettings(settings)
 {
-    setProperty("area", "top");
-    parent->addSideBar(this);
+    parent->addWidget(this);
 }
 
-HolonRightSideBar::HolonRightSideBar(QLoaderSettings *settings, HolonMainWindow *parent)
-:   HolonAreaSideBar(settings, parent)
+HolonWidgetInterface::HolonWidgetInterface(QLoaderSettings *settings, HolonTiled *parent)
+:   QObject(parent),
+    QLoaderSettings(settings)
 {
-    setProperty("area", "right");
-    parent->addSideBar(this);
+    parent->addWidget(this);
 }
 
-HolonBottomSideBar::HolonBottomSideBar(QLoaderSettings *settings, HolonMainWindow *parent)
-:   HolonAreaSideBar(settings, parent)
+HolonMain *HolonWidgetInterface::mainWindow() const
 {
-    setProperty("area", "bottom");
-    parent->addSideBar(this);
-}
+    QObject *object = parent();
+    while (object)
+    {
+        HolonMain *mainwindow = qobject_cast<HolonMain*>(object);
 
-HolonLeftSideBar::HolonLeftSideBar(QLoaderSettings *settings, HolonMainWindow *parent)
-:   HolonAreaSideBar(settings, parent)
-{
-    setProperty("area", "left");
-    parent->addSideBar(this);
+        if (mainwindow)
+            return mainwindow;
+
+        object = object->parent();
+    }
+
+    return nullptr;
 }

@@ -35,18 +35,21 @@ add_library(${QT_HOLON_LIBRARY} SHARED)
 target_sources(${QT_HOLON_LIBRARY}
     PRIVATE src/plugin.cpp
             src/core/qtholonglobal.h
-            src/widgets/holonmainwindow.h
-            src/widgets/holonmainwindow.cpp
-            src/widgets/holonmainwindow_p.h
-            src/widgets/holonmainwindow_p.cpp
-            src/widgets/side/holonareasidebar.h
-            src/widgets/side/holonareasidebar.cpp
-            src/widgets/side/holonareasidebars.cpp
-            src/widgets/side/holonareasidebars.h
-            src/widgets/side/holonsidebar.h
-            src/widgets/side/holonsidebar.cpp
-            src/widgets/side/holonsidewidget.h
-            src/widgets/side/holonsidewidget.cpp
+            src/widgets/holonlabel.h
+            src/widgets/holonlabel.cpp
+            src/widgets/holonmain.h
+            src/widgets/holonmain.cpp
+            src/widgets/holonmain_p.h
+            src/widgets/holonmain_p.cpp
+            src/widgets/holonsplitted.h
+            src/widgets/holonsplitted.cpp
+            src/widgets/holonstacked.h
+            src/widgets/holonstacked.cpp
+            src/widgets/holontiled.cpp
+            src/widgets/holontiled.h
+            src/widgets/holonwidgetinterface.h
+            src/widgets/holonwidgetinterface.cpp
+
             src/widgets/side/holonnewtask.h
             src/widgets/side/holonnewtask.cpp
             src/widgets/side/holonopentasks.h
@@ -61,8 +64,8 @@ target_include_directories(${QT_HOLON_LIBRARY}
 
 set(QT_HOLON_PUBLIC_HEADERS
     src/core/qtholonglobal.h
-    src/widgets/HolonMainWindow
-    src/widgets/holonmainwindow.h
+    src/widgets/HolonMain
+    src/widgets/holonmain.h
 )
 
 set_target_properties(${QT_HOLON_LIBRARY} PROPERTIES

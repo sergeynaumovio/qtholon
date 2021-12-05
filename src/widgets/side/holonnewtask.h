@@ -19,17 +19,15 @@
 #ifndef HOLONNEWTASK_H
 #define HOLONNEWTASK_H
 
-#include "holonsidewidget.h"
+#include "holonwidgetinterface.h"
 
-class HolonSideBar;
-
-class HolonNewTask : public HolonSideWidget
+class HolonNewTask : public HolonWidgetInterface
 {
     Q_OBJECT
 
 public:
-    HolonNewTask(QLoaderSettings *settings, HolonMainWindow *parent);
-    HolonNewTask(QLoaderSettings *settings, HolonSideBar *parent);
+    HolonNewTask(QLoaderSettings *settings, HolonMain *parent);
+    HolonNewTask(QLoaderSettings *settings, HolonTiled *parent);
 
     QWidget *widget() override;
 };

@@ -16,23 +16,21 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONSIDEBAR_H
-#define HOLONSIDEBAR_H
+#ifndef HOLONSPLITTED_H
+#define HOLONSPLITTED_H
 
-#include <QMainWindow>
+#include <QSplitter>
 #include <QLoaderSettings>
 
-class HolonAreaSideBar;
-class HolonSideWidget;
+class HolonMain;
 
-class HolonSideBar : public QMainWindow, public QLoaderSettings
+class HolonSplitted : public QSplitter, public QLoaderSettings
 {
     Q_OBJECT
 
 public:
-    HolonSideBar(QLoaderSettings *settings, HolonAreaSideBar *parent);
-
-    void addSideWidget(HolonSideWidget *widget);
+    HolonSplitted(QLoaderSettings *settings, HolonMain *parent);
+    HolonSplitted(QLoaderSettings *settings, HolonSplitted *parent);
 };
 
-#endif // HOLONSIDEBAR_H
+#endif // HOLONSPLITTED_H

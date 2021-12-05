@@ -16,20 +16,34 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONOPENTASKS_H
-#define HOLONOPENTASKS_H
+#ifndef HOLONMAIN_H
+#define HOLONMAIN_H
 
-#include "holonwidgetinterface.h"
+#include "qtholonglobal.h"
+#include <QMainWindow>
+#include <QLoaderSettings>
 
-class HolonOpenTasks : public HolonWidgetInterface
+class HolonMainPrivate;
+class HolonWidgetInterface;
+
+class Q_HOLON_EXPORT HolonMain : public QMainWindow, public QLoaderSettings
 {
     Q_OBJECT
 
-public:
-    HolonOpenTasks(QLoaderSettings *settings, HolonMain *parent);
-    HolonOpenTasks(QLoaderSettings *settings, HolonTiled *parent);
+    friend class HolonMainPrivate;
+    friend class HolonWidgetInterface;
 
-    QWidget *widget() override;
+    void addWidget(HolonWidgetInterface *widget);
+
+protected:
+    const QScopedPointer<HolonMainPrivate> d_ptr;
+
+    void closeEvent(QCloseEvent*) override;
+
+public:
+    HolonMain(QLoaderSettings *settings, QWidget *parent);
+    ~HolonMain();
+
 };
 
-#endif // HOLONOPENTASKS_H
+#endif // HOLONMAIN_H

@@ -16,11 +16,24 @@
 **
 ****************************************************************************/
 
-#include "holonareasidebar.h"
-#include "holonmainwindow.h"
+#ifndef HOLONTILED_H
+#define HOLONTILED_H
 
-HolonAreaSideBar::HolonAreaSideBar(QLoaderSettings *settings, HolonMainWindow *parent)
-:   QStackedWidget(parent),
-    QLoaderSettings(settings)
-{ }
+#include "qtholonglobal.h"
+#include <QMainWindow>
+#include <QLoaderSettings>
 
+class HolonStacked;
+class HolonWidgetInterface;
+
+class HolonTiled : public QMainWindow, public QLoaderSettings
+{
+    Q_OBJECT
+
+public:
+    HolonTiled(QLoaderSettings *settings, HolonStacked *parent);
+
+    void addWidget(HolonWidgetInterface *widget);
+};
+
+#endif // HOLONTILED_H

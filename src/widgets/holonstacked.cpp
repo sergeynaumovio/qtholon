@@ -16,20 +16,12 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONOPENTASKS_H
-#define HOLONOPENTASKS_H
+#include "holonstacked.h"
+#include "holonsplitted.h"
 
-#include "holonwidgetinterface.h"
-
-class HolonOpenTasks : public HolonWidgetInterface
+HolonStacked::HolonStacked(QLoaderSettings *settings, HolonSplitted *parent)
+:   QStackedWidget(parent),
+    QLoaderSettings(settings)
 {
-    Q_OBJECT
-
-public:
-    HolonOpenTasks(QLoaderSettings *settings, HolonMain *parent);
-    HolonOpenTasks(QLoaderSettings *settings, HolonTiled *parent);
-
-    QWidget *widget() override;
-};
-
-#endif // HOLONOPENTASKS_H
+    addWidget(this);
+}

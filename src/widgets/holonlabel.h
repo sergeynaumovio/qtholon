@@ -16,29 +16,20 @@
 **
 ****************************************************************************/
 
-#include "holonsidewidget.h"
-#include "holonsidebar.h"
-#include "holonmainwindow.h"
+#ifndef HOLONLABEL_H
+#define HOLONLABEL_H
 
-HolonSideWidget::HolonSideWidget(QLoaderSettings *settings, HolonMainWindow *parent)
-:   QObject(parent),
-    QLoaderSettings(settings)
+#include <QLabel>
+#include <QLoaderSettings>
+
+class HolonSplitted;
+
+class HolonLabel : public QLabel, public QLoaderSettings
 {
-    parent->addSideWidget(this);
-}
+    Q_OBJECT
 
-HolonSideWidget::HolonSideWidget(QLoaderSettings *settings, HolonSideBar *parent)
-:   QObject(parent),
-    QLoaderSettings(settings)
-{
-    parent->addSideWidget(this);
-}
+public:
+    HolonLabel(QLoaderSettings *settings, HolonSplitted *parent);
+};
 
-HolonMainWindow *HolonSideWidget::mainWindow() const
-{
-    HolonMainWindow *mainwindow = qobject_cast<HolonMainWindow*>(parent());
-    if (mainwindow)
-        return mainwindow;
-
-    return static_cast<HolonMainWindow*>(parent()->parent());
-}
+#endif // HOLONLABEL_H

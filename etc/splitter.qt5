@@ -1,0 +1,36 @@
+#!/usr/bin/qtloader5
+
+[MainWindow]
+class = HolonMain
+windowTitle = Holon
+minimumWidth = 400
+minimumHeight = 200
+
+[MainWindow/Splitted]
+class = HolonSplitted
+#layout = vertical
+
+[MainWindow/Splitted/1]
+class = HolonLabel
+text = 1: Sidebar
+
+[MainWindow/Splitted/Splitted]
+class = HolonSplitted
+layout = vertical
+
+[MainWindow/Splitted/Splitted/2]
+class = HolonLabel
+text = 2: Sidebar
+
+[MainWindow/Splitted/Splitted/3]
+class = HolonLabel
+text = 3: Central
+
+[MainWindow/Splitted/Splitted/4]
+class = HolonLabel
+text = 4: Sidebar
+
+[MainWindow/Splitted/5]
+class = HolonLabel
+text = 5: Sidebar
+

@@ -16,27 +16,15 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONSIDEWIDGET_H
-#define HOLONSIDEWIDGET_H
+#include "holontiled.h"
+#include "holonstacked.h"
 
-#include "qtholonglobal.h"
-#include <QLoaderSettings>
-
-class HolonMainWindow;
-class HolonSideBar;
-class QWidget;
-
-class Q_HOLON_EXPORT HolonSideWidget : public QObject, public QLoaderSettings
+HolonTiled::HolonTiled(QLoaderSettings *settings, HolonStacked *parent)
+:   QLoaderSettings(settings)
 {
-    Q_OBJECT
+    setParent(parent);
+}
 
-protected:
-    HolonSideWidget(QLoaderSettings *settings, HolonMainWindow *parent);
-    HolonSideWidget(QLoaderSettings *settings, HolonSideBar *parent);
-    HolonMainWindow *mainWindow() const;
-
-public:
-    virtual QWidget *widget() = 0;
-};
-
-#endif // HOLONSIDEWIDGET_H
+void HolonTiled::addWidget(HolonWidgetInterface* /*widget*/)
+{
+}

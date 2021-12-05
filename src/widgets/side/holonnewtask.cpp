@@ -17,20 +17,16 @@
 ****************************************************************************/
 
 #include "holonnewtask.h"
-#include "holonmainwindow.h"
-#include "holonsidebar.h"
+#include "holonmain.h"
+#include "holontiled.h"
 
-HolonNewTask::HolonNewTask(QLoaderSettings *settings, HolonMainWindow *parent)
-:   HolonSideWidget(settings, parent)
-{
-    parent->addSideWidget(this);
-}
+HolonNewTask::HolonNewTask(QLoaderSettings *settings, HolonMain *parent)
+:   HolonWidgetInterface(settings, parent)
+{ }
 
-HolonNewTask::HolonNewTask(QLoaderSettings *settings, HolonSideBar *parent)
-:   HolonSideWidget(settings, parent)
-{
-    parent->addSideWidget(this);
-}
+HolonNewTask::HolonNewTask(QLoaderSettings *settings, HolonTiled *parent)
+:   HolonWidgetInterface(settings, parent)
+{ }
 
 QWidget *HolonNewTask::widget()
 {

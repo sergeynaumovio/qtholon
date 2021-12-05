@@ -16,11 +16,33 @@
 **
 ****************************************************************************/
 
-#include "holonmainwindow_p.h"
+#include "holonsplitted.h"
+#include "holonmain.h"
 
-HolonMainWindowPrivate::HolonMainWindowPrivate(HolonMainWindow *q)
-:   q_ptr(q)
-{ }
+HolonSplitted::HolonSplitted(QLoaderSettings *settings, HolonMain *parent)
+:   QSplitter(parent),
+    QLoaderSettings(settings)
+{
+    setChildrenCollapsible(false);
+    setStyleSheet("QSplitter::handle { background-color: rgb(100, 100, 100)}");
+    setHandleWidth(1);
 
-HolonMainWindowPrivate::~HolonMainWindowPrivate()
-{ }
+    if (value("layout").toString() == "vertical")
+        setOrientation(Qt::Vertical);
+
+    parent->setCentralWidget(this);
+}
+
+HolonSplitted::HolonSplitted(QLoaderSettings *settings, HolonSplitted *parent)
+:   QSplitter(parent),
+    QLoaderSettings(settings)
+{
+    setChildrenCollapsible(false);
+    setStyleSheet("QSplitter::handle { background-color: rgb(100, 100, 100)}");
+    setHandleWidth(1);
+
+    if (value("layout").toString() == "vertical")
+        setOrientation(Qt::Vertical);
+
+    parent->addWidget(this);
+}

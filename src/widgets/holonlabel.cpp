@@ -16,22 +16,13 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONMAINWINDOW_P_H
-#define HOLONMAINWINDOW_P_H
+#include "holonlabel.h"
+#include "holonsplitted.h"
 
-#include <QHash>
-
-class HolonSideWidget;
-class HolonMainWindow;
-
-class HolonMainWindowPrivate
+HolonLabel::HolonLabel(QLoaderSettings *settings, HolonSplitted *parent)
+:   QLabel(parent),
+    QLoaderSettings(settings)
 {
-public:
-    HolonMainWindow *const q_ptr;
-    QHash<QString, HolonSideWidget*> sidewidgets;
-
-    HolonMainWindowPrivate(HolonMainWindow *q);
-    virtual ~HolonMainWindowPrivate();
-};
-
-#endif // HOLONMAINWINDOW_P_H
+    parent->addWidget(this);
+    setAlignment(Qt::AlignCenter);
+}

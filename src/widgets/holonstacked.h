@@ -16,47 +16,20 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONAREASIDEBARS_H
-#define HOLONAREASIDEBARS_H
+#ifndef HOLONSTACKED_H
+#define HOLONSTACKED_H
 
-#include "holonareasidebar.h"
+#include <QStackedWidget>
 #include <QLoaderSettings>
 
-class HolonMainWindow;
+class HolonSplitted;
 
-class HolonTopSideBar : public HolonAreaSideBar
+class HolonStacked : public QStackedWidget, public QLoaderSettings
 {
     Q_OBJECT
 
 public:
-    HolonTopSideBar(QLoaderSettings *settings, HolonMainWindow *parent);
+    HolonStacked(QLoaderSettings *settings, HolonSplitted *parent);
 };
 
-
-class HolonRightSideBar : public HolonAreaSideBar
-{
-    Q_OBJECT
-
-public:
-    HolonRightSideBar(QLoaderSettings *settings, HolonMainWindow *parent);
-};
-
-
-class HolonBottomSideBar : public HolonAreaSideBar
-{
-    Q_OBJECT
-
-public:
-    HolonBottomSideBar(QLoaderSettings *settings, HolonMainWindow *parent);
-};
-
-
-class HolonLeftSideBar : public HolonAreaSideBar
-{
-    Q_OBJECT
-
-public:
-    HolonLeftSideBar(QLoaderSettings *settings, HolonMainWindow *parent);
-};
-
-#endif // HOLONAREASIDEBARS_H
+#endif // HOLONSTACKED_H

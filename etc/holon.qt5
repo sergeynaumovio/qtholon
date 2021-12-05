@@ -1,29 +1,7 @@
 #!/usr/bin/qtloader5
 
 [MainWindow]
-class = HolonMainWindow
+class = HolonMain
 windowTitle = Holon
 minimumWidth = 400
 minimumHeight = 200
-layout = vertical
-
-[MainWindow/TopSideBar]
-class = HolonTopSideBar
-
-[MainWindow/TopSideBar/1]
-class = HolonSideBar
-
-[MainWindow/TopSideBar/1/NewTask]
-class = HolonNewTask
-
-[MainWindow/RightSideBar]
-class = HolonRightSideBar
-
-[MainWindow/BottomSideBar]
-class = HolonBottomSideBar
-
-[MainWindow/LeftSideBar]
-class = HolonLeftSideBar
-
-[MainWindow/NewTask]
-class = HolonNewTask

@@ -16,20 +16,13 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONAREASIDEBAR_H
-#define HOLONAREASIDEBAR_H
+#include "holonmain_p.h"
+#include "holonmain.h"
+#include <QDebug>
 
-#include <QStackedWidget>
-#include <QLoaderSettings>
+HolonMainPrivate::HolonMainPrivate(HolonMain *q)
+:   q_ptr(q)
+{ }
 
-class HolonMainWindow;
-
-class HolonAreaSideBar : public QStackedWidget, public QLoaderSettings
-{
-    Q_OBJECT
-
-protected:
-    HolonAreaSideBar(QLoaderSettings *settings, HolonMainWindow *parent);
-};
-
-#endif // HOLONAREASIDEBAR_H
+HolonMainPrivate::~HolonMainPrivate()
+{ }

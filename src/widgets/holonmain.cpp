@@ -16,23 +16,22 @@
 **
 ****************************************************************************/
 
-#include "holonmainwindow.h"
-#include "holonmainwindow_p.h"
-#include "holonareasidebar.h"
-#include "holonsidewidget.h"
+#include "holonmain.h"
+#include "holonmain_p.h"
+#include "holonwidgetinterface.h"
 #include <QMenuBar>
 #include <QStatusBar>
 #include <QPushButton>
 
-void HolonMainWindow::closeEvent(QCloseEvent*)
+void HolonMain::closeEvent(QCloseEvent*)
 {
     hide();
     deleteLater();
 }
 
-HolonMainWindow::HolonMainWindow(QLoaderSettings *settings, QWidget *parent)
+HolonMain::HolonMain(QLoaderSettings *settings, QWidget *parent)
 :   QLoaderSettings(settings),
-    d_ptr(new HolonMainWindowPrivate(this))
+    d_ptr(new HolonMainPrivate(this))
 {
     setParent(parent);
 
@@ -69,28 +68,11 @@ HolonMainWindow::HolonMainWindow(QLoaderSettings *settings, QWidget *parent)
         show();
 }
 
-HolonMainWindow::~HolonMainWindow()
+HolonMain::~HolonMain()
 { }
 
-void HolonMainWindow::addSideBar(HolonAreaSideBar *area)
-{
-    QString side = area->property("area").toString();
-    if (side == "top")
-    {
-    }
-    else if (side == "right")
-    {
-    }
-    else if (side == "bottom")
-    {
-    }
-    else
-    {
-    }
-}
-
-void HolonMainWindow::addSideWidget(HolonSideWidget *widget)
+void HolonMain::addWidget(HolonWidgetInterface *widget)
 {
     QString title = widget->property("title").toString();
-    d_ptr->sidewidgets[title] = widget;
+    d_ptr->widgets[title] = widget;
 }
