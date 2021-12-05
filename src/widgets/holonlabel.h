@@ -23,6 +23,7 @@
 #include <QLoaderSettings>
 
 class HolonSplitted;
+class HolonSidebar;
 
 class HolonLabel : public QLabel, public QLoaderSettings
 {
@@ -30,6 +31,7 @@ class HolonLabel : public QLabel, public QLoaderSettings
 
 public:
     HolonLabel(QLoaderSettings *settings, HolonSplitted *parent);
+    HolonLabel(QLoaderSettings *settings, HolonSidebar *parent);
 };
 
 #endif // HOLONLABEL_H

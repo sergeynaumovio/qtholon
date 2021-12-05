@@ -18,11 +18,20 @@
 
 #include "holonlabel.h"
 #include "holonsplitted.h"
+#include "holonsidebar.h"
 
 HolonLabel::HolonLabel(QLoaderSettings *settings, HolonSplitted *parent)
 :   QLabel(parent),
     QLoaderSettings(settings)
 {
     parent->addWidget(this);
+    setAlignment(Qt::AlignCenter);
+}
+
+HolonLabel::HolonLabel(QLoaderSettings *settings, HolonSidebar *parent)
+:   QLabel(parent),
+    QLoaderSettings(settings)
+{
+    parent->setCentralWidget(this);
     setAlignment(Qt::AlignCenter);
 }
