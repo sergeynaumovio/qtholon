@@ -23,5 +23,10 @@ HolonStacked::HolonStacked(QLoaderSettings *settings, HolonSplitted *parent)
 :   QStackedWidget(parent),
     QLoaderSettings(settings)
 {
-    addWidget(this);
+    parent->addWidget(this);
+}
+
+HolonMain *HolonStacked::mainWindow() const
+{
+    return static_cast<HolonSplitted*>(parent())->mainWindow();
 }

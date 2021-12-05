@@ -23,13 +23,17 @@
 #include <QLoaderSettings>
 
 class HolonSplitted;
+class HolonMain;
 
 class HolonStacked : public QStackedWidget, public QLoaderSettings
 {
     Q_OBJECT
 
-public:
+protected:
     HolonStacked(QLoaderSettings *settings, HolonSplitted *parent);
+
+public:
+    HolonMain *mainWindow() const;
 };
 
 #endif // HOLONSTACKED_H
