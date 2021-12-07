@@ -29,8 +29,9 @@ public:
     :   QWidget(parent)
     {
         setLayout(new QHBoxLayout(this));
-        layout()->setMargin(0);
+        layout()->setContentsMargins({});
         parent->addWidget(this, 1);
+        parent->setStyleSheet("QStatusBar { background-color : rgb(64, 66, 68) }");
     }
 
     QHBoxLayout *layout()
@@ -38,7 +39,6 @@ public:
         return static_cast<QHBoxLayout*>(QWidget::layout());
     }
 };
-
 
 void HolonStatusBar::addSidebarButton(QPushButton *button)
 {
