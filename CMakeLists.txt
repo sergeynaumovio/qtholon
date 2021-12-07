@@ -35,8 +35,6 @@ add_library(${QT_HOLON_LIBRARY} SHARED)
 target_sources(${QT_HOLON_LIBRARY}
     PRIVATE src/plugin.cpp
             src/core/qtholonglobal.h
-            src/widgets/holonlabel.h
-            src/widgets/holonlabel.cpp
             src/widgets/holonmain.h
             src/widgets/holonmain.cpp
             src/widgets/holonmain_p.h
@@ -53,6 +51,9 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonsidebar.cpp
             src/widgets/holonsidebararea.h
             src/widgets/holonsidebararea.cpp
+
+            src/widgets/holonlabel.h
+            src/widgets/holonlabel.cpp
 
             src/widgets/holonwidgetinterface.h
             src/widgets/holonwidgetinterface.cpp
