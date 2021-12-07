@@ -18,10 +18,8 @@
 
 #include "holonmain.h"
 #include "holonmain_p.h"
+#include "holonstatusbar.h"
 #include "holonwidgetinterface.h"
-#include <QMenuBar>
-#include <QStatusBar>
-#include <QPushButton>
 
 void HolonMain::closeEvent(QCloseEvent*)
 {
@@ -35,42 +33,10 @@ HolonMain::HolonMain(QLoaderSettings *settings, QWidget *parent)
 {
     setParent(parent);
 
-// Menu Bar --------------------------------------------------------------------
-    QMenuBar *menubar = new QMenuBar(this);
-
-    QMenu *file = new QMenu("&File", menubar);
-    menubar->addMenu(file);
-
-    QAction *exit = new QAction("E&xit", file);
-    file->addAction(exit);
-
-    connect(exit, &QAction::triggered, menubar, [this]
-    {
-        deleteLater();
-    });
-
-    setMenuBar(menubar);
-
-// Status Bar ------------------------------------------------------------------
-    QStatusBar *statusbar = new QStatusBar(this);
-    QPushButton *button = new QPushButton("\u2261", statusbar);
-    button->setFlat(true);
-    statusbar->addWidget(button);
-
-    QMenu *menu = new QMenu(button);
-    button->setMenu(menu);
-
-    connect(this, &HolonMain::sidebarAdded, menu, [menu](QString name)
-    {
-        menu->addAction(name);
-    });
-
-    setStatusBar(statusbar);
-
-// -----------------------------------------------------------------------------
-
     if (!parent)
         show();
+
+    setStatusBar(new HolonStatusBar(this));
 }
 
 HolonMain::~HolonMain()
