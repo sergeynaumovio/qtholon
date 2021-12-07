@@ -73,7 +73,7 @@ HolonStatusBar::HolonStatusBar(HolonMain *parent)
         addSidebarButton(sidebar);
     }
 
-    QPushButton *exit = new QPushButton("x");
+    QPushButton *exit = new QPushButton(QIcon(":/holon/exit.svg"), "");
     {
         connect(exit, &QPushButton::clicked, this, [parent]()
         {
