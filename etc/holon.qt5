@@ -1,7 +1,0 @@
-#!/usr/bin/qtloader5
-
-[Main]
-class = HolonMain
-windowTitle = Holon
-minimumWidth = 400
-minimumHeight = 200
