@@ -16,11 +16,11 @@
 **
 ****************************************************************************/
 
-#include "holonlabel.h"
 #include "holonmain.h"
-#include "holonsidebar.h"
-#include "holonsidebararea.h"
 #include "holonsplitted.h"
+#include "holonsidebararea.h"
+#include "holonsidebar.h"
+#include "holonlabel.h"
 
 #include "holonnewtask.h"
 #include "holonopentasks.h"
