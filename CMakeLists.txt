@@ -41,6 +41,8 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonmain.cpp
             src/widgets/holonmain_p.h
             src/widgets/holonmain_p.cpp
+            src/widgets/holonstatusbar.h
+            src/widgets/holonstatusbar.cpp
             src/widgets/holonsplitted.h
             src/widgets/holonsplitted.cpp
             src/widgets/holonstacked.h
@@ -51,6 +53,7 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonsidebar.cpp
             src/widgets/holonsidebararea.h
             src/widgets/holonsidebararea.cpp
+
             src/widgets/holonwidgetinterface.h
             src/widgets/holonwidgetinterface.cpp
 
