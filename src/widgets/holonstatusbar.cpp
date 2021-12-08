@@ -61,6 +61,9 @@ HolonStatusBar::HolonStatusBar(HolonMain *parent)
 :   QStatusBar(parent),
     widget(new HBoxWidget(this))
 {
+    if (!parent)
+        return;
+
     QPushButton *sidebar = new QPushButton("\u2261");
     {
         QMenu *menu = new QMenu(sidebar);
