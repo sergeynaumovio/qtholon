@@ -37,6 +37,8 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonmain.cpp
             src/widgets/holonmain_p.h
             src/widgets/holonmain_p.cpp
+            src/widgets/holonlayout.h
+            src/widgets/holonlayout.cpp
             src/widgets/holonstatusbar.h
             src/widgets/holonstatusbar.cpp
             src/widgets/holonsplitted.h
