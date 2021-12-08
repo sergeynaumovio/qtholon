@@ -31,7 +31,8 @@ public:
         setLayout(new QHBoxLayout(this));
         layout()->setContentsMargins({});
         parent->addWidget(this, 1);
-        parent->setStyleSheet("QStatusBar { background-color : rgb(64, 66, 68) }");
+        parent->setStyleSheet("QStatusBar { background-color : rgb(64, 66, 68) }"
+                              "QStatusBar::item { border: 0px }" ) ;
     }
 
     QHBoxLayout *layout()
