@@ -7,7 +7,7 @@ minimumWidth = 400
 minimumHeight = 200
 
 [Main/Splitted]
-class = HolonLayout
+class = HolonSplitted
 #layout = vertical
 #layout = horizontalSplitted
 #layout = stacked
