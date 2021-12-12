@@ -35,19 +35,20 @@ target_sources(${QT_HOLON_LIBRARY}
             src/core/qtholonglobal.h
             src/widgets/holonmain.h
             src/widgets/holonmain.cpp
-            src/widgets/holonsplitted.h
-            src/widgets/holonsplitted.cpp
-            src/widgets/holonstacked.h
-            src/widgets/holonstacked.cpp
-            src/widgets/holontiled.cpp
-            src/widgets/holontiled.h
-            src/widgets/holonsidebar.h
-            src/widgets/holonsidebar.cpp
-            src/widgets/holonsidebararea.h
-            src/widgets/holonsidebararea.cpp
 
-            src/widgets/holonlabel.h
-            src/widgets/holonlabel.cpp
+            src/widgets/layout/holonsplitted.h
+            src/widgets/layout/holonsplitted.cpp
+            src/widgets/layout/holonstacked.h
+            src/widgets/layout/holonstacked.cpp
+            src/widgets/layout/holontiled.cpp
+            src/widgets/layout/holontiled.h
+            src/widgets/layout/holonsidebar.h
+            src/widgets/layout/holonsidebar.cpp
+            src/widgets/layout/holonsidebararea.h
+            src/widgets/layout/holonsidebararea.cpp
+
+            src/widgets/control/holonlabel.h
+            src/widgets/control/holonlabel.cpp
 
             src/widgets/holonwidgetinterface.h
             src/widgets/holonwidgetinterface.cpp
@@ -61,6 +62,8 @@ target_sources(${QT_HOLON_LIBRARY}
 target_include_directories(${QT_HOLON_LIBRARY}
     PRIVATE src/core
             src/widgets
+            src/widgets/layout
+            src/widgets/control
             src/widgets/side
 )
 
