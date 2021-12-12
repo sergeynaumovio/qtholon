@@ -50,9 +50,8 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/control/holonlabel.h
             src/widgets/control/holonlabel.cpp
 
-            src/widgets/holonwidgetinterface.h
-            src/widgets/holonwidgetinterface.cpp
-
+            src/widgets/side/holonwidgetinterface.h
+            src/widgets/side/holonwidgetinterface.cpp
             src/widgets/side/holonnewtask.h
             src/widgets/side/holonnewtask.cpp
             src/widgets/side/holonopentasks.h
