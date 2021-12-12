@@ -39,6 +39,26 @@ HolonMainPrivate::HolonMainPrivate(HolonMain *q)
 :   q_ptr(q)
 { }
 
+class Sidebars : public QWidget
+{
+    QObjectList buttons;
+
+public:
+    Sidebars(HolonMain *mainWindow, QWidget *parent)
+    :   QWidget(parent)
+    {
+        setLayout(new QHBoxLayout(this));
+        layout()->setContentsMargins({});
+
+        connect(mainWindow, &HolonMain::sidebarAdded, this, [this](QString name)
+        {
+            QPushButton *button = new QPushButton(name, this);
+            buttons.append(button);
+            layout()->addWidget(button);
+        });
+    }
+};
+
 class HBoxWidget : public QWidget
 {
     QHBoxLayout *layout()
@@ -54,19 +74,16 @@ public:
             layout()->setContentsMargins({});
         }
 
-        QPushButton *sidebar = new QPushButton("\u2261", this);
+        QPushButton *settings = new QPushButton(QIcon(":/holon/screwdriver.svg"),"", this);
         {
-            QMenu *menu = new QMenu(sidebar);
-            {
-                sidebar->setMenu(menu);
-                connect(mainWindow, &HolonMain::sidebarAdded, menu, [menu](QString name)
-                {
-                    menu->addAction(name);
-                });
-            }
+            settings->setFlat(true);
+            settings->setCheckable(true);
+            layout()->addWidget(settings);
+        }
 
-            sidebar->setFlat(true);
-            layout()->addWidget(sidebar);
+        Sidebars *sidebars = new Sidebars(mainWindow, this);
+        {
+            layout()->addWidget(sidebars);
         }
 
         QPushButton *exit = new QPushButton(QIcon(":/holon/exit.svg"), "", this);

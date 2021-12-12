@@ -91,6 +91,7 @@ qt_add_resources(${QT_HOLON_LIBRARY} "Holon"
     PREFIX "/holon"
     BASE "share/icons"
     FILES share/icons/exit.svg
+          share/icons/screwdriver.svg
 )
 
 include(GNUInstallDirs)
