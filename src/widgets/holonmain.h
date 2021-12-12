@@ -46,7 +46,6 @@ Q_SIGNALS:
 public:
     HolonMain(QLoaderSettings *settings, QWidget *parent);
     ~HolonMain();
-
 };
 
 #endif // HOLONMAIN_H
