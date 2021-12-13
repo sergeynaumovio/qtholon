@@ -60,7 +60,5 @@ HolonMain *HolonSplitted::mainWindow() const
         object = object->parent();
     }
 
-    Q_ASSERT(object);
-
     return nullptr;
 }
