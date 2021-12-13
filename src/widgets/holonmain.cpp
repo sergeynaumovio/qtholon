@@ -50,9 +50,14 @@ public:
         setLayout(new QHBoxLayout(this));
         layout()->setContentsMargins({});
 
-        connect(mainWindow, &HolonMain::sidebarAdded, this, [this](QString name)
+        connect(mainWindow, &HolonMain::sidebarAdded, this, [=](QString name)
         {
             QPushButton *button = new QPushButton(name, this);
+            button->setObjectName(name);
+            connect(button, &QPushButton::clicked, this, [=]
+            {
+               emit mainWindow->sidebarActivated(button->objectName());
+            });
             buttons.append(button);
             layout()->addWidget(button);
         });
