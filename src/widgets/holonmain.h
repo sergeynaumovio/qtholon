@@ -42,6 +42,7 @@ protected:
 
 Q_SIGNALS:
     void sidebarAdded(QString name);
+    void sidebarActivated(QString name);
 
 public:
     HolonMain(QLoaderSettings *settings, QWidget *parent);
