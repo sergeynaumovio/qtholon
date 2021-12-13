@@ -19,7 +19,38 @@
 #include "holonsidebararea.h"
 #include "holonstacked.h"
 #include "holonsplitted.h"
+#include "holonmain.h"
 
 HolonSidebarArea::HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *parent)
 :   HolonStacked(settings, parent)
-{ }
+{
+    if (mainWindow())
+    {
+        connect(mainWindow(), &HolonMain::sidebarActivated, this, [this](QString name)
+        {
+            for (int i = 0; i < count(); ++i)
+            {
+                if (widget(i)->objectName() == name)
+                {
+                    if (currentIndex() == i)
+                    {
+                        if (isVisible())
+                            hide();
+                        else
+                            show();
+
+                        break;
+                    }
+
+                    setCurrentIndex(i);
+                    show();
+                }
+            }
+        });
+    }
+}
+
+HolonMain *HolonSidebarArea::mainWindow() const
+{
+    return static_cast<HolonSplitted*>(parent())->mainWindow();
+}

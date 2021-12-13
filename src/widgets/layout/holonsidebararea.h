@@ -22,12 +22,16 @@
 #include "holonstacked.h"
 #include <QLoaderSettings>
 
+class HolonMain;
+
 class HolonSidebarArea : public HolonStacked
 {
     Q_OBJECT
 
 public:
     HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *parent);
+
+    HolonMain *mainWindow() const;
 };
 
 #endif // HOLONSIDEBARAREA_H
