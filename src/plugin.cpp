@@ -65,7 +65,7 @@ public:
         {
             HolonSplitted *splitted = qobject_cast<HolonSplitted*>(parent);
 
-            if (splitted && splitted->mainWindow()->findChildren<HolonSidebarArea*>().size() < 9)
+            if (splitted && splitted->mainWindow()->findChildren<HolonSidebarArea*>().size() < 10)
                 return new HolonSidebarArea(settings, splitted);
 
             return parent;
@@ -74,7 +74,7 @@ public:
         if (!qstrcmp(className, "HolonSidebar"))
         {
             HolonSidebarArea *area = qobject_cast<HolonSidebarArea*>(parent);
-            if (area && area->mainWindow()->findChildren<HolonSidebar*>().size() < 9)
+            if (area && area->mainWindow()->findChildren<HolonSidebar*>().size() < 10)
                 return new HolonSidebar(settings, area);
 
             return parent;
