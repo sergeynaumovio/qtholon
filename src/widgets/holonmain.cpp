@@ -41,8 +41,6 @@ HolonMainPrivate::HolonMainPrivate(HolonMain *q)
 
 class Sidebars : public QWidget
 {
-    QObjectList buttons;
-
 public:
     Sidebars(HolonMain *mainWindow, QWidget *parent)
     :   QWidget(parent)
@@ -50,16 +48,40 @@ public:
         setLayout(new QHBoxLayout(this));
         layout()->setContentsMargins({});
 
-        connect(mainWindow, &HolonMain::sidebarAdded, this, [=](QString name)
+        connect(mainWindow, &HolonMain::sidebarAdded, this, [=, this](QString sidebar, QString area)
         {
-            QPushButton *button = new QPushButton(name, this);
-            button->setObjectName(name);
-            connect(button, &QPushButton::clicked, this, [=]
+            QPushButton *button = new QPushButton(sidebar, this);
             {
-               emit mainWindow->sidebarActivated(button->objectName());
-            });
-            buttons.append(button);
-            layout()->addWidget(button);
+                button->setCheckable(true);
+                button->setProperty("sidebar", sidebar);
+                button->setProperty("area", area);
+                button->setFlat(true);
+
+                connect(button, &QPushButton::clicked, button, [mainWindow, button]()
+                {
+                    emit mainWindow->sidebarToggled(button->property("sidebar").toString(),
+                                                    button->property("area").toString());
+                });
+
+                button->connect(mainWindow, &HolonMain::sidebarActivated, button,
+                                [button](QString sidebar)
+                {
+                    if(sidebar == button->property("sidebar").toString())
+                         button->setChecked(true);
+                });
+
+                button->connect(mainWindow, &HolonMain::sidebarToggled, button,
+                                [button](QString sidebar, QString area)
+                {
+                    if (area == button->property("area").toString() &&
+                        sidebar != button->property("sidebar").toString())
+                    {
+                        button->setChecked(false);
+                    }
+                });
+
+                layout()->addWidget(button);
+            }
         });
     }
 };
