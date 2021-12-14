@@ -27,6 +27,6 @@ HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonSidebarArea *parent)
 
     emit mainWindow()->sidebarAdded(section().last(), parent->objectName());
 
-    if (parent->count() == 1)
+    if (parent->count() == 1 && !parent->isHidden())
         emit mainWindow()->sidebarActivated(section().last());
 }
