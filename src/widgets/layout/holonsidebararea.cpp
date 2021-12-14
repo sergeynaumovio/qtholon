@@ -26,11 +26,11 @@ HolonSidebarArea::HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *par
 {
     if (mainWindow())
     {
-        connect(mainWindow(), &HolonMain::sidebarActivated, this, [this](QString name)
+        connect(mainWindow(), &HolonMain::sidebarToggled, this, [this](QString sidebar)
         {
             for (int i = 0; i < count(); ++i)
             {
-                if (widget(i)->objectName() == name)
+                if (widget(i)->objectName() == sidebar)
                 {
                     if (currentIndex() == i)
                     {

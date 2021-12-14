@@ -41,8 +41,9 @@ protected:
     void closeEvent(QCloseEvent*) override;
 
 Q_SIGNALS:
-    void sidebarAdded(QString name);
-    void sidebarActivated(QString name);
+    void sidebarAdded(QString sidebar, QString area);
+    void sidebarActivated(QString sidebar);
+    void sidebarToggled(QString sidebar, QString area);
 
 public:
     HolonMain(QLoaderSettings *settings, QWidget *parent);
