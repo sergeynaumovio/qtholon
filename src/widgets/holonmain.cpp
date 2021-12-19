@@ -22,6 +22,7 @@
 #include <QStatusBar>
 #include <QPushButton>
 #include <QShortcut>
+#include <QStackedWidget>
 
 class HolonWidgetInterface;
 
@@ -38,10 +39,10 @@ HolonMainPrivate::HolonMainPrivate(HolonMain *q)
 :   q_ptr(q)
 { }
 
-class SidebarSelector : public QWidget
+class SidebarActivator : public QWidget
 {
 public:
-    SidebarSelector(HolonMain *mainWindow, QWidget *parent)
+    SidebarActivator(HolonMain *mainWindow, QWidget *parent)
     :   QWidget(parent)
     {
         setLayout(new QHBoxLayout(this));
@@ -89,6 +90,37 @@ public:
     }
 };
 
+class SidebarLocator : public QWidget
+{
+public:
+    SidebarLocator(HolonMain*, QWidget *parent)
+    :   QWidget(parent)
+    {
+        setLayout(new QHBoxLayout(this));
+        layout()->setContentsMargins({});
+    }
+};
+
+class SidebarSelector : public QStackedWidget
+{
+public:
+    SidebarSelector(QPushButton *settings, HolonMain *mainWindow, QWidget *parent)
+    :   QStackedWidget(parent)
+    {
+        layout()->setContentsMargins({});
+        int activatorIndex = addWidget(new SidebarActivator(mainWindow, this));
+        int locatorIndex = addWidget(new SidebarLocator(mainWindow, this));
+
+        connect(settings, &QPushButton::toggled, this, [=, this](bool checked)
+        {
+            if (checked)
+                setCurrentIndex(locatorIndex);
+            else
+                setCurrentIndex(activatorIndex);
+        });
+    }
+};
+
 class HBoxWidget : public QWidget
 {
     QHBoxLayout *layout()
@@ -111,7 +143,7 @@ public:
             layout()->addWidget(settings);
         }
 
-        SidebarSelector *selector = new SidebarSelector(mainWindow, this);
+        SidebarSelector *selector = new SidebarSelector(settings, mainWindow, this);
         {
             layout()->addWidget(selector);
         }
