@@ -123,6 +123,12 @@ public:
                 mainWindow->deleteLater();
             });
 
+            QShortcut *shortcut = new QShortcut(exit);
+            {
+                shortcut->setKey(QKeySequence::Quit);
+                connect(shortcut, &QShortcut::activated, exit, [exit]{ exit->click(); });
+            }
+
             exit->setFlat(true);
             exit->setMaximumWidth(20);
             layout()->addStretch(1);
