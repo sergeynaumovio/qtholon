@@ -45,16 +45,23 @@ text = Task Widgets
 class = HolonSidebarArea
 hidden = true
 
-[Main/Splitted/Splitted/4/4]
+[Main/Splitted/Splitted/4/3]
 class = HolonSidebar
 
-[Main/Splitted/Splitted/4/4/Label]
+[Main/Splitted/Splitted/4/3/Label]
 class = HolonLabel
-text = Sidebar 4
+text = Sidebar 3
 
 [Main/Splitted/5]
 class = HolonSidebarArea
 hidden = true
+
+[Main/Splitted/5/4]
+class = HolonSidebar
+
+[Main/Splitted/5/4/Label]
+class = HolonLabel
+text = Sidebar 4
 
 [Main/Splitted/5/5]
 class = HolonSidebar
@@ -90,13 +97,6 @@ class = HolonSidebar
 [Main/Splitted/5/9/Label]
 class = HolonLabel
 text = Sidebar 9
-
-[Main/Splitted/5/3]
-class = HolonSidebar
-
-[Main/Splitted/5/3/Label]
-class = HolonLabel
-text = Sidebar 3
 
 [Main/Splitted/5/0]
 class = HolonSidebar
