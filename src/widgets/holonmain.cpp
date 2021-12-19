@@ -39,10 +39,10 @@ HolonMainPrivate::HolonMainPrivate(HolonMain *q)
 :   q_ptr(q)
 { }
 
-class Sidebars : public QWidget
+class SidebarSelector : public QWidget
 {
 public:
-    Sidebars(HolonMain *mainWindow, QWidget *parent)
+    SidebarSelector(HolonMain *mainWindow, QWidget *parent)
     :   QWidget(parent)
     {
         setLayout(new QHBoxLayout(this));
@@ -108,9 +108,9 @@ public:
             layout()->addWidget(settings);
         }
 
-        Sidebars *sidebars = new Sidebars(mainWindow, this);
+        SidebarSelector *selector = new SidebarSelector(mainWindow, this);
         {
-            layout()->addWidget(sidebars);
+            layout()->addWidget(selector);
         }
 
         QPushButton *exit = new QPushButton(QIcon(":/holon/exit.svg"), "", this);
