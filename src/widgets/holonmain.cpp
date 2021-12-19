@@ -21,8 +21,7 @@
 #include <QHBoxLayout>
 #include <QStatusBar>
 #include <QPushButton>
-#include <QMenu>
-#include <QHash>
+#include <QShortcut>
 
 class HolonWidgetInterface;
 
@@ -63,15 +62,13 @@ public:
                                                     button->property("area").toString());
                 });
 
-                button->connect(mainWindow, &HolonMain::sidebarActivated, button,
-                                [button](QString sidebar)
+                connect(mainWindow, &HolonMain::sidebarActivated, button, [button](QString sidebar)
                 {
                     if(sidebar == button->property("sidebar").toString())
                          button->setChecked(true);
                 });
 
-                button->connect(mainWindow, &HolonMain::sidebarToggled, button,
-                                [button](QString sidebar, QString area)
+                connect(mainWindow, &HolonMain::sidebarToggled, button, [button](QString sidebar, QString area)
                 {
                     if (area == button->property("area").toString() &&
                         sidebar != button->property("sidebar").toString())
@@ -79,6 +76,12 @@ public:
                         button->setChecked(false);
                     }
                 });
+
+                QShortcut *shortcut = new QShortcut(button);
+                {
+                    shortcut->setKey("Alt+" + sidebar);
+                    connect(shortcut, &QShortcut::activated, button, [button]{ button->click(); });
+                }
 
                 layout()->addWidget(button);
             }
