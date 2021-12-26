@@ -101,26 +101,6 @@ public:
     }
 };
 
-class SidebarSelector : public QStackedWidget
-{
-public:
-    SidebarSelector(QPushButton *settings, HolonMain *mainWindow, QWidget *parent)
-    :   QStackedWidget(parent)
-    {
-        layout()->setContentsMargins({});
-        int activatorIndex = addWidget(new SidebarActivator(mainWindow, this));
-        int locatorIndex = addWidget(new SidebarLocator(mainWindow, this));
-
-        connect(settings, &QPushButton::toggled, this, [=, this](bool checked)
-        {
-            if (checked)
-                setCurrentIndex(locatorIndex);
-            else
-                setCurrentIndex(activatorIndex);
-        });
-    }
-};
-
 class HBoxWidget : public QWidget
 {
     QHBoxLayout *layout()
@@ -136,16 +116,38 @@ public:
             layout()->setContentsMargins({});
         }
 
-        QPushButton *settings = new QPushButton(QIcon(":/holon/screwdriver.svg"),"", this);
+        QPushButton *modeButton = new QPushButton(QIcon(":/holon/screwdriver.svg"),"", this);
         {
-            settings->setFlat(true);
-            settings->setCheckable(true);
-            layout()->addWidget(settings);
+            modeButton->setFlat(true);
+            modeButton->setCheckable(true);
+            layout()->addWidget(modeButton);
+
+            QShortcut *shortcut = new QShortcut(modeButton);
+            {
+                shortcut->setKey(QKeySequence("Alt+`"));
+                connect(shortcut, &QShortcut::activated, modeButton, [modeButton]
+                {
+                    modeButton->click();
+                });
+            }
         }
 
-        SidebarSelector *selector = new SidebarSelector(settings, mainWindow, this);
+        QStackedWidget *sidebarSelector = new QStackedWidget(this);
         {
-            layout()->addWidget(selector);
+            layout()->addWidget(sidebarSelector);
+
+            sidebarSelector->layout()->setContentsMargins({});
+
+            int activatorIndex = sidebarSelector->addWidget(new SidebarActivator(mainWindow, this));
+            int locatorIndex = sidebarSelector->addWidget(new SidebarLocator(mainWindow, this));
+
+            connect(modeButton, &QPushButton::toggled, sidebarSelector, [=](bool checked)
+            {
+                if (checked)
+                    sidebarSelector->setCurrentIndex(locatorIndex);
+                else
+                    sidebarSelector->setCurrentIndex(activatorIndex);
+            });
         }
 
         QPushButton *exit = new QPushButton(QIcon(":/holon/exit.svg"), "", this);
