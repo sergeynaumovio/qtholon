@@ -23,9 +23,21 @@
 HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonSidebarArea *parent)
 :   HolonTiled(settings, parent)
 {
-    parent->addWidget(this);
+    if (section().last().size() != 1)
+    {
+        setObjectError("Sidebar name is not a char");
+        return;
+    }
 
-    emit mainWindow()->sidebarAdded(section().last(), parent->objectName());
+    QChar sidebarName = section().last().at(0);
+
+    if (!mainWindow()->addSidebarButton(sidebarName))
+    {
+        setObjectError("Sidebar name is not in list or already used");
+        return;
+    }
+
+    parent->addWidget(this);
 
     if (parent->count() == 1 && !parent->isHidden())
         emit mainWindow()->sidebarActivated(section().last());

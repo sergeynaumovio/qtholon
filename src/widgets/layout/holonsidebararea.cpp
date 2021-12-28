@@ -19,6 +19,7 @@
 #include "holonsidebararea.h"
 #include "holonstacked.h"
 #include "holonsplitted.h"
+#include "holonsidebar.h"
 #include "holonmain.h"
 
 HolonSidebarArea::HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *parent)
@@ -26,6 +27,12 @@ HolonSidebarArea::HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *par
 {
     if (mainWindow())
     {
+        if (!mainWindow()->sidebarAreaList().contains(section().last()))
+        {
+            setObjectError("SidebarArea is not in list");
+            return;
+        }
+
         connect(mainWindow(), &HolonMain::sidebarToggled, this, [this](QString sidebar)
         {
             for (int i = 0; i < count(); ++i)
