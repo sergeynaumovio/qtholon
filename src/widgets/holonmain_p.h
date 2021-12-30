@@ -74,7 +74,8 @@ class SidebarActivator : public QWidget
 
     SidebarActivator(QWidget *parent);
 
-    void addSidebarButton(QChar sidebar, QString area, Qt::CheckState checkState);
+    void insertSidebarButton(int index, QChar sidebar, QString area, Qt::CheckState checkState);
+    QHBoxLayout *layout();
     
 Q_SIGNALS:
     void sidebarButtonClicked(QChar sidebar, QString area);

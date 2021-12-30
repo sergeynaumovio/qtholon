@@ -56,7 +56,17 @@ bool HolonMainPrivate::mapSidebar(QChar sidebar, QString area, Qt::CheckState ch
     else
         return false;
 
-    sidebarActivator->addSidebarButton(sidebar, area, checkState);
+    int index{};
+    for (QChar key : sidebarList)
+    {
+        if (key == sidebar)
+            break;
+
+        if (sidebarMap[key])
+            ++index;
+    }
+
+    sidebarActivator->insertSidebarButton(index, sidebar, area, checkState);
 
     return true;
 }
@@ -74,7 +84,7 @@ SidebarActivator::SidebarActivator(QWidget *parent)
     layout()->setContentsMargins({});
 }
 
-void SidebarActivator::addSidebarButton(QChar sidebar, QString area, Qt::CheckState checkState)
+void SidebarActivator::insertSidebarButton(int index, QChar sidebar, QString area, Qt::CheckState checkState)
 {
     SidebarButton *button = new SidebarButton(sidebar, area, this);
     {
@@ -82,7 +92,7 @@ void SidebarActivator::addSidebarButton(QChar sidebar, QString area, Qt::CheckSt
         button->setChecked(checkState);
         button->setFlat(true);
 
-        layout()->addWidget(button);
+        layout()->insertWidget(index, button);
 
         QObject::connect(button, &QPushButton::clicked, button, [=, this]()
         {
@@ -103,6 +113,11 @@ void SidebarActivator::addSidebarButton(QChar sidebar, QString area, Qt::CheckSt
             connect(shortcut, &QShortcut::activated, button, [button]{ button->click(); });
         }
     }
+}
+
+QHBoxLayout *SidebarActivator::layout()
+{
+    return static_cast<QHBoxLayout*>(QWidget::layout());
 }
 
 class SidebarLocator : public QWidget
