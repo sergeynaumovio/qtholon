@@ -23,8 +23,6 @@
 #include <QMainWindow>
 #include <QLoaderSettings>
 
-class HolonSidebar;
-class HolonSidebarArea;
 class HolonMainPrivate;
 
 class Q_HOLON_EXPORT HolonMain : public QMainWindow, public QLoaderSettings
