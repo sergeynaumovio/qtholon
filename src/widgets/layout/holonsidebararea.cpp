@@ -36,6 +36,9 @@ HolonSidebarArea::HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *par
         if (contains("stateIndex"))
         {
             setStateIndex(value("stateIndex").toInt());
+
+            if (stateIndex() == -1)
+                setHidden(true);
         }
 
         connect(mainWindow()->d_ptr->sidebarActivator, &SidebarActivator::sidebarButtonClicked, this, [this](QChar sidebar, QString area)

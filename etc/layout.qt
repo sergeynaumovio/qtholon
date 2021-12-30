@@ -32,7 +32,7 @@ layout = vertical
 
 [Main/Splitted/Splitted/T]
 class = HolonSidebarArea
-hidden = true
+stateIndex = -1
 
 [Main/Splitted/Splitted/T/2]
 class = HolonSidebar
@@ -47,7 +47,7 @@ text = Task Widgets
 
 [Main/Splitted/Splitted/B]
 class = HolonSidebarArea
-hidden = true
+stateIndex = -1
 
 [Main/Splitted/Splitted/B/3]
 class = HolonSidebar
