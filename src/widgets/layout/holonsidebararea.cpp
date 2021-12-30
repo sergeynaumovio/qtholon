@@ -29,7 +29,7 @@ HolonSidebarArea::HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *par
     {
         if (!mainWindow()->d_ptr->mapSidebarArea(section().last()))
         {
-            setObjectError("SidebarArea name is not in list or already used");
+            setObjectError("sidebar area name is not in list or already used");
             return;
         }
 

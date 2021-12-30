@@ -26,7 +26,7 @@ HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonSidebarArea *parent)
 {
     if (section().last().size() != 1)
     {
-        setObjectError("Sidebar name is not a char");
+        setObjectError("sidebar name is not a char");
         return;
     }
 
@@ -36,7 +36,7 @@ HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonSidebarArea *parent)
 
     if (!mainWindow()->d_ptr->mapSidebar(sidebar, parent->objectName(), checkState))
     {
-        setObjectError("Sidebar name is not in list or already used");
+        setObjectError("sidebar name is not in list or already used");
         return;
     }
 
