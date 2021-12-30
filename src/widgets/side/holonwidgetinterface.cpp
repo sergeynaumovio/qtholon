@@ -24,7 +24,6 @@ HolonWidgetInterface::HolonWidgetInterface(QLoaderSettings *settings, HolonMain 
 :   QObject(parent),
     QLoaderSettings(settings)
 {
-    parent->addWidget(this);
 }
 
 HolonWidgetInterface::HolonWidgetInterface(QLoaderSettings *settings, HolonTiled *parent)

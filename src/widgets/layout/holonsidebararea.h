@@ -28,10 +28,19 @@ class HolonSidebarArea : public HolonStacked
 {
     Q_OBJECT
 
+    Q_PROPERTY(int stateIndex READ stateIndex WRITE setStateIndex NOTIFY stateIndexChanged)
+
+    int m_stateIndex{-1};
+
+Q_SIGNALS:
+    void stateIndexChanged(int i);
+
 public:
     HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *parent);
 
     HolonMain *mainWindow() const;
+    int stateIndex() const;
+    void setStateIndex(int i);
 };
 
 #endif // HOLONSIDEBARAREA_H

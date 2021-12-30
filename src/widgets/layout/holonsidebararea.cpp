@@ -19,38 +19,46 @@
 #include "holonsidebararea.h"
 #include "holonstacked.h"
 #include "holonsplitted.h"
-#include "holonsidebar.h"
 #include "holonmain.h"
+#include "holonmain_p.h"
 
 HolonSidebarArea::HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *parent)
 :   HolonStacked(settings, parent)
 {
     if (mainWindow())
     {
-        if (!mainWindow()->sidebarAreaList().contains(section().last()))
+        if (!mainWindow()->d_ptr->mapSidebarArea(section().last()))
         {
-            setObjectError("SidebarArea is not in list");
+            setObjectError("SidebarArea name is not in list or already used");
             return;
         }
 
-        connect(mainWindow(), &HolonMain::sidebarToggled, this, [this](QString sidebar)
+        if (contains("stateIndex"))
         {
-            for (int i = 0; i < count(); ++i)
+            setStateIndex(value("stateIndex").toInt());
+        }
+
+        connect(mainWindow()->d_ptr->sidebarActivator, &SidebarActivator::sidebarButtonClicked, this, [this](QChar sidebar, QString area)
+        {
+            if (objectName() == area)
             {
-                if (widget(i)->objectName() == sidebar)
+                for (int i = 0; i < count(); ++i)
                 {
-                    if (currentIndex() == i)
+                    if (widget(i)->objectName() == sidebar)
                     {
-                        if (isVisible())
-                            hide();
-                        else
-                            show();
+                        if (currentIndex() == i)
+                        {
+                            if (isVisible())
+                                hide();
+                            else
+                                show();
 
-                        break;
+                            break;
+                        }
+
+                        setCurrentIndex(i);
+                        show();
                     }
-
-                    setCurrentIndex(i);
-                    show();
                 }
             }
         });
@@ -60,4 +68,15 @@ HolonSidebarArea::HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *par
 HolonMain *HolonSidebarArea::mainWindow() const
 {
     return static_cast<HolonSplitted*>(parent())->mainWindow();
+}
+
+int HolonSidebarArea::stateIndex() const
+{
+    return m_stateIndex;
+}
+
+void HolonSidebarArea::setStateIndex(int i)
+{
+    m_stateIndex = i;
+    emit stateIndexChanged(i);
 }

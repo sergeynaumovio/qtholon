@@ -19,6 +19,7 @@
 #include "holonsidebar.h"
 #include "holonsidebararea.h"
 #include "holonmain.h"
+#include "holonmain_p.h"
 
 HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonSidebarArea *parent)
 :   HolonTiled(settings, parent)
@@ -29,9 +30,11 @@ HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonSidebarArea *parent)
         return;
     }
 
-    QChar sidebarName = section().last().at(0);
+    QChar sidebar = section().last().at(0);
 
-    if (!mainWindow()->addSidebarButton(sidebarName))
+    Qt::CheckState checkState = (parent->stateIndex() == parent->count() ? Qt::Checked : Qt::Unchecked);
+
+    if (!mainWindow()->d_ptr->mapSidebar(sidebar, parent->objectName(), checkState))
     {
         setObjectError("Sidebar name is not in list or already used");
         return;
@@ -39,6 +42,6 @@ HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonSidebarArea *parent)
 
     parent->addWidget(this);
 
-    if (parent->count() == 1 && !parent->isHidden())
-        emit mainWindow()->sidebarActivated(section().last());
+    if (checkState)
+        parent->setCurrentWidget(this);
 }

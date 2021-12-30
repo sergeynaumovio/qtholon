@@ -23,8 +23,9 @@
 #include <QMainWindow>
 #include <QLoaderSettings>
 
+class HolonSidebar;
+class HolonSidebarArea;
 class HolonMainPrivate;
-class HolonWidgetInterface;
 
 class Q_HOLON_EXPORT HolonMain : public QMainWindow, public QLoaderSettings
 {
@@ -33,26 +34,18 @@ class Q_HOLON_EXPORT HolonMain : public QMainWindow, public QLoaderSettings
     Q_PROPERTY(QList<QChar> sidebarList READ sidebarList CONSTANT)
     Q_PROPERTY(QStringList sidebarAreaList READ sidebarAreaList CONSTANT)
 
-    friend class HolonMainPrivate;
-    friend class HolonWidgetInterface;
-
-    void addWidget(HolonWidgetInterface *widget);
+    friend class HolonSidebar;
+    friend class HolonSidebarArea;
 
 protected:
     const QScopedPointer<HolonMainPrivate> d_ptr;
 
     void closeEvent(QCloseEvent*) override;
 
-Q_SIGNALS:
-    void sidebarActivated(QString sidebar);
-    void sidebarSelectorWidgetChanged(QWidget *widget);
-    void sidebarToggled(QString sidebar, QString area);
-
 public:
     HolonMain(QLoaderSettings *settings, QWidget *parent);
     ~HolonMain();
 
-    bool addSidebarButton(QChar sidebar);
     QStringList sidebarAreaList() const;
     QList<QChar> sidebarList() const;
 };

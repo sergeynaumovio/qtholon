@@ -16,6 +16,8 @@ class = HolonSplitted
 
 [Main/Splitted/L]
 class = HolonSidebarArea
+hidden = false
+stateIndex = 0
 
 [Main/Splitted/L/1]
 class = HolonSidebar
@@ -56,7 +58,8 @@ text = Sidebar 3
 
 [Main/Splitted/R]
 class = HolonSidebarArea
-hidden = true
+hidden = false
+stateIndex = 2
 
 [Main/Splitted/R/4]
 class = HolonSidebar
