@@ -53,6 +53,18 @@ public:
     bool mapSidebar(QChar sidebar, QString area, Qt::CheckState checkState);
 };
 
+class HBoxWidget : public QWidget
+{
+    Q_OBJECT
+
+protected:
+    HolonMainPrivate *d_ptr;
+
+    HBoxWidget(HolonMainPrivate *d, QWidget *parent);
+
+    QHBoxLayout *layout();
+};
+
 class SidebarButton : public QPushButton
 {
     Q_OBJECT
@@ -65,29 +77,38 @@ class SidebarButton : public QPushButton
     SidebarButton(QChar sidebar, QString area, SidebarActivator *parent);
 };
 
-class SidebarActivator : public QWidget
+class SidebarActivator : public HBoxWidget
 {
     Q_OBJECT
 
-    friend class HBoxWidget;
+    friend class SidebarSelector;
+    SidebarActivator(HolonMainPrivate *d, QWidget *parent);
+
     friend class HolonMainPrivate;
-
-    SidebarActivator(QWidget *parent);
-
     void insertSidebarButton(int index, QChar sidebar, QString area, Qt::CheckState checkState);
-    QHBoxLayout *layout();
-    
+
 Q_SIGNALS:
     void sidebarButtonClicked(QChar sidebar, QString area);
 };
 
-class HBoxWidget : public QWidget
+class SidebarLocator : public HBoxWidget
 {
+    Q_OBJECT
+
+    bool once{};
+
+    void showEvent(QShowEvent*) override;
+
+    friend class SidebarSelector;
+    SidebarLocator(HolonMainPrivate *d, QWidget *parent);
+};
+
+class SidebarSelector : public HBoxWidget
+{
+    Q_OBJECT
+
     friend class HolonMain;
-
-    HBoxWidget(HolonMainPrivate *d);
-
-    QHBoxLayout *layout();
+    SidebarSelector(HolonMainPrivate *d);
 };
 
 #endif // HOLONMAIN_P_H

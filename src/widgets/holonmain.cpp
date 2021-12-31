@@ -72,7 +72,7 @@ HolonMain::HolonMain(QLoaderSettings *settings, QWidget *parent)
         return;
     }
 
-    statusBar()->addWidget(new HBoxWidget(d_ptr.data()), 1);
+    statusBar()->addWidget(new SidebarSelector(d_ptr.data()), 1);
 
     setStyleSheet("QStatusBar { background-color : rgb(64, 66, 68) }"
                   "QStatusBar::item { border: 0px }" ) ;

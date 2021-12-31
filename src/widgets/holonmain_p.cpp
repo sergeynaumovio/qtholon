@@ -22,8 +22,8 @@
 #include <QHBoxLayout>
 #include <QShortcut>
 #include <QStackedWidget>
-
-#define SELECTOR_WIDGET_CHANGED 0
+#include <QSizePolicy>
+#include <QButtonGroup>
 
 HolonMainPrivate::HolonMainPrivate(HolonMain *q)
 :   q_ptr(q)
@@ -71,27 +71,40 @@ bool HolonMainPrivate::mapSidebar(QChar sidebar, QString area, Qt::CheckState ch
     return true;
 }
 
+QHBoxLayout *HBoxWidget::layout()
+{
+    return static_cast<QHBoxLayout*>(QWidget::layout());
+}
+
+HBoxWidget::HBoxWidget(HolonMainPrivate *d, QWidget *parent)
+:   QWidget(parent),
+    d_ptr(d)
+{
+    setLayout(new QHBoxLayout(this));
+    {
+        layout()->setContentsMargins({});
+    }
+}
+
+
 SidebarButton::SidebarButton(QChar sidebar, QString area, SidebarActivator *parent)
 :   QPushButton(sidebar, parent),
     sidebar(sidebar),
     area(area)
-{ }
-
-SidebarActivator::SidebarActivator(QWidget *parent)
-:   QWidget(parent)
 {
-    setLayout(new QHBoxLayout(this));
-    layout()->setContentsMargins({});
+    setFlat(true);
+    setCheckable(true);
 }
+
+SidebarActivator::SidebarActivator(HolonMainPrivate *d, QWidget *parent)
+:   HBoxWidget(d, parent)
+{ }
 
 void SidebarActivator::insertSidebarButton(int index, QChar sidebar, QString area, Qt::CheckState checkState)
 {
     SidebarButton *button = new SidebarButton(sidebar, area, this);
     {
-        button->setCheckable(true);
         button->setChecked(checkState);
-        button->setFlat(true);
-
         layout()->insertWidget(index, button);
 
         QObject::connect(button, &QPushButton::clicked, button, [=, this]()
@@ -115,53 +128,53 @@ void SidebarActivator::insertSidebarButton(int index, QChar sidebar, QString are
     }
 }
 
-QHBoxLayout *SidebarActivator::layout()
+void SidebarLocator::showEvent(QShowEvent*)
 {
-    return static_cast<QHBoxLayout*>(QWidget::layout());
+    if (once)
+        return;
+
+    once = true;
+
+    layout()->addStretch(1);
+
+    for (QChar c : d_ptr->sidebarList)
+    {
+        QPushButton *sidebarButton = new QPushButton(c, this);
+        {
+            sidebarButton->setFlat(true);
+            sidebarButton->setCheckable(true);
+            sidebarButton->setChecked(d_ptr->sidebarMap.value(c));
+            sidebarButton->setMaximumWidth(15);
+            layout()->addWidget(sidebarButton);
+            QButtonGroup *group = new QButtonGroup(this);
+            {
+                for (const QString &s : d_ptr->sidebarAreaList)
+                {
+                    QPushButton *sidebarAreaButton = new QPushButton(s, this);
+                    {
+                        sidebarAreaButton->setFlat(true);
+                        sidebarAreaButton->setCheckable(true);
+                        group->addButton(sidebarAreaButton);
+                        sidebarAreaButton->setMaximumWidth(15);
+                        layout()->addWidget(sidebarAreaButton);
+                    }
+                }
+            }
+        }
+
+        layout()->addStretch(1);
+    }
 }
 
-class SidebarLocator : public QWidget
+SidebarLocator::SidebarLocator(HolonMainPrivate *d, QWidget *parent)
+:   HBoxWidget(d, parent)
 {
+    layout()->setSpacing(1);
+}
 
-#if SELECTOR_WIDGET_CHANGED
-    bool once{};
-
-    void set()
-    {
-
-    }
-#endif
-
-public:
-    SidebarLocator(HolonMain *, QWidget *parent)
-    :   QWidget(parent)
-    {
-        setLayout(new QHBoxLayout(this));
-        layout()->setContentsMargins({});
-
-#if SELECTOR_WIDGET_CHANGED
-        connect(mainWindow, &HolonMain::sidebarSelectorWidgetChanged, this, [=, this](QWidget *widget)
-        {
-            if (!once && widget == this)
-            {
-                once = true;
-
-                set();
-            }
-        });
-#endif
-
-    }
-};
-
-
-HBoxWidget::HBoxWidget(HolonMainPrivate *d)
+SidebarSelector::SidebarSelector(HolonMainPrivate *d)
+:   HBoxWidget(d, d->q_ptr)
 {
-    setLayout(new QHBoxLayout(this));
-    {
-        layout()->setContentsMargins({});
-    }
-
     QPushButton *modeButton = new QPushButton(QIcon(":/holon/screwdriver.svg"),"", this);
     {
         modeButton->setFlat(true);
@@ -184,9 +197,10 @@ HBoxWidget::HBoxWidget(HolonMainPrivate *d)
 
         sidebarSelector->layout()->setContentsMargins({});
 
-        d->sidebarActivator = new SidebarActivator(this);
+        d->sidebarActivator = new SidebarActivator(d, this);
+        d->sidebarLocator = new SidebarLocator(d, this);
         int activatorIndex = sidebarSelector->addWidget(d->sidebarActivator);
-        int locatorIndex = sidebarSelector->addWidget(new SidebarLocator(d->q_ptr, this));
+        int locatorIndex = sidebarSelector->addWidget(d->sidebarLocator);
 
         connect(modeButton, &QPushButton::toggled, sidebarSelector, [=](bool checked)
         {
@@ -194,10 +208,6 @@ HBoxWidget::HBoxWidget(HolonMainPrivate *d)
                 sidebarSelector->setCurrentIndex(locatorIndex);
             else
                 sidebarSelector->setCurrentIndex(activatorIndex);
-
-#if SELECTOR_WIDGET_CHANGED
-            //emit d_ptr->q_ptr->sidebarSelectorWidgetChanged(sidebarSelector->currentWidget());
-#endif
         });
     }
 
@@ -216,12 +226,6 @@ HBoxWidget::HBoxWidget(HolonMainPrivate *d)
 
         exit->setFlat(true);
         exit->setMaximumWidth(20);
-        layout()->addStretch(1);
         layout()->addWidget(exit);
     }
-}
-
-QHBoxLayout *HBoxWidget::layout()
-{
-    return static_cast<QHBoxLayout*>(QWidget::layout());
 }
