@@ -29,14 +29,14 @@ HolonMainPrivate::HolonMainPrivate(HolonMain *q)
 :   q_ptr(q)
 { }
 
-bool HolonMainPrivate::mapSidebarArea(QString area)
+bool HolonMainPrivate::setSidebarArea(QString area)
 {
-    if (sidebarAreaMap.contains(area))
+    if (sidebarAreaList.contains(area))
     {
-        if (sidebarAreaMap.value(area))
+        if (sidebarAreaSet.contains(area))
             return false;
         else
-            sidebarAreaMap[area] = true;
+            sidebarAreaSet.insert(area);
     }
     else
         return false;
@@ -44,14 +44,14 @@ bool HolonMainPrivate::mapSidebarArea(QString area)
     return true;
 }
 
-bool HolonMainPrivate::mapSidebar(QChar sidebar, QString area, Qt::CheckState checkState)
+bool HolonMainPrivate::setSidebar(QChar sidebar, QString area, Qt::CheckState checkState)
 {
-    if (sidebarMap.contains(sidebar))
+    if (sidebarList.contains(sidebar))
     {
-        if (sidebarMap.value(sidebar))
+        if (sidebarSet.contains(sidebar))
             return false;
         else
-            sidebarMap[sidebar] = true;
+            sidebarSet.insert(sidebar);
     }
     else
         return false;
@@ -62,7 +62,7 @@ bool HolonMainPrivate::mapSidebar(QChar sidebar, QString area, Qt::CheckState ch
         if (key == sidebar)
             break;
 
-        if (sidebarMap[key])
+        if (sidebarSet.contains(key))
             ++index;
     }
 
@@ -143,7 +143,7 @@ void SidebarLocator::showEvent(QShowEvent*)
         {
             sidebarButton->setFlat(true);
             sidebarButton->setCheckable(true);
-            sidebarButton->setChecked(d_ptr->sidebarMap.value(c));
+            sidebarButton->setChecked(d_ptr->sidebarSet.contains(c));
             sidebarButton->setMaximumWidth(15);
             layout()->addWidget(sidebarButton);
             QButtonGroup *group = new QButtonGroup(this);
@@ -157,6 +157,11 @@ void SidebarLocator::showEvent(QShowEvent*)
                         group->addButton(sidebarAreaButton);
                         sidebarAreaButton->setMaximumWidth(15);
                         layout()->addWidget(sidebarAreaButton);
+
+                        connect(sidebarButton, &QPushButton::toggled, sidebarAreaButton, [sidebarAreaButton](bool checked)
+                        {
+                            sidebarAreaButton->setEnabled(checked);
+                        });
                     }
                 }
             }

@@ -20,6 +20,7 @@
 #define HOLONMAIN_P_H
 
 #include <QList>
+#include <QSet>
 #include <QMap>
 #include <QHash>
 #include <QPushButton>
@@ -36,10 +37,11 @@ public:
     HolonMain *const q_ptr;
 
     QList<QChar> sidebarList;
-    QMap<QChar, bool> sidebarMap;
+    QSet<QChar> sidebarSet;
+    QMap<QChar, QString> sidebarMap;
 
     QStringList sidebarAreaList;
-    QMap<QString, bool> sidebarAreaMap;
+    QSet<QString> sidebarAreaSet;
 
     SidebarActivator *sidebarActivator;
     SidebarLocator *sidebarLocator;
@@ -49,8 +51,8 @@ public:
 
     HolonMainPrivate(HolonMain *q);
 
-    bool mapSidebarArea(QString area);
-    bool mapSidebar(QChar sidebar, QString area, Qt::CheckState checkState);
+    bool setSidebarArea(QString area);
+    bool setSidebar(QChar sidebar, QString area, Qt::CheckState checkState);
 };
 
 class HBoxWidget : public QWidget

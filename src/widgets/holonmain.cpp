@@ -48,7 +48,6 @@ HolonMain::HolonMain(QLoaderSettings *settings, QWidget *parent)
                 return;
             }
             d_ptr->sidebarList.append(s.at(0));
-            d_ptr->sidebarMap.insert(s.at(0), false);
         }
     }
     else
@@ -61,10 +60,6 @@ HolonMain::HolonMain(QLoaderSettings *settings, QWidget *parent)
     {
         QRegularExpression whiteSpace("\\s+");
         d_ptr->sidebarAreaList = value("sidebarAreaList").toString().remove(whiteSpace).split(',');
-        for (const QString &s : d_ptr->sidebarAreaList)
-        {
-            d_ptr->sidebarAreaMap.insert(s, false);
-        }
     }
     else
     {
