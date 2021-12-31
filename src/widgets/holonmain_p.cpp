@@ -48,10 +48,10 @@ bool HolonMainPrivate::setSidebar(QChar sidebar, QString area, Qt::CheckState ch
 {
     if (sidebarList.contains(sidebar))
     {
-        if (sidebarSet.contains(sidebar))
+        if (sidebarMap.contains(sidebar))
             return false;
         else
-            sidebarSet.insert(sidebar);
+            sidebarMap.insert(sidebar, area);
     }
     else
         return false;
@@ -62,7 +62,7 @@ bool HolonMainPrivate::setSidebar(QChar sidebar, QString area, Qt::CheckState ch
         if (key == sidebar)
             break;
 
-        if (sidebarSet.contains(key))
+        if (sidebarMap.contains(key))
             ++index;
     }
 
@@ -143,7 +143,7 @@ void SidebarLocator::showEvent(QShowEvent*)
         {
             sidebarButton->setFlat(true);
             sidebarButton->setCheckable(true);
-            sidebarButton->setChecked(d_ptr->sidebarSet.contains(c));
+            sidebarButton->setChecked(d_ptr->sidebarMap.contains(c));
             sidebarButton->setMaximumWidth(15);
             layout()->addWidget(sidebarButton);
             QButtonGroup *group = new QButtonGroup(this);
@@ -154,6 +154,7 @@ void SidebarLocator::showEvent(QShowEvent*)
                     {
                         sidebarAreaButton->setFlat(true);
                         sidebarAreaButton->setCheckable(true);
+                        sidebarAreaButton->setChecked(d_ptr->sidebarMap.value(c) == s);
                         group->addButton(sidebarAreaButton);
                         sidebarAreaButton->setMaximumWidth(15);
                         layout()->addWidget(sidebarAreaButton);

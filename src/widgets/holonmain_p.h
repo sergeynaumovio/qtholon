@@ -20,8 +20,8 @@
 #define HOLONMAIN_P_H
 
 #include <QList>
-#include <QSet>
 #include <QMap>
+#include <QSet>
 #include <QHash>
 #include <QPushButton>
 
@@ -37,7 +37,6 @@ public:
     HolonMain *const q_ptr;
 
     QList<QChar> sidebarList;
-    QSet<QChar> sidebarSet;
     QMap<QChar, QString> sidebarMap;
 
     QStringList sidebarAreaList;
