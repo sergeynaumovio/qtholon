@@ -30,11 +30,10 @@ HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonSidebarArea *parent)
         return;
     }
 
-    QChar sidebar = section().last().at(0);
-
     Qt::CheckState checkState = (parent->stateIndex() == parent->count() ? Qt::Checked : Qt::Unchecked);
 
-    if (!mainWindow()->d_ptr->setSidebar(sidebar, parent->objectName(), checkState))
+    if (!mainWindow()->d_ptr->mapSidebar({section().last().at(0), this},
+                                         {parent->objectName(), parent}, checkState))
     {
         setObjectError("sidebar name is not in list or already used");
         return;

@@ -26,10 +26,20 @@
 #include <QPushButton>
 
 class HolonMain;
+class HolonSidebarArea;
+class HolonSidebar;
+class SidebarButton;
 class SidebarActivator;
 class SidebarLocator;
 class HolonWidgetInterface;
 class QHBoxLayout;
+
+struct SidebarRelatedObjects
+{
+    HolonSidebarArea *area;
+    HolonSidebar *sidebar;
+    SidebarButton *button;
+};
 
 class HolonMainPrivate
 {
@@ -37,10 +47,11 @@ public:
     HolonMain *const q_ptr;
 
     QList<QChar> sidebarList;
-    QMap<QChar, QString> sidebarMap;
+
+    QMap<QChar, SidebarRelatedObjects> sidebarMap;
 
     QStringList sidebarAreaList;
-    QSet<QString> sidebarAreaSet;
+    QMap<QString, HolonSidebarArea*> sidebarAreaMap;
 
     SidebarActivator *sidebarActivator;
     SidebarLocator *sidebarLocator;
@@ -50,8 +61,9 @@ public:
 
     HolonMainPrivate(HolonMain *q);
 
-    bool setSidebarArea(QString area);
-    bool setSidebar(QChar sidebar, QString area, Qt::CheckState checkState);
+    bool mapSidebarArea(QString area, HolonSidebarArea *q);
+    bool mapSidebar(QPair<QChar, HolonSidebar*> sidebar,
+                    QPair<QString, HolonSidebarArea*> area, Qt::CheckState checkState);
 };
 
 class HBoxWidget : public QWidget
@@ -71,6 +83,7 @@ class SidebarButton : public QPushButton
     Q_OBJECT
 
     friend class SidebarActivator;
+    friend class SidebarLocator;
 
     QChar sidebar;
     QString area;
