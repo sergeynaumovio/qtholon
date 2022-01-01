@@ -77,16 +77,16 @@ bool HolonMainPrivate::mapSidebar(QPair<QChar, HolonSidebar*> sidebar,
     return true;
 }
 
-QHBoxLayout *HBoxWidget::layout()
+HBoxWidget::Layout *HBoxWidget::layout()
 {
-    return static_cast<QHBoxLayout*>(QWidget::layout());
+    return static_cast<Layout*>(QWidget::layout());
 }
 
 HBoxWidget::HBoxWidget(HolonMainPrivate *d, QWidget *parent)
 :   QWidget(parent),
     d_ptr(d)
 {
-    setLayout(new QHBoxLayout(this));
+    setLayout(new Layout(this));
     {
         layout()->setContentsMargins({});
     }

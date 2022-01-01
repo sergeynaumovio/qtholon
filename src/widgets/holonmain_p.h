@@ -70,12 +70,14 @@ class HBoxWidget : public QWidget
 {
     Q_OBJECT
 
+    using Layout = QHBoxLayout;
+
 protected:
     HolonMainPrivate *d_ptr;
 
     HBoxWidget(HolonMainPrivate *d, QWidget *parent);
 
-    QHBoxLayout *layout();
+    Layout *layout();
 };
 
 class SidebarButton : public QPushButton
