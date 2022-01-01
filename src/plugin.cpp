@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021 Sergey Naumov
+** Copyright (C) 2021, 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -65,7 +65,7 @@ public:
         {
             HolonSplitted *splitted = qobject_cast<HolonSplitted*>(parent);
 
-            if (splitted && splitted->mainWindow()->findChildren<HolonSidebarArea*>().size() < 10)
+            if (splitted)
                 return new HolonSidebarArea(settings, splitted);
 
             return parent;
@@ -74,7 +74,7 @@ public:
         if (!qstrcmp(className, "HolonSidebar"))
         {
             HolonSidebarArea *area = qobject_cast<HolonSidebarArea*>(parent);
-            if (area && area->mainWindow()->findChildren<HolonSidebar*>().size() < 10)
+            if (area)
                 return new HolonSidebar(settings, area);
 
             return parent;
