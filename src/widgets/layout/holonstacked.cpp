@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021 Sergey Naumov
+** Copyright (C) 2021, 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -28,5 +28,5 @@ HolonStacked::HolonStacked(QLoaderSettings *settings, HolonSplitted *parent)
 
 HolonMain *HolonStacked::mainWindow() const
 {
-    return static_cast<HolonSplitted*>(parent())->mainWindow();
+    return qobject_cast<HolonSplitted*>(parent())->mainWindow();
 }

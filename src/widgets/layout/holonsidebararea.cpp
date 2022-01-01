@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021 Sergey Naumov
+** Copyright (C) 2021, 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -25,52 +25,55 @@
 HolonSidebarArea::HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *parent)
 :   HolonStacked(settings, parent)
 {
-    if (mainWindow())
+    if (!mainWindow())
     {
-        if (!mainWindow()->d_ptr->mapSidebarArea(section().last(), this))
-        {
-            setObjectError("sidebar area name is not in list or already used");
-            return;
-        }
+        setObjectError("HolonMain not found");
+        return;
+    }
 
-        if (contains("stateIndex"))
-        {
-            setStateIndex(value("stateIndex").toInt());
+    if (!mainWindow()->d_ptr->mapSidebarArea(section().last(), this))
+    {
+        setObjectError("sidebar area name is not in list or already used");
+        return;
+    }
 
-            if (stateIndex() == -1)
-                setHidden(true);
-        }
+    if (contains("stateIndex"))
+    {
+        setStateIndex(value("stateIndex").toInt());
 
-        connect(mainWindow()->d_ptr->sidebarActivator, &SidebarActivator::sidebarButtonClicked, this, [this](QChar sidebar, QString area)
+        if (stateIndex() == -1)
+            setHidden(true);
+    }
+
+    connect(mainWindow()->d_ptr->sidebarActivator, &SidebarActivator::sidebarButtonClicked, this, [this](QChar sidebar, QString area)
+    {
+        if (objectName() == area)
         {
-            if (objectName() == area)
+            for (int i = 0; i < count(); ++i)
             {
-                for (int i = 0; i < count(); ++i)
+                if (widget(i)->objectName() == sidebar)
                 {
-                    if (widget(i)->objectName() == sidebar)
+                    if (currentIndex() == i)
                     {
-                        if (currentIndex() == i)
-                        {
-                            if (isVisible())
-                                hide();
-                            else
-                                show();
+                        if (isVisible())
+                            hide();
+                        else
+                            show();
 
-                            break;
-                        }
-
-                        setCurrentIndex(i);
-                        show();
+                        break;
                     }
+
+                    setCurrentIndex(i);
+                    show();
                 }
             }
-        });
-    }
+        }
+    });
 }
 
 HolonMain *HolonSidebarArea::mainWindow() const
 {
-    return static_cast<HolonSplitted*>(parent())->mainWindow();
+    return qobject_cast<HolonSplitted*>(parent())->mainWindow();
 }
 
 int HolonSidebarArea::stateIndex() const

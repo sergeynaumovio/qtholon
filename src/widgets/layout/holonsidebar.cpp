@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021 Sergey Naumov
+** Copyright (C) 2021, 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -24,6 +24,12 @@
 HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonSidebarArea *parent)
 :   HolonTiled(settings, parent)
 {
+    if (!mainWindow())
+    {
+        setObjectError("HolonMain not found");
+        return;
+    }
+
     if (section().last().size() != 1)
     {
         setObjectError("sidebar name is not a char");

@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021 Sergey Naumov
+** Copyright (C) 2021, 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -31,5 +31,5 @@ void HolonTiled::addWidget(HolonWidgetInterface* /*widget*/)
 
 HolonMain *HolonTiled::mainWindow() const
 {
-    return static_cast<HolonStacked*>(parent())->mainWindow();
+    return qobject_cast<HolonStacked*>(parent())->mainWindow();
 }
