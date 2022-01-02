@@ -24,7 +24,8 @@
 HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonSidebarArea *parent)
 :   HolonTiled(settings, parent)
 {
-    if (!mainWindow())
+    HolonMain *main = mainWindow();
+    if (!main)
     {
         setObjectError("HolonMain not found");
         return;
@@ -38,7 +39,7 @@ HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonSidebarArea *parent)
 
     Qt::CheckState checkState = (parent->stateIndex() == parent->count() ? Qt::Checked : Qt::Unchecked);
 
-    if (!mainWindow()->d_ptr->mapSidebar({section().last().at(0), this},
+    if (!main->d_ptr->mapSidebar({section().last().at(0), this},
                                          {parent->objectName(), parent}, checkState))
     {
         setObjectError("sidebar name is not in list or already used");

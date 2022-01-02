@@ -25,13 +25,14 @@
 HolonSidebarArea::HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *parent)
 :   HolonStacked(settings, parent)
 {
-    if (!mainWindow())
+    HolonMain *main = mainWindow();
+    if (!main)
     {
         setObjectError("HolonMain not found");
         return;
     }
 
-    if (!mainWindow()->d_ptr->mapSidebarArea(section().last(), this))
+    if (!main->d_ptr->mapSidebarArea(section().last(), this))
     {
         setObjectError("sidebar area name is not in list or already used");
         return;
@@ -45,7 +46,7 @@ HolonSidebarArea::HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *par
             setHidden(true);
     }
 
-    connect(mainWindow()->d_ptr->sidebarActivator, &SidebarActivator::sidebarButtonClicked, this, [this](QChar sidebar, QString area)
+    connect(main->d_ptr->sidebarActivator, &SidebarActivator::sidebarButtonClicked, this, [this](QChar sidebar, QString area)
     {
         if (objectName() == area)
         {
