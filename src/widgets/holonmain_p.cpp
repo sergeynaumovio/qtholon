@@ -190,10 +190,10 @@ void SidebarLocator::showEvent(QShowEvent*)
 
                                 if (next->isVisible())
                                 {
-                                    for (SidebarRelatedObjects sidebarObjects : qAsConst(d_ptr->sidebarMap))
+                                    for (SidebarRelatedObjects value : qAsConst(d_ptr->sidebarMap))
                                     {
-                                        if (sidebarObjects.sidebar == next->currentWidget())
-                                            sidebarObjects.button->setChecked(false);
+                                        if (value.sidebar == next->currentWidget())
+                                            value.button->setChecked(false);
                                     }
                                 }
 
