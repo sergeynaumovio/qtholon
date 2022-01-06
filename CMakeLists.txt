@@ -92,7 +92,7 @@ target_compile_definitions(${QT_HOLON_LIBRARY}
 qt_add_resources(${QT_HOLON_LIBRARY} "Holon"
     PREFIX "/holon"
     BASE "share/icons"
-    FILES share/icons/exit.svg
+    FILES share/icons/quit.svg
           share/icons/screwdriver.svg
 )
 

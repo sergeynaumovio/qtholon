@@ -21,14 +21,16 @@
 #include "holonsidebararea.h"
 #include "holonsidebar.h"
 
+#include <QLoaderTree>
 #include <QHBoxLayout>
 #include <QShortcut>
 #include <QStackedWidget>
 #include <QSizePolicy>
 #include <QButtonGroup>
 
-HolonMainPrivate::HolonMainPrivate(HolonMain *q)
-:   q_ptr(q)
+HolonMainPrivate::HolonMainPrivate(HolonMain *q, QLoaderTree *tree)
+:   q_ptr(q),
+    tree(tree)
 { }
 
 bool HolonMainPrivate::mapSidebarArea(QString area, HolonSidebarArea *q)
@@ -259,21 +261,25 @@ SidebarSelector::SidebarSelector(HolonMainPrivate *d)
         });
     }
 
-    QPushButton *exit = new QPushButton(QIcon(":/holon/exit.svg"), "", this);
+    QPushButton *quitButton = new QPushButton(QIcon(":/holon/quit.svg"), "", this);
     {
-        connect(exit, &QPushButton::clicked, this, [d]()
+        connect(quitButton, &QPushButton::clicked, this, [d]()
         {
             d->q_ptr->deleteLater();
         });
 
-        QShortcut *shortcut = new QShortcut(exit);
+        QShortcut *shortcut = new QShortcut(quitButton);
         {
             shortcut->setKey(QKeySequence("Ctrl+Q"));
-            connect(shortcut, &QShortcut::activated, exit, [exit]{ exit->click(); });
+            connect(shortcut, &QShortcut::activated, quitButton, [=, this]
+            {
+                d_ptr->tree->save();
+                quitButton->click();
+            });
         }
 
-        exit->setFlat(true);
-        exit->setMaximumWidth(20);
-        layout()->addWidget(exit);
+        quitButton->setFlat(true);
+        quitButton->setMaximumWidth(20);
+        layout()->addWidget(quitButton);
     }
 }

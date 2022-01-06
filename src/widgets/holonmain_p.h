@@ -26,6 +26,7 @@
 #include <QPushButton>
 
 class HolonMain;
+class QLoaderTree;
 class HolonSidebarArea;
 class HolonSidebar;
 class SidebarButton;
@@ -45,6 +46,7 @@ class HolonMainPrivate
 {
 public:
     HolonMain *const q_ptr;
+    QLoaderTree *tree;
 
     QList<QChar> sidebarList;
 
@@ -59,7 +61,7 @@ public:
     QHash<QString, HolonWidgetInterface*> widgets;
 
 
-    HolonMainPrivate(HolonMain *q);
+    HolonMainPrivate(HolonMain *q, QLoaderTree *tree);
 
     bool mapSidebarArea(QString area, HolonSidebarArea *q);
     bool mapSidebar(QPair<QChar, HolonSidebar*> sidebar,

@@ -2,17 +2,14 @@
 
 [Main]
 class = HolonMain
-windowTitle = Holon
-minimumWidth = 400
 minimumHeight = 200
-sidebarList =  1, 2, 3, 4, 5, 6, 7, 8, 9, 0
+minimumWidth = 400
 sidebarAreaList = L, R, T, B
+sidebarList = 1, 2, 3, 4, 5, 6, 7, 8, 9, 0
+windowTitle = Holon
 
 [Main/Splitted]
 class = HolonSplitted
-#layout = vertical
-#layout = horizontalSplitted
-#layout = stacked
 
 [Main/Splitted/L]
 class = HolonSidebarArea
