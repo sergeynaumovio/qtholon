@@ -29,12 +29,23 @@ void HolonMain::closeEvent(QCloseEvent*)
 
 HolonMain::HolonMain(QLoaderSettings *settings, QWidget *parent)
 :   QLoaderSettings(settings),
-    d_ptr(new HolonMainPrivate(this))
+    d_ptr(new HolonMainPrivate(this, tree()))
 {
     setParent(parent);
 
     if (!parent)
         show();
+
+    if (contains("sidebarAreaList"))
+    {
+        QRegularExpression whiteSpace("\\s+");
+        d_ptr->sidebarAreaList = value("sidebarAreaList").toString().remove(whiteSpace).split(',');
+    }
+    else
+    {
+        setObjectError("sidebarAreaList property is not set");
+        return;
+    }
 
     if (contains("sidebarList"))
     {
@@ -56,25 +67,20 @@ HolonMain::HolonMain(QLoaderSettings *settings, QWidget *parent)
         return;
     }
 
-    if (contains("sidebarAreaList"))
-    {
-        QRegularExpression whiteSpace("\\s+");
-        d_ptr->sidebarAreaList = value("sidebarAreaList").toString().remove(whiteSpace).split(',');
-    }
-    else
-    {
-        setObjectError("sidebarAreaList property is not set");
-        return;
-    }
-
     statusBar()->addWidget(new SidebarSelector(d_ptr.data()), 1);
 
     setStyleSheet("QStatusBar { background-color : rgb(64, 66, 68) }"
-                  "QStatusBar::item { border: 0px }" ) ;
+                  "QStatusBar::item { border: 0px }");
 }
 
 HolonMain::~HolonMain()
 { }
+
+void HolonMain::setWindowTitle(const QString &title)
+{
+    setValue("windowTitle", title);
+    QMainWindow::setWindowTitle(title);
+}
 
 QStringList HolonMain::sidebarAreaList() const
 {

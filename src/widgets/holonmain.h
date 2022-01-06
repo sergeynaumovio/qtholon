@@ -44,6 +44,7 @@ public:
     HolonMain(QLoaderSettings *settings, QWidget *parent);
     ~HolonMain();
 
+    void setWindowTitle(const QString &title);
     QStringList sidebarAreaList() const;
     QList<QChar> sidebarList() const;
 };
