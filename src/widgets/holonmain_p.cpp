@@ -268,7 +268,7 @@ SidebarSelector::SidebarSelector(HolonMainPrivate *d)
 
         QShortcut *shortcut = new QShortcut(exit);
         {
-            shortcut->setKey(QKeySequence::Quit);
+            shortcut->setKey(QKeySequence("Ctrl+Q"));
             connect(shortcut, &QShortcut::activated, exit, [exit]{ exit->click(); });
         }
 
