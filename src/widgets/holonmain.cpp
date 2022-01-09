@@ -29,7 +29,7 @@ void HolonMain::closeEvent(QCloseEvent*)
 
 HolonMain::HolonMain(QLoaderSettings *settings, QWidget *parent)
 :   QLoaderSettings(settings),
-    d_ptr(new HolonMainPrivate(this, tree()))
+    d_ptr(new HolonMainPrivate(this))
 {
     setParent(parent);
 

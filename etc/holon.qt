@@ -13,15 +13,21 @@ class = HolonSplitted
 
 [Main/Splitted/L]
 class = HolonSidebarArea
-hidden = false
-stateIndex = 0
+stateIndex = 1
 
-[Main/Splitted/L/5]
+[Main/Splitted/L/9]
 class = HolonSidebar
 
-[Main/Splitted/L/5/Label]
+[Main/Splitted/L/9/Label]
 class = HolonLabel
-text = Sidebar 5
+text = Sidebar 9
+
+[Main/Splitted/L/0]
+class = HolonSidebar
+
+[Main/Splitted/L/0/Label]
+class = HolonLabel
+text = Sidebar 0
 
 [Main/Splitted/Splitted]
 class = HolonSplitted
@@ -29,7 +35,7 @@ layout = vertical
 
 [Main/Splitted/Splitted/T]
 class = HolonSidebarArea
-stateIndex = -1
+stateIndex = 2
 
 [Main/Splitted/Splitted/T/8]
 class = HolonSidebar
@@ -38,32 +44,38 @@ class = HolonSidebar
 class = HolonLabel
 text = Sidebar 8
 
+[Main/Splitted/Splitted/T/4]
+class = HolonSidebar
+
+[Main/Splitted/Splitted/T/4/Label]
+class = HolonLabel
+text = Sidebar 4
+
+[Main/Splitted/Splitted/T/5]
+class = HolonSidebar
+
+[Main/Splitted/Splitted/T/5/Label]
+class = HolonLabel
+text = Sidebar 5
+
 [Main/Splitted/Splitted/3]
 class = HolonLabel
 text = Task Widgets
 
 [Main/Splitted/Splitted/B]
 class = HolonSidebarArea
-stateIndex = -1
+stateIndex = 0
 
-[Main/Splitted/Splitted/B/0]
+[Main/Splitted/Splitted/B/2]
 class = HolonSidebar
 
-[Main/Splitted/Splitted/B/0/Label]
+[Main/Splitted/Splitted/B/2/Label]
 class = HolonLabel
-text = Sidebar 0
+text = Sidebar 2
 
 [Main/Splitted/R]
 class = HolonSidebarArea
-hidden = false
-stateIndex = 2
-
-[Main/Splitted/R/4]
-class = HolonSidebar
-
-[Main/Splitted/R/4/Label]
-class = HolonLabel
-text = Sidebar 4
+stateIndex = 0
 
 [Main/Splitted/R/1]
 class = HolonSidebar
@@ -85,20 +97,6 @@ class = HolonSidebar
 [Main/Splitted/R/7/Label]
 class = HolonLabel
 text = Sidebar 7
-
-[Main/Splitted/R/2]
-class = HolonSidebar
-
-[Main/Splitted/R/2/Label]
-class = HolonLabel
-text = Sidebar 2
-
-[Main/Splitted/R/9]
-class = HolonSidebar
-
-[Main/Splitted/R/9/Label]
-class = HolonLabel
-text = Sidebar 9
 
 [Main/Splitted/R/3]
 class = HolonSidebar

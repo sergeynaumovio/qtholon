@@ -28,9 +28,9 @@
 #include <QSizePolicy>
 #include <QButtonGroup>
 
-HolonMainPrivate::HolonMainPrivate(HolonMain *q, QLoaderTree *tree)
+HolonMainPrivate::HolonMainPrivate(HolonMain *q)
 :   q_ptr(q),
-    tree(tree)
+    tree(q->tree())
 { }
 
 bool HolonMainPrivate::mapSidebarArea(QString area, HolonSidebarArea *q)
@@ -185,26 +185,26 @@ void SidebarLocator::showEvent(QShowEvent*)
                                 HolonSidebarArea *prev = sidebarObjects.area;
                                 HolonSidebarArea *next = d_ptr->sidebarAreaMap.value(s);
 
-                                if (button->isChecked())
-                                    prev->hide();
-                                else
-                                    button->setChecked(true);
-
-                                if (next->isVisible())
+                                if (next->addSidebar(sidebar))
                                 {
-                                    for (SidebarRelatedObjects value : qAsConst(d_ptr->sidebarMap))
+                                    if (button->isChecked())
+                                        prev->hide();
+                                    else
+                                        button->setChecked(true);
+
+                                    if (next->isVisible())
                                     {
-                                        if (value.sidebar == next->currentWidget())
-                                            value.button->setChecked(false);
+                                        for (SidebarRelatedObjects value : qAsConst(d_ptr->sidebarMap))
+                                        {
+                                            if (value.sidebar == next->currentWidget())
+                                                value.button->setChecked(false);
+                                        }
                                     }
+
+                                    button->area = s;
+                                    sidebarObjects.area = next;
+                                    next->show();
                                 }
-
-                                next->addWidget(sidebar);
-                                next->setCurrentWidget(sidebar);
-                                next->show();
-
-                                button->area = s;
-                                sidebarObjects.area = next;
                             }
                         });
                     }

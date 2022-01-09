@@ -23,6 +23,7 @@
 #include <QLoaderSettings>
 
 class HolonMain;
+class HolonSidebar;
 
 class HolonSidebarArea : public HolonStacked
 {
@@ -38,9 +39,13 @@ Q_SIGNALS:
 public:
     HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *parent);
 
+    bool addSidebar(HolonSidebar *sidebar);
+    void addWidget(QWidget *widget) = delete;
+    void hide();
     HolonMain *mainWindow() const;
     int stateIndex() const;
     void setStateIndex(int i);
+    void show();
 };
 
 #endif // HOLONSIDEBARAREA_H

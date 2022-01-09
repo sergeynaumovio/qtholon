@@ -21,6 +21,10 @@
 #include "holonsplitted.h"
 #include "holonmain.h"
 #include "holonmain_p.h"
+#include "holonsidebar.h"
+
+#include <QLoaderTree>
+#include <algorithm>
 
 HolonSidebarArea::HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *parent)
 :   HolonStacked(settings, parent)
@@ -72,6 +76,36 @@ HolonSidebarArea::HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *par
     });
 }
 
+bool HolonSidebarArea::addSidebar(HolonSidebar *sidebar)
+{
+    QStringList src(sidebar->section());
+
+    QStringList dst = section();
+    dst.append(src.last());
+
+    if (std::equal(src.begin(), src.end(), dst.begin()))
+    {
+        QStackedWidget::addWidget(sidebar);
+        return true;
+    }
+
+    if (tree()->move(src, dst))
+    {
+        int index = QStackedWidget::addWidget(sidebar);
+        setStateIndex(index);
+        setCurrentWidget(sidebar);
+        return true;
+    }
+
+    return false;
+}
+
+void HolonSidebarArea::hide()
+{
+    setStateIndex(-1);
+    QWidget::hide();
+}
+
 HolonMain *HolonSidebarArea::mainWindow() const
 {
     return qobject_cast<HolonSplitted*>(parent())->mainWindow();
@@ -85,5 +119,12 @@ int HolonSidebarArea::stateIndex() const
 void HolonSidebarArea::setStateIndex(int i)
 {
     m_stateIndex = i;
+    setValue("stateIndex", i);
     emit stateIndexChanged(i);
+}
+
+void HolonSidebarArea::show()
+{
+    setStateIndex(currentIndex());
+    QWidget::show();
 }

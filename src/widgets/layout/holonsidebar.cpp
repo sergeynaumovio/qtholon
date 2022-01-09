@@ -40,13 +40,13 @@ HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonSidebarArea *parent)
     Qt::CheckState checkState = (parent->stateIndex() == parent->count() ? Qt::Checked : Qt::Unchecked);
 
     if (!main->d_ptr->mapSidebar({section().last().at(0), this},
-                                         {parent->objectName(), parent}, checkState))
+                                 {parent->objectName(), parent}, checkState))
     {
         setObjectError("sidebar name is not in list or already used");
         return;
     }
 
-    parent->addWidget(this);
+    parent->addSidebar(this);
 
     if (checkState)
         parent->setCurrentWidget(this);

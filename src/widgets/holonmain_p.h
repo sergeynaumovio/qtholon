@@ -61,7 +61,7 @@ public:
     QHash<QString, HolonWidgetInterface*> widgets;
 
 
-    HolonMainPrivate(HolonMain *q, QLoaderTree *tree);
+    HolonMainPrivate(HolonMain *q);
 
     bool mapSidebarArea(QString area, HolonSidebarArea *q);
     bool mapSidebar(QPair<QChar, HolonSidebar*> sidebar,
