@@ -43,12 +43,7 @@ HolonSidebarArea::HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *par
     }
 
     if (contains("stateIndex"))
-    {
         setStateIndex(value("stateIndex").toInt());
-
-        if (stateIndex() == -1)
-            setHidden(true);
-    }
 
     connect(main->d_ptr->sidebarActivator, &SidebarActivator::sidebarButtonClicked, this, [this](QChar sidebar, QString area)
     {
@@ -70,10 +65,18 @@ HolonSidebarArea::HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *par
 
                     setCurrentIndex(i);
                     show();
+
+                    break;
                 }
             }
         }
     });
+}
+
+void HolonSidebarArea::setStateIndex(int i)
+{
+    m_stateIndex = i;
+    setValue("stateIndex", i);
 }
 
 bool HolonSidebarArea::addSidebar(HolonSidebar *sidebar)
@@ -91,9 +94,33 @@ bool HolonSidebarArea::addSidebar(HolonSidebar *sidebar)
 
     if (tree()->move(src, dst))
     {
-        int index = QStackedWidget::addWidget(sidebar);
-        setStateIndex(index);
+        SidebarRelatedObjects &sidebarObjects = mainWindow()->d_ptr->sidebarRelatedObjects[sidebar->objectName().at(0)];
+        HolonSidebar *sidebar = sidebarObjects.sidebar;
+        SidebarButton *button = sidebarObjects.button;
+        HolonSidebarArea *prev = sidebarObjects.area;
+
+        if (button->isChecked())
+            prev->hide();
+        else
+            button->setChecked(true);
+
+        if (isVisible())
+        {
+            for (SidebarRelatedObjects value : qAsConst(mainWindow()->d_ptr->sidebarRelatedObjects))
+            {
+                if (value.sidebar == currentWidget())
+                    value.button->setChecked(false);
+            }
+        }
+        else
+            show();
+
+        QStackedWidget::addWidget(sidebar);
         setCurrentWidget(sidebar);
+
+        button->area = objectName();
+        sidebarObjects.area = this;
+
         return true;
     }
 
@@ -102,8 +129,8 @@ bool HolonSidebarArea::addSidebar(HolonSidebar *sidebar)
 
 void HolonSidebarArea::hide()
 {
-    setStateIndex(-1);
     QWidget::hide();
+    setValue("hidden", true);
 }
 
 HolonMain *HolonSidebarArea::mainWindow() const
@@ -111,20 +138,20 @@ HolonMain *HolonSidebarArea::mainWindow() const
     return qobject_cast<HolonSplitted*>(parent())->mainWindow();
 }
 
-int HolonSidebarArea::stateIndex() const
+void HolonSidebarArea::setCurrentIndex(int i)
 {
-    return m_stateIndex;
+    QStackedWidget::setCurrentIndex(i);
+    setStateIndex(i);
 }
 
-void HolonSidebarArea::setStateIndex(int i)
+void HolonSidebarArea::setCurrentWidget(HolonSidebar *sidebar)
 {
-    m_stateIndex = i;
-    setValue("stateIndex", i);
-    emit stateIndexChanged(i);
+    QStackedWidget::setCurrentWidget(sidebar);
+    setStateIndex(currentIndex());
 }
 
 void HolonSidebarArea::show()
 {
-    setStateIndex(currentIndex());
     QWidget::show();
+    setValue("hidden", false);
 }

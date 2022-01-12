@@ -37,10 +37,10 @@ bool HolonMainPrivate::mapSidebarArea(QString area, HolonSidebarArea *q)
 {
     if (sidebarAreaList.contains(area))
     {
-        if (sidebarAreaMap.contains(area))
+        if (sidebarAreas.contains(area))
             return false;
         else
-            sidebarAreaMap.insert(area, q);
+            sidebarAreas.insert(area, q);
     }
     else
         return false;
@@ -56,10 +56,10 @@ bool HolonMainPrivate::mapSidebar(QPair<QChar, HolonSidebar*> sidebar,
 
     if (sidebarList.contains(c))
     {
-        if (sidebarMap.contains(c))
+        if (sidebarRelatedObjects.contains(c))
             return false;
         else
-            sidebarMap.insert(c, {area.second, sidebar.second, nullptr});
+            sidebarRelatedObjects.insert(c, {area.second, sidebar.second, nullptr});
     }
     else
         return false;
@@ -70,7 +70,7 @@ bool HolonMainPrivate::mapSidebar(QPair<QChar, HolonSidebar*> sidebar,
         if (key == c)
             break;
 
-        if (sidebarMap.contains(key))
+        if (sidebarRelatedObjects.contains(key))
             ++index;
     }
 
@@ -112,7 +112,7 @@ void SidebarActivator::insertSidebarButton(int index, QChar sidebar, QString are
 {
     SidebarButton *button = new SidebarButton(sidebar, area, this);
     {
-        d_ptr->sidebarMap[sidebar].button = button;
+        d_ptr->sidebarRelatedObjects[sidebar].button = button;
         button->setChecked(checkState);
 
         layout()->insertWidget(index, button);
@@ -153,7 +153,7 @@ void SidebarLocator::showEvent(QShowEvent*)
         {
             sidebarButton->setFlat(true);
             sidebarButton->setCheckable(true);
-            sidebarButton->setChecked(d_ptr->sidebarMap.contains(c));
+            sidebarButton->setChecked(d_ptr->sidebarRelatedObjects.contains(c));
             sidebarButton->setMaximumWidth(15);
             layout()->addWidget(sidebarButton);
             QButtonGroup *group = new QButtonGroup(this);
@@ -164,8 +164,8 @@ void SidebarLocator::showEvent(QShowEvent*)
                     {
                         sidebarAreaButton->setFlat(true);
                         sidebarAreaButton->setCheckable(true);
-                        sidebarAreaButton->setChecked(d_ptr->sidebarMap.contains(c) &&
-                                                      d_ptr->sidebarMap.value(c).area->objectName() == s);
+                        sidebarAreaButton->setChecked(d_ptr->sidebarRelatedObjects.contains(c) &&
+                                                      d_ptr->sidebarRelatedObjects.value(c).area->objectName() == s);
                         group->addButton(sidebarAreaButton);
                         sidebarAreaButton->setMaximumWidth(15);
                         layout()->addWidget(sidebarAreaButton);
@@ -179,32 +179,11 @@ void SidebarLocator::showEvent(QShowEvent*)
                         {
                             if (checked)
                             {
-                                SidebarRelatedObjects &sidebarObjects = d_ptr->sidebarMap[c];
+                                SidebarRelatedObjects &sidebarObjects = d_ptr->sidebarRelatedObjects[c];
                                 HolonSidebar *sidebar = sidebarObjects.sidebar;
-                                SidebarButton *button = sidebarObjects.button;
-                                HolonSidebarArea *prev = sidebarObjects.area;
-                                HolonSidebarArea *next = d_ptr->sidebarAreaMap.value(s);
+                                HolonSidebarArea *next = d_ptr->sidebarAreas.value(s);
 
-                                if (next->addSidebar(sidebar))
-                                {
-                                    if (button->isChecked())
-                                        prev->hide();
-                                    else
-                                        button->setChecked(true);
-
-                                    if (next->isVisible())
-                                    {
-                                        for (SidebarRelatedObjects value : qAsConst(d_ptr->sidebarMap))
-                                        {
-                                            if (value.sidebar == next->currentWidget())
-                                                value.button->setChecked(false);
-                                        }
-                                    }
-
-                                    button->area = s;
-                                    sidebarObjects.area = next;
-                                    next->show();
-                                }
+                                next->addSidebar(sidebar);
                             }
                         });
                     }

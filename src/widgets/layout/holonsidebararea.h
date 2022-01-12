@@ -29,12 +29,8 @@ class HolonSidebarArea : public HolonStacked
 {
     Q_OBJECT
 
-    Q_PROPERTY(int stateIndex READ stateIndex WRITE setStateIndex NOTIFY stateIndexChanged)
-
     int m_stateIndex{-1};
-
-Q_SIGNALS:
-    void stateIndexChanged(int i);
+    void setStateIndex(int i);
 
 public:
     HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *parent);
@@ -43,9 +39,10 @@ public:
     void addWidget(QWidget *widget) = delete;
     void hide();
     HolonMain *mainWindow() const;
-    int stateIndex() const;
-    void setStateIndex(int i);
+    void setCurrentIndex(int i);
+    void setCurrentWidget(HolonSidebar *sidebar);
     void show();
+    int stateIndex() const { return m_stateIndex; }
 };
 
 #endif // HOLONSIDEBARAREA_H

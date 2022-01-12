@@ -50,10 +50,10 @@ public:
 
     QList<QChar> sidebarList;
 
-    QMap<QChar, SidebarRelatedObjects> sidebarMap;
+    QMap<QChar, SidebarRelatedObjects> sidebarRelatedObjects;
 
     QStringList sidebarAreaList;
-    QMap<QString, HolonSidebarArea*> sidebarAreaMap;
+    QMap<QString, HolonSidebarArea*> sidebarAreas;
 
     SidebarActivator *sidebarActivator;
     SidebarLocator *sidebarLocator;
@@ -88,6 +88,7 @@ class SidebarButton : public QPushButton
 
     friend class SidebarActivator;
     friend class SidebarLocator;
+    friend class HolonSidebarArea;
 
     QChar sidebar;
     QString area;

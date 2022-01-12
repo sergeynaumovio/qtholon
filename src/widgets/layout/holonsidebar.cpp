@@ -37,7 +37,7 @@ HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonSidebarArea *parent)
         return;
     }
 
-    Qt::CheckState checkState = (parent->stateIndex() == parent->count() ? Qt::Checked : Qt::Unchecked);
+    Qt::CheckState checkState = (!parent->isHidden() && parent->stateIndex() == parent->count() ? Qt::Checked : Qt::Unchecked);
 
     if (!main->d_ptr->mapSidebar({section().last().at(0), this},
                                  {parent->objectName(), parent}, checkState))
