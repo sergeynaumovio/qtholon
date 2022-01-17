@@ -16,20 +16,27 @@
 **
 ****************************************************************************/
 
-#include "holontiled.h"
-#include "holonstacked.h"
+#ifndef HOLONTILED_H
+#define HOLONTILED_H
 
-HolonTiled::HolonTiled(QLoaderSettings *settings, HolonStacked *parent)
-:   QLoaderSettings(settings)
-{
-    setParent(parent);
-}
+#include <QMainWindow>
+#include <QLoaderSettings>
 
-void HolonTiled::addWidget(HolonWidgetInterface* /*widget*/)
-{
-}
+class HolonStacked;
+class HolonWidgetInterface;
+class HolonDesktop;
 
-HolonMain *HolonTiled::mainWindow() const
+class HolonTiled : public QMainWindow, public QLoaderSettings
 {
-    return qobject_cast<HolonStacked*>(parent())->mainWindow();
-}
+    Q_OBJECT
+
+protected:
+    HolonTiled(QLoaderSettings *settings, HolonStacked *parent);
+
+    HolonDesktop *desktop() const;
+
+public:
+    void addWidget(HolonWidgetInterface *widget);
+};
+
+#endif // HOLONTILED_H

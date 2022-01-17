@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021, 2022 Sergey Naumov
+** Copyright (C) 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -16,37 +16,26 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONMAIN_H
-#define HOLONMAIN_H
+#ifndef HOLONVBOX_H
+#define HOLONVBOX_H
 
-#include "qtholonglobal.h"
-#include <QMainWindow>
+#include <QWidget>
 #include <QLoaderSettings>
 
-class HolonMainPrivate;
+class HolonDesktop;
+class QVBoxLayout;
 
-class Q_HOLON_EXPORT HolonMain : public QMainWindow, public QLoaderSettings
+class HolonVBox : public QWidget, QLoaderSettings
 {
     Q_OBJECT
 
-    Q_PROPERTY(QList<QChar> sidebarList READ sidebarList CONSTANT)
-    Q_PROPERTY(QStringList sidebarAreaList READ sidebarAreaList CONSTANT)
-
-    friend class HolonSidebar;
-    friend class HolonSidebarArea;
-
-protected:
-    const QScopedPointer<HolonMainPrivate> d_ptr;
-
-    void closeEvent(QCloseEvent*) override;
+    using Layout = QVBoxLayout;
 
 public:
-    HolonMain(QLoaderSettings *settings, QWidget *parent);
-    ~HolonMain();
+    HolonVBox(QLoaderSettings *settings, HolonDesktop *parent);
 
-    void setWindowTitle(const QString &title);
-    QStringList sidebarAreaList() const;
-    QList<QChar> sidebarList() const;
+    HolonDesktop *mainWindow() const;
+    Layout *layout() const;
 };
 
-#endif // HOLONMAIN_H
+#endif // HOLONVBOX_H

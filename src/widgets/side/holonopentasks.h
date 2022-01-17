@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021 Sergey Naumov
+** Copyright (C) 2021, 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -26,7 +26,7 @@ class HolonOpenTasks : public HolonWidgetInterface
     Q_OBJECT
 
 public:
-    HolonOpenTasks(QLoaderSettings *settings, HolonMain *parent);
+    HolonOpenTasks(QLoaderSettings *settings, HolonDesktop *parent);
     HolonOpenTasks(QLoaderSettings *settings, HolonTiled *parent);
 
     QWidget *widget() override;

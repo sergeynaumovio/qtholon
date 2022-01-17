@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021, 2022 Sergey Naumov
+** Copyright (C) 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -16,8 +16,9 @@
 **
 ****************************************************************************/
 
-#include "holonmain_p.h"
-#include "holonmain.h"
+#include "holondesktop_p.h"
+#include "holondesktop.h"
+#include "holontaskbar.h"
 #include "holonsidebararea.h"
 #include "holonsidebar.h"
 
@@ -28,12 +29,12 @@
 #include <QSizePolicy>
 #include <QButtonGroup>
 
-HolonMainPrivate::HolonMainPrivate(HolonMain *q)
+HolonDesktopPrivate::HolonDesktopPrivate(HolonDesktop *q)
 :   q_ptr(q),
     tree(q->tree())
 { }
 
-bool HolonMainPrivate::mapSidebarArea(QString area, HolonSidebarArea *q)
+bool HolonDesktopPrivate::mapSidebarArea(QString area, HolonSidebarArea *q)
 {
     if (sidebarAreaList.contains(area))
     {
@@ -48,8 +49,8 @@ bool HolonMainPrivate::mapSidebarArea(QString area, HolonSidebarArea *q)
     return true;
 }
 
-bool HolonMainPrivate::mapSidebar(QPair<QChar, HolonSidebar*> sidebar,
-                                  QPair<QString, HolonSidebarArea*> area, Qt::CheckState checkState)
+bool HolonDesktopPrivate::mapSidebar(QPair<QChar, HolonSidebar*> sidebar,
+                                     QPair<QString, HolonSidebarArea*> area, Qt::CheckState checkState)
 {
     QChar c = sidebar.first;
     QString s = area.first;
@@ -79,12 +80,84 @@ bool HolonMainPrivate::mapSidebar(QPair<QChar, HolonSidebar*> sidebar,
     return true;
 }
 
+bool HolonDesktopPrivate::setTaskbar(HolonTaskbar *taskbar)
+{
+    if (this->taskbar)
+    {
+        q_ptr->emitError("Desktop taskbar is already set");
+        return false;
+    }
+
+    QWidget *central = q_ptr->centralWidget();
+
+    if (!central)
+    {
+        QWidget *widget = new QWidget(q_ptr);
+        {
+            static_cast<QMainWindow*>(q_ptr)->setCentralWidget(widget);
+
+            QBoxLayout *layout;
+            {
+                if (taskbar->area() == HolonTaskbar::Left ||
+                    taskbar->area() == HolonTaskbar::Right)
+                {
+                    layout = new QBoxLayout(QBoxLayout::LeftToRight, widget);
+                }
+                else
+                {
+                    layout = new QBoxLayout(QBoxLayout::TopToBottom, widget);
+                }
+
+                widget->setLayout(layout);
+                layout->setContentsMargins({});
+                layout->setSpacing(0);
+                layout->addWidget(taskbar);
+            }
+        }
+    }
+
+    this->taskbar = taskbar;
+
+    return true;
+}
+
+bool HolonDesktopPrivate::setWorkspace(QWidget *widget)
+{
+    if (workspace)
+    {
+        q_ptr->emitError("Desktop workspace is already set");
+        return false;
+    }
+
+    QWidget *central = q_ptr->centralWidget();
+
+    if (central)
+    {
+        if (taskbar)
+        {
+            if (taskbar->area() == HolonTaskbar::Left ||
+                taskbar->area() == HolonTaskbar::Top)
+            {
+                central->layout()->addWidget(widget);
+            }
+            else
+            {
+                static_cast<QBoxLayout*>(central->layout())->insertWidget(0, widget);
+            }
+        }
+    }
+
+    workspace = widget;
+
+    return true;
+}
+
 HBoxWidget::Layout *HBoxWidget::layout()
 {
     return static_cast<Layout*>(QWidget::layout());
 }
 
-HBoxWidget::HBoxWidget(HolonMainPrivate *d, QWidget *parent)
+HBoxWidget::HBoxWidget(HolonDesktopPrivate *d, QWidget *parent)
 :   QWidget(parent),
     d_ptr(d)
 {
@@ -92,6 +165,7 @@ HBoxWidget::HBoxWidget(HolonMainPrivate *d, QWidget *parent)
     {
         layout()->setContentsMargins({});
     }
+
 }
 
 
@@ -104,7 +178,7 @@ SidebarButton::SidebarButton(QChar sidebar, QString area, SidebarActivator *pare
     setCheckable(true);
 }
 
-SidebarActivator::SidebarActivator(HolonMainPrivate *d, QWidget *parent)
+SidebarActivator::SidebarActivator(HolonDesktopPrivate *d, QWidget *parent)
 :   HBoxWidget(d, parent)
 { }
 
@@ -195,15 +269,26 @@ void SidebarLocator::showEvent(QShowEvent*)
     }
 }
 
-SidebarLocator::SidebarLocator(HolonMainPrivate *d, QWidget *parent)
+SidebarLocator::SidebarLocator(HolonDesktopPrivate *d, QWidget *parent)
 :   HBoxWidget(d, parent)
 {
     layout()->setSpacing(1);
 }
 
-SidebarSelector::SidebarSelector(HolonMainPrivate *d)
+SidebarSelector::SidebarSelector(HolonDesktopPrivate *d)
 :   HBoxWidget(d, d->q_ptr)
 {
+    QPushButton *startButton = new QPushButton(QIcon(":/holon/holoniconlight.svg"), "", this);
+    {
+        startButton->setFlat(true);
+        startButton->setMinimumSize(40, 40);
+        startButton->setIconSize({30, 30});
+        //startButton->setStyleSheet("qproperty-iconSize: 35px;");
+        //startButton->setStyleSheet("border-radius: 0px;");
+        startButton->setStyleSheet("background-color: red;");
+        layout()->addWidget(startButton);
+    }
+
     QPushButton *modeButton = new QPushButton(QIcon(":/holon/screwdriver.svg"),"", this);
     {
         modeButton->setFlat(true);

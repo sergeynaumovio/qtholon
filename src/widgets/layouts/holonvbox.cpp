@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021, 2022 Sergey Naumov
+** Copyright (C) 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -16,27 +16,36 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONWIDGETINTERFACE_H
-#define HOLONWIDGETINTERFACE_H
+#include "holonvbox.h"
+#include "holondesktop.h"
 
-#include "qtholonglobal.h"
-#include <QLoaderSettings>
+#include <QVBoxLayout>
 
-class HolonDesktop;
-class HolonTiled;
-class QWidget;
-
-class Q_HOLON_EXPORT HolonWidgetInterface : public QObject, public QLoaderSettings
+HolonVBox::HolonVBox(QLoaderSettings *settings, HolonDesktop *parent)
+:   QWidget(parent),
+    QLoaderSettings(settings)
 {
-    Q_OBJECT
+    if (!parent)
+    {
+        emitError("HolonDesktop not found");
+        return;
+    }
 
-protected:
-    HolonWidgetInterface(QLoaderSettings *settings, HolonDesktop *parent);
-    HolonWidgetInterface(QLoaderSettings *settings, HolonTiled *parent);
-    HolonDesktop *mainWindow() const;
+    setLayout(new Layout(this));
+    {
+        layout()->setContentsMargins({});
+    }
 
-public:
-    virtual QWidget *widget() = 0;
-};
+    parent->setWorkspace(this);
+}
 
-#endif // HOLONWIDGETINTERFACE_H
+HolonDesktop *HolonVBox::mainWindow() const
+{
+    return qobject_cast<HolonDesktop*>(parent());
+}
+
+HolonVBox::Layout *HolonVBox::layout() const
+{
+    return static_cast<Layout*>(QWidget::layout());
+}
+

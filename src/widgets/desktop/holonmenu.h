@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021, 2022 Sergey Naumov
+** Copyright (C) 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -16,17 +16,33 @@
 **
 ****************************************************************************/
 
-#include "holonstacked.h"
-#include "holonsplitted.h"
+#ifndef HOLONMENU_H
+#define HOLONMENU_H
 
-HolonStacked::HolonStacked(QLoaderSettings *settings, HolonSplitted *parent)
-:   QStackedWidget(parent),
-    QLoaderSettings(settings)
-{
-    parent->addWidget(this);
-}
+#include "qtholonglobal.h"
+#include <QPushButton>
+#include <QLoaderSettings>
 
-HolonMain *HolonStacked::mainWindow() const
+class HolonMenuPrivate;
+class HolonTaskbar;
+class QBoxLayout;
+
+class Q_HOLON_EXPORT HolonMenu : public QPushButton, public QLoaderSettings
 {
-    return qobject_cast<HolonSplitted*>(parent())->mainWindow();
-}
+    Q_OBJECT
+
+
+protected:
+    const QScopedPointer<HolonMenuPrivate> d_ptr;
+
+public:
+
+
+    HolonMenu(QLoaderSettings *settings, HolonTaskbar *parent);
+    ~HolonMenu();
+
+    HolonTaskbar *taskbar() const;
+
+};
+
+#endif // HOLONMENU_H

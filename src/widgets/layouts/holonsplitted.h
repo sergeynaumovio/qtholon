@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021 Sergey Naumov
+** Copyright (C) 2021, 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -16,33 +16,23 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONSIDEBARAREA_H
-#define HOLONSIDEBARAREA_H
+#ifndef HOLONSPLITTED_H
+#define HOLONSPLITTED_H
 
-#include "holonstacked.h"
+#include <QSplitter>
 #include <QLoaderSettings>
 
-class HolonMain;
-class HolonSidebar;
+class HolonDesktop;
 
-class HolonSidebarArea : public HolonStacked
+class HolonSplitted : public QSplitter, public QLoaderSettings
 {
     Q_OBJECT
 
-    int m_stateIndex{-1};
-    void setStateIndex(int i);
-
 public:
-    HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *parent);
+    HolonSplitted(QLoaderSettings *settings, HolonDesktop *parent);
+    HolonSplitted(QLoaderSettings *settings, HolonSplitted *parent);
 
-    bool addSidebar(HolonSidebar *sidebar);
-    void addWidget(QWidget *widget) = delete;
-    void hide();
-    HolonMain *mainWindow() const;
-    void setCurrentIndex(int i);
-    void setCurrentWidget(HolonSidebar *sidebar);
-    void show();
-    int stateIndex() const { return m_stateIndex; }
+    HolonDesktop *desktop() const;
 };
 
-#endif // HOLONSIDEBARAREA_H
+#endif // HOLONSPLITTED_H

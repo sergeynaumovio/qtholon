@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021 Sergey Naumov
+** Copyright (C) 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -16,27 +16,9 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONTILED_H
-#define HOLONTILED_H
+#include "holontaskbar_p.h"
 
-#include <QMainWindow>
-#include <QLoaderSettings>
-
-class HolonStacked;
-class HolonWidgetInterface;
-class HolonMain;
-
-class HolonTiled : public QMainWindow, public QLoaderSettings
-{
-    Q_OBJECT
-
-protected:
-    HolonTiled(QLoaderSettings *settings, HolonStacked *parent);
-
-    HolonMain *mainWindow() const;
-
-public:
-    void addWidget(HolonWidgetInterface *widget);
-};
-
-#endif // HOLONTILED_H
+HolonTaskbarPrivate::HolonTaskbarPrivate(HolonTaskbar *q, HolonDesktop *parent)
+:   q_ptr(q),
+    parent(parent)
+{ }

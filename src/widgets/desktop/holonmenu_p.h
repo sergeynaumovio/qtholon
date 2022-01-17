@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021 Sergey Naumov
+** Copyright (C) 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -16,24 +16,20 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONSTACKED_H
-#define HOLONSTACKED_H
+#ifndef HOLONMENU_P_H
+#define HOLONMENU_P_H
 
-#include <QStackedWidget>
-#include <QLoaderSettings>
 
-class HolonSplitted;
-class HolonMain;
+class HolonMenu;
+class HolonTaskbar;
 
-class HolonStacked : public QStackedWidget, public QLoaderSettings
+class HolonMenuPrivate
 {
-    Q_OBJECT
-
-protected:
-    HolonStacked(QLoaderSettings *settings, HolonSplitted *parent);
-
 public:
-    HolonMain *mainWindow() const;
+    HolonMenu *const q_ptr;
+    HolonTaskbar *const parent;
+
+    HolonMenuPrivate(HolonMenu *q, HolonTaskbar *parent);
 };
 
-#endif // HOLONSTACKED_H
+#endif // HOLONMENU_P_H

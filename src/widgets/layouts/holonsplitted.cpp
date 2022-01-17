@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021 Sergey Naumov
+** Copyright (C) 2021, 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -17,9 +17,9 @@
 ****************************************************************************/
 
 #include "holonsplitted.h"
-#include "holonmain.h"
+#include "holondesktop.h"
 
-HolonSplitted::HolonSplitted(QLoaderSettings *settings, HolonMain *parent)
+HolonSplitted::HolonSplitted(QLoaderSettings *settings, HolonDesktop *parent)
 :   QSplitter(parent),
     QLoaderSettings(settings)
 {
@@ -30,7 +30,7 @@ HolonSplitted::HolonSplitted(QLoaderSettings *settings, HolonMain *parent)
     if (value("layout").toString() == "vertical")
         setOrientation(Qt::Vertical);
 
-    parent->setCentralWidget(this);
+    parent->setWorkspace(this);
 }
 
 HolonSplitted::HolonSplitted(QLoaderSettings *settings, HolonSplitted *parent)
@@ -47,15 +47,15 @@ HolonSplitted::HolonSplitted(QLoaderSettings *settings, HolonSplitted *parent)
     parent->addWidget(this);
 }
 
-HolonMain *HolonSplitted::mainWindow() const
+HolonDesktop *HolonSplitted::desktop() const
 {
     QObject *object = parent();
     while (object)
     {
-        HolonMain *mainwindow = qobject_cast<HolonMain*>(object);
+        HolonDesktop *desktop = qobject_cast<HolonDesktop*>(object);
 
-        if (mainwindow)
-            return mainwindow;
+        if (desktop)
+            return desktop;
 
         object = object->parent();
     }

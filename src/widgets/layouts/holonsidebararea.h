@@ -16,27 +16,33 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONWIDGETINTERFACE_H
-#define HOLONWIDGETINTERFACE_H
+#ifndef HOLONSIDEBARAREA_H
+#define HOLONSIDEBARAREA_H
 
-#include "qtholonglobal.h"
+#include "holonstacked.h"
 #include <QLoaderSettings>
 
 class HolonDesktop;
-class HolonTiled;
-class QWidget;
+class HolonSidebar;
 
-class Q_HOLON_EXPORT HolonWidgetInterface : public QObject, public QLoaderSettings
+class HolonSidebarArea : public HolonStacked
 {
     Q_OBJECT
 
-protected:
-    HolonWidgetInterface(QLoaderSettings *settings, HolonDesktop *parent);
-    HolonWidgetInterface(QLoaderSettings *settings, HolonTiled *parent);
-    HolonDesktop *mainWindow() const;
+    int m_stateIndex{-1};
+    void setStateIndex(int i);
 
 public:
-    virtual QWidget *widget() = 0;
+    HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *parent);
+
+    bool addSidebar(HolonSidebar *sidebar);
+    void addWidget(QWidget *widget) = delete;
+    void hide();
+    HolonDesktop *desktop() const;
+    void setCurrentIndex(int i);
+    void setCurrentWidget(HolonSidebar *sidebar);
+    void show();
+    int stateIndex() const { return m_stateIndex; }
 };
 
-#endif // HOLONWIDGETINTERFACE_H
+#endif // HOLONSIDEBARAREA_H

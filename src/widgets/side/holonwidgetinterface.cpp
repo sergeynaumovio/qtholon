@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021 Sergey Naumov
+** Copyright (C) 2021, 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -17,10 +17,10 @@
 ****************************************************************************/
 
 #include "holonwidgetinterface.h"
-#include "holonmain.h"
+#include "holondesktop.h"
 #include "holontiled.h"
 
-HolonWidgetInterface::HolonWidgetInterface(QLoaderSettings *settings, HolonMain *parent)
+HolonWidgetInterface::HolonWidgetInterface(QLoaderSettings *settings, HolonDesktop *parent)
 :   QObject(parent),
     QLoaderSettings(settings)
 {
@@ -33,12 +33,12 @@ HolonWidgetInterface::HolonWidgetInterface(QLoaderSettings *settings, HolonTiled
     parent->addWidget(this);
 }
 
-HolonMain *HolonWidgetInterface::mainWindow() const
+HolonDesktop *HolonWidgetInterface::mainWindow() const
 {
     QObject *object = parent();
     while (object)
     {
-        HolonMain *mainwindow = qobject_cast<HolonMain*>(object);
+        HolonDesktop *mainwindow = qobject_cast<HolonDesktop*>(object);
 
         if (mainwindow)
             return mainwindow;

@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021, 2022 Sergey Naumov
+** Copyright (C) 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -16,27 +16,24 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONWIDGETINTERFACE_H
-#define HOLONWIDGETINTERFACE_H
+#ifndef HOLONTASKBAR_P_H
+#define HOLONTASKBAR_P_H
 
-#include "qtholonglobal.h"
-#include <QLoaderSettings>
+#include "holontaskbar.h"
 
+class HolonTaskbar;
 class HolonDesktop;
-class HolonTiled;
-class QWidget;
 
-class Q_HOLON_EXPORT HolonWidgetInterface : public QObject, public QLoaderSettings
+class HolonTaskbarPrivate
 {
-    Q_OBJECT
-
-protected:
-    HolonWidgetInterface(QLoaderSettings *settings, HolonDesktop *parent);
-    HolonWidgetInterface(QLoaderSettings *settings, HolonTiled *parent);
-    HolonDesktop *mainWindow() const;
-
 public:
-    virtual QWidget *widget() = 0;
+    HolonTaskbar *const q_ptr;
+    HolonDesktop *const parent;
+    HolonTaskbar::Area area;
+    int preferedHeight;
+    int preferedWidth;
+
+    HolonTaskbarPrivate(HolonTaskbar *q, HolonDesktop *parent);
 };
 
-#endif // HOLONWIDGETINTERFACE_H
+#endif // HOLONTASKBAR_P_H

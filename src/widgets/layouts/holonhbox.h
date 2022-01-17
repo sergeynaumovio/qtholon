@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021, 2022 Sergey Naumov
+** Copyright (C) 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -16,27 +16,26 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONWIDGETINTERFACE_H
-#define HOLONWIDGETINTERFACE_H
+#ifndef HOLONHBOX_H
+#define HOLONHBOX_H
 
-#include "qtholonglobal.h"
+#include <QWidget>
 #include <QLoaderSettings>
 
 class HolonDesktop;
-class HolonTiled;
-class QWidget;
+class QHBoxLayout;
 
-class Q_HOLON_EXPORT HolonWidgetInterface : public QObject, public QLoaderSettings
+class HolonHBox : public QWidget, QLoaderSettings
 {
     Q_OBJECT
 
-protected:
-    HolonWidgetInterface(QLoaderSettings *settings, HolonDesktop *parent);
-    HolonWidgetInterface(QLoaderSettings *settings, HolonTiled *parent);
-    HolonDesktop *mainWindow() const;
+    using Layout = QHBoxLayout;
 
 public:
-    virtual QWidget *widget() = 0;
+    HolonHBox(QLoaderSettings *settings, HolonDesktop *parent);
+
+    HolonDesktop *desktop() const;
+    Layout *layout() const;
 };
 
-#endif // HOLONWIDGETINTERFACE_H
+#endif // HOLONHBOX_H

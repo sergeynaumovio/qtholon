@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021, 2022 Sergey Naumov
+** Copyright (C) 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -16,8 +16,8 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONMAIN_P_H
-#define HOLONMAIN_P_H
+#ifndef HOLONDESKTOP_P_H
+#define HOLONDESKTOP_P_H
 
 #include <QList>
 #include <QMap>
@@ -25,7 +25,8 @@
 #include <QHash>
 #include <QPushButton>
 
-class HolonMain;
+class HolonDesktop;
+class HolonTaskbar;
 class QLoaderTree;
 class HolonSidebarArea;
 class HolonSidebar;
@@ -42,11 +43,13 @@ struct SidebarRelatedObjects
     SidebarButton *button;
 };
 
-class HolonMainPrivate
+class HolonDesktopPrivate
 {
 public:
-    HolonMain *const q_ptr;
+    HolonDesktop *const q_ptr;
     QLoaderTree *tree;
+    HolonTaskbar *taskbar{};
+    QWidget *workspace{};
 
     QList<QChar> sidebarList;
 
@@ -55,17 +58,19 @@ public:
     QStringList sidebarAreaList;
     QMap<QString, HolonSidebarArea*> sidebarAreas;
 
-    SidebarActivator *sidebarActivator;
-    SidebarLocator *sidebarLocator;
+    SidebarActivator *sidebarActivator{};
+    SidebarLocator *sidebarLocator{};
 
     QHash<QString, HolonWidgetInterface*> widgets;
 
 
-    HolonMainPrivate(HolonMain *q);
+    HolonDesktopPrivate(HolonDesktop *q);
 
     bool mapSidebarArea(QString area, HolonSidebarArea *q);
     bool mapSidebar(QPair<QChar, HolonSidebar*> sidebar,
                     QPair<QString, HolonSidebarArea*> area, Qt::CheckState checkState);
+    bool setTaskbar(HolonTaskbar *taskbar);
+    bool setWorkspace(QWidget *widget);
 };
 
 class HBoxWidget : public QWidget
@@ -75,9 +80,9 @@ class HBoxWidget : public QWidget
     using Layout = QHBoxLayout;
 
 protected:
-    HolonMainPrivate *d_ptr;
+    HolonDesktopPrivate *d_ptr;
 
-    HBoxWidget(HolonMainPrivate *d, QWidget *parent);
+    HBoxWidget(HolonDesktopPrivate *d, QWidget *parent);
 
     Layout *layout();
 };
@@ -101,9 +106,9 @@ class SidebarActivator : public HBoxWidget
     Q_OBJECT
 
     friend class SidebarSelector;
-    SidebarActivator(HolonMainPrivate *d, QWidget *parent);
+    SidebarActivator(HolonDesktopPrivate *d, QWidget *parent);
 
-    friend class HolonMainPrivate;
+    friend class HolonDesktopPrivate;
     void insertSidebarButton(int index, QChar sidebar, QString area, Qt::CheckState checkState);
 
 Q_SIGNALS:
@@ -119,15 +124,15 @@ class SidebarLocator : public HBoxWidget
     void showEvent(QShowEvent*) override;
 
     friend class SidebarSelector;
-    SidebarLocator(HolonMainPrivate *d, QWidget *parent);
+    SidebarLocator(HolonDesktopPrivate *d, QWidget *parent);
 };
 
 class SidebarSelector : public HBoxWidget
 {
     Q_OBJECT
 
-    friend class HolonMain;
-    SidebarSelector(HolonMainPrivate *d);
+    friend class HolonDesktop;
+    SidebarSelector(HolonDesktopPrivate *d);
 };
 
-#endif // HOLONMAIN_P_H
+#endif // HOLONDESKTOP_P_H

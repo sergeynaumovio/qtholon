@@ -18,34 +18,33 @@
 
 #include "holonsidebar.h"
 #include "holonsidebararea.h"
-#include "holonmain.h"
-#include "holonmain_p.h"
+#include "holondesktop.h"
+#include "holondesktop_p.h"
 
 HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonSidebarArea *parent)
 :   HolonTiled(settings, parent)
 {
-    HolonMain *main = mainWindow();
-    if (!main)
+    if (!desktop())
     {
-        setObjectError("HolonMain not found");
+        emitError("HolonDesktop not found");
         return;
     }
 
     if (section().last().size() != 1)
     {
-        setObjectError("sidebar name is not a char");
+        emitError("sidebar name is not a char");
         return;
     }
 
     Qt::CheckState checkState = (!parent->isHidden() && parent->stateIndex() == parent->count() ? Qt::Checked : Qt::Unchecked);
 
-    if (!main->d_ptr->mapSidebar({section().last().at(0), this},
+    /*if (!desktop()->d_ptr->mapSidebar({section().last().at(0), this},
                                  {parent->objectName(), parent}, checkState))
     {
-        setObjectError("sidebar name is not in list or already used");
+        emitError("sidebar name is not in list or already used");
         return;
     }
-
+*/
     parent->addSidebar(this);
 
     if (checkState)

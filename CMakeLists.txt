@@ -33,24 +33,36 @@ add_library(${QT_HOLON_LIBRARY} SHARED)
 target_sources(${QT_HOLON_LIBRARY}
     PRIVATE src/plugin.cpp
             src/core/qtholonglobal.h
-            src/widgets/holonmain.h
-            src/widgets/holonmain.cpp
-            src/widgets/holonmain_p.h
-            src/widgets/holonmain_p.cpp
+            src/widgets/desktop/holondesktop.h
+            src/widgets/desktop/holondesktop.cpp
+            src/widgets/desktop/holondesktop_p.h
+            src/widgets/desktop/holondesktop_p.cpp
+            src/widgets/desktop/holontaskbar.h
+            src/widgets/desktop/holontaskbar.cpp
+            src/widgets/desktop/holontaskbar_p.h
+            src/widgets/desktop/holontaskbar_p.cpp
+            src/widgets/desktop/holonmenu.h
+            src/widgets/desktop/holonmenu.cpp
+            src/widgets/desktop/holonmenu_p.h
+            src/widgets/desktop/holonmenu_p.cpp
 
-            src/widgets/layout/holonsplitted.h
-            src/widgets/layout/holonsplitted.cpp
-            src/widgets/layout/holonstacked.h
-            src/widgets/layout/holonstacked.cpp
-            src/widgets/layout/holontiled.cpp
-            src/widgets/layout/holontiled.h
-            src/widgets/layout/holonsidebar.h
-            src/widgets/layout/holonsidebar.cpp
-            src/widgets/layout/holonsidebararea.h
-            src/widgets/layout/holonsidebararea.cpp
+            src/widgets/layouts/holonhbox.h
+            src/widgets/layouts/holonhbox.cpp
+            src/widgets/layouts/holonvbox.h
+            src/widgets/layouts/holonvbox.cpp
+            src/widgets/layouts/holonsplitted.h
+            src/widgets/layouts/holonsplitted.cpp
+            src/widgets/layouts/holonstacked.h
+            src/widgets/layouts/holonstacked.cpp
+            src/widgets/layouts/holontiled.cpp
+            src/widgets/layouts/holontiled.h
+            src/widgets/layouts/holonsidebar.h
+            src/widgets/layouts/holonsidebar.cpp
+            src/widgets/layouts/holonsidebararea.h
+            src/widgets/layouts/holonsidebararea.cpp
 
-            src/widgets/control/holonlabel.h
-            src/widgets/control/holonlabel.cpp
+            src/widgets/controls/holonlabel.h
+            src/widgets/controls/holonlabel.cpp
 
             src/widgets/side/holonwidgetinterface.h
             src/widgets/side/holonwidgetinterface.cpp
@@ -63,15 +75,16 @@ target_sources(${QT_HOLON_LIBRARY}
 target_include_directories(${QT_HOLON_LIBRARY}
     PRIVATE src/core
             src/widgets
-            src/widgets/layout
-            src/widgets/control
+            src/widgets/desktop
+            src/widgets/layouts
+            src/widgets/controls
             src/widgets/side
 )
 
 set(QT_HOLON_PUBLIC_HEADERS
     src/core/qtholonglobal.h
-    src/widgets/HolonMain
-    src/widgets/holonmain.h
+    src/widgets/desktop/HolonDesktop
+    src/widgets/desktop/holondesktop.h
 )
 
 set_target_properties(${QT_HOLON_LIBRARY} PROPERTIES
@@ -92,7 +105,8 @@ target_compile_definitions(${QT_HOLON_LIBRARY}
 qt_add_resources(${QT_HOLON_LIBRARY} "Holon"
     PREFIX "/holon"
     BASE "share/icons"
-    FILES share/icons/quit.svg
+    FILES share/icons/holoniconlight.svg
+          share/icons/quit.svg
           share/icons/screwdriver.svg
 )
 

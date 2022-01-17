@@ -19,8 +19,8 @@
 #include "holonsidebararea.h"
 #include "holonstacked.h"
 #include "holonsplitted.h"
-#include "holonmain.h"
-#include "holonmain_p.h"
+#include "holondesktop.h"
+#include "holondesktop_p.h"
 #include "holonsidebar.h"
 
 #include <QLoaderTree>
@@ -29,23 +29,25 @@
 HolonSidebarArea::HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *parent)
 :   HolonStacked(settings, parent)
 {
-    HolonMain *main = mainWindow();
-    if (!main)
+    if (!desktop())
     {
-        setObjectError("HolonMain not found");
+        emitError("HolonDesktop not found");
         return;
     }
 
-    if (!main->d_ptr->mapSidebarArea(section().last(), this))
+    if (!desktop()->d_ptr->mapSidebarArea(section().last(), this))
     {
-        setObjectError("sidebar area name is not in list or already used");
+        emitError("sidebar area name is not in list or already used");
         return;
     }
 
     if (contains("stateIndex"))
         setStateIndex(value("stateIndex").toInt());
 
-    connect(main->d_ptr->sidebarActivator, &SidebarActivator::sidebarButtonClicked, this, [this](QChar sidebar, QString area)
+    if (!desktop()->d_ptr->sidebarActivator)
+        return;
+
+    connect(desktop()->d_ptr->sidebarActivator, &SidebarActivator::sidebarButtonClicked, this, [this](QChar sidebar, QString area)
     {
         if (objectName() == area)
         {
@@ -94,7 +96,7 @@ bool HolonSidebarArea::addSidebar(HolonSidebar *sidebar)
 
     if (tree()->move(src, dst))
     {
-        SidebarRelatedObjects &sidebarObjects = mainWindow()->d_ptr->sidebarRelatedObjects[sidebar->objectName().at(0)];
+        SidebarRelatedObjects &sidebarObjects = desktop()->d_ptr->sidebarRelatedObjects[sidebar->objectName().at(0)];
         HolonSidebar *sidebar = sidebarObjects.sidebar;
         SidebarButton *button = sidebarObjects.button;
         HolonSidebarArea *prev = sidebarObjects.area;
@@ -106,7 +108,7 @@ bool HolonSidebarArea::addSidebar(HolonSidebar *sidebar)
 
         if (isVisible())
         {
-            for (SidebarRelatedObjects value : qAsConst(mainWindow()->d_ptr->sidebarRelatedObjects))
+            for (SidebarRelatedObjects value : qAsConst(desktop()->d_ptr->sidebarRelatedObjects))
             {
                 if (value.sidebar == currentWidget())
                     value.button->setChecked(false);
@@ -133,9 +135,9 @@ void HolonSidebarArea::hide()
     setValue("hidden", true);
 }
 
-HolonMain *HolonSidebarArea::mainWindow() const
+HolonDesktop *HolonSidebarArea::desktop() const
 {
-    return qobject_cast<HolonSplitted*>(parent())->mainWindow();
+    return qobject_cast<HolonSplitted*>(parent())->desktop();
 }
 
 void HolonSidebarArea::setCurrentIndex(int i)

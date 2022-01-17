@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021, 2022 Sergey Naumov
+** Copyright (C) 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -16,20 +16,23 @@
 **
 ****************************************************************************/
 
-#include "holonmain.h"
-#include "holonmain_p.h"
+#include "holondesktop.h"
+#include "holondesktop_p.h"
+#include "holontaskbar.h"
 #include <QRegularExpression>
 #include <QStatusBar>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 
-void HolonMain::closeEvent(QCloseEvent*)
+void HolonDesktop::closeEvent(QCloseEvent*)
 {
     hide();
     deleteLater();
 }
 
-HolonMain::HolonMain(QLoaderSettings *settings, QWidget *parent)
+HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
 :   QLoaderSettings(settings),
-    d_ptr(new HolonMainPrivate(this))
+    d_ptr(new HolonDesktopPrivate(this))
 {
     setParent(parent);
 
@@ -43,7 +46,7 @@ HolonMain::HolonMain(QLoaderSettings *settings, QWidget *parent)
     }
     else
     {
-        setObjectError("sidebarAreaList property is not set");
+        emitError("sidebarAreaList property is not set");
         return;
     }
 
@@ -55,7 +58,7 @@ HolonMain::HolonMain(QLoaderSettings *settings, QWidget *parent)
         {
             if (s.size() != 1)
             {
-                setObjectError("sidebarList item is not a char");
+                emitError("sidebarList item is not a char");
                 return;
             }
             d_ptr->sidebarList.append(s.at(0));
@@ -63,31 +66,47 @@ HolonMain::HolonMain(QLoaderSettings *settings, QWidget *parent)
     }
     else
     {
-        setObjectError("sidebarList property is not set");
+        emitError("sidebarList property is not set");
         return;
     }
 
-    statusBar()->addWidget(new SidebarSelector(d_ptr.data()), 1);
+    //statusBar()->addWidget(new SidebarSelector(d_ptr.data()), 1);
+    //statusBar()->setMinimumHeight(40);
+    //statusBar()->setStyleSheet("border: 1px solid red;");
 
-    setStyleSheet("QStatusBar { background-color : rgb(64, 66, 68) }"
+    setStyleSheet("QStatusBar { background-color : rgb(64, 66, 68); }"
                   "QStatusBar::item { border: 0px }");
 }
 
-HolonMain::~HolonMain()
+HolonDesktop::~HolonDesktop()
 { }
 
-void HolonMain::setWindowTitle(const QString &title)
-{
-    setValue("windowTitle", title);
-    QMainWindow::setWindowTitle(title);
-}
-
-QStringList HolonMain::sidebarAreaList() const
+QStringList HolonDesktop::sidebarAreaList() const
 {
     return d_ptr->sidebarAreaList;
 }
 
-QList<QChar> HolonMain::sidebarList() const
+QList<QChar> HolonDesktop::sidebarList() const
 {
     return d_ptr->sidebarList;
+}
+
+bool HolonDesktop::setTaskbar(HolonTaskbar *taskbar)
+{
+    return d_ptr->setTaskbar(taskbar);
+}
+
+bool HolonDesktop::setWorkspace(QWidget *widget)
+{
+    return d_ptr->setWorkspace(widget);
+}
+
+HolonTaskbar *HolonDesktop::taskbar() const
+{
+    return d_ptr->taskbar;
+}
+
+QWidget *HolonDesktop::workspace() const
+{
+    return d_ptr->workspace;
 }

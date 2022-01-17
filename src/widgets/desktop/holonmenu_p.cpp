@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021 Sergey Naumov
+** Copyright (C) 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -16,23 +16,13 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONSPLITTED_H
-#define HOLONSPLITTED_H
+#include "holonmenu_p.h"
+#include "holonmenu.h"
+#include "holontaskbar.h"
+#include "holondesktop.h"
+#include <QPushButton>
 
-#include <QSplitter>
-#include <QLoaderSettings>
-
-class HolonMain;
-
-class HolonSplitted : public QSplitter, public QLoaderSettings
-{
-    Q_OBJECT
-
-public:
-    HolonSplitted(QLoaderSettings *settings, HolonMain *parent);
-    HolonSplitted(QLoaderSettings *settings, HolonSplitted *parent);
-
-    HolonMain *mainWindow() const;
-};
-
-#endif // HOLONSPLITTED_H
+HolonMenuPrivate::HolonMenuPrivate(HolonMenu *q, HolonTaskbar *parent)
+:   q_ptr(q),
+    parent(parent)
+{ }
