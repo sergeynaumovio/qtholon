@@ -24,10 +24,15 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-void HolonDesktop::closeEvent(QCloseEvent*)
+void HolonDesktop::closeEvent(QCloseEvent *)
 {
     hide();
     deleteLater();
+}
+
+void HolonDesktop::resizeEvent(QResizeEvent *)
+{
+    emit sizeChanged(size());
 }
 
 HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
@@ -69,10 +74,6 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
         emitError("sidebarList property is not set");
         return;
     }
-
-    //statusBar()->addWidget(new SidebarSelector(d_ptr.data()), 1);
-    //statusBar()->setMinimumHeight(40);
-    //statusBar()->setStyleSheet("border: 1px solid red;");
 
     setStyleSheet("QStatusBar { background-color : rgb(64, 66, 68); }"
                   "QStatusBar::item { border: 0px }");

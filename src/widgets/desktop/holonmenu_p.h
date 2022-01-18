@@ -19,17 +19,34 @@
 #ifndef HOLONMENU_P_H
 #define HOLONMENU_P_H
 
+#include <QWidget>
 
 class HolonMenu;
 class HolonTaskbar;
+class HolonMenuWidget;
+class HolonDesktop;
 
 class HolonMenuPrivate
 {
 public:
     HolonMenu *const q_ptr;
-    HolonTaskbar *const parent;
+    HolonTaskbar *const taskbar;
+    HolonMenuWidget *menu;
 
     HolonMenuPrivate(HolonMenu *q, HolonTaskbar *parent);
+};
+
+class HolonMenuWidget : public QWidget
+{
+    Q_OBJECT
+
+    HolonMenuPrivate *d_ptr;
+
+protected:
+    void paintEvent(QPaintEvent *) override;
+
+public:
+    HolonMenuWidget(HolonMenuPrivate *d, HolonDesktop *parent);
 };
 
 #endif // HOLONMENU_P_H

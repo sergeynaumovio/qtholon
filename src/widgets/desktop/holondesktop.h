@@ -41,7 +41,11 @@ class Q_HOLON_EXPORT HolonDesktop : public QMainWindow, public QLoaderSettings
 protected:
     const QScopedPointer<HolonDesktopPrivate> d_ptr;
 
-    void closeEvent(QCloseEvent*) override;
+    void closeEvent(QCloseEvent *) override;
+    void resizeEvent(QResizeEvent *) override;
+
+Q_SIGNALS:
+    void sizeChanged(QSize);
 
 public:
     HolonDesktop(QLoaderSettings *settings, QWidget *parent);

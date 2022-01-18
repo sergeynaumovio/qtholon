@@ -60,5 +60,5 @@ HolonMenu::~HolonMenu()
 
 HolonTaskbar *HolonMenu::taskbar() const
 {
-    return d_ptr->parent;
+    return d_ptr->taskbar;
 }

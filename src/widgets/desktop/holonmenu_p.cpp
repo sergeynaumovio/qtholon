@@ -20,9 +20,64 @@
 #include "holonmenu.h"
 #include "holontaskbar.h"
 #include "holondesktop.h"
-#include <QPushButton>
+#include <QVBoxLayout>
+#include <QStyleOption>
+#include <QPainter>
+#include <QShortcut>
+#include <QLoaderTree>
 
 HolonMenuPrivate::HolonMenuPrivate(HolonMenu *q, HolonTaskbar *parent)
 :   q_ptr(q),
-    parent(parent)
+    taskbar(parent),
+    menu(new HolonMenuWidget(this, parent->desktop()))
 { }
+
+void HolonMenuWidget::paintEvent(QPaintEvent *)
+{
+    QStyleOption opt;
+    opt.initFrom(this);
+    QPainter p(this);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+}
+
+HolonMenuWidget::HolonMenuWidget(HolonMenuPrivate *d, HolonDesktop *parent)
+:   QWidget(parent),
+    d_ptr(d)
+{
+    setLayout(new QVBoxLayout(this));
+    setStyleSheet(d_ptr->taskbar->styleSheet());
+
+    connect(d->q_ptr, &QPushButton::clicked, this, [this]()
+    {
+        if (isVisible())
+            hide();
+        else
+            show();
+    });
+
+    connect(d->taskbar->desktop(), &HolonDesktop::sizeChanged, this, [this](QSize size)
+    {
+        move(x(), size.height() - d_ptr->taskbar->preferedHeight() - height());
+    });
+
+    QPushButton *quitButton = new QPushButton("Quit", this);
+    {
+        connect(quitButton, &QPushButton::clicked, this, [d]()
+        {
+            d->taskbar->desktop()->deleteLater();
+        });
+
+        QShortcut *shortcut = new QShortcut(d->taskbar->desktop());
+        {
+            shortcut->setKey(QKeySequence("Ctrl+Q"));
+            connect(shortcut, &QShortcut::activated, quitButton, [=, this]
+            {
+                d_ptr->q_ptr->tree()->save();
+                quitButton->click();
+            });
+        }
+
+        quitButton->setFlat(true);
+        layout()->addWidget(quitButton);
+    }
+}
