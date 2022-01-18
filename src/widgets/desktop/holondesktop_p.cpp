@@ -82,7 +82,7 @@ bool HolonDesktopPrivate::mapSidebar(QPair<QChar, HolonSidebar*> sidebar,
 
 bool HolonDesktopPrivate::setTaskbar(HolonTaskbar *taskbar)
 {
-    if (this->taskbar)
+    if (desktop.taskbar)
     {
         q_ptr->emitError("Desktop taskbar is already set");
         return false;
@@ -116,14 +116,14 @@ bool HolonDesktopPrivate::setTaskbar(HolonTaskbar *taskbar)
         }
     }
 
-    this->taskbar = taskbar;
+    desktop.taskbar = taskbar;
 
     return true;
 }
 
 bool HolonDesktopPrivate::setWorkspace(QWidget *widget)
 {
-    if (workspace)
+    if (desktop.workspace)
     {
         q_ptr->emitError("Desktop workspace is already set");
         return false;
@@ -133,10 +133,10 @@ bool HolonDesktopPrivate::setWorkspace(QWidget *widget)
 
     if (central)
     {
-        if (taskbar)
+        if (desktop.taskbar)
         {
-            if (taskbar->area() == HolonTaskbar::Left ||
-                taskbar->area() == HolonTaskbar::Top)
+            if (desktop.taskbar->area() == HolonTaskbar::Left ||
+                desktop.taskbar->area() == HolonTaskbar::Top)
             {
                 central->layout()->addWidget(widget);
             }
@@ -147,7 +147,7 @@ bool HolonDesktopPrivate::setWorkspace(QWidget *widget)
         }
     }
 
-    workspace = widget;
+    desktop.workspace = widget;
 
     return true;
 }

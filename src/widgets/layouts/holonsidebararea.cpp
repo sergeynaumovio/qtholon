@@ -97,7 +97,6 @@ bool HolonSidebarArea::addSidebar(HolonSidebar *sidebar)
     if (tree()->move(src, dst))
     {
         SidebarRelatedObjects &sidebarObjects = desktop()->d_ptr->sidebarRelatedObjects[sidebar->objectName().at(0)];
-        HolonSidebar *sidebar = sidebarObjects.sidebar;
         SidebarButton *button = sidebarObjects.button;
         HolonSidebarArea *prev = sidebarObjects.area;
 

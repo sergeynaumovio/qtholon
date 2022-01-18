@@ -103,10 +103,10 @@ bool HolonDesktop::setWorkspace(QWidget *widget)
 
 HolonTaskbar *HolonDesktop::taskbar() const
 {
-    return d_ptr->taskbar;
+    return d_ptr->desktop.taskbar;
 }
 
 QWidget *HolonDesktop::workspace() const
 {
-    return d_ptr->workspace;
+    return d_ptr->desktop.workspace;
 }

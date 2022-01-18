@@ -48,8 +48,13 @@ class HolonDesktopPrivate
 public:
     HolonDesktop *const q_ptr;
     QLoaderTree *tree;
-    HolonTaskbar *taskbar{};
-    QWidget *workspace{};
+
+    struct
+    {
+        HolonTaskbar *taskbar{};
+        QWidget *workspace{};
+
+    } desktop;
 
     QList<QChar> sidebarList;
 
