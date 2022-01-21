@@ -41,6 +41,7 @@ public:
     HolonDesktop *desktop() const;
     void setCurrentIndex(int i);
     void setCurrentWidget(HolonSidebar *sidebar);
+    void setCurrentWidget(QWidget *widget) = delete;
     void show();
     int stateIndex() const { return m_stateIndex; }
 };

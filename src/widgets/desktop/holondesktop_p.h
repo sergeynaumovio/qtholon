@@ -98,7 +98,7 @@ class SidebarButton : public QPushButton
 
     friend class SidebarActivator;
     friend class SidebarLocator;
-    friend class HolonSidebarArea;
+    friend class HolonSidebar;
 
     QChar sidebar;
     QString area;

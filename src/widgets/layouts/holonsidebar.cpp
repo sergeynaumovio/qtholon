@@ -20,6 +20,7 @@
 #include "holonsidebararea.h"
 #include "holondesktop.h"
 #include "holondesktop_p.h"
+#include <QLoaderTree>
 
 HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonSidebarArea *parent)
 :   HolonTiled(settings, parent)
@@ -49,4 +50,40 @@ HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonSidebarArea *parent)
 
     if (checkState)
         parent->setCurrentWidget(this);
+}
+
+bool HolonSidebar::move(const QStringList &to)
+{
+    HolonSidebarArea *area = qobject_cast<HolonSidebarArea*>(tree()->object(to));
+    if (!area)
+        return false;
+
+    SidebarRelatedObjects &sidebarObjects = desktop()->d_ptr->sidebarRelatedObjects[objectName().at(0)];
+    SidebarButton *button = sidebarObjects.button;
+    HolonSidebarArea *prev = sidebarObjects.area;
+
+    if (button->isChecked())
+        prev->hide();
+    else
+        button->setChecked(true);
+
+    if (isVisible())
+    {
+        for (SidebarRelatedObjects value : qAsConst(desktop()->d_ptr->sidebarRelatedObjects))
+        {
+            if (value.sidebar == area->currentWidget())
+                value.button->setChecked(false);
+        }
+    }
+    else
+        show();
+
+    QStackedWidget *widget = area;
+    widget->addWidget(this);
+    widget->setCurrentWidget(this);
+
+    button->area = area->objectName();
+    sidebarObjects.area = area;
+
+    return true;
 }

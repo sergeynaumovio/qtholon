@@ -84,8 +84,8 @@ void HolonSidebarArea::setStateIndex(int i)
 bool HolonSidebarArea::addSidebar(HolonSidebar *sidebar)
 {
     QStringList src(sidebar->section());
+    QStringList dst(this->section());
 
-    QStringList dst = section();
     dst.append(src.last());
 
     if (std::equal(src.begin(), src.end(), dst.begin()))
@@ -94,38 +94,7 @@ bool HolonSidebarArea::addSidebar(HolonSidebar *sidebar)
         return true;
     }
 
-    if (tree()->move(src, dst))
-    {
-        SidebarRelatedObjects &sidebarObjects = desktop()->d_ptr->sidebarRelatedObjects[sidebar->objectName().at(0)];
-        SidebarButton *button = sidebarObjects.button;
-        HolonSidebarArea *prev = sidebarObjects.area;
-
-        if (button->isChecked())
-            prev->hide();
-        else
-            button->setChecked(true);
-
-        if (isVisible())
-        {
-            for (SidebarRelatedObjects value : qAsConst(desktop()->d_ptr->sidebarRelatedObjects))
-            {
-                if (value.sidebar == currentWidget())
-                    value.button->setChecked(false);
-            }
-        }
-        else
-            show();
-
-        QStackedWidget::addWidget(sidebar);
-        setCurrentWidget(sidebar);
-
-        button->area = objectName();
-        sidebarObjects.area = this;
-
-        return true;
-    }
-
-    return false;
+    return tree()->move(src, dst);
 }
 
 void HolonSidebarArea::hide()

@@ -20,15 +20,19 @@
 #define HOLONSIDEBAR_H
 
 #include "holontiled.h"
+#include <QLoaderMoveInterface>
 
 class HolonSidebarArea;
 
-class HolonSidebar : public HolonTiled
+class HolonSidebar : public HolonTiled, QLoaderMoveInterface
 {
     Q_OBJECT
+    Q_INTERFACES(QLoaderMoveInterface)
 
 public:
     HolonSidebar(QLoaderSettings *settings, HolonSidebarArea *parent);
+
+    bool move(const QStringList &to) override;
 };
 
 #endif // HOLONSIDEBAR_H
