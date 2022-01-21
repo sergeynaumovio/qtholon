@@ -52,7 +52,10 @@ HolonMenuWidget::HolonMenuWidget(HolonMenuPrivate *d, HolonDesktop *parent)
         if (isVisible())
             hide();
         else
+        {
+            move(x(), d_ptr->taskbar->desktop()->height() - d_ptr->taskbar->preferedHeight() - height());
             show();
+        }
     });
 
     connect(d->taskbar->desktop(), &HolonDesktop::sizeChanged, this, [this](QSize size)
