@@ -35,6 +35,21 @@ void HolonDesktop::resizeEvent(QResizeEvent *)
     emit sizeChanged(size());
 }
 
+QVariant HolonDesktop::fromString(const QString &string) const
+{
+    QVariant variant = d_ptr->fromString(string);
+
+    if (!variant.isNull())
+        return variant;
+
+    return QLoaderSettings::fromString(string);
+}
+
+QString HolonDesktop::fromVariant(const QVariant &variant) const
+{
+    return QLoaderSettings::fromVariant(variant);
+}
+
 HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
 :   QLoaderSettings(settings),
     d_ptr(new HolonDesktopPrivate(this))
@@ -45,10 +60,7 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
         show();
 
     if (contains("sidebarAreaList"))
-    {
-        QRegularExpression whiteSpace("\\s+");
-        d_ptr->sidebarAreaList = value("sidebarAreaList").toString().remove(whiteSpace).split(',');
-    }
+        d_ptr->sidebarAreaList = value("sidebarAreaList").toStringList();
     else
     {
         emitError("sidebarAreaList property is not set");
@@ -57,16 +69,11 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
 
     if (contains("sidebarList"))
     {
-        QRegularExpression whiteSpace("\\s+");
-        const QStringList sidebarList = value("sidebarList").toString().remove(whiteSpace).split(',');
-        for (const QString &s : sidebarList)
+        d_ptr->sidebarList = value("sidebarList").value<QCharList>();
+        if (!d_ptr->sidebarList.size())
         {
-            if (s.size() != 1)
-            {
-                emitError("sidebarList item is not a char");
-                return;
-            }
-            d_ptr->sidebarList.append(s.at(0));
+            emitError("sidebarList item is not a char");
+            return;
         }
     }
     else
@@ -87,7 +94,7 @@ QStringList HolonDesktop::sidebarAreaList() const
     return d_ptr->sidebarAreaList;
 }
 
-QList<QChar> HolonDesktop::sidebarList() const
+QCharList HolonDesktop::sidebarList() const
 {
     return d_ptr->sidebarList;
 }

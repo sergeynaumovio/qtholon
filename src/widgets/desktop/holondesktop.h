@@ -26,6 +26,9 @@
 class HolonDesktopPrivate;
 class HolonTaskbar;
 class HolonWorkspace;
+class HolonSidebarArea;
+
+using QCharList = QList<QChar>;
 
 class Q_HOLON_EXPORT HolonDesktop : public QMainWindow, public QLoaderSettings
 {
@@ -43,6 +46,8 @@ protected:
 
     void closeEvent(QCloseEvent *) override;
     void resizeEvent(QResizeEvent *) override;
+    QVariant fromString(const QString &string) const override;
+    QString fromVariant(const QVariant &variant) const override;
 
 Q_SIGNALS:
     void sizeChanged(QSize);
@@ -64,8 +69,9 @@ public:
     QWidget *statusBar() = delete;
 
     QStringList sidebarAreaList() const;
-    QList<QChar> sidebarList() const;
+    QCharList sidebarList() const;
 
+    void addSidebarArea(HolonSidebarArea *area);
     bool setTaskbar(HolonTaskbar *taskbar);
     bool setWorkspace(QWidget *widget);
     HolonTaskbar *taskbar() const;

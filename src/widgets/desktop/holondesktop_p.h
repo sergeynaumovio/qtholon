@@ -24,6 +24,7 @@
 #include <QSet>
 #include <QHash>
 #include <QPushButton>
+#include <QRegularExpression>
 
 class HolonDesktop;
 class HolonTaskbar;
@@ -45,6 +46,8 @@ struct SidebarRelatedObjects
 
 class HolonDesktopPrivate
 {
+    const QRegularExpression charlist;
+
 public:
     HolonDesktop *const q_ptr;
     QLoaderTree *tree;
@@ -70,6 +73,8 @@ public:
 
 
     HolonDesktopPrivate(HolonDesktop *q);
+
+    QVariant fromString(const QString &value) const;
 
     bool mapSidebarArea(QString area, HolonSidebarArea *q);
     bool mapSidebar(QPair<QChar, HolonSidebar*> sidebar,

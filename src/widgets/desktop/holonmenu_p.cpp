@@ -20,11 +20,39 @@
 #include "holonmenu.h"
 #include "holontaskbar.h"
 #include "holondesktop.h"
+#include <QKeyEvent>
 #include <QVBoxLayout>
 #include <QStyleOption>
 #include <QPainter>
 #include <QShortcut>
 #include <QLoaderTree>
+
+class HolonMenuPress : public QObject
+{
+    HolonMenu *menu;
+
+public:
+    HolonMenuPress(HolonMenu *menu)
+    :   QObject(menu),
+        menu(menu)
+    { }
+
+    bool eventFilter(QObject *, QEvent *event) override
+    {
+        if (event->type() == QEvent::KeyPress)
+        {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            if (keyEvent->key() == Qt::Key_Super_L ||
+                keyEvent->key() == Qt::Key_Super_R)
+            {
+                menu->click();
+                return true;
+            }
+        }
+
+        return false;
+    }
+};
 
 HolonMenuPrivate::HolonMenuPrivate(HolonMenu *q, HolonTaskbar *parent)
 :   q_ptr(q),
@@ -44,6 +72,8 @@ HolonMenuWidget::HolonMenuWidget(HolonMenuPrivate *d, HolonDesktop *parent)
 :   QWidget(parent),
     d_ptr(d)
 {
+    d_ptr->taskbar->desktop()->installEventFilter(new HolonMenuPress(d->q_ptr));
+
     setLayout(new QVBoxLayout(this));
     setStyleSheet(d_ptr->taskbar->styleSheet());
 

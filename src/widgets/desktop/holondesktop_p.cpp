@@ -30,9 +30,37 @@
 #include <QButtonGroup>
 
 HolonDesktopPrivate::HolonDesktopPrivate(HolonDesktop *q)
-:   q_ptr(q),
+:   charlist("^QCharList\\s*\\(\\s*(?<list>.*)\\)"),
+    q_ptr(q),
     tree(q->tree())
 { }
+
+QVariant HolonDesktopPrivate::fromString(const QString &value) const
+{
+    QRegularExpressionMatch match;
+    QVariant variant;
+
+    if ((match = charlist.match(value)).hasMatch())
+    {
+        QStringList stringlist = match.captured("list").split(',');
+        QCharList list;
+
+        for (QString &string : stringlist)
+        {
+            string = string.trimmed();
+            if (string.size() != 1)
+                return QVariant();
+
+            list.append(string.at(0));
+        }
+
+        variant.setValue(list);
+
+        return variant;
+    }
+
+    return {};
+}
 
 bool HolonDesktopPrivate::mapSidebarArea(QString area, HolonSidebarArea *q)
 {
