@@ -19,7 +19,6 @@
 #include "holontask.h"
 #include "holoncore.h"
 #include "holondesktop.h"
-#include "holondesktop_p.h"
 
 HolonTask::HolonTask(QLoaderSettings *settings, HolonCore *parent)
 :   QObject(parent),
@@ -45,15 +44,21 @@ int HolonTask::exec()
 
 void HolonTask::setWidget(QWidget *widget)
 {
-    Q_UNUSED(widget)
-    //desktop()->d_ptr->
-    //desktop()->d_ptr->tasks->addWidget(widget);
-
+    m_widget = widget;
 }
 
 void HolonTask::setWorkspace(HolonWorkspace *workspace)
 {
-    Q_UNUSED(workspace)
-    //desktop()->d_ptr->tasks->addWorkspace(workspace);
+    m_workspace = workspace;
+}
+
+QWidget *HolonTask::widget() const
+{
+    return m_widget;
+}
+
+HolonWorkspace *HolonTask::workspace() const
+{
+    return m_workspace;
 }
 
