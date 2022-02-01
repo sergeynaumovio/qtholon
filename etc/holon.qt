@@ -1,121 +1,39 @@
 #!/usr/bin/qtloader6
 
-[Desktop]
+[Holon]
 class = HolonDesktop
 minimumHeight = 200
 minimumWidth = 400
-sidebarAreaList = QStringList(L, R, T, B)
+sidebarAreaList = QStringList(Left, Right, Top, Bottom)
+sidebarKeyboardModifier = Qt::AltModifier
 sidebarList = QCharList(1, 2, 3, 4, 5, 6, 7, 8, 9, 0)
 
-[Desktop/Taskbar]
+[Holon/Taskbar]
 class = HolonTaskbar
 area = bottom
 preferedHeight = 40
 preferedWidth = 50
 styleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
 
-[Desktop/Taskbar/Menu]
+[Holon/Taskbar/Menu]
 class = HolonMenu
 stretch = after
 styleSheet = QPushButton { border: 0px; } QPushButton:hover { background-color: rgb(34, 36, 38); }
 
-[Desktop/Splitted]
-class = HolonSplitted
-
-[Desktop/Splitted/L]
-class = HolonSidebarArea
-hidden = false
-stateIndex = 0
-
-[Desktop/Splitted/L/1]
+[Holon/Sidebar1]
 class = HolonSidebar
+sidebar = 1
+sidebarArea = Left
+state =
 
-[Desktop/Splitted/L/1/Label]
-class = HolonLabel
-text = Sidebar 1
+[Holon/Sidebar1/OpenTaskWidgets]
+class = HolonOpenTaskWidgets
 
-[Desktop/Splitted/Splitted]
-class = HolonSplitted
-layout = vertical
-
-[Desktop/Splitted/Splitted/T]
-class = HolonSidebarArea
-hidden = true
-stateIndex = 8
-
-[Desktop/Splitted/Splitted/T/8]
+[Holon/Sidebar2]
 class = HolonSidebar
+sidebar = 2
+sidebarArea = Left
+state =
 
-[Desktop/Splitted/Splitted/T/8/Label]
-class = HolonLabel
-text = Sidebar 8
-
-[Desktop/Splitted/Splitted/T/4]
-class = HolonSidebar
-
-[Desktop/Splitted/Splitted/T/4/Label]
-class = HolonLabel
-text = Sidebar 4
-
-[Desktop/Splitted/Splitted/T/5]
-class = HolonSidebar
-
-[Desktop/Splitted/Splitted/T/5/Label]
-class = HolonLabel
-text = Sidebar 5
-
-[Desktop/Splitted/Splitted/T/3]
-class = HolonSidebar
-
-[Desktop/Splitted/Splitted/T/3/Label]
-class = HolonLabel
-text = Sidebar 3
-
-[Desktop/Splitted/Splitted/T/7]
-class = HolonSidebar
-
-[Desktop/Splitted/Splitted/T/7/Label]
-class = HolonLabel
-text = Sidebar 7
-
-[Desktop/Splitted/Splitted/T/2]
-class = HolonSidebar
-
-[Desktop/Splitted/Splitted/T/2/Label]
-class = HolonLabel
-text = Sidebar 2
-
-[Desktop/Splitted/Splitted/T/9]
-class = HolonSidebar
-
-[Desktop/Splitted/Splitted/T/9/Label]
-class = HolonLabel
-text = Sidebar 9
-
-[Desktop/Splitted/Splitted/T/0]
-class = HolonSidebar
-
-[Desktop/Splitted/Splitted/T/0/Label]
-class = HolonLabel
-text = Sidebar 0
-
-[Desktop/Splitted/Splitted/3]
-class = HolonLabel
-text = Task Widgets
-
-[Desktop/Splitted/Splitted/B]
-class = HolonSidebarArea
-hidden = false
-stateIndex = 0
-
-[Desktop/Splitted/Splitted/B/6]
-class = HolonSidebar
-
-[Desktop/Splitted/Splitted/B/6/Label]
-class = HolonLabel
-text = Sidebar 6
-
-[Desktop/Splitted/R]
-class = HolonSidebarArea
-hidden = true
-stateIndex = 0
+[Holon/Sidebar2/OpenTaskListWidget]
+class = HolonOpenTaskListWidget

@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2022 Sergey Naumov
+** Copyright (C) 2021 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -16,36 +16,20 @@
 **
 ****************************************************************************/
 
-#include "holonhbox.h"
-#include "holondesktop.h"
+#ifndef HOLONSIDEBAR_H
+#define HOLONSIDEBAR_H
 
-#include <QHBoxLayout>
+#include <QMainWindow>
+#include <QLoaderSettings>
 
-HolonHBox::HolonHBox(QLoaderSettings *settings, HolonDesktop *parent)
-:   QWidget(parent),
-    QLoaderSettings(settings)
+class HolonDesktop;
+
+class HolonSidebar : public QMainWindow, public QLoaderSettings
 {
-    if (!parent)
-    {
-        emitError("HolonDesktop not found");
-        return;
-    }
+    Q_OBJECT
 
-    setLayout(new Layout(this));
-    {
-        layout()->setContentsMargins({});
-    }
+public:
+    HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop);
+};
 
-    parent->setWorkspace(this);
-}
-
-HolonDesktop *HolonHBox::desktop() const
-{
-    return qobject_cast<HolonDesktop*>(parent());
-}
-
-HolonHBox::Layout *HolonHBox::layout() const
-{
-    return static_cast<Layout*>(QWidget::layout());
-}
-
+#endif // HOLONSIDEBAR_H

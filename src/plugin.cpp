@@ -16,19 +16,19 @@
 **
 ****************************************************************************/
 
+#include "holoncore.h"
 #include "holondesktop.h"
 #include "holontaskbar.h"
 #include "holonmenu.h"
-#include "holonsplitted.h"
 #include "holonsidebararea.h"
 #include "holonsidebar.h"
-#include "holonlabel.h"
-
-#include "holonnewtask.h"
-#include "holonopentasks.h"
+#include "holontask.h"
+#include "holonworkspace.h"
 
 #include <QLoaderPluginInterface>
 #include <QLoaderSettings>
+#include <QLoaderTree>
+#include <QApplication>
 
 class Plugin : public QObject, QLoaderPluginInterface
 {
@@ -40,9 +40,13 @@ public:
     QObject *object(QLoaderSettings *settings, QObject *parent) override
     {
         const char *className = settings->className();
+        bool coreApp = !qobject_cast<QApplication*>(QCoreApplication::instance());
 
         if (!qstrcmp(className, "HolonDesktop"))
         {
+            if (coreApp)
+                return new HolonCore(settings, parent);
+
             QWidget *widget = qobject_cast<QWidget*>(parent);
             if (!parent || (parent && widget))
                 return new HolonDesktop(settings, widget);
@@ -52,6 +56,9 @@ public:
 
         if (!qstrcmp(className, "HolonTaskbar"))
         {
+            if (coreApp)
+                return nullptr;
+
             HolonDesktop *desktop = qobject_cast<HolonDesktop*>(parent);
             if (desktop && !desktop->findChild<HolonTaskbar*>())
                 return new HolonTaskbar(settings, desktop);
@@ -61,6 +68,9 @@ public:
 
         if (!qstrcmp(className, "HolonMenu"))
         {
+            if (coreApp)
+                return nullptr;
+
             HolonTaskbar *taskbar = qobject_cast<HolonTaskbar*>(parent);
             if (taskbar && !taskbar->findChild<HolonMenu*>())
                 return new HolonMenu(settings, taskbar);
@@ -68,78 +78,31 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(className, "HolonSplitted"))
-        {
-            HolonDesktop *desktop = qobject_cast<HolonDesktop*>(parent);
-            if (desktop && !desktop->findChild<HolonSplitted*>())
-                return new HolonSplitted(settings, desktop);
-
-            HolonSplitted *splitted = qobject_cast<HolonSplitted*>(parent);
-            if (splitted && !splitted->findChild<HolonSplitted*>())
-                return new HolonSplitted(settings, splitted);
-
-            return parent;
-        }
-
-        if (!qstrcmp(className, "HolonSidebarArea"))
-        {
-            HolonSplitted *splitted = qobject_cast<HolonSplitted*>(parent);
-
-            if (splitted)
-                return new HolonSidebarArea(settings, splitted);
-
-            return parent;
-        }
-
         if (!qstrcmp(className, "HolonSidebar"))
         {
-            HolonSidebarArea *area = qobject_cast<HolonSidebarArea*>(parent);
-            if (area)
-                return new HolonSidebar(settings, area);
+            if (coreApp)
+                return nullptr;
 
-            return parent;
-        }
-
-        if (!qstrcmp(className, "HolonLabel"))
-        {
-            HolonSplitted *splitted = qobject_cast<HolonSplitted*>(parent);
-            if (splitted)
-                return new HolonLabel(settings, splitted);
-
-            HolonSidebar *sidebar = qobject_cast<HolonSidebar*>(parent);
-            if (sidebar)
-                return new HolonLabel(settings, sidebar);
-
-            return parent;
-        }
-
-        if (!qstrcmp(className, "HolonNewTask"))
-        {
             HolonDesktop *desktop = qobject_cast<HolonDesktop*>(parent);
-            if (desktop && !desktop->findChild<HolonNewTask*>("", Qt::FindDirectChildrenOnly))
-                return new HolonNewTask(settings, desktop);
-
-            HolonTiled *tiled = qobject_cast<HolonTiled*>(parent);
-            if (tiled && !tiled->findChild<HolonNewTask*>())
-                return new HolonNewTask(settings, tiled);
+            if (desktop)
+                return new HolonSidebar(settings, desktop);
 
             return parent;
         }
 
-        if (!qstrcmp(className, "HolonOpenTasks"))
+        if (!qstrcmp(className, "HolonWorkspace"))
         {
-            HolonDesktop *desktop = qobject_cast<HolonDesktop*>(parent);
-            if (desktop && !desktop->findChild<HolonOpenTasks*>("", Qt::FindDirectChildrenOnly))
-                return new HolonOpenTasks(settings, desktop);
+            if (coreApp)
+                return nullptr;
 
-            HolonTiled *tiled = qobject_cast<HolonTiled*>(parent);
-            if (tiled && !tiled->findChild<HolonOpenTasks*>())
-                return new HolonOpenTasks(settings, tiled);
+            HolonTask *task = qobject_cast<HolonTask*>(parent);
+            if (task)
+                return new HolonWorkspace(settings, task);
 
             return parent;
         }
 
-        return nullptr;
+        return settings->tree();
     }
 };
 

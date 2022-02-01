@@ -26,8 +26,8 @@
 #include <QLoaderTree>
 #include <algorithm>
 
-HolonSidebarArea::HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *parent)
-:   HolonStacked(settings, parent)
+HolonSidebarArea::HolonSidebarArea(QWidget *parent)
+:   QWidget(parent),
 {
     if (!desktop())
     {

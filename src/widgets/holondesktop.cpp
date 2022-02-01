@@ -99,22 +99,17 @@ QCharList HolonDesktop::sidebarList() const
     return d_ptr->sidebarList;
 }
 
-bool HolonDesktop::setTaskbar(HolonTaskbar *taskbar)
+void HolonDesktop::addTask(HolonTask* /*task*/)
 {
-    return d_ptr->setTaskbar(taskbar);
+
 }
 
-bool HolonDesktop::setWorkspace(QWidget *widget)
+void HolonDesktop::addTaskbar(HolonTaskbar *taskbar)
 {
-    return d_ptr->setWorkspace(widget);
+    d_ptr->setTaskbar(taskbar);
 }
 
-HolonTaskbar *HolonDesktop::taskbar() const
+bool HolonDesktop::addSidebar(HolonSidebar* /*sidebar*/)
 {
-    return d_ptr->desktop.taskbar;
-}
-
-QWidget *HolonDesktop::workspace() const
-{
-    return d_ptr->desktop.workspace;
+    return true;
 }

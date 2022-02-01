@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021 Sergey Naumov
+** Copyright (C) 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -16,22 +16,44 @@
 **
 ****************************************************************************/
 
-#include "holonlabel.h"
-#include "holonsplitted.h"
-#include "holonsidebar.h"
+#include "holontask.h"
+#include "holoncore.h"
+#include "holondesktop.h"
+#include "holondesktop_p.h"
 
-HolonLabel::HolonLabel(QLoaderSettings *settings, HolonSplitted *parent)
-:   QLabel(parent),
+HolonTask::HolonTask(QLoaderSettings *settings, HolonCore *parent)
+:   QObject(parent),
+    QLoaderSettings(settings)
+{ }
+
+HolonTask::HolonTask(QLoaderSettings *settings, HolonDesktop *parent)
+:   QObject(parent),
     QLoaderSettings(settings)
 {
-    parent->addWidget(this);
-    setAlignment(Qt::AlignCenter);
+    parent->addTask(this);
 }
 
-HolonLabel::HolonLabel(QLoaderSettings *settings, HolonSidebar *parent)
-:   QLabel(parent),
-    QLoaderSettings(settings)
+HolonDesktop *HolonTask::desktop() const
 {
-    parent->setCentralWidget(this);
-    setAlignment(Qt::AlignCenter);
+    return qobject_cast<HolonDesktop*>(parent());
 }
+
+int HolonTask::exec()
+{
+    return 0;
+}
+
+void HolonTask::setWidget(QWidget *widget)
+{
+    Q_UNUSED(widget)
+    //desktop()->d_ptr->
+    //desktop()->d_ptr->tasks->addWidget(widget);
+
+}
+
+void HolonTask::setWorkspace(HolonWorkspace *workspace)
+{
+    Q_UNUSED(workspace)
+    //desktop()->d_ptr->tasks->addWorkspace(workspace);
+}
+

@@ -16,26 +16,32 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONVBOX_H
-#define HOLONVBOX_H
+#ifndef HOLONTASK_H
+#define HOLONTASK_H
 
-#include <QWidget>
+#include "qtholonglobal.h"
 #include <QLoaderSettings>
 
+class HolonCore;
 class HolonDesktop;
-class QVBoxLayout;
+class HolonWorkspace;
 
-class HolonVBox : public QWidget, QLoaderSettings
+class Q_HOLON_EXPORT HolonTask : public QObject, public QLoaderSettings
 {
     Q_OBJECT
 
-    using Layout = QVBoxLayout;
+protected:
+    HolonTask(QLoaderSettings *settings, HolonCore *parent);
+    HolonTask(QLoaderSettings *settings, HolonDesktop *parent);
+
+    HolonDesktop *desktop() const;
 
 public:
-    HolonVBox(QLoaderSettings *settings, HolonDesktop *parent);
-
-    HolonDesktop *mainWindow() const;
-    Layout *layout() const;
+    virtual int exec();
+    void setWidget(QWidget *widget);
+    void setWorkspace(HolonWorkspace *workspace);
+    QWidget *widget() const;
+    HolonWorkspace *workspace() const;
 };
 
-#endif // HOLONVBOX_H
+#endif // HOLONTASK_H

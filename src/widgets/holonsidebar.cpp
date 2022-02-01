@@ -16,27 +16,23 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONTILED_H
-#define HOLONTILED_H
+#include "holonsidebar.h"
+#include "holonsidebararea.h"
+#include "holondesktop.h"
+#include "holondesktop_p.h"
+#include <QLoaderTree>
 
-#include <QMainWindow>
-#include <QLoaderSettings>
-
-class HolonStacked;
-class HolonWidgetInterface;
-class HolonDesktop;
-
-class HolonTiled : public QMainWindow, public QLoaderSettings
+HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop)
+:   QLoaderSettings(settings)
 {
-    Q_OBJECT
+    if (!desktop)
+    {
+        emitError("HolonDesktop not found");
+        return;
+    }
 
-protected:
-    HolonTiled(QLoaderSettings *settings, HolonStacked *parent);
-
-    HolonDesktop *desktop() const;
-
-public:
-    void addWidget(HolonWidgetInterface *widget);
-};
-
-#endif // HOLONTILED_H
+    if (!desktop->addSidebar(this))
+    {
+        return;
+    }
+}

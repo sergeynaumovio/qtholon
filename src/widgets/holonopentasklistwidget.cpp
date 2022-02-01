@@ -16,17 +16,9 @@
 **
 ****************************************************************************/
 
-#include "holonstacked.h"
-#include "holonsplitted.h"
+#include "holonopentasklistwidget.h"
 
-HolonStacked::HolonStacked(QLoaderSettings *settings, HolonSplitted *parent)
-:   QStackedWidget(parent),
+HolonOpenTaskListWidget::HolonOpenTaskListWidget(QLoaderSettings *settings, QWidget *parent)
+:   QWidget(parent),
     QLoaderSettings(settings)
-{
-    parent->addWidget(this);
-}
-
-HolonDesktop *HolonStacked::desktop() const
-{
-    return qobject_cast<HolonSplitted*>(parent())->desktop();
-}
+{ }

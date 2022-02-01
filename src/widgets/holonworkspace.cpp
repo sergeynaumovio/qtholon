@@ -16,24 +16,15 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONSTACKED_H
-#define HOLONSTACKED_H
+#include "holonworkspace.h"
+#include "holontask.h"
 
-#include <QStackedWidget>
-#include <QLoaderSettings>
-
-class HolonSplitted;
-class HolonDesktop;
-
-class HolonStacked : public QStackedWidget, public QLoaderSettings
+HolonWorkspace::HolonWorkspace(QLoaderSettings *settings, HolonTask *task)
+:   QLoaderSettings(settings)
 {
-    Q_OBJECT
+    task->setWorkspace(this);
+}
 
-protected:
-    HolonStacked(QLoaderSettings *settings, HolonSplitted *parent);
-
-public:
-    HolonDesktop *desktop() const;
-};
-
-#endif // HOLONSTACKED_H
+void HolonWorkspace::addWidget(QWidget* /*widget*/)
+{
+}

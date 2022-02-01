@@ -70,7 +70,7 @@ HolonTaskbar::HolonTaskbar(QLoaderSettings *settings, HolonDesktop *parent)
         }
     }
 
-    parent->setTaskbar(this);
+    parent->addTaskbar(this);
 }
 
 HolonTaskbar::~HolonTaskbar()

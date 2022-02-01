@@ -24,9 +24,9 @@
 #include <QLoaderSettings>
 
 class HolonDesktopPrivate;
+class HolonTask;
 class HolonTaskbar;
-class HolonWorkspace;
-class HolonSidebarArea;
+class HolonSidebar;
 
 using QCharList = QList<QChar>;
 
@@ -38,8 +38,7 @@ class Q_HOLON_EXPORT HolonDesktop : public QMainWindow, public QLoaderSettings
     Q_PROPERTY(QStringList sidebarAreaList READ sidebarAreaList CONSTANT)
 
     friend class HolonDesktopPrivate;
-    friend class HolonSidebar;
-    friend class HolonSidebarArea;
+    friend class HolonTask;
 
 protected:
     const QScopedPointer<HolonDesktopPrivate> d_ptr;
@@ -56,6 +55,12 @@ public:
     HolonDesktop(QLoaderSettings *settings, QWidget *parent);
     ~HolonDesktop();
 
+    void addTask(HolonTask *task);
+    void addTaskbar(HolonTaskbar *taskbar);
+    bool addSidebar(HolonSidebar *sidebar);
+    QStringList sidebarAreaList() const;
+    QCharList sidebarList() const;
+
     void addDockWidget(Qt::DockWidgetArea area, QDockWidget *dockwidget) = delete;
     void addDockWidget(Qt::DockWidgetArea area, QDockWidget *dockwidget, Qt::Orientation orientation) = delete;
     void addToolBar(Qt::ToolBarArea area, QToolBar *toolbar) = delete;
@@ -67,16 +72,6 @@ public:
     void setMenuBar(QMenuBar *menuBar) = delete;
     void setStatusBar(QStatusBar *statusbar) = delete;
     QWidget *statusBar() = delete;
-
-    QStringList sidebarAreaList() const;
-    QCharList sidebarList() const;
-
-    void addSidebarArea(HolonSidebarArea *area);
-    bool setTaskbar(HolonTaskbar *taskbar);
-    bool setWorkspace(QWidget *widget);
-    HolonTaskbar *taskbar() const;
-    QWidget *workspace() const;
 };
-
 
 #endif // HOLONDESKTOP_H

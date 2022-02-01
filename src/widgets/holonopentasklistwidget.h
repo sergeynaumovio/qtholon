@@ -16,23 +16,18 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONSPLITTED_H
-#define HOLONSPLITTED_H
+#ifndef HOLONOPENTASKLISTWIDGET_H
+#define HOLONOPENTASKLISTWIDGET_H
 
-#include <QSplitter>
+#include <QWidget>
 #include <QLoaderSettings>
 
-class HolonDesktop;
-
-class HolonSplitted : public QSplitter, public QLoaderSettings
+class HolonOpenTaskListWidget : public QWidget, public QLoaderSettings
 {
     Q_OBJECT
 
 public:
-    HolonSplitted(QLoaderSettings *settings, HolonDesktop *parent);
-    HolonSplitted(QLoaderSettings *settings, HolonSplitted *parent);
-
-    HolonDesktop *desktop() const;
+    HolonOpenTaskListWidget(QLoaderSettings *settings, QWidget *parent);
 };
 
-#endif // HOLONSPLITTED_H
+#endif // HOLONOPENTASKLISTWIDGET_H

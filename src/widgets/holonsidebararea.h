@@ -19,13 +19,12 @@
 #ifndef HOLONSIDEBARAREA_H
 #define HOLONSIDEBARAREA_H
 
-#include "holonstacked.h"
-#include <QLoaderSettings>
+#include <QStackedWidget>
 
 class HolonDesktop;
 class HolonSidebar;
 
-class HolonSidebarArea : public HolonStacked
+class HolonSidebarArea : public QStackedWidget
 {
     Q_OBJECT
 
@@ -33,7 +32,7 @@ class HolonSidebarArea : public HolonStacked
     void setStateIndex(int i);
 
 public:
-    HolonSidebarArea(QLoaderSettings *settings, HolonSplitted *parent);
+    HolonSidebarArea(QWidget *parent);
 
     bool addSidebar(HolonSidebar *sidebar);
     void addWidget(QWidget *widget) = delete;

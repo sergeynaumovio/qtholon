@@ -16,26 +16,9 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONHBOX_H
-#define HOLONHBOX_H
+#include "holoncore.h"
 
-#include <QWidget>
-#include <QLoaderSettings>
-
-class HolonDesktop;
-class QHBoxLayout;
-
-class HolonHBox : public QWidget, QLoaderSettings
-{
-    Q_OBJECT
-
-    using Layout = QHBoxLayout;
-
-public:
-    HolonHBox(QLoaderSettings *settings, HolonDesktop *parent);
-
-    HolonDesktop *desktop() const;
-    Layout *layout() const;
-};
-
-#endif // HOLONHBOX_H
+HolonCore::HolonCore(QLoaderSettings *settings, QObject *parent)
+:   QObject(parent),
+    QLoaderSettings(settings)
+{ }

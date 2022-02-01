@@ -16,36 +16,18 @@
 **
 ****************************************************************************/
 
-#include "holonvbox.h"
-#include "holondesktop.h"
+#ifndef HOLONCORE_H
+#define HOLONCORE_H
 
-#include <QVBoxLayout>
+#include "qtholonglobal.h"
+#include <QLoaderSettings>
 
-HolonVBox::HolonVBox(QLoaderSettings *settings, HolonDesktop *parent)
-:   QWidget(parent),
-    QLoaderSettings(settings)
+class Q_HOLON_EXPORT HolonCore : public QObject, public QLoaderSettings
 {
-    if (!parent)
-    {
-        emitError("HolonDesktop not found");
-        return;
-    }
+    Q_OBJECT
 
-    setLayout(new Layout(this));
-    {
-        layout()->setContentsMargins({});
-    }
+public:
+    HolonCore(QLoaderSettings *settings, QObject *parent);
+};
 
-    parent->setWorkspace(this);
-}
-
-HolonDesktop *HolonVBox::mainWindow() const
-{
-    return qobject_cast<HolonDesktop*>(parent());
-}
-
-HolonVBox::Layout *HolonVBox::layout() const
-{
-    return static_cast<Layout*>(QWidget::layout());
-}
-
+#endif // HOLONCORE_H

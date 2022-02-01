@@ -16,20 +16,9 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONOPENTASKS_H
-#define HOLONOPENTASKS_H
+#include "holonnewtasktreewidget.h"
 
-#include "holonwidgetinterface.h"
-
-class HolonOpenTasks : public HolonWidgetInterface
-{
-    Q_OBJECT
-
-public:
-    HolonOpenTasks(QLoaderSettings *settings, HolonDesktop *parent);
-    HolonOpenTasks(QLoaderSettings *settings, HolonTiled *parent);
-
-    QWidget *widget() override;
-};
-
-#endif // HOLONOPENTASKS_H
+HolonNewTaskTreeWidget::HolonNewTaskTreeWidget(QLoaderSettings *settings, QWidget *parent)
+:   QWidget(parent),
+    QLoaderSettings(settings)
+{ }
