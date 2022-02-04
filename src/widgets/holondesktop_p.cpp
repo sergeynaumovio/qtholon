@@ -21,45 +21,123 @@
 #include "holontaskbar.h"
 #include "holonsidebararea.h"
 #include "holonsidebar.h"
+#include "holontask.h"
 
 #include <QLoaderTree>
 #include <QHBoxLayout>
 #include <QShortcut>
 #include <QStackedWidget>
-#include <QSizePolicy>
 #include <QButtonGroup>
 
-HolonDesktopPrivate::HolonDesktopPrivate(HolonDesktop *q)
-:   charlist("^QCharList\\s*\\(\\s*(?<list>.*)\\)"),
-    q_ptr(q),
-    tree(q->tree())
-{ }
-
-QVariant HolonDesktopPrivate::fromString(const QString &value) const
+class HolonDesktopLayout
 {
-    QRegularExpressionMatch match;
-    QVariant variant;
+    QWidget *screen;
+    QWidget *top;
+    QWidget *middle;
+    QWidget *bottom;
+    QWidget *left;
+    QWidget *right;
+    QMainWindow *center;
 
-    if ((match = charlist.match(value)).hasMatch())
+    void addWidget(QWidget *widget, QWidget *parent)
     {
-        QStringList stringlist = match.captured("list").split(',');
-        QCharList list;
-
-        for (QString &string : stringlist)
-        {
-            string = string.trimmed();
-            if (string.size() != 1)
-                return QVariant();
-
-            list.append(string.at(0));
-        }
-
-        variant.setValue(list);
-
-        return variant;
+        parent->layout()->addWidget(widget);
     }
 
-    return {};
+    void setHBoxLayout(QWidget **widget, QWidget *parent)
+    {
+        *widget = new QWidget(parent);
+        (*widget)->setLayout(new QHBoxLayout(*widget));
+        (*widget)->layout()->setContentsMargins({});
+        (*widget)->layout()->setSpacing(0);
+        parent->layout()->addWidget(*widget);
+    }
+
+    void setMainWindow(QMainWindow **widget, QWidget *parent)
+    {
+        *widget = new QMainWindow();
+        (*widget)->setParent(parent);
+        parent->layout()->addWidget(*widget);
+    }
+
+    void setVBoxLayout(QWidget **widget, QMainWindow *parent)
+    {
+        *widget = new QWidget(parent);
+        (*widget)->setLayout(new QVBoxLayout(*widget));
+        (*widget)->layout()->setContentsMargins({});
+        (*widget)->layout()->setSpacing(0);
+        parent->setCentralWidget(*widget);
+    }
+
+    void setVBoxLayout(QWidget **widget, QWidget *parent)
+    {
+        *widget = new QWidget(parent);
+        (*widget)->setLayout(new QVBoxLayout(*widget));
+        (*widget)->layout()->setContentsMargins({});
+        (*widget)->layout()->setSpacing(0);
+        parent->layout()->addWidget(*widget);
+    }
+
+public:
+    void addTaskbar(HolonTaskbar *taskbar)
+    {
+        HolonTaskbar::Area area = taskbar->area();
+        QWidget *parent;
+
+        switch (area) {
+        case HolonTaskbar::Top: parent = top; break;
+        case HolonTaskbar::Bottom: parent = bottom; break;
+        case HolonTaskbar::Left: parent = left; break;
+        case HolonTaskbar::Right: parent = right; break;
+        }
+
+        addWidget(taskbar, parent);
+    }
+
+    void setDesktopLayout(HolonDesktop *desktop)
+    {
+        setVBoxLayout(&screen, desktop);
+        {
+            setVBoxLayout(&top, screen);
+            setHBoxLayout(&middle, screen);
+            {
+                setHBoxLayout(&left, middle);
+                setMainWindow(&center, middle);
+                setHBoxLayout(&right, middle);
+            }
+            setVBoxLayout(&bottom, screen);
+        }
+    }
+};
+
+class HolonDesktopPrivateData
+{
+public:
+    HolonDesktopLayout desktopLayout;
+};
+
+HolonDesktopPrivate::HolonDesktopPrivate(HolonDesktop *q)
+:   d(*new (&d_storage) HolonDesktopPrivateData),
+    q_ptr(q)
+{
+    static_assert (d_size == sizeof (HolonDesktopPrivateData));
+    static_assert (d_align == alignof (HolonDesktopPrivateData));
+}
+
+void HolonDesktopPrivate::setDesktopLayout()
+{
+    d.desktopLayout.setDesktopLayout(q_ptr);
+}
+
+bool HolonDesktopPrivate::setSidebarAreas(const QStringList &sidebarAreaList)
+{
+    for (const QString &string : sidebarAreaList)
+    {
+        if (string.isEmpty())
+            return false;
+    }
+
+    return true;
 }
 
 bool HolonDesktopPrivate::mapSidebarArea(QString area, HolonSidebarArea *q)
@@ -108,76 +186,9 @@ bool HolonDesktopPrivate::mapSidebar(QPair<QChar, HolonSidebar*> sidebar,
     return true;
 }
 
-bool HolonDesktopPrivate::setTaskbar(HolonTaskbar *taskbar)
+void HolonDesktopPrivate::addTaskbar(HolonTaskbar *taskbar)
 {
-    if (desktop.taskbar)
-    {
-        q_ptr->emitError("Desktop taskbar is already set");
-        return false;
-    }
-
-    QWidget *central = q_ptr->centralWidget();
-
-    if (!central)
-    {
-        QWidget *widget = new QWidget(q_ptr);
-        {
-            static_cast<QMainWindow*>(q_ptr)->setCentralWidget(widget);
-
-            QBoxLayout *layout;
-            {
-                if (taskbar->area() == HolonTaskbar::Left ||
-                    taskbar->area() == HolonTaskbar::Right)
-                {
-                    layout = new QBoxLayout(QBoxLayout::LeftToRight, widget);
-                }
-                else
-                {
-                    layout = new QBoxLayout(QBoxLayout::TopToBottom, widget);
-                }
-
-                widget->setLayout(layout);
-                layout->setContentsMargins({});
-                layout->setSpacing(0);
-                layout->addWidget(taskbar);
-            }
-        }
-    }
-
-    desktop.taskbar = taskbar;
-
-    return true;
-}
-
-bool HolonDesktopPrivate::setWorkspace(QWidget *widget)
-{
-    if (desktop.workspace)
-    {
-        q_ptr->emitError("Desktop workspace is already set");
-        return false;
-    }
-
-    QWidget *central = q_ptr->centralWidget();
-
-    if (central)
-    {
-        if (desktop.taskbar)
-        {
-            if (desktop.taskbar->area() == HolonTaskbar::Left ||
-                desktop.taskbar->area() == HolonTaskbar::Top)
-            {
-                central->layout()->addWidget(widget);
-            }
-            else
-            {
-                static_cast<QBoxLayout*>(central->layout())->insertWidget(0, widget);
-            }
-        }
-    }
-
-    desktop.workspace = widget;
-
-    return true;
+    d.desktopLayout.addTaskbar(taskbar);
 }
 
 HBoxWidget::Layout *HBoxWidget::layout()
@@ -365,7 +376,7 @@ SidebarSelector::SidebarSelector(HolonDesktopPrivate *d)
             shortcut->setKey(QKeySequence("Ctrl+Q"));
             connect(shortcut, &QShortcut::activated, quitButton, [=, this]
             {
-                d_ptr->tree->save();
+                d_ptr->q_ptr->tree()->save();
                 quitButton->click();
             });
         }

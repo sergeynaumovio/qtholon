@@ -16,18 +16,18 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONOPENTASKLISTWIDGET_H
-#define HOLONOPENTASKLISTWIDGET_H
+#ifndef HOLONOPENTASKS_H
+#define HOLONOPENTASKS_H
 
 #include <QWidget>
 #include <QLoaderSettings>
 
-class HolonOpenTaskListWidget : public QWidget, public QLoaderSettings
+class HolonOpenTasks : public QWidget, public QLoaderSettings
 {
     Q_OBJECT
 
 public:
-    HolonOpenTaskListWidget(QLoaderSettings *settings, QWidget *parent);
+    HolonOpenTasks(QLoaderSettings *settings, QWidget *parent);
 };
 
-#endif // HOLONOPENTASKLISTWIDGET_H
+#endif // HOLONOPENTASKS_H

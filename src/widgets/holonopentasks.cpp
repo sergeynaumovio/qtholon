@@ -16,9 +16,9 @@
 **
 ****************************************************************************/
 
-#include "holonnewtasktreewidget.h"
+#include "holonopentasks.h"
 
-HolonNewTaskTreeWidget::HolonNewTaskTreeWidget(QLoaderSettings *settings, QWidget *parent)
+HolonOpenTasks::HolonOpenTasks(QLoaderSettings *settings, QWidget *parent)
 :   QWidget(parent),
     QLoaderSettings(settings)
 { }

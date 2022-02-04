@@ -21,11 +21,10 @@
 
 #include <QList>
 #include <QMap>
-#include <QSet>
 #include <QHash>
 #include <QPushButton>
-#include <QRegularExpression>
 
+class HolonDesktopPrivateData;
 class HolonDesktop;
 class HolonTaskbar;
 class QLoaderTree;
@@ -36,6 +35,8 @@ class SidebarActivator;
 class SidebarLocator;
 class HolonWidgetInterface;
 class QHBoxLayout;
+class QMainWindow;
+
 
 struct SidebarRelatedObjects
 {
@@ -46,11 +47,16 @@ struct SidebarRelatedObjects
 
 class HolonDesktopPrivate
 {
-    const QRegularExpression charlist;
+    HolonDesktopPrivateData &d;
+    static const int d_size{56};
+    static const int d_align{8};
+    std::aligned_storage_t<d_size, d_align> d_storage;
 
 public:
     HolonDesktop *const q_ptr;
-    QLoaderTree *tree;
+
+    QStringList sidebarAreaList;
+    QMap<QString, HolonSidebarArea*> sidebarAreas;
 
     struct
     {
@@ -63,9 +69,6 @@ public:
 
     QMap<QChar, SidebarRelatedObjects> sidebarRelatedObjects;
 
-    QStringList sidebarAreaList;
-    QMap<QString, HolonSidebarArea*> sidebarAreas;
-
     SidebarActivator *sidebarActivator{};
     SidebarLocator *sidebarLocator{};
 
@@ -74,12 +77,12 @@ public:
 
     HolonDesktopPrivate(HolonDesktop *q);
 
-    QVariant fromString(const QString &value) const;
-
+    void addTaskbar(HolonTaskbar *taskbar);
+    void setDesktopLayout();
+    bool setSidebarAreas(const QStringList &sidebarAreaList);
     bool mapSidebarArea(QString area, HolonSidebarArea *q);
     bool mapSidebar(QPair<QChar, HolonSidebar*> sidebar,
                     QPair<QString, HolonSidebarArea*> area, Qt::CheckState checkState);
-    bool setTaskbar(HolonTaskbar *taskbar);
     bool setWorkspace(QWidget *widget);
 };
 

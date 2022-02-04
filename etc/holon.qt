@@ -8,6 +8,28 @@ sidebarAreaList = QStringList(Left, Right, Top, Bottom)
 sidebarKeyboardModifier = Qt::AltModifier
 sidebarList = QCharList(1, 2, 3, 4, 5, 6, 7, 8, 9, 0)
 
+[Holon/TaskbarTopTest]
+class = HolonTaskbar
+area = top
+preferedHeight = 20
+preferedWidth = 20
+styleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
+
+[Holon/TaskbarLeftTest]
+class = HolonTaskbar
+area = left
+preferedHeight = 20
+preferedWidth = 20
+styleSheet = QWidget { color: white; background-color: rgb(54, 56, 158); }
+
+[Holon/TaskbarRightTest]
+class = HolonTaskbar
+area = right
+preferedHeight = 20
+preferedWidth = 20
+styleSheet = QWidget { color: white; background-color: rgb(54, 156, 58); }
+
+
 [Holon/Taskbar]
 class = HolonTaskbar
 area = bottom
@@ -26,14 +48,5 @@ sidebar = 1
 sidebarArea = Left
 state =
 
-[Holon/Sidebar1/OpenTaskWidgets]
-class = HolonOpenTaskWidgets
-
-[Holon/Sidebar2]
-class = HolonSidebar
-sidebar = 2
-sidebarArea = Left
-state =
-
-[Holon/Sidebar2/OpenTaskListWidget]
-class = HolonOpenTaskListWidget
+[Holon/Sidebar1/OpenTasks]
+class = HolonOpenTasks

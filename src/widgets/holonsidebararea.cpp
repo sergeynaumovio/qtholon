@@ -17,23 +17,18 @@
 ****************************************************************************/
 
 #include "holonsidebararea.h"
-#include "holonstacked.h"
-#include "holonsplitted.h"
 #include "holondesktop.h"
 #include "holondesktop_p.h"
 #include "holonsidebar.h"
 
-#include <QLoaderTree>
+#include <QStackedWidget>
 #include <algorithm>
 
-HolonSidebarArea::HolonSidebarArea(QWidget *parent)
-:   QWidget(parent),
+HolonSidebarArea::HolonSidebarArea(HolonDesktop *parent)
+:   QDockWidget(parent),
+    m_widget(new QStackedWidget(this))
 {
-    if (!desktop())
-    {
-        emitError("HolonDesktop not found");
-        return;
-    }
+    setWidget(m_widget);
 
     if (!desktop()->d_ptr->mapSidebarArea(section().last(), this))
     {

@@ -50,15 +50,14 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonmenu.cpp
             src/widgets/holonmenu_p.h
             src/widgets/holonmenu_p.cpp
-            src/widgets/holonworkspace.h
-            src/widgets/holonworkspace.cpp
-
+#           src/widgets/holonsidebararea.h
+#           src/widgets/holonsidebararea.cpp
             src/widgets/holonsidebar.h
             src/widgets/holonsidebar.cpp
-            src/widgets/holonnewtasktreewidget.h
-            src/widgets/holonnewtasktreewidget.cpp
-            src/widgets/holonopentasklistwidget.h
-            src/widgets/holonopentasklistwidget.cpp
+            src/widgets/holonworkspace.h
+            src/widgets/holonworkspace.cpp
+            src/widgets/holonopentasks.h
+            src/widgets/holonopentasks.cpp
 )
 
 target_include_directories(${QT_HOLON_LIBRARY}

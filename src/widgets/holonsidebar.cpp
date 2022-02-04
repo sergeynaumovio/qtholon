@@ -17,22 +17,13 @@
 ****************************************************************************/
 
 #include "holonsidebar.h"
-#include "holonsidebararea.h"
 #include "holondesktop.h"
-#include "holondesktop_p.h"
-#include <QLoaderTree>
 
 HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop)
 :   QLoaderSettings(settings)
 {
-    if (!desktop)
-    {
-        emitError("HolonDesktop not found");
-        return;
-    }
+    setParent(desktop);
 
     if (!desktop->addSidebar(this))
-    {
-        return;
-    }
+        emitError("sidebar is not in list or already added");
 }

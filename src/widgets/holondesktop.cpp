@@ -18,11 +18,6 @@
 
 #include "holondesktop.h"
 #include "holondesktop_p.h"
-#include "holontaskbar.h"
-#include <QRegularExpression>
-#include <QStatusBar>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
 
 void HolonDesktop::closeEvent(QCloseEvent *)
 {
@@ -37,11 +32,6 @@ void HolonDesktop::resizeEvent(QResizeEvent *)
 
 QVariant HolonDesktop::fromString(const QString &string) const
 {
-    QVariant variant = d_ptr->fromString(string);
-
-    if (!variant.isNull())
-        return variant;
-
     return QLoaderSettings::fromString(string);
 }
 
@@ -59,11 +49,15 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
     if (!parent)
         show();
 
-    if (contains("sidebarAreaList"))
-        d_ptr->sidebarAreaList = value("sidebarAreaList").toStringList();
-    else
+    if (!contains("sidebarAreaList"))
     {
         emitError("sidebarAreaList property is not set");
+        return;
+    }
+
+    if (!d_ptr->setSidebarAreas(value("sidebarAreaList").toStringList()))
+    {
+        emitError("sidebarArea name is not set");
         return;
     }
 
@@ -82,8 +76,8 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
         return;
     }
 
-    setStyleSheet("QStatusBar { background-color : rgb(64, 66, 68); }"
-                  "QStatusBar::item { border: 0px }");
+    d_ptr->setDesktopLayout();
+
 }
 
 HolonDesktop::~HolonDesktop()
@@ -106,7 +100,7 @@ void HolonDesktop::addTask(HolonTask* /*task*/)
 
 void HolonDesktop::addTaskbar(HolonTaskbar *taskbar)
 {
-    d_ptr->setTaskbar(taskbar);
+    d_ptr->addTaskbar(taskbar);
 }
 
 bool HolonDesktop::addSidebar(HolonSidebar* /*sidebar*/)

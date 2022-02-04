@@ -20,10 +20,10 @@
 #include "holondesktop.h"
 #include "holontaskbar.h"
 #include "holonmenu.h"
-#include "holonsidebararea.h"
 #include "holonsidebar.h"
 #include "holontask.h"
 #include "holonworkspace.h"
+#include "holonopentasks.h"
 
 #include <QLoaderPluginInterface>
 #include <QLoaderSettings>
@@ -39,10 +39,10 @@ class Plugin : public QObject, QLoaderPluginInterface
 public:
     QObject *object(QLoaderSettings *settings, QObject *parent) override
     {
-        const char *className = settings->className();
+        const char *shortName = settings->className() + qstrlen("Holon");
         bool coreApp = !qobject_cast<QApplication*>(QCoreApplication::instance());
 
-        if (!qstrcmp(className, "HolonDesktop"))
+        if (!qstrcmp(shortName, "Desktop"))
         {
             if (coreApp)
                 return new HolonCore(settings, parent);
@@ -54,19 +54,19 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(className, "HolonTaskbar"))
+        if (!qstrcmp(shortName, "Taskbar"))
         {
             if (coreApp)
                 return nullptr;
 
             HolonDesktop *desktop = qobject_cast<HolonDesktop*>(parent);
-            if (desktop && !desktop->findChild<HolonTaskbar*>())
+            if (desktop)
                 return new HolonTaskbar(settings, desktop);
 
             return parent;
         }
 
-        if (!qstrcmp(className, "HolonMenu"))
+        if (!qstrcmp(shortName, "Menu"))
         {
             if (coreApp)
                 return nullptr;
@@ -78,7 +78,7 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(className, "HolonSidebar"))
+        if (!qstrcmp(shortName, "Sidebar"))
         {
             if (coreApp)
                 return nullptr;
@@ -90,7 +90,7 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(className, "HolonWorkspace"))
+        if (!qstrcmp(shortName, "Workspace"))
         {
             if (coreApp)
                 return nullptr;
@@ -98,6 +98,18 @@ public:
             HolonTask *task = qobject_cast<HolonTask*>(parent);
             if (task)
                 return new HolonWorkspace(settings, task);
+
+            return parent;
+        }
+
+        if (!qstrcmp(shortName, "OpenTasks"))
+        {
+            if (coreApp)
+                return nullptr;
+
+            HolonSidebar *sidebar = qobject_cast<HolonSidebar*>(parent);
+            if (sidebar)
+                return new HolonOpenTasks(settings, sidebar);
 
             return parent;
         }
