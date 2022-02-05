@@ -80,7 +80,7 @@ public:
 
     void addTaskbar(HolonTaskbar *taskbar);
     void setDesktopLayout();
-    bool setSidebarAreas(const QStringList &sidebarAreaList);
+    bool setSidebarAreas(const QStringList &areas);
     bool mapSidebarArea(QString area, HolonSidebarArea *q);
     bool mapSidebar(QPair<QChar, HolonSidebar*> sidebar,
                     QPair<QString, HolonSidebarArea*> area, Qt::CheckState checkState);

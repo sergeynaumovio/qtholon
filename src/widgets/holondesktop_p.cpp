@@ -83,7 +83,7 @@ public:
     void addTaskbar(HolonTaskbar *taskbar)
     {
         HolonTaskbar::Area area = taskbar->area();
-        QWidget *parent;
+        QWidget *parent{};
 
         switch (area) {
         case HolonTaskbar::Top: parent = top; break;
@@ -136,9 +136,9 @@ void HolonDesktopPrivate::setDesktopLayout()
     d.desktopLayout.setDesktopLayout(q_ptr);
 }
 
-bool HolonDesktopPrivate::setSidebarAreas(const QStringList &sidebarAreaList)
+bool HolonDesktopPrivate::setSidebarAreas(const QStringList &areas)
 {
-    for (const QString &string : sidebarAreaList)
+    for (const QString &string : areas)
     {
         if (string.isEmpty())
             return false;
@@ -295,6 +295,7 @@ void SidebarLocator::showEvent(QShowEvent*)
                             sidebarAreaButton->setEnabled(checked);
                         });
 
+#if 0
                         connect(sidebarAreaButton, &QPushButton::toggled, sidebarAreaButton, [=, this](bool checked)
                         {
                             if (checked)
@@ -306,6 +307,7 @@ void SidebarLocator::showEvent(QShowEvent*)
                                 next->addSidebar(sidebar);
                             }
                         });
+#endif
                     }
                 }
             }
