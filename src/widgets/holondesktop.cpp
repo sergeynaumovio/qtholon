@@ -41,11 +41,10 @@ QString HolonDesktop::fromVariant(const QVariant &variant) const
 }
 
 HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
-:   QLoaderSettings(settings),
+:   QWidget(parent),
+    QLoaderSettings(settings),
     d_ptr(new HolonDesktopPrivate(this))
 {
-    setParent(parent);
-
     if (!parent)
         show();
 
@@ -77,7 +76,6 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
     }
 
     d_ptr->setDesktopLayout();
-
 }
 
 HolonDesktop::~HolonDesktop()

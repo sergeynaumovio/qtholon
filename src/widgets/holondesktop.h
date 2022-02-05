@@ -20,17 +20,17 @@
 #define HOLONDESKTOP_H
 
 #include "qtholonglobal.h"
-#include <QMainWindow>
+#include <QWidget>
 #include <QLoaderSettings>
 
 class HolonDesktopPrivate;
+class HolonSidebar;
 class HolonTask;
 class HolonTaskbar;
-class HolonSidebar;
 
 using QCharList = QList<QChar>;
 
-class Q_HOLON_EXPORT HolonDesktop : public QMainWindow, public QLoaderSettings
+class Q_HOLON_EXPORT HolonDesktop : public QWidget, public QLoaderSettings
 {
     Q_OBJECT
 
@@ -57,18 +57,6 @@ public:
     void addTaskbar(HolonTaskbar *taskbar);
     QStringList sidebarAreaList() const;
     QCharList sidebarList() const;
-
-    void addDockWidget(Qt::DockWidgetArea area, QDockWidget *dockwidget) = delete;
-    void addDockWidget(Qt::DockWidgetArea area, QDockWidget *dockwidget, Qt::Orientation orientation) = delete;
-    void addToolBar(Qt::ToolBarArea area, QToolBar *toolbar) = delete;
-    void addToolBar(QToolBar *toolbar) = delete;
-    QToolBar *addToolBar(const QString &title) = delete;
-    void addToolBarBreak(Qt::ToolBarArea area = Qt::TopToolBarArea) = delete;
-    void setCentralWidget(QWidget *widget) = delete;
-    void setCorner(Qt::Corner corner, Qt::DockWidgetArea area) = delete;
-    void setMenuBar(QMenuBar *menuBar) = delete;
-    void setStatusBar(QStatusBar *statusbar) = delete;
-    QWidget *statusBar() = delete;
 };
 
 #endif // HOLONDESKTOP_H

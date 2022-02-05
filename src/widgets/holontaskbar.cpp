@@ -34,8 +34,7 @@ void HolonTaskbar::paintEvent(QPaintEvent *)
 }
 
 HolonTaskbar::HolonTaskbar(QLoaderSettings *settings, HolonDesktop *parent)
-:   QWidget(parent),
-    QLoaderSettings(settings),
+:   QLoaderSettings(settings),
     d_ptr(new HolonTaskbarPrivate(this, parent))
 {
     if (!parent)

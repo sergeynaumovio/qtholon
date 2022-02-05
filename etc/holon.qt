@@ -22,13 +22,19 @@ preferedHeight = 20
 preferedWidth = 20
 styleSheet = QWidget { color: white; background-color: rgb(54, 56, 158); }
 
-[Holon/TaskbarRightTest]
+[Holon/TaskbarGreenRightTest]
 class = HolonTaskbar
 area = right
 preferedHeight = 20
 preferedWidth = 20
 styleSheet = QWidget { color: white; background-color: rgb(54, 156, 58); }
 
+[Holon/TaskbarRedRightTest]
+class = HolonTaskbar
+area = right
+preferedHeight = 20
+preferedWidth = 20
+styleSheet = QWidget { color: white; background-color: rgb(154, 56, 58); }
 
 [Holon/Taskbar]
 class = HolonTaskbar

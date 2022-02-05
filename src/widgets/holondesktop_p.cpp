@@ -44,34 +44,35 @@ class HolonDesktopLayout
         parent->layout()->addWidget(widget);
     }
 
-    void setHBoxLayout(QWidget **widget, QWidget *parent)
+    void setHBoxLayout(QWidget **widget, const char *name, QWidget *parent)
     {
         *widget = new QWidget(parent);
+        (*widget)->setObjectName(name);
         (*widget)->setLayout(new QHBoxLayout(*widget));
         (*widget)->layout()->setContentsMargins({});
         (*widget)->layout()->setSpacing(0);
         parent->layout()->addWidget(*widget);
     }
 
-    void setMainWindow(QMainWindow **widget, QWidget *parent)
+    void setMainWindow(QMainWindow **widget, const char *name, QWidget *parent)
     {
         *widget = new QMainWindow();
+        (*widget)->setObjectName(name);
         (*widget)->setParent(parent);
         parent->layout()->addWidget(*widget);
     }
 
-    void setVBoxLayout(QWidget **widget, QMainWindow *parent)
+    void setVBoxLayout(QWidget *widget)
     {
-        *widget = new QWidget(parent);
-        (*widget)->setLayout(new QVBoxLayout(*widget));
-        (*widget)->layout()->setContentsMargins({});
-        (*widget)->layout()->setSpacing(0);
-        parent->setCentralWidget(*widget);
+        widget->setLayout(new QVBoxLayout(widget));
+        widget->layout()->setContentsMargins({});
+        widget->layout()->setSpacing(0);
     }
 
-    void setVBoxLayout(QWidget **widget, QWidget *parent)
+    void setVBoxLayout(QWidget **widget, const char *name, QWidget *parent)
     {
         *widget = new QWidget(parent);
+        (*widget)->setObjectName(name);
         (*widget)->setLayout(new QVBoxLayout(*widget));
         (*widget)->layout()->setContentsMargins({});
         (*widget)->layout()->setSpacing(0);
@@ -96,16 +97,17 @@ public:
 
     void setDesktopLayout(HolonDesktop *desktop)
     {
-        setVBoxLayout(&screen, desktop);
+        setVBoxLayout(desktop);
+        setVBoxLayout(&screen, "Screen", desktop);
         {
-            setVBoxLayout(&top, screen);
-            setHBoxLayout(&middle, screen);
+            setVBoxLayout(&top, "ScreenTop", screen);
+            setHBoxLayout(&middle, "ScreenMiddle", screen);
             {
-                setHBoxLayout(&left, middle);
-                setMainWindow(&center, middle);
-                setHBoxLayout(&right, middle);
+                setHBoxLayout(&left, "ScreenLeft", middle);
+                setMainWindow(&center, "ScreenCenter", middle);
+                setHBoxLayout(&right, "ScreenRight", middle);
             }
-            setVBoxLayout(&bottom, screen);
+            setVBoxLayout(&bottom, "ScreenBottom", screen);
         }
     }
 };
@@ -122,6 +124,11 @@ HolonDesktopPrivate::HolonDesktopPrivate(HolonDesktop *q)
 {
     static_assert (d_size == sizeof (HolonDesktopPrivateData));
     static_assert (d_align == alignof (HolonDesktopPrivateData));
+}
+
+HolonDesktopPrivate::~HolonDesktopPrivate()
+{
+    d.~HolonDesktopPrivateData();
 }
 
 void HolonDesktopPrivate::setDesktopLayout()

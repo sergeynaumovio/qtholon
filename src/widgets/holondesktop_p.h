@@ -76,6 +76,7 @@ public:
 
 
     HolonDesktopPrivate(HolonDesktop *q);
+    ~HolonDesktopPrivate();
 
     void addTaskbar(HolonTaskbar *taskbar);
     void setDesktopLayout();
