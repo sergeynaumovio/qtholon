@@ -18,6 +18,9 @@
 
 #include "holonsidebar.h"
 #include "holondesktop.h"
+#include "holontaskbar.h"
+#include <QHBoxLayout>
+#include <QLabel>
 
 HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop)
 :   QLoaderSettings(settings)
@@ -26,4 +29,23 @@ HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop)
 
     if (!desktop->addSidebar(this))
         emitError("sidebar is not in list or already added");
+}
+
+HolonSidebarSwitch::HolonSidebarSwitch(QLoaderSettings *settings, HolonTaskbar *parent)
+:   QWidget(parent),
+    QLoaderSettings(settings)
+{
+    if (parent->area() == HolonTaskbar::Top ||
+        parent->area() == HolonTaskbar::Bottom)
+    {
+        setLayout(new QHBoxLayout(this));
+    }
+    else
+    {
+        setLayout(new QVBoxLayout(this));
+    }
+
+    layout()->addWidget(new QLabel("Taskbar Switch", this));
+
+    parent->addWidget(this);
 }

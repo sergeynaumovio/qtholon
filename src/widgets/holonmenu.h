@@ -25,18 +25,13 @@
 
 class HolonMenuPrivate;
 class HolonTaskbar;
-class QBoxLayout;
 
 class Q_HOLON_EXPORT HolonMenu : public QPushButton, public QLoaderSettings
 {
     Q_OBJECT
 
-protected:
-    const QScopedPointer<HolonMenuPrivate> d_ptr;
-
 public:
     HolonMenu(QLoaderSettings *settings, HolonTaskbar *parent);
-    ~HolonMenu();
 
     HolonTaskbar *taskbar() const;
 };

@@ -40,18 +40,10 @@ target_sources(${QT_HOLON_LIBRARY}
 
             src/widgets/holondesktop.h
             src/widgets/holondesktop.cpp
-            src/widgets/holondesktop_p.h
-            src/widgets/holondesktop_p.cpp
             src/widgets/holontaskbar.h
             src/widgets/holontaskbar.cpp
-            src/widgets/holontaskbar_p.h
-            src/widgets/holontaskbar_p.cpp
             src/widgets/holonmenu.h
             src/widgets/holonmenu.cpp
-            src/widgets/holonmenu_p.h
-            src/widgets/holonmenu_p.cpp
-#           src/widgets/holonsidebararea.h
-#           src/widgets/holonsidebararea.cpp
             src/widgets/holonsidebar.h
             src/widgets/holonsidebar.cpp
             src/widgets/holonworkspace.h

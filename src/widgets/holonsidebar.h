@@ -23,6 +23,7 @@
 #include <QLoaderSettings>
 
 class HolonDesktop;
+class HolonTaskbar;
 
 class HolonSidebar : public QMainWindow, public QLoaderSettings
 {
@@ -30,6 +31,14 @@ class HolonSidebar : public QMainWindow, public QLoaderSettings
 
 public:
     HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop);
+};
+
+class HolonSidebarSwitch : public QWidget, public QLoaderSettings
+{
+    Q_OBJECT
+
+public:
+    HolonSidebarSwitch(QLoaderSettings *settings, HolonTaskbar *parent);
 };
 
 #endif // HOLONSIDEBAR_H

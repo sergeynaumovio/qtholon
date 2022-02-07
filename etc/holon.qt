@@ -45,8 +45,10 @@ styleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
 
 [Holon/Taskbar/Menu]
 class = HolonMenu
-stretch = after
 styleSheet = QPushButton { border: 0px; } QPushButton:hover { background-color: rgb(34, 36, 38); }
+
+[Holon/Taskbar/SidebarSwitch]
+class = HolonSidebarSwitch
 
 [Holon/Sidebar1]
 class = HolonSidebar

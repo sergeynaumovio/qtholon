@@ -17,7 +17,143 @@
 ****************************************************************************/
 
 #include "holondesktop.h"
-#include "holondesktop_p.h"
+#include "holontaskbar.h"
+
+#include <QMainWindow>
+#include <QStackedWidget>
+#include <QDockWidget>
+#include <QLabel>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+
+class HolonMainWindow : public QMainWindow
+{
+public:
+    QStackedWidget *workspaces;
+
+    HolonMainWindow(HolonDesktop *desktop, QWidget *parent)
+    :   workspaces(new QStackedWidget(this))
+    {
+        setParent(parent);
+
+        for (const QString &string : desktop->sidebarAreaList())
+            new QDockWidget(string, this);
+
+        setCentralWidget(workspaces);
+        workspaces->addWidget(new QLabel("Workspaces", workspaces));
+    }
+};
+
+class HolonDesktopLayout
+{
+    struct
+    {
+        HolonDesktop *desktop;
+        QWidget *screen;
+        QWidget *top;
+        QWidget *middle;
+        QWidget *bottom;
+        QWidget *left;
+        QWidget *right;
+        HolonMainWindow *center;
+
+    } d;
+
+    void addWidget(QWidget *widget, QWidget *parent)
+    {
+        parent->layout()->addWidget(widget);
+    }
+
+    void setHBoxLayout(QWidget **widget, const char *name, QWidget *parent)
+    {
+        *widget = new QWidget(parent);
+        (*widget)->setObjectName(name);
+        (*widget)->setLayout(new QHBoxLayout(*widget));
+        (*widget)->layout()->setContentsMargins({});
+        (*widget)->layout()->setSpacing(0);
+        parent->layout()->addWidget(*widget);
+    }
+
+    void setMainWindow(HolonMainWindow **widget, HolonDesktop *desktop, QWidget *parent)
+    {
+        *widget = new HolonMainWindow(desktop, parent);
+        (*widget)->setObjectName("ScreenCenter");
+        parent->layout()->addWidget(*widget);
+    }
+
+    void setVBoxLayout(HolonDesktop *desktop)
+    {
+        desktop->setLayout(new QVBoxLayout(desktop));
+        desktop->layout()->setContentsMargins({});
+        desktop->layout()->setSpacing(0);
+    }
+
+    void setVBoxLayout(QWidget **widget, const char *name, QWidget *parent)
+    {
+        *widget = new QWidget(parent);
+        (*widget)->setObjectName(name);
+        (*widget)->setLayout(new QVBoxLayout(*widget));
+        (*widget)->layout()->setContentsMargins({});
+        (*widget)->layout()->setSpacing(0);
+        parent->layout()->addWidget(*widget);
+    }
+
+public:
+    void addTaskbar(HolonTaskbar *taskbar)
+    {
+        HolonTaskbar::Area area = taskbar->area();
+        QWidget *parent{};
+
+        switch (area) {
+        case HolonTaskbar::Top: parent = d.top; break;
+        case HolonTaskbar::Bottom: parent = d.bottom; break;
+        case HolonTaskbar::Left: parent = d.left; break;
+        case HolonTaskbar::Right: parent = d.right; break;
+        }
+
+        addWidget(taskbar, parent);
+    }
+
+    void setDesktopLayout(HolonDesktop *desktop)
+    {
+        setVBoxLayout(d.desktop = desktop);
+        setVBoxLayout(&d.screen, "Screen", d.desktop);
+        {
+            setVBoxLayout(&d.top, "ScreenTop", d.screen);
+            setHBoxLayout(&d.middle, "ScreenMiddle", d.screen);
+            {
+                setHBoxLayout(&d.left, "ScreenLeft", d.middle);
+                setMainWindow(&d.center, d.desktop, d.middle);
+                setHBoxLayout(&d.right, "ScreenRight", d.middle);
+            }
+            setVBoxLayout(&d.bottom, "ScreenBottom", d.screen);
+        }
+    }
+};
+
+class HolonDesktopPrivate
+{
+    HolonDesktop *const q_ptr;
+    HolonDesktopLayout desktopLayout;
+
+public:
+    QStringList sidebarAreaList;
+    QList<QChar> sidebarList;
+
+    HolonDesktopPrivate(HolonDesktop *q)
+    :   q_ptr(q)
+    { }
+
+    void addTaskbar(HolonTaskbar *taskbar)
+    {
+        desktopLayout.addTaskbar(taskbar);
+    }
+
+    void setDesktopLayout()
+    {
+        desktopLayout.setDesktopLayout(q_ptr);
+    }
+};
 
 void HolonDesktop::closeEvent(QCloseEvent *)
 {
@@ -54,7 +190,18 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
         return;
     }
 
-    if (!d_ptr->setSidebarAreas(value("sidebarAreaList").toStringList()))
+    bool validSidebarAreaList = [this]()
+    {
+        d_ptr->sidebarAreaList = value("sidebarAreaList").toStringList();
+        for (const QString &string : d_ptr->sidebarAreaList)
+        {
+            if (string.isEmpty())
+                return false;
+        }
+        return true;
+    }();
+
+    if (!validSidebarAreaList)
     {
         emitError("sidebarArea name is not set");
         return;
@@ -81,14 +228,9 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
 HolonDesktop::~HolonDesktop()
 { }
 
-QStringList HolonDesktop::sidebarAreaList() const
+bool HolonDesktop::addSidebar(HolonSidebar* /*sidebar*/)
 {
-    return d_ptr->sidebarAreaList;
-}
-
-QCharList HolonDesktop::sidebarList() const
-{
-    return d_ptr->sidebarList;
+    return true;
 }
 
 void HolonDesktop::addTask(HolonTask* /*task*/)
@@ -101,7 +243,12 @@ void HolonDesktop::addTaskbar(HolonTaskbar *taskbar)
     d_ptr->addTaskbar(taskbar);
 }
 
-bool HolonDesktop::addSidebar(HolonSidebar* /*sidebar*/)
+QStringList HolonDesktop::sidebarAreaList() const
 {
-    return true;
+    return d_ptr->sidebarAreaList;
+}
+
+QCharList HolonDesktop::sidebarList() const
+{
+    return d_ptr->sidebarList;
 }

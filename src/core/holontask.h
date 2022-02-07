@@ -30,8 +30,8 @@ class Q_HOLON_EXPORT HolonTask : public QObject, public QLoaderSettings
 {
     Q_OBJECT
 
-    QWidget *m_widget{};
-    HolonWorkspace *m_workspace{};
+    QWidget *widget_ptr{};
+    HolonWorkspace *workspace_ptr{};
 
 protected:
     HolonTask(QLoaderSettings *settings, HolonCore *parent);

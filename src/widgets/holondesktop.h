@@ -37,9 +37,9 @@ class Q_HOLON_EXPORT HolonDesktop : public QWidget, public QLoaderSettings
     Q_PROPERTY(QList<QChar> sidebarList READ sidebarList CONSTANT)
     Q_PROPERTY(QStringList sidebarAreaList READ sidebarAreaList CONSTANT)
 
-protected:
     const QScopedPointer<HolonDesktopPrivate> d_ptr;
 
+protected:
     void closeEvent(QCloseEvent *) override;
     void resizeEvent(QResizeEvent *) override;
     QVariant fromString(const QString &string) const override;

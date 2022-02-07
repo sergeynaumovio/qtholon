@@ -90,6 +90,18 @@ public:
             return parent;
         }
 
+        if (!qstrcmp(shortName, "SidebarSwitch"))
+        {
+            if (coreApp)
+                return nullptr;
+
+            HolonTaskbar *taskbar = qobject_cast<HolonTaskbar*>(parent);
+            if (taskbar)
+                return new HolonSidebarSwitch(settings, taskbar);
+
+            return parent;
+        }
+
         if (!qstrcmp(shortName, "Workspace"))
         {
             if (coreApp)

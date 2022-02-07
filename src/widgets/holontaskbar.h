@@ -35,9 +35,9 @@ class Q_HOLON_EXPORT HolonTaskbar : public QWidget, public QLoaderSettings
     Q_PROPERTY(int preferedHeight READ preferedHeight CONSTANT)
     Q_PROPERTY(int preferedWidth READ preferedWidth CONSTANT)
 
-protected:
     const QScopedPointer<HolonTaskbarPrivate> d_ptr;
 
+protected:
     void paintEvent(QPaintEvent *) override;
 
 public:
@@ -53,6 +53,8 @@ public:
     HolonTaskbar(QLoaderSettings *settings, HolonDesktop *parent);
     ~HolonTaskbar();
 
+    void addStretch();
+    void addWidget(QWidget *widget);
     HolonTaskbar::Area area() const;
     HolonDesktop *desktop() const;
     QBoxLayout *layout() const;

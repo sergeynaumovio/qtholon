@@ -17,13 +17,28 @@
 ****************************************************************************/
 
 #include "holontaskbar.h"
-#include "holontaskbar_p.h"
 #include "holondesktop.h"
 
 #include <QStyleOption>
 #include <QPainter>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+
+class HolonTaskbarPrivate
+{
+public:
+    HolonTaskbar *const q_ptr;
+    HolonDesktop *const parent;
+    HolonTaskbar::Area area;
+    int preferedHeight;
+    int preferedWidth;
+
+    HolonTaskbarPrivate(HolonTaskbar *q, HolonDesktop *parent)
+    :   q_ptr(q),
+        parent(parent)
+    { }
+
+};
 
 void HolonTaskbar::paintEvent(QPaintEvent *)
 {
@@ -74,6 +89,16 @@ HolonTaskbar::HolonTaskbar(QLoaderSettings *settings, HolonDesktop *parent)
 
 HolonTaskbar::~HolonTaskbar()
 { }
+
+void HolonTaskbar::addStretch()
+{
+    layout()->addStretch();
+}
+
+void HolonTaskbar::addWidget(QWidget *widget)
+{
+    layout()->addWidget(widget);
+}
 
 HolonTaskbar::Area HolonTaskbar::area() const
 {

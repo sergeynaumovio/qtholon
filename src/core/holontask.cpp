@@ -44,21 +44,20 @@ int HolonTask::exec()
 
 void HolonTask::setWidget(QWidget *widget)
 {
-    m_widget = widget;
+    widget_ptr = widget;
 }
 
 void HolonTask::setWorkspace(HolonWorkspace *workspace)
 {
-    m_workspace = workspace;
+    workspace_ptr = workspace;
 }
 
 QWidget *HolonTask::widget() const
 {
-    return m_widget;
+    return widget_ptr;
 }
 
 HolonWorkspace *HolonTask::workspace() const
 {
-    return m_workspace;
+    return workspace_ptr;
 }
-
