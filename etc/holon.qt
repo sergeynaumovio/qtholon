@@ -2,39 +2,13 @@
 
 [Holon]
 class = HolonDesktop
+barStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
 minimumHeight = 200
 minimumWidth = 400
 sidebarAreaList = QStringList(Left, Right, Top, Bottom)
 sidebarKeyboardModifier = Qt::AltModifier
 sidebarList = QCharList(1, 2, 3, 4, 5, 6, 7, 8, 9, 0)
-
-[Holon/TaskbarTopTest]
-class = HolonTaskbar
-area = top
-preferedHeight = 20
-preferedWidth = 20
-styleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
-
-[Holon/TaskbarLeftTest]
-class = HolonTaskbar
-area = left
-preferedHeight = 20
-preferedWidth = 20
-styleSheet = QWidget { color: white; background-color: rgb(54, 56, 158); }
-
-[Holon/TaskbarGreenRightTest]
-class = HolonTaskbar
-area = right
-preferedHeight = 20
-preferedWidth = 20
-styleSheet = QWidget { color: white; background-color: rgb(54, 156, 58); }
-
-[Holon/TaskbarRedRightTest]
-class = HolonTaskbar
-area = right
-preferedHeight = 20
-preferedWidth = 20
-styleSheet = QWidget { color: white; background-color: rgb(154, 56, 58); }
+styleSheet = QMainWindow::separator { width: 1px; height: 1px; background-color: rgb(34, 36, 38); }
 
 [Holon/Taskbar]
 class = HolonTaskbar

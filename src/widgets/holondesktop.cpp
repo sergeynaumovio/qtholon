@@ -26,6 +26,43 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
+class HolonSidebarAreaTitleBar : public QWidget
+{
+public:
+    HolonSidebarAreaTitleBar(HolonDesktop *desktop, QDockWidget *parent)
+    :   QWidget(parent)
+    {
+        setStyleSheet(desktop->barStyleSheet());
+        setLayout(new QHBoxLayout(this));
+        layout()->addWidget(new QLabel("", this));
+    }
+};
+
+class HolonSidebarArea : public QDockWidget
+{
+    QStackedWidget *widget;
+
+public:
+    HolonSidebarArea(const QString &name, HolonDesktop *desktop, QMainWindow *parent)
+    :   QDockWidget(parent),
+        widget(new QStackedWidget(this))
+    {
+        setFeatures(QDockWidget::DockWidgetMovable);
+
+        QLabel *label = new QLabel(this);
+        {
+            label->setText(name);
+            QFont font("Arial", 20, QFont::Bold);
+            label->setFont(font);
+            label->setAlignment(Qt::AlignCenter);
+            widget->addWidget(label);
+        }
+
+        setWidget(widget);
+        setTitleBarWidget(new HolonSidebarAreaTitleBar(desktop, this));
+    }
+};
+
 class HolonMainWindow : public QMainWindow
 {
 public:
@@ -36,8 +73,12 @@ public:
     {
         setParent(parent);
 
-        for (const QString &string : desktop->sidebarAreaList())
-            new QDockWidget(string, this);
+        setDockOptions(QMainWindow::AnimatedDocks | QMainWindow::AllowNestedDocks);
+
+        for (const QString &name : desktop->sidebarAreaList())
+        {
+            addDockWidget(Qt::LeftDockWidgetArea, new HolonSidebarArea(name, desktop, this));
+        }
 
         setCentralWidget(workspaces);
         workspaces->addWidget(new QLabel("Workspaces", workspaces));
@@ -139,6 +180,7 @@ class HolonDesktopPrivate
 public:
     QStringList sidebarAreaList;
     QList<QChar> sidebarList;
+    QString barStyleSheet;
 
     HolonDesktopPrivate(HolonDesktop *q)
     :   q_ptr(q)
@@ -222,6 +264,8 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
         return;
     }
 
+    d_ptr->barStyleSheet = value("barStyleSheet").toString();
+
     d_ptr->setDesktopLayout();
 }
 
@@ -241,6 +285,11 @@ void HolonDesktop::addTask(HolonTask* /*task*/)
 void HolonDesktop::addTaskbar(HolonTaskbar *taskbar)
 {
     d_ptr->addTaskbar(taskbar);
+}
+
+QString HolonDesktop::barStyleSheet() const
+{
+    return d_ptr->barStyleSheet;
 }
 
 QStringList HolonDesktop::sidebarAreaList() const

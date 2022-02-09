@@ -55,6 +55,7 @@ public:
     bool addSidebar(HolonSidebar *sidebar);
     void addTask(HolonTask *task);
     void addTaskbar(HolonTaskbar *taskbar);
+    QString barStyleSheet() const;
     QStringList sidebarAreaList() const;
     QCharList sidebarList() const;
 };
