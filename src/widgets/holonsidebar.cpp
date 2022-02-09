@@ -19,7 +19,7 @@
 #include "holonsidebar.h"
 #include "holondesktop.h"
 #include "holontaskbar.h"
-#include <QHBoxLayout>
+#include <QBoxLayout>
 #include <QLabel>
 
 HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop)

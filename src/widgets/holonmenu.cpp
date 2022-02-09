@@ -20,8 +20,7 @@
 #include "holontaskbar.h"
 #include "holondesktop.h"
 
-#include <QHBoxLayout>
-#include <QVBoxLayout>
+#include <QBoxLayout>
 #include <QKeyEvent>
 #include <QStyleOption>
 #include <QPainter>

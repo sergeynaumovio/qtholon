@@ -23,8 +23,7 @@
 #include <QStackedWidget>
 #include <QDockWidget>
 #include <QLabel>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
+#include <QBoxLayout>
 
 class HolonSidebarAreaTitleBar : public QWidget
 {

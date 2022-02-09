@@ -21,8 +21,7 @@
 
 #include <QStyleOption>
 #include <QPainter>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
+#include <QBoxLayout>
 
 class HolonTaskbarPrivate
 {
