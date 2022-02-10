@@ -24,6 +24,7 @@
 #include <QDockWidget>
 #include <QLabel>
 #include <QBoxLayout>
+#include <QShortcut>
 
 class HolonSidebarAreaTitleBar : public QWidget
 {
@@ -39,13 +40,29 @@ public:
 
 class HolonSidebarArea : public QDockWidget
 {
-    QStackedWidget *widget;
+    struct
+    {
+        HolonDesktop *desktop;
+
+        struct
+        {
+            HolonSidebarAreaTitleBar *visible;
+            QWidget *hidden;
+
+        } titlebar;
+
+        QStackedWidget *widget;
+
+    } d;
 
 public:
     HolonSidebarArea(const QString &name, HolonDesktop *desktop, QMainWindow *parent)
-    :   QDockWidget(parent),
-        widget(new QStackedWidget(this))
+    :   QDockWidget(parent)
     {
+        d.desktop = desktop;
+        d.titlebar.hidden = new QWidget(this);
+        d.widget = new QStackedWidget(this);
+
         setFeatures(QDockWidget::DockWidgetMovable);
 
         QLabel *label = new QLabel(this);
@@ -54,19 +71,34 @@ public:
             QFont font("Arial", 20, QFont::Bold);
             label->setFont(font);
             label->setAlignment(Qt::AlignCenter);
-            widget->addWidget(label);
+            d.widget->addWidget(label);
         }
 
-        setWidget(widget);
-        setTitleBarWidget(new HolonSidebarAreaTitleBar(desktop, this));
+        setTitleBarWidget(d.titlebar.hidden);
+        setWidget(d.widget);
+    }
+
+    void showTitleBarWidget(bool show)
+    {
+        if (show)
+        {
+            setTitleBarWidget(d.titlebar.visible = new HolonSidebarAreaTitleBar(d.desktop, this));
+            d.titlebar.hidden->deleteLater();
+        }
+        else
+        {
+            setTitleBarWidget(d.titlebar.hidden = new QWidget(this));
+            d.titlebar.visible->deleteLater();
+        }
     }
 };
 
 class HolonMainWindow : public QMainWindow
 {
-public:
+    QList<HolonSidebarArea*> areas;
     QStackedWidget *workspaces;
 
+public:
     HolonMainWindow(HolonDesktop *desktop, QWidget *parent)
     :   workspaces(new QStackedWidget(this))
     {
@@ -76,11 +108,26 @@ public:
 
         for (const QString &name : desktop->sidebarAreaList())
         {
-            addDockWidget(Qt::LeftDockWidgetArea, new HolonSidebarArea(name, desktop, this));
+            HolonSidebarArea *area = new HolonSidebarArea(name, desktop, this);
+            areas.append(area);
+            addDockWidget(Qt::LeftDockWidgetArea, area);
         }
 
         setCentralWidget(workspaces);
         workspaces->addWidget(new QLabel("Workspaces", workspaces));
+
+        QShortcut *shortcut = new QShortcut(QKeySequence(desktop->sidebarAreasMovableShortcut()), this);
+        connect(shortcut, &QShortcut::activated, this, [desktop]()
+        {
+            bool movable = desktop->isSidebarAreasMovable();
+            desktop->setSidebarAreasMovable(!movable);
+        });
+    }
+
+    void showTitleBarWidgets(bool show)
+    {
+        for (HolonSidebarArea *area : areas)
+            area->showTitleBarWidget(show);
     }
 };
 
@@ -154,6 +201,8 @@ public:
         addWidget(taskbar, parent);
     }
 
+    HolonMainWindow *mainWindow() { return d.center; }
+
     void setDesktopLayout(HolonDesktop *desktop)
     {
         setVBoxLayout(d.desktop = desktop);
@@ -173,11 +222,11 @@ public:
 
 class HolonDesktopPrivate
 {
+public:
     HolonDesktop *const q_ptr;
     HolonDesktopLayout desktopLayout;
-
-public:
     QStringList sidebarAreaList;
+    bool sidebarAreasMovable{};
     QList<QChar> sidebarList;
     QString barStyleSheet;
 
@@ -291,9 +340,25 @@ QString HolonDesktop::barStyleSheet() const
     return d_ptr->barStyleSheet;
 }
 
+bool HolonDesktop::isSidebarAreasMovable() const
+{
+    return d_ptr->sidebarAreasMovable;
+}
+
+void HolonDesktop::setSidebarAreasMovable(bool movable)
+{
+    d_ptr->sidebarAreasMovable = movable;
+    d_ptr->desktopLayout.mainWindow()->showTitleBarWidgets(movable);
+}
+
 QStringList HolonDesktop::sidebarAreaList() const
 {
     return d_ptr->sidebarAreaList;
+}
+
+QString HolonDesktop::sidebarAreasMovableShortcut() const
+{
+    return value("sidebarAreasMovableShortcut").toString();
 }
 
 QCharList HolonDesktop::sidebarList() const
