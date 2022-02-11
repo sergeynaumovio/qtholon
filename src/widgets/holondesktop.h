@@ -61,6 +61,7 @@ public:
     QStringList sidebarAreaList() const;
     QString sidebarAreasMovableShortcut() const;
     QCharList sidebarList() const;
+    int titleBarHeight() const;
 };
 
 #endif // HOLONDESKTOP_H

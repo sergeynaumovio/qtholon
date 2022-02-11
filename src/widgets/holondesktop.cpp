@@ -34,7 +34,13 @@ public:
     {
         setStyleSheet(desktop->barStyleSheet());
         setLayout(new QHBoxLayout(this));
-        layout()->addWidget(new QLabel("", this));
+        {
+            QLabel *label = new QLabel("", this);
+            {
+                label->setFixedHeight(desktop->titleBarHeight());
+                layout()->addWidget(label);
+            }
+        }
     }
 };
 
@@ -229,6 +235,7 @@ public:
     bool sidebarAreasMovable{};
     QList<QChar> sidebarList;
     QString barStyleSheet;
+    int titleBarHeight;
 
     HolonDesktopPrivate(HolonDesktop *q)
     :   q_ptr(q)
@@ -313,6 +320,7 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
     }
 
     d_ptr->barStyleSheet = value("barStyleSheet").toString();
+    d_ptr->titleBarHeight = value("titleBarHeight", 10).toInt();
 
     d_ptr->setDesktopLayout();
 }
@@ -364,4 +372,9 @@ QString HolonDesktop::sidebarAreasMovableShortcut() const
 QCharList HolonDesktop::sidebarList() const
 {
     return d_ptr->sidebarList;
+}
+
+int HolonDesktop::titleBarHeight() const
+{
+    return d_ptr->titleBarHeight;
 }
