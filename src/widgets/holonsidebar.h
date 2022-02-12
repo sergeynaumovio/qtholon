@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021 Sergey Naumov
+** Copyright (C) 2021, 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -19,18 +19,26 @@
 #ifndef HOLONSIDEBAR_H
 #define HOLONSIDEBAR_H
 
-#include <QMainWindow>
+#include <QWidget>
 #include <QLoaderSettings>
 
+class HolonSidebarPrivate;
 class HolonDesktop;
 class HolonTaskbar;
 
-class HolonSidebar : public QMainWindow, public QLoaderSettings
+class HolonSidebar : public QWidget, public QLoaderSettings
 {
     Q_OBJECT
 
+    QScopedPointer<HolonSidebarPrivate> d_ptr;
+
 public:
     HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop);
+    ~HolonSidebar();
+
+    void addWidget(QWidget *widget);
+    QChar sidebar() const;
+    QString sidebarArea() const;
 };
 
 class HolonSidebarSwitch : public QWidget, public QLoaderSettings

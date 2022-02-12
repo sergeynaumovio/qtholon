@@ -22,12 +22,14 @@
 #include <QWidget>
 #include <QLoaderSettings>
 
+class HolonSidebar;
+
 class HolonOpenTasks : public QWidget, public QLoaderSettings
 {
     Q_OBJECT
 
 public:
-    HolonOpenTasks(QLoaderSettings *settings, QWidget *parent);
+    HolonOpenTasks(QLoaderSettings *settings, HolonSidebar *parent);
 };
 
 #endif // HOLONOPENTASKS_H

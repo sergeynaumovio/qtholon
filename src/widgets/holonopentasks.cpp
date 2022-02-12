@@ -17,8 +17,18 @@
 ****************************************************************************/
 
 #include "holonopentasks.h"
+#include "holonsidebar.h"
+#include <QBoxLayout>
+#include <QLabel>
 
-HolonOpenTasks::HolonOpenTasks(QLoaderSettings *settings, QWidget *parent)
+HolonOpenTasks::HolonOpenTasks(QLoaderSettings *settings, HolonSidebar *parent)
 :   QWidget(parent),
     QLoaderSettings(settings)
-{ }
+{
+    parent->addWidget(this);
+
+    setLayout(new QVBoxLayout(this));
+    {
+        layout()->addWidget(new QLabel("Open Tasks", this));
+    }
+}

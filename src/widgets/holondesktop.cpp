@@ -18,6 +18,7 @@
 
 #include "holondesktop.h"
 #include "holontaskbar.h"
+#include "holonsidebar.h"
 
 #include <QMainWindow>
 #include <QStackedWidget>
@@ -92,6 +93,7 @@ class HolonSidebarArea : public QDockWidget
         } titlebar;
 
         QStackedWidget *widget;
+        QWidget *currentWidget;
 
         Data(Desktop ptrs, QMainWindow *parent)
         :   desktop(ptrs),
@@ -130,6 +132,12 @@ public:
         setWidget(d.widget);
     }
 
+    void addSidebar(HolonSidebar *sidebar)
+    {
+        d.widget->addWidget(sidebar);
+        d.widget->setCurrentWidget(sidebar);
+    }
+
     void setSidebarAreasAdded(bool added)
     {
         d.sidebarAreasAdded = added;
@@ -139,11 +147,14 @@ public:
     {
         if (show)
         {
+            d.currentWidget = d.widget->currentWidget();
+            d.widget->setCurrentIndex(0);
             setTitleBarWidget(d.titlebar.visible = new HolonSidebarAreaTitleBar(d.desktop.q_ptr, this));
             d.titlebar.hidden->deleteLater();
         }
         else
         {
+            d.widget->setCurrentWidget(d.currentWidget);
             setTitleBarWidget(d.titlebar.hidden = new QWidget(this));
             d.titlebar.visible->deleteLater();
         }
@@ -188,6 +199,18 @@ public:
             bool movable = desktop.d_ptr->isSidebarAreasMovable();
             desktop.d_ptr->setSidebarAreasMovable(!movable);
         });
+    }
+
+    void addSidebar(HolonSidebar *sidebar)
+    {
+        for (HolonSidebarArea *area : areas)
+        {
+            if (area->objectName() == sidebar->sidebarArea())
+            {
+                area->addSidebar(sidebar);
+                break;
+            }
+        }
     }
 
     void showTitleBarWidgets(bool show)
@@ -295,6 +318,7 @@ public:
     QList<QChar> sidebarList;
     int titleBarHeight;
     QString titleBarStyleSheet;
+    QList<HolonSidebar*> sidebars;
 
     HolonDesktopPrivateData(HolonDesktop *q)
     :   HolonDesktopPrivate(q)
@@ -305,14 +329,14 @@ public:
         desktopLayout.addTaskbar(taskbar);
     }
 
-    void setDesktopLayout()
-    {
-        desktopLayout.setDesktopLayout({this, q_ptr});
-    }
-
     bool isSidebarAreasMovable() const override
     {
         return sidebarAreasMovable;
+    }
+
+    void setDesktopLayout()
+    {
+        desktopLayout.setDesktopLayout({this, q_ptr});
     }
 
     void setSidebarAreasMovable(bool movable) override
@@ -402,8 +426,22 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
 HolonDesktop::~HolonDesktop()
 { }
 
-bool HolonDesktop::addSidebar(HolonSidebar* /*sidebar*/)
+bool HolonDesktop::addSidebar(HolonSidebar *sidebar)
 {
+    D(HolonDesktop);
+    if (!d->sidebarList.contains(sidebar->sidebar()) ||
+        !d->sidebarAreaList.contains(sidebar->sidebarArea()) ||
+
+        std::find_if(d->sidebars.begin(), d->sidebars.end(),
+                     [sidebar](HolonSidebar *current)
+                     { return current->sidebar() == sidebar->sidebar(); }) != d->sidebars.end())
+    {
+        return false;
+    }
+
+    d->sidebars.append(sidebar);
+    d->desktopLayout.mainWindow()->addSidebar(sidebar);
+
     return true;
 }
 
