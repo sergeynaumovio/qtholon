@@ -44,6 +44,15 @@ protected:
     { }
 
 public:
+    virtual bool isSidebarAreasMovable() const = 0;
+
+    QString sidebarAreasMovableShortcut() const
+    {
+        return q_ptr->value("sidebarAreasMovableShortcut").toString();
+    }
+
+    virtual void setSidebarAreasMovable(bool movable) = 0;
+
     void stageState(const QByteArray &state)
     {
         q_ptr->setValue("mainWindowState", state);
@@ -56,7 +65,7 @@ public:
     HolonSidebarAreaTitleBar(HolonDesktop *desktop, QDockWidget *parent)
     :   QWidget(parent)
     {
-        setStyleSheet(desktop->barStyleSheet());
+        setStyleSheet(desktop->titleBarStyleSheet());
         setLayout(new QHBoxLayout(this));
         {
             QLabel *label = new QLabel("", this);
@@ -174,11 +183,11 @@ public:
         setCentralWidget(workspaces);
         workspaces->addWidget(new QLabel("Workspaces", workspaces));
 
-        QShortcut *shortcut = new QShortcut(QKeySequence(desktop.q_ptr->sidebarAreasMovableShortcut()), this);
+        QShortcut *shortcut = new QShortcut(QKeySequence(desktop.d_ptr->sidebarAreasMovableShortcut()), this);
         connect(shortcut, &QShortcut::activated, this, [desktop]()
         {
-            bool movable = desktop.q_ptr->isSidebarAreasMovable();
-            desktop.q_ptr->setSidebarAreasMovable(!movable);
+            bool movable = desktop.d_ptr->isSidebarAreasMovable();
+            desktop.d_ptr->setSidebarAreasMovable(!movable);
         });
     }
 
@@ -285,8 +294,8 @@ public:
     QStringList sidebarAreaList;
     bool sidebarAreasMovable{};
     QList<QChar> sidebarList;
-    QString barStyleSheet;
     int titleBarHeight;
+    QString titleBarStyleSheet;
 
     HolonDesktopPrivateData(HolonDesktop *q)
     :   HolonDesktopPrivate(q)
@@ -300,6 +309,17 @@ public:
     void setDesktopLayout()
     {
         desktopLayout.setDesktopLayout({this, q_ptr});
+    }
+
+    bool isSidebarAreasMovable() const override
+    {
+        return sidebarAreasMovable;
+    }
+
+    void setSidebarAreasMovable(bool movable) override
+    {
+        sidebarAreasMovable = movable;
+        desktopLayout.mainWindow()->showTitleBarWidgets(movable);
     }
 };
 
@@ -372,8 +392,8 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
         return;
     }
 
-    d->barStyleSheet = value("barStyleSheet").toString();
     d->titleBarHeight = value("titleBarHeight", 10).toInt();
+    d->titleBarStyleSheet = value("titleBarStyleSheet").toString();
 
     d->setDesktopLayout();
 
@@ -399,34 +419,10 @@ void HolonDesktop::addTaskbar(HolonTaskbar *taskbar)
     d->addTaskbar(taskbar);
 }
 
-QString HolonDesktop::barStyleSheet() const
-{
-    D(HolonDesktop);
-    return d->barStyleSheet;
-}
-
-bool HolonDesktop::isSidebarAreasMovable() const
-{
-    D(HolonDesktop);
-    return d->sidebarAreasMovable;
-}
-
-void HolonDesktop::setSidebarAreasMovable(bool movable)
-{
-    D(HolonDesktop);
-    d->sidebarAreasMovable = movable;
-    d->desktopLayout.mainWindow()->showTitleBarWidgets(movable);
-}
-
 QStringList HolonDesktop::sidebarAreaList() const
 {
     D(HolonDesktop);
     return d->sidebarAreaList;
-}
-
-QString HolonDesktop::sidebarAreasMovableShortcut() const
-{
-    return value("sidebarAreasMovableShortcut").toString();
 }
 
 QCharList HolonDesktop::sidebarList() const
@@ -439,4 +435,10 @@ int HolonDesktop::titleBarHeight() const
 {
     D(HolonDesktop);
     return d->titleBarHeight;
+}
+
+QString HolonDesktop::titleBarStyleSheet() const
+{
+    D(HolonDesktop);
+    return d->titleBarStyleSheet;
 }

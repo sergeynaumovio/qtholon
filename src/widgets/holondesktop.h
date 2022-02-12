@@ -56,13 +56,10 @@ public:
     bool addSidebar(HolonSidebar *sidebar);
     void addTask(HolonTask *task);
     void addTaskbar(HolonTaskbar *taskbar);
-    QString barStyleSheet() const;
-    bool isSidebarAreasMovable() const;
-    void setSidebarAreasMovable(bool movable);
     QStringList sidebarAreaList() const;
-    QString sidebarAreasMovableShortcut() const;
     QCharList sidebarList() const;
     int titleBarHeight() const;
+    QString titleBarStyleSheet() const;
 };
 
 #endif // HOLONDESKTOP_H
