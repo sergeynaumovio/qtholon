@@ -45,13 +45,12 @@ protected:
 
 public:
     virtual bool isSidebarAreasMovable() const = 0;
+    virtual void setSidebarAreasMovable(bool movable) = 0;
 
     QString sidebarAreasMovableShortcut() const
     {
         return q_ptr->value("sidebarAreasMovableShortcut").toString();
     }
-
-    virtual void setSidebarAreasMovable(bool movable) = 0;
 
     void stageState(const QByteArray &state)
     {
