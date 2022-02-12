@@ -46,7 +46,7 @@ protected:
 public:
     void stageState(const QByteArray &state)
     {
-        q_ptr->setValue("sidebarAreasState", state);
+        q_ptr->setValue("mainWindowState", state);
     }
 };
 
@@ -377,7 +377,7 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
 
     d->setDesktopLayout();
 
-    d->desktopLayout.mainWindow()->restoreState(value("sidebarAreasState").toByteArray());
+    d->desktopLayout.mainWindow()->restoreState(value("mainWindowState").toByteArray());
 }
 
 HolonDesktop::~HolonDesktop()
