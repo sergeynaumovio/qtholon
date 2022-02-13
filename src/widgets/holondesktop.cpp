@@ -44,6 +44,7 @@ protected:
 
 public:
     virtual ~HolonDesktopPrivate() {}
+
     virtual bool isSidebarAreasMovable() const = 0;
     virtual void setSidebarAreasMovable(bool movable) = 0;
 
