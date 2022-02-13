@@ -42,48 +42,68 @@ public:
     }
 };
 
+class HolonSidebarDockWidget : public QDockWidget
+{
+public:
+    HolonSidebarDockWidget(HolonDesktop *desktop, QMainWindow *parent)
+    :   QDockWidget(parent)
+    {
+        parent->addDockWidget(Qt::LeftDockWidgetArea, this);
+        setFeatures(QDockWidget::NoDockWidgetFeatures);
+        setTitleBarWidget(new HolonSidebarDockWidgetTitleBar(desktop, this));
+        setWidget(new QWidget(this));
+    }
+
+    HolonSidebarDockWidget(HolonDesktop *desktop, QWidget *widget, QMainWindow *parent)
+    :   QDockWidget(parent)
+    {
+        parent->addDockWidget(Qt::LeftDockWidgetArea, this);
+        setFeatures(QDockWidget::NoDockWidgetFeatures);
+        setTitleBarWidget(new HolonSidebarDockWidgetTitleBar(desktop, this));
+        setWidget(widget);
+    }
+};
+
 class HolonSidebarPrivate
 {
 public:
     HolonDesktop *const desktop;
     QMainWindow *const mainWindow;
+    QDockWidget *const defaultDock;
     const QChar sidebar;
     const QString sidebarArea;
+    int count{};
 
-    HolonSidebarPrivate(HolonDesktop *desktop_ptr,
-                        HolonSidebar *sidebar_ptr,
-                        QMainWindow *window_ptr,
+    HolonSidebarPrivate(HolonSidebar *q_ptr,
+                        HolonDesktop *desktop_ptr,
                         const QChar sidebar_name,
                         const QString &sidebarArea_name)
     :   desktop(desktop_ptr),
-        mainWindow(window_ptr),
+        mainWindow(new QMainWindow),
+        defaultDock(new HolonSidebarDockWidget(desktop_ptr, mainWindow)),
         sidebar(sidebar_name),
         sidebarArea(sidebarArea_name)
     {
         mainWindow->setDockOptions(QMainWindow::AnimatedDocks | QMainWindow::AllowNestedDocks);
-        mainWindow->setParent(sidebar_ptr);
+        mainWindow->setParent(q_ptr);
     }
-};
 
-class HolonSidebarDockWidget : public QDockWidget
-{
-public:
-    HolonSidebarDockWidget(HolonDesktop *desktop, QWidget *widget, QMainWindow *parent)
-    :   QDockWidget(parent)
+    void addWidget(QWidget *widget)
     {
-        parent->addDockWidget(Qt::BottomDockWidgetArea, this);
-        setFeatures(QDockWidget::DockWidgetMovable);
-        setTitleBarWidget(new HolonSidebarDockWidgetTitleBar(desktop, this));
-        setWidget(widget);
+        new HolonSidebarDockWidget(desktop, widget, mainWindow);
+
+        if (!count)
+            defaultDock->hide();
+
+        ++count;
     }
 };
 
 HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop)
 :   QWidget(desktop),
     QLoaderSettings(settings),
-    d_ptr(new HolonSidebarPrivate(desktop,
-                                  this,
-                                  new QMainWindow(),
+    d_ptr(new HolonSidebarPrivate(this,
+                                  desktop,
                                   value("sidebar").toChar(),
                                   value("sidebarArea").toString()))
 {
@@ -117,7 +137,7 @@ HolonSidebar::~HolonSidebar()
 
 void HolonSidebar::addWidget(QWidget *widget)
 {
-    new HolonSidebarDockWidget(d_ptr->desktop, widget, d_ptr->mainWindow);
+    d_ptr->addWidget(widget);
 }
 
 QChar HolonSidebar::sidebar() const

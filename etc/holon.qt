@@ -1,14 +1,18 @@
 #!/usr/bin/qtloader6
 
+[HolonOpenTasks]
+class = HolonOpenTasks
+
 [Holon]
 class = HolonDesktop
-mainWindowState = QByteArray(AAAA/wAAAAD9AAAABAAAAAAAAADTAAABnfwCAAAAAfsAAAAIAEwAZQBmAHQBAAAApAAAAZ0AAAA8AP///gAAAAEAAACQAAABnfwCAAAAAfsAAAAKAFIAaQBnAGgAdAEAAACkAAABnQAAAB4A///+AAAAAgAAAqcAAACj/AEAAAAB+wAAAAYAVABvAHABAAAAAAAAAqcAAAAwAP///wAAAAMAAAKnAAAAavwBAAAAAfsAAAAMAEIAbwB0AHQAbwBtAQAAAAAAAAKnAAAAXwD///8AAAFCAAABnQAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAABAAAAAAAAABxAAABnfwCAAAAAfsAAAAIAEwAZQBmAHQBAAAApAAAAZ0AAAB6AP///gAAAAEAAACQAAABnfwCAAAAAfsAAAAKAFIAaQBnAGgAdAEAAACkAAABnQAAAB4A///+AAAAAgAAAqcAAACj/AEAAAAB+wAAAAYAVABvAHABAAAAAAAAAqcAAAAwAP///wAAAAMAAAKnAAAAavwBAAAAAfsAAAAMAEIAbwB0AHQAbwBtAQAAAAAAAAKnAAAAXwD///8AAAGkAAABnQAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 minimumHeight = 200
 minimumWidth = 400
 sidebarAreaList = QStringList(Left, Right, Top, Bottom)
 sidebarAreasMovableShortcut = Alt+M
 sidebarKeyboardModifier = Qt::AltModifier
 sidebarList = QCharList(1, 2, 3, 4, 5, 6, 7, 8, 9, 0)
+sidebarWidgets = QStringList(HolonOpenTasks)
 styleSheet = QMainWindow::separator { width: 1px; height: 1px; background-color: rgb(34, 36, 38); }
 titleBarHeight = 10
 titleBarStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
@@ -32,5 +36,13 @@ class = HolonSidebar
 sidebar = QChar(1)
 sidebarArea = Left
 
-[Holon/Sidebar1/OpenTasks]
+[Holon/Sidebar1/OpenTasks1]
 class = HolonOpenTasks
+
+[Holon/Sidebar1/OpenTasks2]
+class = HolonOpenTasks
+
+[Holon/Sidebar2]
+class = HolonSidebar
+sidebar = QChar(2)
+sidebarArea = Top
