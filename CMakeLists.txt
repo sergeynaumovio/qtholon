@@ -81,7 +81,7 @@ target_link_libraries(${QT_HOLON_LIBRARY}
 )
 
 target_compile_definitions(${QT_HOLON_LIBRARY}
-    PRIVATE QT_HOLON_LIBRARY
+    PRIVATE QT_BUILD_HOLON_LIB
 )
 
 qt_add_resources(${QT_HOLON_LIBRARY} "Holon"

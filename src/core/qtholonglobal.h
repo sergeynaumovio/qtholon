@@ -22,7 +22,7 @@
 #include <QtCore/qcompilerdetection.h>
 
 #ifndef QT_STATIC
-#  if defined(QT_HOLON_LIBRARY)
+#  if defined(QT_BUILD_HOLON_LIB)
 #    define Q_HOLON_EXPORT Q_DECL_EXPORT
 #  else
 #    define Q_HOLON_EXPORT Q_DECL_IMPORT
@@ -30,5 +30,7 @@
 #else
 #  define Q_HOLON_EXPORT
 #endif
+
+#define D(Class) Class##PrivateData *const d = static_cast<Class##PrivateData*>(d_ptr.get())
 
 #endif // QTHOLONGLOBAL_H

@@ -27,8 +27,6 @@
 #include <QBoxLayout>
 #include <QShortcut>
 
-#define D(Class) Class##PrivateData *const d = static_cast<Class##PrivateData*>(d_ptr.get())
-
 struct Desktop
 {
     HolonDesktopPrivate *const d_ptr;
