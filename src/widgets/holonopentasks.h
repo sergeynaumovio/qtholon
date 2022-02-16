@@ -19,17 +19,39 @@
 #ifndef HOLONOPENTASKS_H
 #define HOLONOPENTASKS_H
 
+#include "holonwindow.h"
 #include <QWidget>
-#include <QLoaderSettings>
 
+class HolonOpenTasksWindowPrivate;
+class HolonDesktop;
 class HolonSidebar;
 
-class HolonOpenTasks : public QWidget, public QLoaderSettings
+class HolonOpenTasksWindow : public HolonWindow
 {
     Q_OBJECT
 
+    QScopedPointer<HolonOpenTasksWindowPrivate> d_ptr;
+
 public:
-    HolonOpenTasks(QLoaderSettings *settings, HolonSidebar *parent);
+    HolonOpenTasksWindow(QLoaderSettings *settings, HolonDesktop *parent);
+    HolonOpenTasksWindow(QLoaderSettings *settings, HolonSidebar *parent);
+    ~HolonOpenTasksWindow();
+
+    QIcon icon() const override;
+    QString title() const override;
+    QWidget *toolbar() const override;
+    QWidget *widget() const override;
+
+};
+
+class HolonOpenTasksToolbar : public QWidget
+{
+
+};
+
+class HolonOpenTasksWidget : public QWidget
+{
+
 };
 
 #endif // HOLONOPENTASKS_H

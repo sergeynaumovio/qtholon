@@ -17,18 +17,56 @@
 ****************************************************************************/
 
 #include "holonopentasks.h"
+#include "holondesktop.h"
 #include "holonsidebar.h"
 #include <QBoxLayout>
 #include <QLabel>
+#include <QIcon>
 
-HolonOpenTasks::HolonOpenTasks(QLoaderSettings *settings, HolonSidebar *parent)
-:   QWidget(parent),
-    QLoaderSettings(settings)
+class HolonOpenTasksWindowPrivate
 {
-    parent->addWidget(this);
+public:
+    QWidget *widget{};
+};
 
-    setLayout(new QVBoxLayout(this));
+HolonOpenTasksWindow::HolonOpenTasksWindow(QLoaderSettings *settings, HolonDesktop *parent)
+:   HolonWindow(settings, parent)
+{ }
+
+HolonOpenTasksWindow::HolonOpenTasksWindow(QLoaderSettings *settings, HolonSidebar *parent)
+:   HolonWindow(settings, parent),
+    d_ptr(new HolonOpenTasksWindowPrivate)
+{
+    parent->addWindow(this);
+}
+
+HolonOpenTasksWindow::~HolonOpenTasksWindow()
+{}
+
+QIcon HolonOpenTasksWindow::icon() const
+{
+    return {};
+}
+
+QString HolonOpenTasksWindow::title() const
+{
+    return {};
+}
+
+QWidget *HolonOpenTasksWindow::toolbar() const
+{
+    return {};
+}
+
+QWidget *HolonOpenTasksWindow::widget() const
+{
+    QWidget *widget = new QWidget(d_ptr->widget);
     {
-        layout()->addWidget(new QLabel("Open Tasks", this));
+        widget->setLayout(new QVBoxLayout(widget));
+        {
+            widget->layout()->addWidget(new QLabel("Open Tasks", widget));
+        }
     }
+
+    return widget;
 }

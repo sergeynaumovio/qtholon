@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021, 2022 Sergey Naumov
+** Copyright (C) 2022 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -16,15 +16,30 @@
 **
 ****************************************************************************/
 
-#include "holonworkspace.h"
-#include "holontask.h"
+#include "holonwindow.h"
+#include <QIcon>
 
-HolonWorkspace::HolonWorkspace(QLoaderSettings *settings, HolonTask *task)
-:   QLoaderSettings(settings)
+HolonWindow::HolonWindow(QLoaderSettings *settings, QObject *parent)
+:   QObject(parent),
+    QLoaderSettings(settings)
+{ }
+
+QIcon HolonWindow::icon() const
 {
-    task->setWorkspace(this);
+    return {};
 }
 
-void HolonWorkspace::addWidget(QWidget* /*widget*/)
+QString HolonWindow::title() const
 {
+    return {};
+}
+
+QWidget *HolonWindow::toolbar() const
+{
+    return {};
+}
+
+QWidget *HolonWindow::widget() const
+{
+    return {};
 }

@@ -19,10 +19,12 @@
 #include "holonsidebar.h"
 #include "holondesktop.h"
 #include "holontaskbar.h"
+#include "holonwindow.h"
 #include <QBoxLayout>
 #include <QLabel>
 #include <QMainWindow>
 #include <QDockWidget>
+#include <QLoaderTree>
 
 class HolonSidebarDockWidgetTitleBar : public QWidget
 {
@@ -54,13 +56,13 @@ public:
         setWidget(new QWidget(this));
     }
 
-    HolonSidebarDockWidget(HolonDesktop *desktop, QWidget *widget, QMainWindow *parent)
+    HolonSidebarDockWidget(HolonDesktop *desktop, HolonWindow *window, QMainWindow *parent)
     :   QDockWidget(parent)
     {
         parent->addDockWidget(Qt::LeftDockWidgetArea, this);
         setFeatures(QDockWidget::NoDockWidgetFeatures);
         setTitleBarWidget(new HolonSidebarDockWidgetTitleBar(desktop, this));
-        setWidget(widget);
+        setWidget(window->widget());
     }
 };
 
@@ -88,9 +90,9 @@ public:
         mainWindow->setParent(q_ptr);
     }
 
-    void addWidget(QWidget *widget)
+    void addWindow(HolonWindow *window)
     {
-        new HolonSidebarDockWidget(desktop, widget, mainWindow);
+        new HolonSidebarDockWidget(desktop, window, mainWindow);
 
         if (!count)
             defaultDock->hide();
@@ -135,9 +137,9 @@ HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop)
 HolonSidebar::~HolonSidebar()
 { }
 
-void HolonSidebar::addWidget(QWidget *widget)
+void HolonSidebar::addWindow(HolonWindow *window)
 {
-    d_ptr->addWidget(widget);
+    d_ptr->addWindow(window);
 }
 
 QChar HolonSidebar::sidebar() const

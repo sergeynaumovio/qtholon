@@ -16,23 +16,23 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONWORKSPACE_H
-#define HOLONWORKSPACE_H
+#ifndef HOLONWINDOW_H
+#define HOLONWINDOW_H
 
-#include <QMainWindow>
+#include "qtholonglobal.h"
 #include <QLoaderSettings>
 
-class HolonTask;
-class HolonDesktop;
-
-class HolonWorkspace : public QMainWindow, public QLoaderSettings
+class Q_HOLON_EXPORT HolonWindow : public QObject, public QLoaderSettings
 {
     Q_OBJECT
 
 public:
-    HolonWorkspace(QLoaderSettings *settings, HolonTask *task);
+    HolonWindow(QLoaderSettings *settings, QObject *parent);
 
-    void addWidget(QWidget *widget);
+    virtual QIcon icon() const;
+    virtual QString title() const;
+    virtual QWidget *toolbar() const;
+    virtual QWidget *widget() const;
 };
 
-#endif // HOLONWORKSPACE_H
+#endif // HOLONWINDOW_H

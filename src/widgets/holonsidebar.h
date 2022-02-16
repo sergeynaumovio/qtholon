@@ -24,6 +24,7 @@
 
 class HolonSidebarPrivate;
 class HolonDesktop;
+class HolonWindow;
 class HolonTaskbar;
 
 class HolonSidebar : public QWidget, public QLoaderSettings
@@ -36,7 +37,7 @@ public:
     HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop);
     ~HolonSidebar();
 
-    void addWidget(QWidget *widget);
+    void addWindow(HolonWindow *window);
     QChar sidebar() const;
     QString sidebarArea() const;
 };

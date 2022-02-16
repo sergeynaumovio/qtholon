@@ -22,7 +22,6 @@
 #include "holonmenu.h"
 #include "holonsidebar.h"
 #include "holontask.h"
-#include "holonworkspace.h"
 #include "holonopentasks.h"
 
 #include <QLoaderPluginInterface>
@@ -102,26 +101,18 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "Workspace"))
+        if (!qstrcmp(shortName, "OpenTasksWindow"))
         {
             if (coreApp)
                 return nullptr;
 
-            HolonTask *task = qobject_cast<HolonTask*>(parent);
-            if (task)
-                return new HolonWorkspace(settings, task);
-
-            return parent;
-        }
-
-        if (!qstrcmp(shortName, "OpenTasks"))
-        {
-            if (coreApp)
-                return nullptr;
+            HolonDesktop *desktop = qobject_cast<HolonDesktop*>(parent);
+            if (desktop)
+                return new HolonOpenTasksWindow(settings, desktop);
 
             HolonSidebar *sidebar = qobject_cast<HolonSidebar*>(parent);
             if (sidebar)
-                return new HolonOpenTasks(settings, sidebar);
+                return new HolonOpenTasksWindow(settings, sidebar);
 
             return parent;
         }

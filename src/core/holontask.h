@@ -24,27 +24,24 @@
 
 class HolonCore;
 class HolonDesktop;
-class HolonWorkspace;
+class HolonWindow;
 
 class Q_HOLON_EXPORT HolonTask : public QObject, public QLoaderSettings
 {
     Q_OBJECT
 
-    QWidget *widget_ptr{};
-    HolonWorkspace *workspace_ptr{};
-
 protected:
     HolonTask(QLoaderSettings *settings, HolonCore *parent);
     HolonTask(QLoaderSettings *settings, HolonDesktop *parent);
 
-    HolonDesktop *desktop() const;
-
 public:
+    virtual void addAttributesWindow(HolonWindow *window);
+    virtual void addCentralWindow(HolonWindow *window);
+    virtual const QList<HolonWindow*> attributesWindowList();
+    virtual const QList<HolonWindow*> centralWindowList();
+    virtual HolonWindow *controlWindow();
     virtual int exec();
-    void setWidget(QWidget *widget);
-    void setWorkspace(HolonWorkspace *workspace);
-    QWidget *widget() const;
-    HolonWorkspace *workspace() const;
+    virtual void setControlWindow(HolonWindow *window);
 };
 
 #endif // HOLONTASK_H

@@ -32,9 +32,25 @@ HolonTask::HolonTask(QLoaderSettings *settings, HolonDesktop *parent)
     parent->addTask(this);
 }
 
-HolonDesktop *HolonTask::desktop() const
+void HolonTask::addAttributesWindow(HolonWindow* /*window*/)
+{ }
+
+void HolonTask::addCentralWindow(HolonWindow* /*window*/)
+{ }
+
+const QList<HolonWindow *> HolonTask::attributesWindowList()
 {
-    return qobject_cast<HolonDesktop*>(parent());
+    return {};
+}
+
+const QList<HolonWindow *> HolonTask::centralWindowList()
+{
+    return {};
+}
+
+HolonWindow *HolonTask::controlWindow()
+{
+    return {};
 }
 
 int HolonTask::exec()
@@ -42,22 +58,5 @@ int HolonTask::exec()
     return 0;
 }
 
-void HolonTask::setWidget(QWidget *widget)
-{
-    widget_ptr = widget;
-}
-
-void HolonTask::setWorkspace(HolonWorkspace *workspace)
-{
-    workspace_ptr = workspace;
-}
-
-QWidget *HolonTask::widget() const
-{
-    return widget_ptr;
-}
-
-HolonWorkspace *HolonTask::workspace() const
-{
-    return workspace_ptr;
-}
+void HolonTask::setControlWindow(HolonWindow* /*window*/)
+{ }
