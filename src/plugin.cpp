@@ -38,7 +38,8 @@ class Plugin : public QObject, QLoaderPluginInterface
 public:
     QObject *object(QLoaderSettings *settings, QObject *parent) override
     {
-        const char *shortName = settings->className() + qstrlen("Holon");
+        QByteArray className = settings->className();
+        const char *shortName = className.data() + qstrlen("Holon");
         bool coreApp = !qobject_cast<QApplication*>(QCoreApplication::instance());
 
         if (!qstrcmp(shortName, "Desktop"))
