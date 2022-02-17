@@ -22,41 +22,24 @@
 
 HolonTask::HolonTask(QLoaderSettings *settings, HolonCore *parent)
 :   QObject(parent),
-    QLoaderSettings(settings)
-{ }
-
-HolonTask::HolonTask(QLoaderSettings *settings, HolonDesktop *parent)
-:   QObject(parent),
-    QLoaderSettings(settings)
+    QLoaderSettings(settings),
+    d_ptr(new HolonTaskData)
 {
     parent->addTask(this);
 }
 
-void HolonTask::addAttributesWindow(HolonWindow* /*window*/)
+HolonTask::HolonTask(QLoaderSettings *settings, HolonDesktop *parent)
+:   QObject(parent),
+    QLoaderSettings(settings),
+    d_ptr(new HolonTaskData)
+{
+    parent->addTask(this);
+}
+
+HolonTask::~HolonTask()
 { }
-
-void HolonTask::addCentralWindow(HolonWindow* /*window*/)
-{ }
-
-const QList<HolonWindow *> HolonTask::attributesWindowList()
-{
-    return {};
-}
-
-const QList<HolonWindow *> HolonTask::centralWindowList()
-{
-    return {};
-}
-
-HolonWindow *HolonTask::controlWindow()
-{
-    return {};
-}
 
 int HolonTask::exec()
 {
     return 0;
 }
-
-void HolonTask::setControlWindow(HolonWindow* /*window*/)
-{ }

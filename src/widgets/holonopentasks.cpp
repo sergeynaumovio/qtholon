@@ -41,7 +41,7 @@ HolonOpenTasksWindow::HolonOpenTasksWindow(QLoaderSettings *settings, HolonSideb
 }
 
 HolonOpenTasksWindow::~HolonOpenTasksWindow()
-{}
+{ }
 
 QIcon HolonOpenTasksWindow::icon() const
 {
@@ -50,7 +50,7 @@ QIcon HolonOpenTasksWindow::icon() const
 
 QString HolonOpenTasksWindow::title() const
 {
-    return {};
+    return "Open Tasks";
 }
 
 QWidget *HolonOpenTasksWindow::toolbar() const
@@ -60,13 +60,16 @@ QWidget *HolonOpenTasksWindow::toolbar() const
 
 QWidget *HolonOpenTasksWindow::widget() const
 {
-    QWidget *widget = new QWidget(d_ptr->widget);
+    if (!d_ptr->widget)
     {
-        widget->setLayout(new QVBoxLayout(widget));
+        d_ptr->widget = new QWidget(d_ptr->widget);
         {
-            widget->layout()->addWidget(new QLabel("Open Tasks", widget));
+            d_ptr->widget->setLayout(new QVBoxLayout(d_ptr->widget));
+            {
+                d_ptr->widget->layout()->addWidget(new QLabel("Open Tasks", d_ptr->widget));
+            }
         }
     }
 
-    return widget;
+    return d_ptr->widget;
 }

@@ -42,6 +42,20 @@ public:
             }
         }
     }
+
+    HolonSidebarDockWidgetTitleBar(HolonDesktop *desktop, HolonWindow *window, QDockWidget *parent)
+    :   QWidget(parent)
+    {
+        setStyleSheet(desktop->titleBarStyleSheet());
+        setLayout(new QHBoxLayout(this));
+        {
+            QLabel *label = new QLabel(window->title(), this);
+            {
+                label->setFixedHeight(desktop->titleBarHeight());
+                layout()->addWidget(label);
+            }
+        }
+    }
 };
 
 class HolonSidebarDockWidget : public QDockWidget
@@ -61,7 +75,7 @@ public:
     {
         parent->addDockWidget(Qt::LeftDockWidgetArea, this);
         setFeatures(QDockWidget::NoDockWidgetFeatures);
-        setTitleBarWidget(new HolonSidebarDockWidgetTitleBar(desktop, this));
+        setTitleBarWidget(new HolonSidebarDockWidgetTitleBar(desktop, window, this));
         setWidget(window->widget());
     }
 };

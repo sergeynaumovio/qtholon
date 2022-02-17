@@ -22,3 +22,8 @@ HolonCore::HolonCore(QLoaderSettings *settings, QObject *parent)
 :   QObject(parent),
     QLoaderSettings(settings)
 { }
+
+void HolonCore::addTask(HolonTask */*task*/)
+{
+
+}
