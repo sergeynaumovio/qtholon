@@ -19,25 +19,22 @@
 #ifndef HOLONSIDEBAR_H
 #define HOLONSIDEBAR_H
 
-#include <QWidget>
-#include <QLoaderSettings>
+#include "holonwindowarea.h"
 
 class HolonSidebarPrivate;
 class HolonDesktop;
 class HolonWindow;
 class HolonTaskbar;
 
-class HolonSidebar : public QWidget, public QLoaderSettings
+class HolonSidebar : public HolonWindowArea
 {
     Q_OBJECT
-
-    QScopedPointer<HolonSidebarPrivate> d_ptr;
+    Q_DECLARE_PRIVATE(HolonSidebar)
 
 public:
     HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop);
     ~HolonSidebar();
 
-    void addWindow(HolonWindow *window);
     QChar sidebar() const;
     QString sidebarArea() const;
 };

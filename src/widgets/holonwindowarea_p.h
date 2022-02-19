@@ -21,13 +21,24 @@
 
 #include "holonwindowarea.h"
 
+class HolonDesktop;
+class QMainWindow;
+class QDockWidget;
+
 class HolonWindowAreaPrivate
 {
 public:
     HolonWindowArea *q_ptr;
+    HolonDesktop *const desktop;
+    QMainWindow *const mainWindow;
+    QDockWidget *const defaultDock;
+    int count{};
 
-    HolonWindowAreaPrivate(HolonWindowArea *q);
+    HolonWindowAreaPrivate(HolonDesktop *desktop);
     virtual ~HolonWindowAreaPrivate();
+
+    void addWindow(HolonWindow *window);
+
 };
 
 #endif // HOLONWINDOWAREA_P_H

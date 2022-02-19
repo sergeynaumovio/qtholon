@@ -17,12 +17,84 @@
 ****************************************************************************/
 
 #include "holonwindowarea_p.h"
+#include "holondesktop.h"
+#include "holonwindow.h"
+#include <QBoxLayout>
+#include <QLabel>
+#include <QMainWindow>
+#include <QDockWidget>
 
-HolonWindowAreaPrivate::HolonWindowAreaPrivate(HolonWindowArea *q)
-:   q_ptr(q)
-{ }
+class TitleBar : public QWidget
+{
+public:
+    TitleBar(HolonDesktop *desktop, QDockWidget *parent)
+    :   QWidget(parent)
+    {
+        setStyleSheet(desktop->titleBarStyleSheet());
+        setLayout(new QHBoxLayout(this));
+        {
+            QLabel *label = new QLabel("", this);
+            {
+                label->setFixedHeight(desktop->titleBarHeight());
+                layout()->addWidget(label);
+            }
+        }
+    }
+
+    TitleBar(HolonDesktop *desktop, HolonWindow *window, QDockWidget *parent)
+    :   QWidget(parent)
+    {
+        setStyleSheet(desktop->titleBarStyleSheet());
+        setLayout(new QHBoxLayout(this));
+        {
+            QLabel *label = new QLabel(window->title(), this);
+            {
+                label->setFixedHeight(desktop->titleBarHeight());
+                layout()->addWidget(label);
+            }
+        }
+    }
+};
+
+class DockWidget : public QDockWidget
+{
+public:
+    DockWidget(HolonDesktop *desktop, QMainWindow *parent)
+    :   QDockWidget(parent)
+    {
+        parent->addDockWidget(Qt::LeftDockWidgetArea, this);
+        setFeatures(QDockWidget::NoDockWidgetFeatures);
+        setTitleBarWidget(new TitleBar(desktop, this));
+        setWidget(new QWidget(this));
+    }
+
+    DockWidget(HolonDesktop *desktop, HolonWindow *window, QMainWindow *parent)
+    :   QDockWidget(parent)
+    {
+        parent->addDockWidget(Qt::LeftDockWidgetArea, this);
+        setFeatures(QDockWidget::NoDockWidgetFeatures);
+        setTitleBarWidget(new TitleBar(desktop, window, this));
+        setWidget(window->widget());
+    }
+};
+
+HolonWindowAreaPrivate::HolonWindowAreaPrivate(HolonDesktop *desktop)
+:   desktop(desktop),
+    mainWindow(new QMainWindow),
+    defaultDock(new DockWidget(desktop, mainWindow))
+{
+    mainWindow->setDockOptions(QMainWindow::AnimatedDocks | QMainWindow::AllowNestedDocks);
+}
 
 HolonWindowAreaPrivate::~HolonWindowAreaPrivate()
 { }
 
+void HolonWindowAreaPrivate::addWindow(HolonWindow *window)
+{
+    new DockWidget(desktop, window, mainWindow);
 
+    if (!count)
+        defaultDock->hide();
+
+    ++count;
+}

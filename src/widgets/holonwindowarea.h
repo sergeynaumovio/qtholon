@@ -19,25 +19,29 @@
 #ifndef HOLONWINDOWAREA_H
 #define HOLONWINDOWAREA_H
 
-#include "qtholonglobal.h"
 #include <QWidget>
 #include <QLoaderSettings>
 
 class HolonWindowAreaPrivate;
 class QStackedWidget;
+class HolonDesktop;
 class HolonWindow;
 
-class Q_HOLON_EXPORT HolonWindowArea : public QWidget, public QLoaderSettings
+class HolonWindowArea : public QWidget, public QLoaderSettings
 {
     Q_OBJECT
 
 protected:
     const QScopedPointer<HolonWindowAreaPrivate> d_ptr;
 
-    HolonWindowArea(HolonWindowAreaPrivate &dd, QLoaderSettings *settings, QStackedWidget *parent);
+    HolonWindowArea(HolonWindowAreaPrivate &d,
+                    QLoaderSettings *settings);
 
 public:
-    HolonWindowArea(QLoaderSettings *settings, QStackedWidget *parent);
+    HolonWindowArea(QLoaderSettings *settings,
+                    HolonDesktop *desktop,
+                    QStackedWidget *parent);
+
     ~HolonWindowArea();
 
     void addWindow(HolonWindow *window);

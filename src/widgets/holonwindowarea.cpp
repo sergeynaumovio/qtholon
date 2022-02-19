@@ -19,27 +19,35 @@
 #include "holonwindowarea.h"
 #include "holonwindowarea_p.h"
 #include <QStackedWidget>
+#include <QBoxLayout>
+#include <QMainWindow>
 
-HolonWindowArea::HolonWindowArea(HolonWindowAreaPrivate &dd,
-                                 QLoaderSettings *settings,
-                                 QStackedWidget *parent)
+HolonWindowArea::HolonWindowArea(HolonWindowAreaPrivate &d,
+                                 QLoaderSettings *settings)
 :   QLoaderSettings(settings),
-    d_ptr(&dd)
+    d_ptr(&d)
 {
-    setParent(parent);
+    d_ptr->q_ptr = this;
+    d_ptr->mainWindow->setParent(this);
+    setLayout(new QHBoxLayout(this));
+    {
+        layout()->addWidget(d_ptr->mainWindow);
+        layout()->setContentsMargins({});
+    }
 }
 
-HolonWindowArea::HolonWindowArea(QLoaderSettings *settings, QStackedWidget *parent)
-:   QLoaderSettings(settings),
-    d_ptr(new HolonWindowAreaPrivate(this))
+HolonWindowArea::HolonWindowArea(QLoaderSettings *settings,
+                                 HolonDesktop *desktop,
+                                 QStackedWidget *parent)
+:   HolonWindowArea(*new HolonWindowAreaPrivate(desktop), settings)
 {
-    setParent(parent);
+    parent->addWidget(this);
 }
 
 HolonWindowArea::~HolonWindowArea()
 { }
 
-void HolonWindowArea::addWindow(HolonWindow */*window*/)
+void HolonWindowArea::addWindow(HolonWindow *window)
 {
-
+    d_ptr->addWindow(window);
 }
