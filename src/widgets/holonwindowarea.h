@@ -32,7 +32,7 @@ class Q_HOLON_EXPORT HolonWindowArea : public QWidget, public QLoaderSettings
     Q_OBJECT
 
 protected:
-    const QScopedArrayPointer<HolonWindowAreaPrivate> d_ptr;
+    const QScopedPointer<HolonWindowAreaPrivate> d_ptr;
 
     HolonWindowArea(HolonWindowAreaPrivate &dd, QLoaderSettings *settings, QStackedWidget *parent);
 
