@@ -52,7 +52,7 @@ public:
                 QPushButton *button = new QPushButton(chr, this);
                 {
                     button->setFixedHeight(desktop->titleBarHeight());
-                    button->setFixedWidth(button->height());
+                    button->setFixedWidth(button->height() * 2);
                     button->setFlat(true);
                     button->setStyleSheet(desktop->buttonStyleSheet());
                     layout()->addWidget(button);
