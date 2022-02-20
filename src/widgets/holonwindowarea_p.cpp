@@ -144,7 +144,6 @@ void HolonWindowAreaPrivate::maximizeWindow(QDockWidget *dock)
 
 void HolonWindowAreaPrivate::closeWindow(QDockWidget *dock, HolonWindow *window)
 {
-    QMainWindow *mainWindow = qobject_cast<QMainWindow*>(dock->parent());
     mainWindow->removeDockWidget(dock);
     dock->deleteLater();
     window->deleteLater();
