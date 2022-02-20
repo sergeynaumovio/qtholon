@@ -143,7 +143,17 @@ HolonMenu::HolonMenu(QLoaderSettings *settings, HolonTaskbar *parent)
     size *= 0.5;
     setIconSize({size, size});
 
+    setStyleSheet(desktop()->buttonStyleSheet());
+
     new HolonMenuWidget(this);
+}
+
+HolonDesktop *HolonMenu::desktop() const
+{
+    if (HolonTaskbar *bar = taskbar())
+        return  bar->desktop();
+
+    return nullptr;
 }
 
 HolonTaskbar *HolonMenu::taskbar() const

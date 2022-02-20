@@ -25,6 +25,7 @@
 
 class HolonMenuPrivate;
 class HolonTaskbar;
+class HolonDesktop;
 
 class Q_HOLON_EXPORT HolonMenu : public QPushButton, public QLoaderSettings
 {
@@ -33,6 +34,7 @@ class Q_HOLON_EXPORT HolonMenu : public QPushButton, public QLoaderSettings
 public:
     HolonMenu(QLoaderSettings *settings, HolonTaskbar *parent);
 
+    HolonDesktop *desktop() const;
     HolonTaskbar *taskbar() const;
 };
 

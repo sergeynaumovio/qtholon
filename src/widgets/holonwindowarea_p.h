@@ -32,12 +32,15 @@ public:
     HolonDesktop *const desktop;
     QMainWindow *const mainWindow;
     QDockWidget *const defaultDock;
-    int count{};
+    QList<QDockWidget*> dockList;
+    bool maximized{};
 
     HolonWindowAreaPrivate(HolonDesktop *desktop);
     virtual ~HolonWindowAreaPrivate();
 
     void addWindow(HolonWindow *window);
+    void maximizeWindow(QDockWidget *dock);
+    void closeWindow(QDockWidget *dock, HolonWindow *window);
 
 };
 

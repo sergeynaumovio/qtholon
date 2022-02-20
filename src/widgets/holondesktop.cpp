@@ -68,6 +68,7 @@ public:
         setStyleSheet(desktop->titleBarStyleSheet());
         setLayout(new QHBoxLayout(this));
         {
+            layout()->setContentsMargins({});
             QLabel *label = new QLabel("", this);
             {
                 label->setFixedHeight(desktop->titleBarHeight());
@@ -313,6 +314,7 @@ class HolonDesktopPrivateData : public HolonDesktopPrivate
 {
 public:
     HolonDesktopLayout desktopLayout;
+    QString buttonStyleSheet;
     QStringList sidebarAreaList;
     bool sidebarAreasMovable{};
     QList<QChar> sidebarList;
@@ -415,6 +417,7 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
         return;
     }
 
+    d->buttonStyleSheet = value("buttonStyleSheet").toString();
     d->titleBarHeight = value("titleBarHeight", 10).toInt();
     d->titleBarStyleSheet = value("titleBarStyleSheet").toString();
 
@@ -456,26 +459,32 @@ void HolonDesktop::addTaskbar(HolonTaskbar *taskbar)
     d->addTaskbar(taskbar);
 }
 
+QString HolonDesktop::buttonStyleSheet() const
+{
+    D(const HolonDesktop);
+    return d->buttonStyleSheet;
+}
+
 QStringList HolonDesktop::sidebarAreaList() const
 {
-    D(HolonDesktop);
+    D(const HolonDesktop);
     return d->sidebarAreaList;
 }
 
 QCharList HolonDesktop::sidebarList() const
 {
-    D(HolonDesktop);
+    D(const HolonDesktop);
     return d->sidebarList;
 }
 
 int HolonDesktop::titleBarHeight() const
 {
-    D(HolonDesktop);
+    D(const HolonDesktop);
     return d->titleBarHeight;
 }
 
 QString HolonDesktop::titleBarStyleSheet() const
 {
-    D(HolonDesktop);
+    D(const HolonDesktop);
     return d->titleBarStyleSheet;
 }

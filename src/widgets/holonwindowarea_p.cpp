@@ -21,33 +21,65 @@
 #include "holonwindow.h"
 #include <QBoxLayout>
 #include <QLabel>
+#include <QPushButton>
 #include <QMainWindow>
 #include <QDockWidget>
 
 class TitleBar : public QWidget
 {
-    TitleBar(HolonDesktop *desktop, const QString &title, QDockWidget *parent)
+public:
+    TitleBar(HolonDesktop *desktop, QDockWidget *parent,
+             HolonWindow *window = nullptr,
+             HolonWindowAreaPrivate *d = nullptr)
     :   QWidget(parent)
     {
         setStyleSheet(desktop->titleBarStyleSheet());
         setLayout(new QHBoxLayout(this));
         {
-            QLabel *label = new QLabel(title, this);
+            layout()->setContentsMargins({});
+            layout()->setSpacing(0);
+            QLabel *label = new QLabel(window ? window->title() : "", this);
             {
                 label->setFixedHeight(desktop->titleBarHeight());
                 layout()->addWidget(label);
             }
+
+            if (!window)
+                return;
+
+            auto addButton = [=, this](const QChar &chr)
+            {
+                QPushButton *button = new QPushButton(chr, this);
+                {
+                    button->setFixedHeight(desktop->titleBarHeight());
+                    button->setFixedWidth(button->height());
+                    button->setFlat(true);
+                    button->setStyleSheet(desktop->buttonStyleSheet());
+                    layout()->addWidget(button);
+                }
+                return button;
+            };
+
+            QPushButton *maximize = addButton('M');
+            {
+                connect(maximize, &QPushButton::clicked, this, [=]()
+                {
+                    d->maximized = !d->maximized;
+                    if (d->maximized)
+                        maximize->setText("m");
+                    else
+                        maximize->setText("M");
+
+                     d->maximizeWindow(parent);
+                });
+            }
+
+            QPushButton *close = addButton('X');
+            {
+                connect(close, &QPushButton::clicked, this, [=](){ d->closeWindow(parent, window); });
+            }
         }
     }
-
-public:
-    TitleBar(HolonDesktop *desktop, QDockWidget *parent)
-    :   TitleBar(desktop, "", parent)
-    { }
-
-    TitleBar(HolonDesktop *desktop, HolonWindow *window, QDockWidget *parent)
-    :   TitleBar(desktop, window->title(), parent)
-    { }
 };
 
 class DockWidget : public QDockWidget
@@ -67,10 +99,10 @@ public:
         setWidget(new QWidget(this));
     }
 
-    DockWidget(HolonDesktop *desktop, HolonWindow *window, QMainWindow *parent)
+    DockWidget(HolonDesktop *desktop, QMainWindow *parent, HolonWindow *window, HolonWindowAreaPrivate *d)
     :   DockWidget(parent)
     {
-        setTitleBarWidget(new TitleBar(desktop, window, this));
+        setTitleBarWidget(new TitleBar(desktop, this, window, d));
         setWidget(window->widget());
     }
 };
@@ -88,10 +120,37 @@ HolonWindowAreaPrivate::~HolonWindowAreaPrivate()
 
 void HolonWindowAreaPrivate::addWindow(HolonWindow *window)
 {
-    new DockWidget(desktop, window, mainWindow);
+    dockList.append(new DockWidget(desktop, mainWindow, window, this));
 
-    if (!count)
+    if (dockList.count())
         defaultDock->hide();
+}
 
-    ++count;
+void HolonWindowAreaPrivate::maximizeWindow(QDockWidget *dock)
+{
+    if (maximized)
+    {
+        for (QDockWidget *w : dockList)
+            w->hide();
+
+        dock->show();
+    }
+    else
+    {
+        for (QDockWidget *w : dockList)
+            w->show();
+    }
+}
+
+void HolonWindowAreaPrivate::closeWindow(QDockWidget *dock, HolonWindow *window)
+{
+    QMainWindow *mainWindow = qobject_cast<QMainWindow*>(dock->parent());
+    mainWindow->removeDockWidget(dock);
+    dock->deleteLater();
+    window->deleteLater();
+
+    dockList.removeOne(dock);
+
+    if (!dockList.count())
+        defaultDock->show();
 }
