@@ -152,4 +152,11 @@ void HolonWindowAreaPrivate::closeWindow(QDockWidget *dock, HolonWindow *window)
 
     if (!dockList.count())
         defaultDock->show();
+    else if(maximized)
+    {
+        for (QDockWidget *w : dockList)
+            w->show();
+
+        maximized = false;
+    }
 }
