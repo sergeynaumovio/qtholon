@@ -22,17 +22,32 @@
 #include "qtholonglobal.h"
 #include <QLoaderSettings>
 
+class HolonDesktop;
+class HolonSidebar;
+
 class Q_HOLON_EXPORT HolonWindow : public QObject, public QLoaderSettings
 {
     Q_OBJECT
 
-public:
-    HolonWindow(QLoaderSettings *settings, QObject *parent);
+protected:
+    HolonWindow(QLoaderSettings *settings, HolonDesktop *parent);
+    HolonWindow(QLoaderSettings *settings, HolonSidebar *parent);
 
+public:
+    enum Area
+    {
+        Central = 0x1,
+        Sidebar = 0x2
+    };
+    Q_DECLARE_FLAGS(Areas, HolonWindow::Area)
+
+    virtual HolonWindow::Areas areas() const;
     virtual QIcon icon() const;
     virtual QString title() const;
     virtual QWidget *toolbar() const;
     virtual QWidget *widget() const;
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(HolonWindow::Areas)
 
 #endif // HOLONWINDOW_H

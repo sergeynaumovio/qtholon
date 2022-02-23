@@ -3,14 +3,13 @@
 [Holon]
 class = HolonDesktop
 buttonStyleSheet = QPushButton { border: 0px; } QPushButton:hover { background-color: rgb(34, 36, 38); }
-mainWindowState = QByteArray(AAAA/wAAAAD9AAAABAAAAAAAAACwAAABnfwCAAAAAfsAAAAIAEwAZQBmAHQBAAAApAAAAZ0AAAB+AP///gAAAAEAAACQAAABnfwCAAAAAfsAAAAKAFIAaQBnAGgAdAEAAACkAAABnQAAAB4A///+AAAAAgAAAqcAAACj/AEAAAAB+wAAAAYAVABvAHABAAAAAAAAAqcAAAAwAP///wAAAAMAAAKnAAAAavwBAAAAAfsAAAAMAEIAbwB0AHQAbwBtAQAAAAAAAAKnAAAAXwD///8AAAFlAAABnQAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAABAAAAAAAAACwAAABnfwCAAAAAfsAAAAIAEwAZQBmAHQBAAAApAAAAZ0AAAByAP///gAAAAEAAACQAAABnfwCAAAAAfsAAAAKAFIAaQBnAGgAdAEAAACkAAABnQAAAB4A///+AAAAAgAAAqcAAACj/AEAAAAB+wAAAAYAVABvAHABAAAAAAAAAqcAAAAwAP///wAAAAMAAAKnAAAAavwBAAAAAfsAAAAMAEIAbwB0AHQAbwBtAQAAAAAAAAKnAAAAXwD///8AAAFlAAABnQAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 minimumHeight = 200
 minimumWidth = 400
 sidebarAreaList = QStringList(Left, Right, Top, Bottom)
 sidebarAreasMovableShortcut = Alt+M
 sidebarKeyboardModifier = Qt::AltModifier
 sidebarList = QCharList(1, 2, 3, 4, 5, 6, 7, 8, 9, 0)
-sidebarWindows = QStringList(OpenTasksWindow)
 styleSheet = QMainWindow::separator { width: 1px; height: 1px; background-color: rgb(34, 36, 38); }
 titleBarHeight = 24
 titleBarStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }

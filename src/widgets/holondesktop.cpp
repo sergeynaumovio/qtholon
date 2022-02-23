@@ -459,6 +459,11 @@ void HolonDesktop::addTaskbar(HolonTaskbar *taskbar)
     d->addTaskbar(taskbar);
 }
 
+void HolonDesktop::addWindow(HolonWindow* /*window*/)
+{
+
+}
+
 QString HolonDesktop::buttonStyleSheet() const
 {
     D(const HolonDesktop);

@@ -37,6 +37,7 @@ public:
     HolonOpenTasksWindow(QLoaderSettings *settings, HolonSidebar *parent);
     ~HolonOpenTasksWindow();
 
+    HolonWindow::Areas areas() const override;
     QIcon icon() const override;
     QString title() const override;
     QWidget *toolbar() const override;

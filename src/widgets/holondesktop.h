@@ -27,6 +27,7 @@ class HolonDesktopPrivate;
 class HolonSidebar;
 class HolonTask;
 class HolonTaskbar;
+class HolonWindow;
 
 using QCharList = QList<QChar>;
 
@@ -56,6 +57,7 @@ public:
     bool addSidebar(HolonSidebar *sidebar);
     void addTask(HolonTask *task);
     void addTaskbar(HolonTaskbar *taskbar);
+    void addWindow(HolonWindow *window);
     QString buttonStyleSheet() const;
     QStringList sidebarAreaList() const;
     QCharList sidebarList() const;

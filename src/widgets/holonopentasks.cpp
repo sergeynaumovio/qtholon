@@ -43,6 +43,11 @@ HolonOpenTasksWindow::HolonOpenTasksWindow(QLoaderSettings *settings, HolonSideb
 HolonOpenTasksWindow::~HolonOpenTasksWindow()
 { }
 
+HolonWindow::Areas HolonOpenTasksWindow::areas() const
+{
+    return HolonWindow::Sidebar;
+}
+
 QIcon HolonOpenTasksWindow::icon() const
 {
     return {};

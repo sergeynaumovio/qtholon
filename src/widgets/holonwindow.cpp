@@ -17,29 +17,24 @@
 ****************************************************************************/
 
 #include "holonwindow.h"
+#include "holondesktop.h"
+#include "holonsidebar.h"
 #include <QIcon>
 
-HolonWindow::HolonWindow(QLoaderSettings *settings, QObject *parent)
+HolonWindow::HolonWindow(QLoaderSettings *settings, HolonDesktop *parent)
+:   QObject(parent),
+    QLoaderSettings(settings)
+{
+    parent->addWindow(this);
+}
+
+HolonWindow::HolonWindow(QLoaderSettings *settings, HolonSidebar *parent)
 :   QObject(parent),
     QLoaderSettings(settings)
 { }
 
-QIcon HolonWindow::icon() const
-{
-    return {};
-}
-
-QString HolonWindow::title() const
-{
-    return {};
-}
-
-QWidget *HolonWindow::toolbar() const
-{
-    return {};
-}
-
-QWidget *HolonWindow::widget() const
-{
-    return {};
-}
+HolonWindow::Areas HolonWindow::areas() const { return {}; }
+QIcon HolonWindow::icon() const { return {}; }
+QString HolonWindow::title() const { return {}; }
+QWidget *HolonWindow::toolbar() const { return {}; }
+QWidget *HolonWindow::widget() const { return {}; }
