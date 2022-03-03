@@ -494,16 +494,16 @@ QString HolonDesktop::buttonStyleSheet() const
     return d->buttonStyleSheet;
 }
 
-QString HolonDesktop::newWindowMenuStyleSheet() const
-{
-    D(const HolonDesktop);
-    return d->newWindowMenuStyleSheet;
-}
-
 int HolonDesktop::newWindowMenuBorder() const
 {
     D(const HolonDesktop);
     return d->newWindowMenuBorder;
+}
+
+QString HolonDesktop::newWindowMenuStyleSheet() const
+{
+    D(const HolonDesktop);
+    return d->newWindowMenuStyleSheet;
 }
 
 int HolonDesktop::newWindowMenuWidth() const
