@@ -30,13 +30,13 @@ public:
     QChar sidebar;
     QString sidebarArea;
 
-    HolonSidebarPrivate(HolonDesktop *desktop)
-    :   HolonWindowAreaPrivate(desktop)
+    HolonSidebarPrivate(HolonWindowArea *q, HolonDesktop *desktop)
+    :   HolonWindowAreaPrivate(q, desktop)
     { }
 };
 
 HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop)
-:   HolonWindowArea(*new HolonSidebarPrivate(desktop), settings)
+:   HolonWindowArea(*new HolonSidebarPrivate(this, desktop), settings)
 {
     Q_D(HolonSidebar);
     d->sidebar = value("sidebar").toChar();

@@ -2,10 +2,12 @@
 
 [Holon]
 class = HolonDesktop
-buttonStyleSheet = QPushButton { border: 0px; } QPushButton:hover { background-color: rgb(34, 36, 38); }
+buttonStyleSheet = QPushButton { border: 0px; } QPushButton:hover { background-color: rgb(74, 76, 78); color: white; }
 mainWindowState = QByteArray(AAAA/wAAAAD9AAAABAAAAAAAAACwAAABnfwCAAAAAfsAAAAIAEwAZQBmAHQBAAAApAAAAZ0AAAByAP///gAAAAEAAACQAAABnfwCAAAAAfsAAAAKAFIAaQBnAGgAdAEAAACkAAABnQAAAB4A///+AAAAAgAAAqcAAACj/AEAAAAB+wAAAAYAVABvAHABAAAAAAAAAqcAAAAwAP///wAAAAMAAAKnAAAAavwBAAAAAfsAAAAMAEIAbwB0AHQAbwBtAQAAAAAAAAKnAAAAXwD///8AAAFlAAABnQAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 minimumHeight = 200
 minimumWidth = 400
+newWindowMenuStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); border: 1px solid rgb(34, 36, 38); }
+newWindowMenuWidth = 180
 sidebarAreaList = QStringList(Left, Right, Top, Bottom)
 sidebarAreasMovableShortcut = Alt+M
 sidebarKeyboardModifier = Qt::AltModifier
@@ -25,7 +27,7 @@ preferedWidth = 50
 styleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
 
 [Holon/Taskbar/Menu]
-class = HolonMenu
+class = HolonNewTaskMenu
 
 [Holon/Taskbar/SidebarSwitch]
 class = HolonSidebarSwitch

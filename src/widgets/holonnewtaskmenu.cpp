@@ -16,7 +16,7 @@
 **
 ****************************************************************************/
 
-#include "holonmenu.h"
+#include "holonnewtaskmenu.h"
 #include "holontaskbar.h"
 #include "holondesktop.h"
 
@@ -27,12 +27,12 @@
 #include <QShortcut>
 #include <QLoaderTree>
 
-class HolonMenuPress : public QObject
+class HolonNewTaskMenuPress : public QObject
 {
-    HolonMenu *q_ptr;
+    HolonNewTaskMenu *q_ptr;
 
 public:
-    HolonMenuPress(HolonMenu *q)
+    HolonNewTaskMenuPress(HolonNewTaskMenu *q)
     :   QObject(q),
         q_ptr(q)
     { }
@@ -54,7 +54,7 @@ public:
     }
 };
 
-class HolonMenuWidget : public QWidget
+class HolonNewTaskMenuWidget : public QWidget
 {
 protected:
     void paintEvent(QPaintEvent *) override
@@ -66,10 +66,10 @@ protected:
     }
 
 public:
-    HolonMenuWidget(HolonMenu *q)
+    HolonNewTaskMenuWidget(HolonNewTaskMenu *q)
     :   QWidget(q->taskbar()->desktop())
     {
-        q->taskbar()->desktop()->installEventFilter(new HolonMenuPress(q));
+        q->taskbar()->desktop()->installEventFilter(new HolonNewTaskMenuPress(q));
 
         setLayout(new QVBoxLayout(this));
         setStyleSheet(q->taskbar()->styleSheet());
@@ -113,7 +113,7 @@ public:
     }
 };
 
-HolonMenu::HolonMenu(QLoaderSettings *settings, HolonTaskbar *parent)
+HolonNewTaskMenu::HolonNewTaskMenu(QLoaderSettings *settings, HolonTaskbar *parent)
 :   QPushButton(QIcon(":/holon/holoniconlight.svg"), "", parent),
     QLoaderSettings(settings)
 {
@@ -145,10 +145,10 @@ HolonMenu::HolonMenu(QLoaderSettings *settings, HolonTaskbar *parent)
 
     setStyleSheet(desktop()->buttonStyleSheet());
 
-    new HolonMenuWidget(this);
+    new HolonNewTaskMenuWidget(this);
 }
 
-HolonDesktop *HolonMenu::desktop() const
+HolonDesktop *HolonNewTaskMenu::desktop() const
 {
     if (HolonTaskbar *bar = taskbar())
         return  bar->desktop();
@@ -156,7 +156,7 @@ HolonDesktop *HolonMenu::desktop() const
     return nullptr;
 }
 
-HolonTaskbar *HolonMenu::taskbar() const
+HolonTaskbar *HolonNewTaskMenu::taskbar() const
 {
     return qobject_cast<HolonTaskbar*>(parent());
 }

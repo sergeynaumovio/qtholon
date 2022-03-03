@@ -59,10 +59,14 @@ public:
     void addTaskbar(HolonTaskbar *taskbar);
     void addWindow(HolonWindow *window);
     QString buttonStyleSheet() const;
+    QString newWindowMenuStyleSheet() const;
+    int newWindowMenuBorder() const;
+    int newWindowMenuWidth() const;
     QStringList sidebarAreaList() const;
     QCharList sidebarList() const;
     int titleBarHeight() const;
     QString titleBarStyleSheet() const;
+    const QList<HolonWindow *> &windowList() const;
 };
 
 #endif // HOLONDESKTOP_H

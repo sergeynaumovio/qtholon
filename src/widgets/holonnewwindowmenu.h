@@ -16,31 +16,27 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONWINDOWAREA_P_H
-#define HOLONWINDOWAREA_P_H
+#ifndef HOLONNEWWINDOWMENU_H
+#define HOLONNEWWINDOWMENU_H
 
-#include "holonwindowarea.h"
+#include "qtholonglobal.h"
+#include <QWidget>
 
 class HolonDesktop;
-class QMainWindow;
-class QDockWidget;
+class HolonWindow;
 
-class HolonWindowAreaPrivate
+class HolonNewWindowMenu : public QWidget
 {
+    Q_OBJECT
+
+protected:
+    void paintEvent(QPaintEvent *) override;
+
+Q_SIGNALS:
+    void triggered(HolonWindow *window);
+
 public:
-    HolonWindowArea *q_ptr;
-    HolonDesktop *const desktop;
-    QMainWindow *const mainWindow;
-    QDockWidget *const defaultDock;
-    QList<QDockWidget*> dockList;
-    bool maximized{};
-
-    HolonWindowAreaPrivate(HolonWindowArea *q, HolonDesktop *desktop);
-    virtual ~HolonWindowAreaPrivate();
-
-    void addWindow(HolonWindow *window);
-    void maximizeWindow(QDockWidget *dock);
-    void closeWindow(QDockWidget *dock, HolonWindow *window);
+    HolonNewWindowMenu(HolonDesktop *desktop, QWidget *parent);
 };
 
-#endif // HOLONWINDOWAREA_P_H
+#endif // HOLONNEWWINDOWMENU_H

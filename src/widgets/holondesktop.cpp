@@ -26,6 +26,7 @@
 #include <QLabel>
 #include <QBoxLayout>
 #include <QShortcut>
+#include <QRegularExpression>
 
 struct Desktop
 {
@@ -314,7 +315,12 @@ class HolonDesktopPrivateData : public HolonDesktopPrivate
 {
 public:
     HolonDesktopLayout desktopLayout;
+    QList<HolonWindow *> windowList;
     QString buttonStyleSheet;
+    QString newWindowMenuStyleSheet;
+    int newWindowMenuBorder;
+    int newWindowMenuWidth;
+    const QRegularExpression borderWidth{"^QWidget\\s*{[^}]*border:[^};]*(?<px>\\d+)px[^}]*}$"};
     QStringList sidebarAreaList;
     bool sidebarAreasMovable{};
     QList<QChar> sidebarList;
@@ -329,6 +335,11 @@ public:
     void addTaskbar(HolonTaskbar *taskbar)
     {
         desktopLayout.addTaskbar(taskbar);
+    }
+
+    void addWindow(HolonWindow *window)
+    {
+        windowList.append(window);
     }
 
     bool isSidebarAreasMovable() const override
@@ -418,6 +429,18 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
     }
 
     d->buttonStyleSheet = value("buttonStyleSheet").toString();
+    d->newWindowMenuStyleSheet = value("newWindowMenuStyleSheet").toString();
+
+    d->newWindowMenuBorder = [d]()
+    {
+        QRegularExpressionMatch match = d->borderWidth.match(d->newWindowMenuStyleSheet);
+        if (match.hasMatch())
+            return match.captured("px").toInt();
+
+        return 1;
+    }();
+
+    d->newWindowMenuWidth = value("newWindowMenuWidth", 200).toInt();
     d->titleBarHeight = value("titleBarHeight", 10).toInt();
     d->titleBarStyleSheet = value("titleBarStyleSheet").toString();
 
@@ -459,15 +482,34 @@ void HolonDesktop::addTaskbar(HolonTaskbar *taskbar)
     d->addTaskbar(taskbar);
 }
 
-void HolonDesktop::addWindow(HolonWindow* /*window*/)
+void HolonDesktop::addWindow(HolonWindow *window)
 {
-
+    D(HolonDesktop);
+    d->addWindow(window);
 }
 
 QString HolonDesktop::buttonStyleSheet() const
 {
     D(const HolonDesktop);
     return d->buttonStyleSheet;
+}
+
+QString HolonDesktop::newWindowMenuStyleSheet() const
+{
+    D(const HolonDesktop);
+    return d->newWindowMenuStyleSheet;
+}
+
+int HolonDesktop::newWindowMenuBorder() const
+{
+    D(const HolonDesktop);
+    return d->newWindowMenuBorder;
+}
+
+int HolonDesktop::newWindowMenuWidth() const
+{
+    D(const HolonDesktop);
+    return d->newWindowMenuWidth;
 }
 
 QStringList HolonDesktop::sidebarAreaList() const
@@ -492,4 +534,10 @@ QString HolonDesktop::titleBarStyleSheet() const
 {
     D(const HolonDesktop);
     return d->titleBarStyleSheet;
+}
+
+const QList<HolonWindow *> &HolonDesktop::windowList() const
+{
+    D(const HolonDesktop);
+    return d->windowList;
 }

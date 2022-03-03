@@ -19,7 +19,7 @@
 #include "holoncore.h"
 #include "holondesktop.h"
 #include "holontaskbar.h"
-#include "holonmenu.h"
+#include "holonnewtaskmenu.h"
 #include "holonsidebar.h"
 #include "holontask.h"
 #include "holonopentasks.h"
@@ -66,14 +66,14 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "Menu"))
+        if (!qstrcmp(shortName, "NewTaskMenu"))
         {
             if (coreApp)
                 return nullptr;
 
             HolonTaskbar *taskbar = qobject_cast<HolonTaskbar*>(parent);
-            if (taskbar && !taskbar->findChild<HolonMenu*>())
-                return new HolonMenu(settings, taskbar);
+            if (taskbar && !taskbar->findChild<HolonNewTaskMenu*>())
+                return new HolonNewTaskMenu(settings, taskbar);
 
             return parent;
         }

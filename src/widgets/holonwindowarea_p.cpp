@@ -19,6 +19,7 @@
 #include "holonwindowarea_p.h"
 #include "holondesktop.h"
 #include "holonwindow.h"
+#include "holonnewwindowmenu.h"
 #include <QBoxLayout>
 #include <QLabel>
 #include <QPushButton>
@@ -36,9 +37,9 @@ public:
         setStyleSheet(desktop->titleBarStyleSheet());
         setLayout(new QHBoxLayout(this));
         {
-            layout()->setContentsMargins({});
+            layout()->setContentsMargins({7, 0, 0, 0});
             layout()->setSpacing(0);
-            QLabel *label = new QLabel(window ? window->title() : "", this);
+            QLabel *label = new QLabel(window ? window->title() : "Open New Window", this);
             {
                 label->setFixedHeight(desktop->titleBarHeight());
                 layout()->addWidget(label);
@@ -92,11 +93,24 @@ class DockWidget : public QDockWidget
     }
 
 public:
-    DockWidget(HolonDesktop *desktop, QMainWindow *parent)
+    DockWidget(HolonWindowArea *, HolonDesktop *desktop, QMainWindow *parent)
     :   DockWidget(parent)
     {
         setTitleBarWidget(new TitleBar(desktop, this));
-        setWidget(new QWidget(this));
+        QWidget *widget = new QWidget(this);
+        {
+            QVBoxLayout *l = new QVBoxLayout(widget);
+            {
+                widget->setLayout(l);
+                HolonNewWindowMenu *menu;
+                l->addWidget(menu = new HolonNewWindowMenu(desktop, widget), 0, Qt::AlignCenter);
+                connect(menu, &HolonNewWindowMenu::triggered, this, [](HolonWindow *)
+                {
+                    /* copy section */
+                });
+            }
+            setWidget(widget);
+        }
     }
 
     DockWidget(HolonDesktop *desktop, QMainWindow *parent, HolonWindow *window, HolonWindowAreaPrivate *d)
@@ -107,10 +121,11 @@ public:
     }
 };
 
-HolonWindowAreaPrivate::HolonWindowAreaPrivate(HolonDesktop *desktop)
-:   desktop(desktop),
+HolonWindowAreaPrivate::HolonWindowAreaPrivate(HolonWindowArea *q, HolonDesktop *desktop)
+:   q_ptr(q),
+    desktop(desktop),
     mainWindow(new QMainWindow),
-    defaultDock(new DockWidget(desktop, mainWindow))
+    defaultDock(new DockWidget(q, desktop, mainWindow))
 {
     mainWindow->setDockOptions(QMainWindow::AnimatedDocks | QMainWindow::AllowNestedDocks);
 }

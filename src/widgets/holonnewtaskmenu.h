@@ -16,26 +16,25 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONMENU_H
-#define HOLONMENU_H
+#ifndef HOLONNEWTASKMENU_H
+#define HOLONNEWTASKMENU_H
 
 #include "qtholonglobal.h"
 #include <QPushButton>
 #include <QLoaderSettings>
 
-class HolonMenuPrivate;
 class HolonTaskbar;
 class HolonDesktop;
 
-class Q_HOLON_EXPORT HolonMenu : public QPushButton, public QLoaderSettings
+class Q_HOLON_EXPORT HolonNewTaskMenu : public QPushButton, public QLoaderSettings
 {
     Q_OBJECT
 
 public:
-    HolonMenu(QLoaderSettings *settings, HolonTaskbar *parent);
+    HolonNewTaskMenu(QLoaderSettings *settings, HolonTaskbar *parent);
 
     HolonDesktop *desktop() const;
     HolonTaskbar *taskbar() const;
 };
 
-#endif // HOLONMENU_H
+#endif // HOLONNEWTASKMENU_H
