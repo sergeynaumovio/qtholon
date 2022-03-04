@@ -31,6 +31,4 @@
 #  define Q_HOLON_EXPORT
 #endif
 
-#define D(Class) Class##PrivateData *const d = static_cast<Class##PrivateData*>(d_ptr.get())
-
 #endif // QTHOLONGLOBAL_H
