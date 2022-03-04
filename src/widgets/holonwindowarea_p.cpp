@@ -25,6 +25,7 @@
 #include <QPushButton>
 #include <QMainWindow>
 #include <QDockWidget>
+#include <QLoaderTree>
 
 class TitleBar : public QWidget
 {
@@ -93,7 +94,7 @@ class DockWidget : public QDockWidget
     }
 
 public:
-    DockWidget(HolonWindowArea *, HolonDesktop *desktop, QMainWindow *parent)
+    DockWidget(HolonWindowArea *area, HolonDesktop *desktop, QMainWindow *parent)
     :   DockWidget(parent)
     {
         setTitleBarWidget(new TitleBar(desktop, this));
@@ -104,9 +105,11 @@ public:
                 widget->setLayout(l);
                 HolonNewWindowMenu *menu;
                 l->addWidget(menu = new HolonNewWindowMenu(desktop, widget), 0, Qt::AlignCenter);
-                connect(menu, &HolonNewWindowMenu::triggered, this, [](HolonWindow *)
+                connect(menu, &HolonNewWindowMenu::triggered, this, [area](HolonWindow *window)
                 {
-                    /* copy section */
+                    QStringList to = area->section();
+                    to.append(window->section().last());
+                    area->tree()->copy(window->section(), to);
                 });
             }
             setWidget(widget);
