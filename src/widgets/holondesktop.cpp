@@ -28,6 +28,8 @@
 #include <QShortcut>
 #include <QRegularExpression>
 
+class HolonDesktopLayout;
+
 struct Desktop
 {
     HolonDesktopPrivate *const d_ptr;
@@ -36,18 +38,69 @@ struct Desktop
 
 class HolonDesktopPrivate
 {
-protected:
+public:
     HolonDesktop *const q_ptr;
+    QString error;
+    const QString buttonStyleSheet;
+    const QString newWindowMenuStyleSheet;
+    const QRegularExpression borderWidth{"^QWidget\\s*{[^}]*border:[^};]*(?<px>\\d+)px[^}]*}$"};
+    const int newWindowMenuBorder;
+    const int newWindowMenuWidth;
+    const QStringList sidebarAreaList;
+    const QList<QChar> sidebarCharList;
+    QList<HolonSidebar*> sidebarList;
+    const int titleBarHeight;
+    const QString titleBarStyleSheet;
+    QList<HolonWindow *> windowList;
+    HolonDesktopLayout *desktopLayout;
+    std::aligned_storage_t<64, sizeof (ptrdiff_t)> desktopLayout_storage;
 
     HolonDesktopPrivate(HolonDesktop *q)
-    :   q_ptr(q)
-    { }
+    :   q_ptr(q),
+        buttonStyleSheet(q->value("buttonStyleSheet").toString()),
+        newWindowMenuStyleSheet(q->value("newWindowMenuStyleSheet").toString()),
+        newWindowMenuBorder([this]()
+        {
+            QRegularExpressionMatch match = borderWidth.match(newWindowMenuStyleSheet);
+            if (match.hasMatch())
+                return match.captured("px").toInt();
 
-public:
-    virtual ~HolonDesktopPrivate() { }
+            return 1;
+        }()),
+        newWindowMenuWidth(q->value("newWindowMenuWidth", 200).toInt()),
+        sidebarAreaList(q->value("sidebarAreaList").toStringList()),
+        sidebarCharList(q->value("sidebarList").value<QCharList>()),
+        titleBarHeight(q->value("titleBarHeight", 10).toInt()),
+        titleBarStyleSheet(q ->value("titleBarStyleSheet").toString())
+    {
+        if (!sidebarAreaList.size())
+        {
+            error = "sidebarAreaList property is not set";
+            return;
+        }
 
-    virtual bool isSidebarAreasMovable() const = 0;
-    virtual void setSidebarAreasMovable(bool movable) = 0;
+        bool validSidebarAreaList = [=, this]()
+        {
+            for (const QString &string : sidebarAreaList)
+            {
+                if (string.isEmpty())
+                    return false;
+            }
+            return true;
+        }();
+
+        if (!validSidebarAreaList)
+        {
+            error = "sidebarArea name is not set";
+            return;
+        }
+
+        if (!sidebarCharList.size())
+        {
+            error = "sidebarList item is not set or not a char";
+            return;
+        }
+    }
 
     QString sidebarAreasMovableShortcut() const
     {
@@ -166,6 +219,7 @@ public:
 class HolonMainWindow : public QMainWindow
 {
     QList<HolonSidebarArea*> areas;
+    bool visibleTitleBar{};
     QStackedWidget *workspaces;
 
 public:
@@ -196,10 +250,11 @@ public:
         workspaces->addWidget(new QLabel("Workspaces", workspaces));
 
         QShortcut *shortcut = new QShortcut(QKeySequence(desktop.d_ptr->sidebarAreasMovableShortcut()), this);
-        connect(shortcut, &QShortcut::activated, this, [desktop]()
+        connect(shortcut, &QShortcut::activated, this, [this]()
         {
-            bool movable = desktop.d_ptr->isSidebarAreasMovable();
-            desktop.d_ptr->setSidebarAreasMovable(!movable);
+            visibleTitleBar = !visibleTitleBar;
+            for (HolonSidebarArea *area : areas)
+                area->showTitleBarWidget(visibleTitleBar);
         });
     }
 
@@ -213,12 +268,6 @@ public:
                 break;
             }
         }
-    }
-
-    void showTitleBarWidgets(bool show)
-    {
-        for (HolonSidebarArea *area : areas)
-            area->showTitleBarWidget(show);
     }
 };
 
@@ -311,54 +360,6 @@ public:
     }
 };
 
-class HolonDesktopPrivateData : public HolonDesktopPrivate
-{
-public:
-    HolonDesktopLayout desktopLayout;
-    QList<HolonWindow *> windowList;
-    QString buttonStyleSheet;
-    QString newWindowMenuStyleSheet;
-    int newWindowMenuBorder;
-    int newWindowMenuWidth;
-    const QRegularExpression borderWidth{"^QWidget\\s*{[^}]*border:[^};]*(?<px>\\d+)px[^}]*}$"};
-    QStringList sidebarAreaList;
-    bool sidebarAreasMovable{};
-    QList<QChar> sidebarList;
-    int titleBarHeight;
-    QString titleBarStyleSheet;
-    QList<HolonSidebar*> sidebars;
-
-    HolonDesktopPrivateData(HolonDesktop *q)
-    :   HolonDesktopPrivate(q)
-    { }
-
-    void addTaskbar(HolonTaskbar *taskbar)
-    {
-        desktopLayout.addTaskbar(taskbar);
-    }
-
-    void addWindow(HolonWindow *window)
-    {
-        windowList.append(window);
-    }
-
-    bool isSidebarAreasMovable() const override
-    {
-        return sidebarAreasMovable;
-    }
-
-    void setDesktopLayout()
-    {
-        desktopLayout.setDesktopLayout({this, q_ptr});
-    }
-
-    void setSidebarAreasMovable(bool movable) override
-    {
-        sidebarAreasMovable = movable;
-        desktopLayout.mainWindow()->showTitleBarWidgets(movable);
-    }
-};
-
 void HolonDesktop::closeEvent(QCloseEvent *)
 {
     hide();
@@ -383,90 +384,44 @@ QString HolonDesktop::fromVariant(const QVariant &variant) const
 HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
 :   QWidget(parent),
     QLoaderSettings(settings),
-    d_ptr(new HolonDesktopPrivateData(this))
+    d_ptr(new HolonDesktopPrivate(this))
 {
-    D(HolonDesktop);
+    if (d_ptr->error.size())
+    {
+        emitError(d_ptr->error);
+        return;
+    }
 
     if (!parent)
         show();
 
-    if (!contains("sidebarAreaList"))
-    {
-        emitError("sidebarAreaList property is not set");
-        return;
-    }
+    static_assert (sizeof (d_ptr->desktopLayout_storage) == sizeof (HolonDesktopLayout));
+    static_assert (sizeof (ptrdiff_t) == alignof (HolonDesktopLayout));
 
-    bool validSidebarAreaList = [=, this]()
-    {
-        d->sidebarAreaList = value("sidebarAreaList").toStringList();
-        for (const QString &string : d->sidebarAreaList)
-        {
-            if (string.isEmpty())
-                return false;
-        }
-        return true;
-    }();
-
-    if (!validSidebarAreaList)
-    {
-        emitError("sidebarArea name is not set");
-        return;
-    }
-
-    if (contains("sidebarList"))
-    {
-        d->sidebarList = value("sidebarList").value<QCharList>();
-        if (!d->sidebarList.size())
-        {
-            emitError("sidebarList item is not a char");
-            return;
-        }
-    }
-    else
-    {
-        emitError("sidebarList property is not set");
-        return;
-    }
-
-    d->buttonStyleSheet = value("buttonStyleSheet").toString();
-    d->newWindowMenuStyleSheet = value("newWindowMenuStyleSheet").toString();
-
-    d->newWindowMenuBorder = [d]()
-    {
-        QRegularExpressionMatch match = d->borderWidth.match(d->newWindowMenuStyleSheet);
-        if (match.hasMatch())
-            return match.captured("px").toInt();
-
-        return 1;
-    }();
-
-    d->newWindowMenuWidth = value("newWindowMenuWidth", 200).toInt();
-    d->titleBarHeight = value("titleBarHeight", 10).toInt();
-    d->titleBarStyleSheet = value("titleBarStyleSheet").toString();
-
-    d->setDesktopLayout();
-
-    d->desktopLayout.mainWindow()->restoreState(value("mainWindowState").toByteArray());
+    d_ptr->desktopLayout = new (&d_ptr->desktopLayout_storage) HolonDesktopLayout;
+    d_ptr->desktopLayout->setDesktopLayout({d_ptr.get(), this});
+    d_ptr->desktopLayout->mainWindow()->restoreState(value("mainWindowState").toByteArray());
 }
 
 HolonDesktop::~HolonDesktop()
-{ }
+{
+    d_ptr->desktopLayout->~HolonDesktopLayout();
+}
 
 bool HolonDesktop::addSidebar(HolonSidebar *sidebar)
 {
-    D(HolonDesktop);
-    if (!d->sidebarList.contains(sidebar->sidebar()) ||
-        !d->sidebarAreaList.contains(sidebar->sidebarArea()) ||
+    if (!d_ptr->sidebarCharList.contains(sidebar->sidebar()) ||
+        !d_ptr->sidebarAreaList.contains(sidebar->sidebarArea()) ||
 
-        std::find_if(d->sidebars.begin(), d->sidebars.end(),
+        std::find_if(d_ptr->sidebarList.begin(), d_ptr->sidebarList.end(),
                      [sidebar](HolonSidebar *current)
-                     { return current->sidebar() == sidebar->sidebar(); }) != d->sidebars.end())
+                     { return current->sidebar() == sidebar->sidebar(); }) != d_ptr->sidebarList.end())
     {
         return false;
     }
 
-    d->sidebars.append(sidebar);
-    d->desktopLayout.mainWindow()->addSidebar(sidebar);
+    d_ptr->sidebarList.append(sidebar);
+    d_ptr->desktopLayout->mainWindow()->addSidebar(sidebar);
 
     return true;
 }
@@ -478,66 +433,55 @@ void HolonDesktop::addTask(HolonTask* /*task*/)
 
 void HolonDesktop::addTaskbar(HolonTaskbar *taskbar)
 {
-    D(HolonDesktop);
-    d->addTaskbar(taskbar);
+    d_ptr->desktopLayout->addTaskbar(taskbar);
 }
 
 void HolonDesktop::addWindow(HolonWindow *window)
 {
-    D(HolonDesktop);
-    d->addWindow(window);
+    d_ptr->windowList.append(window);
 }
 
 QString HolonDesktop::buttonStyleSheet() const
 {
-    D(const HolonDesktop);
-    return d->buttonStyleSheet;
+    return d_ptr->buttonStyleSheet;
 }
 
 int HolonDesktop::newWindowMenuBorder() const
 {
-    D(const HolonDesktop);
-    return d->newWindowMenuBorder;
+    return d_ptr->newWindowMenuBorder;
 }
 
 QString HolonDesktop::newWindowMenuStyleSheet() const
 {
-    D(const HolonDesktop);
-    return d->newWindowMenuStyleSheet;
+    return d_ptr->newWindowMenuStyleSheet;
 }
 
 int HolonDesktop::newWindowMenuWidth() const
 {
-    D(const HolonDesktop);
-    return d->newWindowMenuWidth;
+    return d_ptr->newWindowMenuWidth;
 }
 
 QStringList HolonDesktop::sidebarAreaList() const
 {
-    D(const HolonDesktop);
-    return d->sidebarAreaList;
+    return d_ptr->sidebarAreaList;
 }
 
 QCharList HolonDesktop::sidebarList() const
 {
-    D(const HolonDesktop);
-    return d->sidebarList;
+    return d_ptr->sidebarCharList;
 }
 
 int HolonDesktop::titleBarHeight() const
 {
-    D(const HolonDesktop);
-    return d->titleBarHeight;
+    return d_ptr->titleBarHeight;
 }
 
 QString HolonDesktop::titleBarStyleSheet() const
 {
-    D(const HolonDesktop);
-    return d->titleBarStyleSheet;
+    return d_ptr->titleBarStyleSheet;
 }
 
 const QList<HolonWindow *> &HolonDesktop::windowList() const
 {
-    D(const HolonDesktop);
-    return d->windowList;
+    return d_ptr->windowList;
 }
