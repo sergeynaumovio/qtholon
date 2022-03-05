@@ -28,7 +28,28 @@
 #include <QShortcut>
 #include <QRegularExpression>
 
+class HolonMainWindow;
 class HolonDesktopLayout;
+
+class HolonDesktopLayoutData
+{
+protected:
+    struct
+    {
+        HolonDesktop *desktop;
+        QWidget *screen;
+        QWidget *top;
+        QWidget *middle;
+        QWidget *bottom;
+        QWidget *left;
+        QWidget *right;
+        HolonMainWindow *center;
+
+    } d;
+
+public:
+    HolonDesktopLayout *operator->() { return reinterpret_cast<HolonDesktopLayout*>(this); }
+};
 
 struct Desktop
 {
@@ -52,8 +73,7 @@ public:
     const int titleBarHeight;
     const QString titleBarStyleSheet;
     QList<HolonWindow *> windowList;
-    HolonDesktopLayout *desktopLayout;
-    std::aligned_storage_t<64, sizeof (ptrdiff_t)> desktopLayout_storage;
+    HolonDesktopLayoutData desktopLayout;
 
     HolonDesktopPrivate(HolonDesktop *q)
     :   q_ptr(q),
@@ -271,21 +291,8 @@ public:
     }
 };
 
-class HolonDesktopLayout
+class HolonDesktopLayout : public HolonDesktopLayoutData
 {
-    struct
-    {
-        HolonDesktop *desktop;
-        QWidget *screen;
-        QWidget *top;
-        QWidget *middle;
-        QWidget *bottom;
-        QWidget *left;
-        QWidget *right;
-        HolonMainWindow *center;
-
-    } d;
-
     void addWidget(QWidget *widget, QWidget *parent)
     {
         parent->layout()->addWidget(widget);
@@ -395,18 +402,12 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
     if (!parent)
         show();
 
-    static_assert (sizeof (d_ptr->desktopLayout_storage) == sizeof (HolonDesktopLayout));
-    static_assert (sizeof (ptrdiff_t) == alignof (HolonDesktopLayout));
-
-    d_ptr->desktopLayout = new (&d_ptr->desktopLayout_storage) HolonDesktopLayout;
     d_ptr->desktopLayout->setDesktopLayout({d_ptr.get(), this});
     d_ptr->desktopLayout->mainWindow()->restoreState(value("mainWindowState").toByteArray());
 }
 
 HolonDesktop::~HolonDesktop()
-{
-    d_ptr->desktopLayout->~HolonDesktopLayout();
-}
+{ }
 
 bool HolonDesktop::addSidebar(HolonSidebar *sidebar)
 {
