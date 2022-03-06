@@ -27,6 +27,7 @@
 #include <QShortcut>
 #include <QLoaderTree>
 
+#if HOLON_DESKTOP_EMBEDDED
 class HolonNewTaskMenuPress : public QObject
 {
     HolonNewTaskMenu *q_ptr;
@@ -53,6 +54,7 @@ public:
         return false;
     }
 };
+#endif // HOLON_DESKTOP_EMBEDDED
 
 class HolonNewTaskMenuWidget : public QWidget
 {
@@ -69,11 +71,18 @@ public:
     HolonNewTaskMenuWidget(HolonNewTaskMenu *q)
     :   QWidget(q->taskbar()->desktop())
     {
-        q->taskbar()->desktop()->installEventFilter(new HolonNewTaskMenuPress(q));
-
         setLayout(new QVBoxLayout(this));
         setStyleSheet(q->taskbar()->styleSheet());
 
+        #if HOLON_DESKTOP_EMBEDDED
+            q->taskbar()->desktop()->installEventFilter(new HolonNewTaskMenuPress(q));
+        #endif
+
+        QShortcut *newTaskShortcut = new QShortcut(q->taskbar()->desktop());
+        {
+            newTaskShortcut->setKey(QKeySequence("Ctrl+T"));
+            connect(newTaskShortcut, &QShortcut::activated, this, [q]{ q->click(); });
+        }
         connect(q, &QPushButton::clicked, this, [this, q]()
         {
             if (isVisible())
