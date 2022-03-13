@@ -75,22 +75,3 @@ QString HolonSidebar::sidebarArea() const
     Q_D(const HolonSidebar);
     return d->sidebarArea;
 }
-
-HolonSidebarSwitch::HolonSidebarSwitch(QLoaderSettings *settings, HolonTaskbar *parent)
-:   QWidget(parent),
-    QLoaderSettings(settings)
-{
-    if (parent->area() == HolonTaskbar::Top ||
-        parent->area() == HolonTaskbar::Bottom)
-    {
-        setLayout(new QHBoxLayout(this));
-    }
-    else
-    {
-        setLayout(new QVBoxLayout(this));
-    }
-
-    layout()->addWidget(new QLabel("Taskbar Switch", this));
-
-    parent->addWidget(this);
-}

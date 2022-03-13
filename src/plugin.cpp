@@ -21,6 +21,7 @@
 #include "holontaskbar.h"
 #include "holonnewtaskmenu.h"
 #include "holonsidebar.h"
+#include "holonsidebarswitch.h"
 #include "holontask.h"
 #include "holonopentasks.h"
 
