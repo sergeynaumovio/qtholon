@@ -59,9 +59,9 @@ public:
     void addTaskbar(HolonTaskbar *taskbar);
     void addWindow(HolonWindow *window);
     QString buttonStyleSheet() const;
-    int newWindowMenuBorder() const;
-    QString newWindowMenuStyleSheet() const;
-    int newWindowMenuWidth() const;
+    int menuBorder() const;
+    QString menuStyleSheet() const;
+    int menuWidth() const;
     QStringList sidebarAreaList() const;
     QCharList sidebarList() const;
     int titleBarHeight() const;

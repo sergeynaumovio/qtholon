@@ -32,7 +32,7 @@ public:
     {
         setIcon(window->icon());
         setFixedHeight(desktop->titleBarHeight());
-        setFixedWidth(desktop->newWindowMenuWidth());
+        setFixedWidth(desktop->menuWidth());
         setStyleSheet(desktop->buttonStyleSheet() + "QPushButton { text-align:left; padding-left: 7px; }");
         setText(window->title());
 
@@ -51,7 +51,7 @@ void HolonNewWindowMenu::paintEvent(QPaintEvent *)
 HolonNewWindowMenu::HolonNewWindowMenu(HolonDesktop *desktop, QWidget *parent)
 :   QWidget(parent)
 {
-    int px = desktop->newWindowMenuBorder();
+    int px = desktop->menuBorder();
     using Layout = QVBoxLayout;
     Layout *l = new Layout(this);
     setLayout(l);
@@ -65,6 +65,6 @@ HolonNewWindowMenu::HolonNewWindowMenu(HolonDesktop *desktop, QWidget *parent)
                 l->addWidget(new WindowButton(w, desktop, this), 0, Qt::AlignHCenter);
         }
     }
-    setFixedWidth(desktop->newWindowMenuWidth() + px * 2);
-    setStyleSheet(desktop->newWindowMenuStyleSheet());
+    setFixedWidth(desktop->menuWidth() + px * 2);
+    setStyleSheet(desktop->menuStyleSheet());
 }

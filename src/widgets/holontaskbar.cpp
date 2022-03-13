@@ -61,9 +61,9 @@ HolonTaskbar::HolonTaskbar(QLoaderSettings *settings, HolonDesktop *parent)
     d_ptr->preferedWidth = value("preferedWidth", 40).toInt();
 
     QString area = value("area").toString();
-    if (area == "left") d_ptr->area = Left;
-    else if (area == "right") d_ptr->area = Right;
-    else if (area == "top") d_ptr->area = Top;
+    if (area == "Left") d_ptr->area = Left;
+    else if (area == "Right") d_ptr->area = Right;
+    else if (area == "Top") d_ptr->area = Top;
     else d_ptr->area = Bottom;
 
     if (d_ptr->area == Left || d_ptr->area == Right)

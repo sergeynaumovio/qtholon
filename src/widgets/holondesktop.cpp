@@ -63,10 +63,10 @@ public:
     HolonDesktop *const q_ptr;
     QString error;
     const QString buttonStyleSheet;
-    const QString newWindowMenuStyleSheet;
+    const QString menuStyleSheet;
     const QRegularExpression borderWidth{"^QWidget\\s*{[^}]*border:[^};]*(?<px>\\d+)px[^}]*}$"};
-    const int newWindowMenuBorder;
-    const int newWindowMenuWidth;
+    const int menuBorder;
+    const int menuWidth;
     const QStringList sidebarAreaList;
     const QList<QChar> sidebarCharList;
     QList<HolonSidebar*> sidebarList;
@@ -78,16 +78,16 @@ public:
     HolonDesktopPrivate(HolonDesktop *q)
     :   q_ptr(q),
         buttonStyleSheet(q->value("buttonStyleSheet").toString()),
-        newWindowMenuStyleSheet(q->value("newWindowMenuStyleSheet").toString()),
-        newWindowMenuBorder([this]()
+        menuStyleSheet(q->value("menuStyleSheet").toString()),
+        menuBorder([this]()
         {
-            QRegularExpressionMatch match = borderWidth.match(newWindowMenuStyleSheet);
+            QRegularExpressionMatch match = borderWidth.match(menuStyleSheet);
             if (match.hasMatch())
                 return match.captured("px").toInt();
 
             return 1;
         }()),
-        newWindowMenuWidth(q->value("newWindowMenuWidth", 200).toInt()),
+        menuWidth(q->value("menuWidth", 200).toInt()),
         sidebarAreaList(q->value("sidebarAreaList").toStringList()),
         sidebarCharList(q->value("sidebarList").value<QCharList>()),
         titleBarHeight(q->value("titleBarHeight", 10).toInt()),
@@ -122,9 +122,9 @@ public:
         }
     }
 
-    QString sidebarAreasMovableShortcut() const
+    QString sidebarAreaMoveShortcut() const
     {
-        return q_ptr->value("sidebarAreasMovableShortcut").toString();
+        return q_ptr->value("sidebarAreaMoveShortcut").toString();
     }
 
     void stageState(const QByteArray &state)
@@ -269,7 +269,7 @@ public:
         setCentralWidget(workspaces);
         workspaces->addWidget(new QLabel("Workspaces", workspaces));
 
-        QShortcut *shortcut = new QShortcut(QKeySequence(desktop.d_ptr->sidebarAreasMovableShortcut()), this);
+        QShortcut *shortcut = new QShortcut(QKeySequence(desktop.d_ptr->sidebarAreaMoveShortcut()), this);
         connect(shortcut, &QShortcut::activated, this, [this]()
         {
             visibleTitleBar = !visibleTitleBar;
@@ -447,19 +447,19 @@ QString HolonDesktop::buttonStyleSheet() const
     return d_ptr->buttonStyleSheet;
 }
 
-int HolonDesktop::newWindowMenuBorder() const
+int HolonDesktop::menuBorder() const
 {
-    return d_ptr->newWindowMenuBorder;
+    return d_ptr->menuBorder;
 }
 
-QString HolonDesktop::newWindowMenuStyleSheet() const
+QString HolonDesktop::menuStyleSheet() const
 {
-    return d_ptr->newWindowMenuStyleSheet;
+    return d_ptr->menuStyleSheet;
 }
 
-int HolonDesktop::newWindowMenuWidth() const
+int HolonDesktop::menuWidth() const
 {
-    return d_ptr->newWindowMenuWidth;
+    return d_ptr->menuWidth;
 }
 
 QStringList HolonDesktop::sidebarAreaList() const
