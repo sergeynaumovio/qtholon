@@ -108,7 +108,7 @@ public:
                 connect(menu, &HolonNewWindowMenu::triggered, this, [area](HolonWindow *window)
                 {
                     QStringList to = area->section();
-                    to.append(window->section().last());
+                    to.append(qAsConst(window)->section().last());
                     area->tree()->copy(window->section(), to);
                 });
             }
