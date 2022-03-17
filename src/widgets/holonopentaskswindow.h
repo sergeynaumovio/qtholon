@@ -30,6 +30,7 @@ class HolonSidebar;
 class HolonOpenTasksWindow : public HolonWindow, public QLoaderCopyInterface
 {
     Q_OBJECT
+    Q_INTERFACES(QLoaderCopyInterface)
 
     QScopedPointer<HolonOpenTasksWindowPrivate> d_ptr;
 
