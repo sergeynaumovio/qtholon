@@ -51,7 +51,6 @@ HolonWindow::Areas HolonOpenTasksWindow::areas() const
 
 bool HolonOpenTasksWindow::copy(const QStringList &to)
 {
-    qDebug() << to;
     QStringList parentSection = to;
     if (to.size() > 1)
     {
