@@ -23,7 +23,7 @@
 #include "holonsidebar.h"
 #include "holonsidebarswitch.h"
 #include "holontask.h"
-#include "holonopentasks.h"
+#include "holonopentaskswindow.h"
 
 #include <QLoaderPluginInterface>
 #include <QLoaderSettings>

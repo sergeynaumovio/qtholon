@@ -44,8 +44,8 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holontaskbar.cpp
             src/widgets/holonnewtaskmenu.h
             src/widgets/holonnewtaskmenu.cpp
-            src/widgets/holonopentasks.h
-            src/widgets/holonopentasks.cpp
+            src/widgets/holonopentaskswindow.h
+            src/widgets/holonopentaskswindow.cpp
             src/widgets/holonsidebar.h
             src/widgets/holonsidebar.cpp
             src/widgets/holonsidebarswitch.h

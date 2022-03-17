@@ -3,7 +3,7 @@
 [Holon]
 class = HolonDesktop
 buttonStyleSheet = QPushButton { border: 0px; } QPushButton:hover { background-color: rgb(74, 76, 78); color: white; }
-mainWindowState = QByteArray(AAAA/wAAAAD9AAAABAAAAAAAAADIAAABnfwCAAAAAfsAAAAIAEwAZQBmAHQBAAAApAAAAZ0AAABDAP///gAAAAEAAACQAAABnfwCAAAAAfsAAAAKAFIAaQBnAGgAdAEAAACkAAABnQAAAB4A///+AAAAAgAAAqcAAACj/AEAAAAB+wAAAAYAVABvAHABAAAAAAAAAqcAAACnAP///wAAAAMAAAKnAAAAavwBAAAAAfsAAAAMAEIAbwB0AHQAbwBtAQAAAAAAAAKnAAAAXwD///8AAAFNAAABnQAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAABAAAAAAAAADIAAABnfwCAAAAAfsAAAAIAEwAZQBmAHQBAAAApAAAAZ0AAAA4AP///gAAAAEAAACQAAABnfwCAAAAAfsAAAAKAFIAaQBnAGgAdAEAAACkAAABnQAAAB4A///+AAAAAgAAAqcAAACj/AEAAAAB+wAAAAYAVABvAHABAAAAAAAAAqcAAACnAP///wAAAAMAAAKnAAAAavwBAAAAAfsAAAAMAEIAbwB0AHQAbwBtAQAAAAAAAAKnAAAAXwD///8AAAFNAAABnQAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 menuStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); border: 1px solid rgb(34, 36, 38); }
 menuWidth = 180
 minimumHeight = 200
@@ -35,10 +35,28 @@ class = HolonSidebarSwitch
 
 [Holon/Sidebar(1)]
 class = HolonSidebar
+icon = :/holon/screwdriver.svg
 sidebar = QChar(1)
 sidebarArea = Left
+text = Control
+
+[Holon/Sidebar(1)/OpenTasksWindow]
+class = HolonOpenTasksWindow
 
 [Holon/Sidebar(2)]
 class = HolonSidebar
 sidebar = QChar(2)
 sidebarArea = Top
+
+[Holon/Sidebar(2)/OpenTasksWindow]
+class = HolonOpenTasksWindow
+
+[Holon/Data]
+class = LoaderData
+
+[Holon/Data/Table]
+class = LoaderDataTable
+
+[Holon/Data/Blob]
+class = LoaderDataBlob
+blob = QByteArray()

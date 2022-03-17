@@ -16,12 +16,13 @@
 **
 ****************************************************************************/
 
-#include "holonopentasks.h"
+#include "holonopentaskswindow.h"
 #include "holondesktop.h"
 #include "holonsidebar.h"
 #include <QBoxLayout>
 #include <QLabel>
 #include <QIcon>
+#include <QLoaderTree>
 
 class HolonOpenTasksWindowPrivate
 {
@@ -46,6 +47,21 @@ HolonOpenTasksWindow::~HolonOpenTasksWindow()
 HolonWindow::Areas HolonOpenTasksWindow::areas() const
 {
     return HolonWindow::Sidebar;
+}
+
+bool HolonOpenTasksWindow::copy(const QStringList &to)
+{
+    qDebug() << to;
+    QStringList parentSection = to;
+    if (to.size() > 1)
+    {
+        parentSection.removeLast();
+        QObject *parent = tree()->object(parentSection);
+        if (qobject_cast<HolonSidebar*>(parent))
+            return true;
+    }
+
+    return false;
 }
 
 QIcon HolonOpenTasksWindow::icon() const

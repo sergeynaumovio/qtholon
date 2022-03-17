@@ -16,17 +16,18 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONOPENTASKS_H
-#define HOLONOPENTASKS_H
+#ifndef HOLONOPENTASKSWINDOW_H
+#define HOLONOPENTASKSWINDOW_H
 
 #include "holonwindow.h"
 #include <QWidget>
+#include <QLoaderCopyInterface>
 
 class HolonOpenTasksWindowPrivate;
 class HolonDesktop;
 class HolonSidebar;
 
-class HolonOpenTasksWindow : public HolonWindow
+class HolonOpenTasksWindow : public HolonWindow, public QLoaderCopyInterface
 {
     Q_OBJECT
 
@@ -38,6 +39,7 @@ public:
     ~HolonOpenTasksWindow();
 
     HolonWindow::Areas areas() const override;
+    bool copy(const QStringList &to) override;
     QIcon icon() const override;
     QString title() const override;
     QWidget *toolbar() const override;
@@ -55,4 +57,4 @@ class HolonOpenTasksWidget : public QWidget
 
 };
 
-#endif // HOLONOPENTASKS_H
+#endif // HOLONOPENTASKSWINDOW_H
