@@ -19,17 +19,81 @@
 #include "holonsidebarswitch.h"
 #include "holontaskbar.h"
 #include "holondesktop.h"
-#include <QPushButton>
+#include <QAbstractButton>
+#include <QMouseEvent>
+#include <QPainter>
 #include <QBoxLayout>
 #include <QLabel>
 
-class HolonSidebarButton : public QPushButton
+class HolonSidebarButton : public QAbstractButton
 {
+    bool hovered{};
+    bool checked{};
+    QChar c;
+    const QColor color{Qt::white};
+
+protected:
+    bool event(QEvent *e) override
+    {
+        switch(e->type()) {
+        case QEvent::HoverEnter:
+            hovered = true;
+            update();
+            return true;
+            break;
+        case QEvent::HoverLeave:
+            hovered = false;
+            update();
+            return true;
+            break;
+        default:
+            break;
+        }
+        return QWidget::event(e);
+    }
+
+    void paintEvent(QPaintEvent *) override
+    {
+        QPainter p(this);
+        QPen pen(color);
+        pen.setWidth(2);
+        p.setPen(pen);
+
+        if (hovered)
+            p.fillRect(rect(), QColor(74, 76, 78));
+
+        if (checked)
+        {
+            QLineF line(rect().bottomLeft(), rect().bottomRight());
+            p.drawLine(line);
+        }
+        p.setFont(QFont("Arial", 20));
+        p.drawText(rect(), Qt::AlignCenter, c);
+    }
 public:
     HolonSidebarButton(QChar chr, HolonSidebarSwitch *parent)
-    :   QPushButton(parent)
+    :   QAbstractButton(parent),
+        c(chr)
     {
-        setText(chr);
+        if (parent->taskbar()->area() == HolonTaskbar::Top ||
+            parent->taskbar()->area() == HolonTaskbar::Bottom)
+        {
+            int preferedWidth = parent->taskbar()->preferedHeight();
+            setFixedWidth(preferedWidth + preferedWidth * 0.15);
+            setFixedHeight(parent->taskbar()->preferedHeight());
+        }
+        else
+        {
+            setFixedWidth(parent->taskbar()->preferedWidth());
+            setFixedHeight(parent->taskbar()->preferedWidth());
+        }
+        setAttribute(Qt::WA_Hover);
+        setCheckable(true);
+        connect(this, &QAbstractButton::pressed, this, [this]
+        {
+            checked = !checked;
+            update();
+        });
     }
 };
 
@@ -40,11 +104,19 @@ HolonSidebarSwitch::HolonSidebarSwitch(QLoaderSettings *settings, HolonTaskbar *
     if (parent->area() == HolonTaskbar::Top ||
         parent->area() == HolonTaskbar::Bottom)
     {
-        setLayout(new QHBoxLayout(this));
+        QBoxLayout *layout = new QHBoxLayout(this);
+        {
+            setLayout(layout);
+            layout->setContentsMargins(5, 0, 5, 0);
+        }
     }
     else
     {
-        setLayout(new QVBoxLayout(this));
+        QBoxLayout *layout = new QVBoxLayout(this);
+        {
+            setLayout(layout);
+            layout->setContentsMargins(0, 5, 0, 5);
+        }
     }
 
     for (QChar chr : parent->desktop()->sidebarList())
@@ -53,4 +125,14 @@ HolonSidebarSwitch::HolonSidebarSwitch(QLoaderSettings *settings, HolonTaskbar *
     }
 
     parent->addWidget(this);
+}
+
+HolonDesktop *HolonSidebarSwitch::desktop() const
+{
+    return taskbar()->desktop();
+}
+
+HolonTaskbar *HolonSidebarSwitch::taskbar() const
+{
+    return static_cast<HolonTaskbar*>(parent());
 }
