@@ -27,6 +27,7 @@
 #include <QBoxLayout>
 #include <QShortcut>
 #include <QRegularExpression>
+#include <QLoaderTree>
 
 class HolonMainWindow;
 class HolonDesktopLayout;
@@ -399,6 +400,24 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
         return;
     }
 
+    connect(tree(), &QLoaderTree::errorChanged, this, [](QObject *sender, QString message)
+    {
+        qDebug().noquote().nospace() << "QLoaderTree::errorChanged("
+                                     << sender->metaObject()->className() << ", \"" << message << "\")";
+    });
+
+    connect(tree(), &QLoaderTree::infoChanged, this, [](QObject *sender, QString message)
+    {
+        qDebug().noquote().nospace() << "QLoaderTree::infoChanged("
+                                     << sender->metaObject()->className() << ", \"" << message << "\")";
+    });
+
+    connect(tree(), &QLoaderTree::warningChanged, this, [](QObject *sender, QString message)
+    {
+        qDebug().noquote().nospace() << "QLoaderTree::warningChanged("
+                                     << sender->metaObject()->className() << ", \"" << message << "\")";
+    });
+
     if (!parent)
         show();
 
@@ -460,6 +479,11 @@ QString HolonDesktop::menuStyleSheet() const
 int HolonDesktop::menuWidth() const
 {
     return d_ptr->menuWidth;
+}
+
+HolonSidebar *HolonDesktop::sidebar(QChar /*chr*/) const
+{
+    return nullptr;
 }
 
 QStringList HolonDesktop::sidebarAreaList() const

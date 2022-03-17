@@ -62,6 +62,7 @@ public:
     int menuBorder() const;
     QString menuStyleSheet() const;
     int menuWidth() const;
+    HolonSidebar *sidebar(QChar chr) const;
     QStringList sidebarAreaList() const;
     QCharList sidebarList() const;
     int titleBarHeight() const;
