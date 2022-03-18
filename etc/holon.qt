@@ -54,9 +54,6 @@ class = HolonOpenTasksWindow
 [Holon/Data]
 class = LoaderData
 
-[Holon/Data/Table]
-class = LoaderDataTable
-
 [Holon/Data/Blob]
 class = LoaderDataBlob
 blob = QByteArray()

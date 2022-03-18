@@ -22,19 +22,23 @@
 #include "qtholonglobal.h"
 #include <QWidget>
 #include <QLoaderSettings>
+#include <QLoaderDataInterface>
 
 class HolonDesktopPrivate;
 class HolonSidebar;
 class HolonTask;
 class HolonTaskbar;
 class HolonWindow;
+class QLoaderData;
 
 using QCharList = QList<QChar>;
 
-class Q_HOLON_EXPORT HolonDesktop : public QWidget, public QLoaderSettings
+class Q_HOLON_EXPORT HolonDesktop : public QWidget, public QLoaderSettings,
+                                                    public QLoaderDataInterface
+
 {
     Q_OBJECT
-
+    Q_INTERFACES(QLoaderDataInterface)
     Q_PROPERTY(QList<QChar> sidebarList READ sidebarList CONSTANT)
     Q_PROPERTY(QStringList sidebarAreaList READ sidebarAreaList CONSTANT)
 
@@ -59,9 +63,11 @@ public:
     void addTaskbar(HolonTaskbar *taskbar);
     void addWindow(HolonWindow *window);
     QString buttonStyleSheet() const;
+    QLoaderData *data() override;
     int menuBorder() const;
     QString menuStyleSheet() const;
     int menuWidth() const;
+    void setData(QLoaderData *data) override;
     HolonSidebar *sidebar(QChar chr) const;
     QStringList sidebarAreaList() const;
     QCharList sidebarList() const;

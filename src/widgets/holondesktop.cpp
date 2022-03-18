@@ -66,6 +66,7 @@ public:
     const QString buttonStyleSheet;
     const QString menuStyleSheet;
     const QRegularExpression borderWidth{"^QWidget\\s*{[^}]*border:[^};]*(?<px>\\d+)px[^}]*}$"};
+    QLoaderData *data;
     const int menuBorder;
     const int menuWidth;
     const QStringList sidebarAreaList;
@@ -466,6 +467,11 @@ QString HolonDesktop::buttonStyleSheet() const
     return d_ptr->buttonStyleSheet;
 }
 
+QLoaderData *HolonDesktop::data()
+{
+    return d_ptr->data;
+}
+
 int HolonDesktop::menuBorder() const
 {
     return d_ptr->menuBorder;
@@ -479,6 +485,11 @@ QString HolonDesktop::menuStyleSheet() const
 int HolonDesktop::menuWidth() const
 {
     return d_ptr->menuWidth;
+}
+
+void HolonDesktop::setData(QLoaderData *data)
+{
+    d_ptr->data = data;
 }
 
 HolonSidebar *HolonDesktop::sidebar(QChar /*chr*/) const
