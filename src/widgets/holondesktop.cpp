@@ -299,21 +299,21 @@ class HolonDesktopLayout : public HolonDesktopLayoutData
         parent->layout()->addWidget(widget);
     }
 
-    void setHBoxLayout(QWidget **widget, const char *name, QWidget *parent)
+    void setHBoxLayout(QWidget *&widget, const char *name, QWidget *parent)
     {
-        *widget = new QWidget(parent);
-        (*widget)->setObjectName(name);
-        (*widget)->setLayout(new QHBoxLayout(*widget));
-        (*widget)->layout()->setContentsMargins({});
-        (*widget)->layout()->setSpacing(0);
-        parent->layout()->addWidget(*widget);
+        widget = new QWidget(parent);
+        widget->setObjectName(name);
+        widget->setLayout(new QHBoxLayout(widget));
+        widget->layout()->setContentsMargins({});
+        widget->layout()->setSpacing(0);
+        parent->layout()->addWidget(widget);
     }
 
-    void setMainWindow(HolonMainWindow **widget, Desktop desktop, QWidget *parent)
+    void setMainWindow(HolonMainWindow *&widget, Desktop desktop, QWidget *parent)
     {
-        *widget = new HolonMainWindow(desktop, parent);
-        (*widget)->setObjectName("ScreenCenter");
-        parent->layout()->addWidget(*widget);
+        widget = new HolonMainWindow(desktop, parent);
+        widget->setObjectName("ScreenCenter");
+        parent->layout()->addWidget(widget);
     }
 
     void setVBoxLayout(HolonDesktop *desktop)
@@ -323,14 +323,14 @@ class HolonDesktopLayout : public HolonDesktopLayoutData
         desktop->layout()->setSpacing(0);
     }
 
-    void setVBoxLayout(QWidget **widget, const char *name, QWidget *parent)
+    void setVBoxLayout(QWidget *&widget, const char *name, QWidget *parent)
     {
-        *widget = new QWidget(parent);
-        (*widget)->setObjectName(name);
-        (*widget)->setLayout(new QVBoxLayout(*widget));
-        (*widget)->layout()->setContentsMargins({});
-        (*widget)->layout()->setSpacing(0);
-        parent->layout()->addWidget(*widget);
+        widget = new QWidget(parent);
+        widget->setObjectName(name);
+        widget->setLayout(new QVBoxLayout(widget));
+        widget->layout()->setContentsMargins({});
+        widget->layout()->setSpacing(0);
+        parent->layout()->addWidget(widget);
     }
 
 public:
@@ -354,16 +354,16 @@ public:
     void setDesktopLayout(Desktop desktop)
     {
         setVBoxLayout(d.desktop = desktop.q_ptr);
-        setVBoxLayout(&d.screen, "Screen", d.desktop);
+        setVBoxLayout(d.screen, "Screen", d.desktop);
         {
-            setVBoxLayout(&d.top, "ScreenTop", d.screen);
-            setHBoxLayout(&d.middle, "ScreenMiddle", d.screen);
+            setVBoxLayout(d.top, "ScreenTop", d.screen);
+            setHBoxLayout(d.middle, "ScreenMiddle", d.screen);
             {
-                setHBoxLayout(&d.left, "ScreenLeft", d.middle);
-                setMainWindow(&d.center, desktop, d.middle);
-                setHBoxLayout(&d.right, "ScreenRight", d.middle);
+                setHBoxLayout(d.left, "ScreenLeft", d.middle);
+                setMainWindow(d.center, desktop, d.middle);
+                setHBoxLayout(d.right, "ScreenRight", d.middle);
             }
-            setVBoxLayout(&d.bottom, "ScreenBottom", d.screen);
+            setVBoxLayout(d.bottom, "ScreenBottom", d.screen);
         }
     }
 };
