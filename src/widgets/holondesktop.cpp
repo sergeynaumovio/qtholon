@@ -66,7 +66,7 @@ public:
     const QString buttonStyleSheet;
     const QString menuStyleSheet;
     const QRegularExpression borderWidth{"^QWidget\\s*{[^}]*border:[^};]*(?<px>\\d+)px[^}]*}$"};
-    QLoaderData *data;
+    QLoaderData *data{};
     const int menuBorder;
     const int menuWidth;
     const QStringList sidebarAreaList;
