@@ -49,7 +49,7 @@ HolonWindow::Areas HolonOpenTasksWindow::areas() const
     return HolonWindow::Sidebar;
 }
 
-bool HolonOpenTasksWindow::copy(const QStringList &to)
+bool HolonOpenTasksWindow::copy(const QStringList &to) const
 {
     QStringList parentSection = to;
     if (to.size() > 1)
