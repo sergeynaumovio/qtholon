@@ -63,7 +63,7 @@ public:
     void addTaskbar(HolonTaskbar *taskbar);
     void addWindow(HolonWindow *window);
     QString buttonStyleSheet() const;
-    QLoaderData *data() override;
+    QLoaderData *data() const override;
     int menuBorder() const;
     QString menuStyleSheet() const;
     int menuWidth() const;

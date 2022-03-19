@@ -467,7 +467,7 @@ QString HolonDesktop::buttonStyleSheet() const
     return d_ptr->buttonStyleSheet;
 }
 
-QLoaderData *HolonDesktop::data()
+QLoaderData *HolonDesktop::data() const
 {
     return d_ptr->data;
 }
@@ -489,7 +489,10 @@ int HolonDesktop::menuWidth() const
 
 void HolonDesktop::setData(QLoaderData *data)
 {
-    d_ptr->data = data;
+    if (d_ptr->data)
+        emitError("data already set");
+    else
+        d_ptr->data = data;
 }
 
 HolonSidebar *HolonDesktop::sidebar(QChar /*chr*/) const
