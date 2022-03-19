@@ -29,6 +29,7 @@ styleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
 [Holon/Taskbar/Menu]
 class = HolonNewTaskMenu
 menuWidth = 200
+shortcut = Ctrl+T
 
 [Holon/Taskbar/SidebarSwitch]
 class = HolonSidebarSwitch

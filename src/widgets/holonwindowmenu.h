@@ -16,8 +16,8 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONNEWWINDOWMENU_H
-#define HOLONNEWWINDOWMENU_H
+#ifndef HOLONWINDOWMENU_H
+#define HOLONWINDOWMENU_H
 
 #include "qtholonglobal.h"
 #include <QWidget>
@@ -25,7 +25,7 @@
 class HolonDesktop;
 class HolonWindow;
 
-class HolonNewWindowMenu : public QWidget
+class HolonWindowMenu : public QWidget
 {
     Q_OBJECT
 
@@ -36,7 +36,7 @@ Q_SIGNALS:
     void triggered(HolonWindow *window);
 
 public:
-    HolonNewWindowMenu(HolonDesktop *desktop, QWidget *parent);
+    HolonWindowMenu(HolonDesktop *desktop, QWidget *parent);
 };
 
-#endif // HOLONNEWWINDOWMENU_H
+#endif // HOLONWINDOWMENU_H

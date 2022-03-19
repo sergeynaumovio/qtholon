@@ -19,7 +19,7 @@
 #include "holonwindowarea_p.h"
 #include "holondesktop.h"
 #include "holonwindow.h"
-#include "holonnewwindowmenu.h"
+#include "holonwindowmenu.h"
 #include <QBoxLayout>
 #include <QLabel>
 #include <QPushButton>
@@ -103,9 +103,9 @@ public:
             QVBoxLayout *l = new QVBoxLayout(widget);
             {
                 widget->setLayout(l);
-                HolonNewWindowMenu *menu;
-                l->addWidget(menu = new HolonNewWindowMenu(desktop, widget), 0, Qt::AlignCenter);
-                connect(menu, &HolonNewWindowMenu::triggered, this, [area](HolonWindow *window)
+                HolonWindowMenu *menu;
+                l->addWidget(menu = new HolonWindowMenu(desktop, widget), 0, Qt::AlignCenter);
+                connect(menu, &HolonWindowMenu::triggered, this, [area](HolonWindow *window)
                 {
                     QStringList to = area->section();
                     to.append(qAsConst(window)->section().last());

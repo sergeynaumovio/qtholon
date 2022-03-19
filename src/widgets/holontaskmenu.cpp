@@ -16,7 +16,7 @@
 **
 ****************************************************************************/
 
-#include "holonnewtaskmenu.h"
+#include "holontaskmenu.h"
 #include "holontaskbar.h"
 #include "holondesktop.h"
 
@@ -68,7 +68,7 @@ protected:
     }
 
 public:
-    HolonNewTaskMenuWidget(HolonNewTaskMenu *q)
+    HolonNewTaskMenuWidget(HolonTaskMenu *q)
     :   QWidget(q->taskbar()->desktop())
     {
         setLayout(new QVBoxLayout(this));
@@ -80,7 +80,7 @@ public:
 
         QShortcut *newTaskShortcut = new QShortcut(q->taskbar()->desktop());
         {
-            newTaskShortcut->setKey(QKeySequence("Ctrl+T"));
+            newTaskShortcut->setKey(QKeySequence(q->shortcut()));
             connect(newTaskShortcut, &QShortcut::activated, this, [q]{ q->click(); });
         }
         connect(q, &QPushButton::pressed, this, [this, q]()
@@ -122,7 +122,7 @@ public:
     }
 };
 
-HolonNewTaskMenu::HolonNewTaskMenu(QLoaderSettings *settings, HolonTaskbar *parent)
+HolonTaskMenu::HolonTaskMenu(QLoaderSettings *settings, HolonTaskbar *parent)
 :   QPushButton(QIcon(":/holon/holoniconlight.svg"), "", parent),
     QLoaderSettings(settings)
 {
@@ -157,7 +157,7 @@ HolonNewTaskMenu::HolonNewTaskMenu(QLoaderSettings *settings, HolonTaskbar *pare
     new HolonNewTaskMenuWidget(this);
 }
 
-HolonDesktop *HolonNewTaskMenu::desktop() const
+HolonDesktop *HolonTaskMenu::desktop() const
 {
     if (HolonTaskbar *bar = taskbar())
         return  bar->desktop();
@@ -165,7 +165,12 @@ HolonDesktop *HolonNewTaskMenu::desktop() const
     return nullptr;
 }
 
-HolonTaskbar *HolonNewTaskMenu::taskbar() const
+QString HolonTaskMenu::shortcut() const
+{
+    return value("shortcut").toString();
+}
+
+HolonTaskbar *HolonTaskMenu::taskbar() const
 {
     return qobject_cast<HolonTaskbar*>(parent());
 }

@@ -16,7 +16,7 @@
 **
 ****************************************************************************/
 
-#include "holonnewwindowmenu.h"
+#include "holonwindowmenu.h"
 #include "holondesktop.h"
 #include "holonwindow.h"
 #include <QPushButton>
@@ -27,7 +27,7 @@
 class WindowButton : public QPushButton
 {
 public:
-    WindowButton(HolonWindow *window, HolonDesktop *desktop, HolonNewWindowMenu *parent)
+    WindowButton(HolonWindow *window, HolonDesktop *desktop, HolonWindowMenu *parent)
     :   QPushButton(parent)
     {
         setIcon(window->icon());
@@ -40,7 +40,7 @@ public:
     }
 };
 
-void HolonNewWindowMenu::paintEvent(QPaintEvent *)
+void HolonWindowMenu::paintEvent(QPaintEvent *)
 {
     QStyleOption opt;
     opt.initFrom(this);
@@ -48,7 +48,7 @@ void HolonNewWindowMenu::paintEvent(QPaintEvent *)
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
-HolonNewWindowMenu::HolonNewWindowMenu(HolonDesktop *desktop, QWidget *parent)
+HolonWindowMenu::HolonWindowMenu(HolonDesktop *desktop, QWidget *parent)
 :   QWidget(parent)
 {
     int px = desktop->menuBorder();
