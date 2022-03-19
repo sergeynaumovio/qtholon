@@ -83,7 +83,7 @@ public:
             newTaskShortcut->setKey(QKeySequence("Ctrl+T"));
             connect(newTaskShortcut, &QShortcut::activated, this, [q]{ q->click(); });
         }
-        connect(q, &QPushButton::clicked, this, [this, q]()
+        connect(q, &QPushButton::pressed, this, [this, q]()
         {
             if (isVisible())
                 hide();
