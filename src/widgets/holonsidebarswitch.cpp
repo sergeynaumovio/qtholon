@@ -59,11 +59,17 @@ protected:
         pen.setWidth(2);
         p.setPen(pen);
 
-        if (hovered)
+        if (hovered && !checked)
             p.fillRect(rect(), QColor(74, 76, 78));
+
+        if (hovered && checked)
+            p.fillRect(rect(), QColor(44, 46, 48));
 
         if (checked)
         {
+            if (!hovered)
+                p.fillRect(rect(), QColor(24, 26, 28));
+
             QLineF line(rect().bottomLeft(), rect().bottomRight());
             p.drawLine(line);
         }
