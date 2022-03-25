@@ -67,7 +67,6 @@ public:
     const QString buttonStyleSheet;
     const QString menuStyleSheet;
     const QRegularExpression borderWidth{"^QWidget\\s*{[^}]*border:[^};]*(?<px>\\d+)px[^}]*}$"};
-    QLoaderData *data{};
     const int menuBorder;
     const int menuWidth;
     const QStringList sidebarAreaList;
@@ -466,14 +465,6 @@ void HolonDesktop::addWindow(HolonWindow *window)
 QString HolonDesktop::buttonStyleSheet() const
 {
     return d_ptr->buttonStyleSheet;
-}
-
-QLoaderData *HolonDesktop::data() const
-{
-    if (!d_ptr->data)
-        d_ptr->data = findChild<QLoaderData*>("", Qt::FindDirectChildrenOnly);
-
-    return d_ptr->data;
 }
 
 int HolonDesktop::menuBorder() const

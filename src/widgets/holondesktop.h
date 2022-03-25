@@ -28,7 +28,6 @@ class HolonSidebar;
 class HolonTask;
 class HolonTaskbar;
 class HolonWindow;
-class QLoaderData;
 
 using QCharList = QList<QChar>;
 
@@ -59,7 +58,6 @@ public:
     void addTaskbar(HolonTaskbar *taskbar);
     void addWindow(HolonWindow *window);
     QString buttonStyleSheet() const;
-    QLoaderData *data() const;
     int menuBorder() const;
     QString menuStyleSheet() const;
     int menuWidth() const;
