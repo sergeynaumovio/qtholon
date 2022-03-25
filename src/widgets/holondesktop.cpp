@@ -28,6 +28,7 @@
 #include <QShortcut>
 #include <QRegularExpression>
 #include <QLoaderTree>
+#include <QLoaderData>
 
 class HolonMainWindow;
 class HolonDesktopLayout;
@@ -469,6 +470,9 @@ QString HolonDesktop::buttonStyleSheet() const
 
 QLoaderData *HolonDesktop::data() const
 {
+    if (!d_ptr->data)
+        d_ptr->data = findChild<QLoaderData*>("", Qt::FindDirectChildrenOnly);
+
     return d_ptr->data;
 }
 
@@ -485,14 +489,6 @@ QString HolonDesktop::menuStyleSheet() const
 int HolonDesktop::menuWidth() const
 {
     return d_ptr->menuWidth;
-}
-
-void HolonDesktop::setData(QLoaderData *data)
-{
-    if (d_ptr->data)
-        emitError("data already set");
-    else
-        d_ptr->data = data;
 }
 
 HolonSidebar *HolonDesktop::sidebar(QChar /*chr*/) const
