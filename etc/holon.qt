@@ -55,5 +55,5 @@ class = HolonOpenTasksWindow
 [Holon/Data]
 class = LoaderData
 
-[Holon/Data/Storage]
+[Holon/Storage]
 class = LoaderStorage
