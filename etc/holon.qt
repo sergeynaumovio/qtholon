@@ -53,7 +53,7 @@ sidebarArea = Top
 class = HolonOpenTasksWindow
 
 [Holon/Data]
-class = LoaderData
+class = QLoaderData
 
 [Holon/Storage]
-class = LoaderStorage
+class = QLoaderStorage
