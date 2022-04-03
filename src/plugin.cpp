@@ -67,7 +67,7 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "NewTaskMenu"))
+        if (!qstrcmp(shortName, "TaskMenu"))
         {
             if (coreApp)
                 return nullptr;

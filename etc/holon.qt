@@ -27,7 +27,7 @@ preferedWidth = 50
 styleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
 
 [Holon/Taskbar/Menu]
-class = HolonNewTaskMenu
+class = HolonTaskMenu
 menuWidth = 200
 shortcut = Ctrl+T
 
