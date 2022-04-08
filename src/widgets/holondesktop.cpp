@@ -123,10 +123,13 @@ public:
             return;
         }
 
-        QShortcut *shortcut = new QShortcut(q);
+        if (q->contains("saveShortcut") == QLoaderSettings::Value)
         {
-            shortcut->setKey(QKeySequence(q->value("saveShortcut").toString()));
-            QObject::connect(shortcut, &QShortcut::activated, q, [q] { q->tree()->save(); qDebug() << "saved"; });
+            QShortcut *shortcut = new QShortcut(q);
+            {
+                shortcut->setKey(QKeySequence(q->value("saveShortcut").toString()));
+                QObject::connect(shortcut, &QShortcut::activated, q, [q] { q->tree()->save(); });
+            }
         }
     }
 
