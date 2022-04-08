@@ -122,6 +122,12 @@ public:
             error = "sidebarList item is not set or not a char";
             return;
         }
+
+        QShortcut *shortcut = new QShortcut(q);
+        {
+            shortcut->setKey(QKeySequence(q->value("saveShortcut").toString()));
+            QObject::connect(shortcut, &QShortcut::activated, q, [q] { q->tree()->save(); qDebug() << "saved"; });
+        }
     }
 
     QString sidebarAreaMoveShortcut() const

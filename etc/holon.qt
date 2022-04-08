@@ -8,6 +8,7 @@ menuStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); bord
 menuWidth = 180
 minimumHeight = 200
 minimumWidth = 400
+saveShortcut = Ctrl+S
 sidebarAreaList = QStringList(Left, Right, Top, Bottom)
 sidebarAreaMoveShortcut = Alt+M
 sidebarKeyboardModifier = Qt::AltModifier
