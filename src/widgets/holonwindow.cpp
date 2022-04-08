@@ -33,8 +33,27 @@ HolonWindow::HolonWindow(QLoaderSettings *settings, HolonSidebar *parent)
     QLoaderSettings(settings)
 { }
 
-HolonWindow::Areas HolonWindow::areas() const { return {}; }
-QIcon HolonWindow::icon() const { return {}; }
-QString HolonWindow::title() const { return {}; }
-QWidget *HolonWindow::toolbar() const { return {}; }
-QWidget *HolonWindow::widget() const { return {}; }
+HolonWindow::Areas HolonWindow::areas() const
+{
+    return {};
+}
+
+QIcon HolonWindow::icon() const
+{
+    return {};
+}
+
+QString HolonWindow::title() const
+{
+    return {};
+}
+
+QWidget *HolonWindow::toolbar() const
+{
+    return {};
+}
+
+QWidget *HolonWindow::widget() const
+{
+    return {};
+}

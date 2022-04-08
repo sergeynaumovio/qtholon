@@ -21,13 +21,17 @@
 
 #include "qtholonglobal.h"
 #include <QLoaderSettings>
+#include <QLoaderIconInterface>
 
 class HolonDesktop;
 class HolonSidebar;
 
-class Q_HOLON_EXPORT HolonWindow : public QObject, public QLoaderSettings
+class Q_HOLON_EXPORT HolonWindow : public QObject, public QLoaderSettings,
+                                                   public QLoaderIconInterface
+
 {
     Q_OBJECT
+    Q_INTERFACES(QLoaderIconInterface)
 
 protected:
     HolonWindow(QLoaderSettings *settings, HolonDesktop *parent);
@@ -42,7 +46,7 @@ public:
     Q_DECLARE_FLAGS(Areas, HolonWindow::Area)
 
     virtual HolonWindow::Areas areas() const;
-    virtual QIcon icon() const;
+    QIcon icon() const override;
     virtual QString title() const;
     virtual QWidget *toolbar() const;
     virtual QWidget *widget() const;
