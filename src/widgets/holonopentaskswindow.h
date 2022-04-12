@@ -41,6 +41,7 @@ public:
 
     HolonWindow::Areas areas() const override;
     bool copy(const QStringList &to) const override;
+    void copy(QObject *from) override;
     QIcon icon() const override;
     QString title() const override;
     QWidget *toolbar() const override;

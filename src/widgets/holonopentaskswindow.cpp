@@ -63,6 +63,9 @@ bool HolonOpenTasksWindow::copy(const QStringList &to) const
     return false;
 }
 
+void HolonOpenTasksWindow::copy(QObject */*from*/)
+{ }
+
 QIcon HolonOpenTasksWindow::icon() const
 {
     return {};
