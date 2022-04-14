@@ -35,8 +35,8 @@ class HolonOpenTasksWindow : public HolonWindow, public QLoaderCopyInterface
     QScopedPointer<HolonOpenTasksWindowPrivate> d_ptr;
 
 public:
-    HolonOpenTasksWindow(QLoaderSettings *settings, HolonDesktop *parent);
-    HolonOpenTasksWindow(QLoaderSettings *settings, HolonSidebar *parent);
+    Q_INVOKABLE HolonOpenTasksWindow(QLoaderSettings *settings, HolonDesktop *parent);
+    Q_INVOKABLE HolonOpenTasksWindow(QLoaderSettings *settings, HolonSidebar *parent);
     ~HolonOpenTasksWindow();
 
     HolonWindow::Areas areas() const override;

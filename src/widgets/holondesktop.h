@@ -50,7 +50,7 @@ Q_SIGNALS:
     void sizeChanged(QSize);
 
 public:
-    HolonDesktop(QLoaderSettings *settings, QWidget *parent);
+    Q_INVOKABLE HolonDesktop(QLoaderSettings *settings, QWidget *parent);
     ~HolonDesktop();
 
     bool addSidebar(HolonSidebar *sidebar);

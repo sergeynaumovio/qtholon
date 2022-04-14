@@ -31,7 +31,7 @@ class Q_HOLON_EXPORT HolonTaskMenu : public QPushButton, public QLoaderSettings
     Q_OBJECT
 
 public:
-    HolonTaskMenu(QLoaderSettings *settings, HolonTaskbar *parent);
+    Q_INVOKABLE HolonTaskMenu(QLoaderSettings *settings, HolonTaskbar *parent);
 
     HolonDesktop *desktop() const;
     QString shortcut() const;

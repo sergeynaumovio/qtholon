@@ -30,7 +30,7 @@ class HolonSidebarSwitch : public QWidget, public QLoaderSettings
     Q_OBJECT
 
 public:
-    HolonSidebarSwitch(QLoaderSettings *settings, HolonTaskbar *parent);
+    Q_INVOKABLE HolonSidebarSwitch(QLoaderSettings *settings, HolonTaskbar *parent);
     HolonDesktop *desktop() const;
     HolonTaskbar *taskbar() const;
 };

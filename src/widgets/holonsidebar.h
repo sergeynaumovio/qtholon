@@ -32,7 +32,7 @@ class HolonSidebar : public HolonWindowArea
     Q_DECLARE_PRIVATE(HolonSidebar)
 
 public:
-    HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop);
+    Q_INVOKABLE HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop);
     ~HolonSidebar();
 
     QChar sidebar() const;

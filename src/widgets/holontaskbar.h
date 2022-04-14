@@ -50,7 +50,7 @@ public:
     };
     Q_ENUM(Area)
 
-    HolonTaskbar(QLoaderSettings *settings, HolonDesktop *parent);
+    Q_INVOKABLE HolonTaskbar(QLoaderSettings *settings, HolonDesktop *parent);
     ~HolonTaskbar();
 
     void addStretch();
