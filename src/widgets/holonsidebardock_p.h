@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2022-2023 Sergey Naumov
+** Copyright (C) 2023 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -16,31 +16,30 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONWINDOWAREA_P_H
-#define HOLONWINDOWAREA_P_H
-
-#include "holonwindowarea.h"
+#ifndef HOLONSIDEBARDOCK_P_H
+#define HOLONSIDEBARDOCK_P_H
 
 class HolonDesktop;
-class QDockWidget;
-class QMainWindow;
+class HolonMainWindow;
+class HolonSidebarStackTitleBar;
+class QStackedWidget;
+class QWidget;
 
-class HolonWindowAreaPrivate
+class HolonSidebarDockPrivate
 {
 public:
-    HolonWindowArea *q_ptr;
     HolonDesktop *const desktop;
-    QMainWindow *const mainWindow;
-    QDockWidget *const defaultDock;
-    QList<QDockWidget*> dockList;
-    bool maximized{};
+    HolonMainWindow *const mainWindow;
+    bool sidebarAreasAdded{};
 
-    HolonWindowAreaPrivate(HolonWindowArea *q, HolonDesktop *desktop);
-    virtual ~HolonWindowAreaPrivate();
+    struct
+    {
+        HolonSidebarStackTitleBar *visible;
+        QWidget *hidden;
 
-    void addWindow(HolonWindow *window);
-    void maximizeWindow(QDockWidget *dock);
-    void closeWindow(QDockWidget *dock, HolonWindow *window);
+    } titlebar;
+
+    HolonSidebarDockPrivate(HolonDesktop *desktop);
 };
 
-#endif // HOLONWINDOWAREA_P_H
+#endif // HOLONSIDEBARDOCK_P_H

@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2022 Sergey Naumov
+** Copyright (C) 2022-2023 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -20,17 +20,23 @@
 #define HOLONSIDEBARSWITCH_H
 
 #include <QWidget>
-#include <QLoaderSettings>
 
-class HolonTaskbar;
 class HolonDesktop;
+class HolonSidebar;
+class HolonSidebarSwitchPrivate;
+class HolonTaskbar;
 
-class HolonSidebarSwitch : public QWidget, public QLoaderSettings
+class HolonSidebarSwitch : public QWidget
 {
     Q_OBJECT
 
+    HolonSidebarSwitchPrivate &d;
+    std::aligned_storage_t<8, sizeof (ptrdiff_t)> d_storage;
+
 public:
-    Q_INVOKABLE HolonSidebarSwitch(QLoaderSettings *settings, HolonTaskbar *parent);
+    HolonSidebarSwitch(HolonTaskbar *parent);
+
+    void addSidebar(HolonSidebar *sidebar);
     HolonDesktop *desktop() const;
     HolonTaskbar *taskbar() const;
 };

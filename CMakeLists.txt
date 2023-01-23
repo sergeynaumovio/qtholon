@@ -40,6 +40,10 @@ target_sources(${QT_HOLON_LIBRARY}
 
             src/widgets/holondesktop.h
             src/widgets/holondesktop.cpp
+            src/widgets/holondesktop_p.h
+            src/widgets/holondesktop_p.cpp
+            src/widgets/holonmainwindow.h
+            src/widgets/holonmainwindow.cpp
             src/widgets/holontaskbar.h
             src/widgets/holontaskbar.cpp
             src/widgets/holontaskmenu.h
@@ -48,6 +52,12 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonopentaskswindow.cpp
             src/widgets/holonsidebar.h
             src/widgets/holonsidebar.cpp
+            src/widgets/holonsidebardock.h
+            src/widgets/holonsidebardock.cpp
+            src/widgets/holonsidebardock_p.h
+            src/widgets/holonsidebardock_p.cpp
+            src/widgets/holonsidebarstack.h
+            src/widgets/holonsidebarstack.cpp
             src/widgets/holonsidebarswitch.h
             src/widgets/holonsidebarswitch.cpp
             src/widgets/holonwindow.h

@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2022 Sergey Naumov
+** Copyright (C) 2022-2023 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -25,7 +25,7 @@
 class HolonDesktop;
 class HolonWindow;
 
-class HolonWindowMenu : public QWidget
+class Q_HOLON_EXPORT HolonWindowMenu : public QWidget
 {
     Q_OBJECT
 

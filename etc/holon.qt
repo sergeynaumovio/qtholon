@@ -3,43 +3,31 @@
 [Holon]
 class = HolonDesktop
 buttonStyleSheet = QPushButton { border: 0px; } QPushButton:hover { background-color: rgb(74, 76, 78); color: white; }
-mainWindowState = QByteArray(AAAA/wAAAAD9AAAABAAAAAAAAADIAAABnfwCAAAAAfsAAAAIAEwAZQBmAHQBAAAApAAAAZ0AAAA4AP///gAAAAEAAACQAAABnfwCAAAAAfsAAAAKAFIAaQBnAGgAdAEAAACkAAABnQAAAB4A///+AAAAAgAAAqcAAACj/AEAAAAB+wAAAAYAVABvAHABAAAAAAAAAqcAAACnAP///wAAAAMAAAKnAAAAavwBAAAAAfsAAAAMAEIAbwB0AHQAbwBtAQAAAAAAAAKnAAAAXwD///8AAAFNAAABnQAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAwAAAAAAAAEOAAABy/wCAAAAAfwAAADhAAABywAAADcA/////AEAAAAC+wAAAAoAUgBpAGcAaAB0AQAAAAAAAABFAAAARQD////7AAAADABCAG8AdAB0AG8AbQEAAABGAAAAyAAAAF8A////AAAAAQAAAMgAAAHL/AIAAAAB+wAAAAgATABlAGYAdAEAAADhAAABywAAAIsA////AAAAAgAAAqcAAADg/AEAAAAB+wAAAAYAVABvAHABAAAAAAAAAqcAAACnAP///wAAAM8AAAHLAAAABAAAAAQAAAAIAAAACPwAAAAA)
 menuStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); border: 1px solid rgb(34, 36, 38); }
 menuWidth = 180
 minimumHeight = 200
 minimumWidth = 400
 saveShortcut = Ctrl+S
 sidebarAreaList = QStringList(Left, Right, Top, Bottom)
-sidebarAreaMoveShortcut = Alt+M
-sidebarKeyboardModifier = Qt::AltModifier
 sidebarList = QCharList(1, 2, 3, 4)
+sidebarMoveShortcut = Alt+M
 styleSheet = QMainWindow::separator { width: 1px; height: 1px; background-color: rgb(34, 36, 38); }
+taskbarArea = bottom
+taskbarPreferedHeight = 40
+taskbarPreferedWidth = 50
+taskbarStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
 titleBarHeight = 24
 titleBarStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
 
 [Holon/OpenTasksWindow]
 class = HolonOpenTasksWindow
 
-[Holon/Taskbar]
-class = HolonTaskbar
-area = Bottom
-preferedHeight = 40
-preferedWidth = 50
-styleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
-
-[Holon/Taskbar/Menu]
-class = HolonTaskMenu
-menuWidth = 200
-shortcut = Ctrl+T
-
-[Holon/Taskbar/SidebarSwitch]
-class = HolonSidebarSwitch
-
 [Holon/Sidebar(1)]
 class = HolonSidebar
 icon = :/holon/screwdriver.svg
 sidebar = QChar(1)
-sidebarArea = Left
+sidebarArea = Top
 text = Control
 
 [Holon/Sidebar(1)/OpenTasksWindow]
@@ -48,9 +36,12 @@ class = HolonOpenTasksWindow
 [Holon/Sidebar(2)]
 class = HolonSidebar
 sidebar = QChar(2)
-sidebarArea = Top
+sidebarArea = Left
 
 [Holon/Sidebar(2)/OpenTasksWindow]
+class = HolonOpenTasksWindow
+
+[Holon/Sidebar(2)/OpenTasksWindow2]
 class = HolonOpenTasksWindow
 
 [Holon/Data]

@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021, 2022 Sergey Naumov
+** Copyright (C) 2021-2023 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -18,17 +18,13 @@
 
 #include "holoncore.h"
 #include "holondesktop.h"
-#include "holontaskbar.h"
-#include "holontaskmenu.h"
-#include "holonsidebar.h"
-#include "holonsidebarswitch.h"
-#include "holontask.h"
 #include "holonopentaskswindow.h"
-
+#include "holonsidebar.h"
+#include "holonsidebarstack.h"
+#include <QApplication>
 #include <QLoaderPluginInterface>
 #include <QLoaderSettings>
 #include <QLoaderTree>
-#include <QApplication>
 
 class Plugin : public QObject, QLoaderPluginInterface
 {
@@ -55,30 +51,6 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "Taskbar"))
-        {
-            if (coreApp)
-                return nullptr;
-
-            HolonDesktop *desktop = qobject_cast<HolonDesktop*>(parent);
-            if (desktop)
-                return new HolonTaskbar(settings, desktop);
-
-            return parent;
-        }
-
-        if (!qstrcmp(shortName, "TaskMenu"))
-        {
-            if (coreApp)
-                return nullptr;
-
-            HolonTaskbar *taskbar = qobject_cast<HolonTaskbar*>(parent);
-            if (taskbar && !taskbar->findChild<HolonTaskMenu*>())
-                return new HolonTaskMenu(settings, taskbar);
-
-            return parent;
-        }
-
         if (!qstrcmp(shortName, "Sidebar"))
         {
             if (coreApp)
@@ -88,17 +60,9 @@ public:
             if (desktop)
                 return new HolonSidebar(settings, desktop);
 
-            return parent;
-        }
-
-        if (!qstrcmp(shortName, "SidebarSwitch"))
-        {
-            if (coreApp)
-                return nullptr;
-
-            HolonTaskbar *taskbar = qobject_cast<HolonTaskbar*>(parent);
-            if (taskbar)
-                return new HolonSidebarSwitch(settings, taskbar);
+            HolonSidebarStack *stack = qobject_cast<HolonSidebarStack*>(parent);
+            if (stack)
+                return new HolonSidebar(settings, stack);
 
             return parent;
         }

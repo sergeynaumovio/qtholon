@@ -19,19 +19,17 @@
 #ifndef HOLONTASKMENU_H
 #define HOLONTASKMENU_H
 
-#include "qtholonglobal.h"
 #include <QPushButton>
-#include <QLoaderSettings>
 
 class HolonTaskbar;
 class HolonDesktop;
 
-class Q_HOLON_EXPORT HolonTaskMenu : public QPushButton, public QLoaderSettings
+class HolonTaskMenu : public QPushButton
 {
     Q_OBJECT
 
 public:
-    Q_INVOKABLE HolonTaskMenu(QLoaderSettings *settings, HolonTaskbar *parent);
+    HolonTaskMenu(HolonTaskbar *parent);
 
     HolonDesktop *desktop() const;
     QString shortcut() const;

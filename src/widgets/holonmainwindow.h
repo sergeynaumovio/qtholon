@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2022-2023 Sergey Naumov
+** Copyright (C) 2023 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -16,31 +16,31 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONWINDOWAREA_P_H
-#define HOLONWINDOWAREA_P_H
+#ifndef HOLONMAINWINDOW_H
+#define HOLONMAINWINDOW_H
 
-#include "holonwindowarea.h"
+#include "qtholonglobal.h"
+#include <QMainWindow>
 
 class HolonDesktop;
-class QDockWidget;
-class QMainWindow;
+class HolonMainWindowPrivate;
+class HolonSidebar;
 
-class HolonWindowAreaPrivate
+class Q_HOLON_EXPORT HolonMainWindow : public QMainWindow
 {
+    Q_OBJECT
+
+    const QScopedPointer<HolonMainWindowPrivate> d_ptr;
+
+Q_SIGNALS:
+    void layoutChanged();
+
 public:
-    HolonWindowArea *q_ptr;
-    HolonDesktop *const desktop;
-    QMainWindow *const mainWindow;
-    QDockWidget *const defaultDock;
-    QList<QDockWidget*> dockList;
-    bool maximized{};
+    HolonMainWindow(HolonDesktop *desktop, QWidget *parent);
+    ~HolonMainWindow();
 
-    HolonWindowAreaPrivate(HolonWindowArea *q, HolonDesktop *desktop);
-    virtual ~HolonWindowAreaPrivate();
-
-    void addWindow(HolonWindow *window);
-    void maximizeWindow(QDockWidget *dock);
-    void closeWindow(QDockWidget *dock, HolonWindow *window);
+    void addSidebar(HolonSidebar *sidebar);
 };
 
-#endif // HOLONWINDOWAREA_P_H
+
+#endif // HOLONMAINWINDOW_H

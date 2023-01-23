@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2022 Sergey Naumov
+** Copyright (C) 2022-2023 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -17,15 +17,14 @@
 ****************************************************************************/
 
 #include "holontaskmenu.h"
-#include "holontaskbar.h"
 #include "holondesktop.h"
-
+#include "holontaskbar.h"
 #include <QBoxLayout>
 #include <QKeyEvent>
-#include <QStyleOption>
-#include <QPainter>
-#include <QShortcut>
 #include <QLoaderTree>
+#include <QPainter>
+#include <QStyleOption>
+#include <QShortcut>
 
 #if HOLON_DESKTOP_EMBEDDED
 class HolonNewTaskMenuPress : public QObject
@@ -83,21 +82,21 @@ public:
             newTaskShortcut->setKey(QKeySequence(q->shortcut()));
             connect(newTaskShortcut, &QShortcut::activated, this, [q]{ q->click(); });
         }
-        connect(q, &QPushButton::pressed, this, [this, q]()
+        connect(q, &QPushButton::pressed, this, [this /*, q*/]()
         {
             if (isVisible())
                 hide();
             else
             {
-                move(x(), q->taskbar()->desktop()->height() - q->taskbar()->preferedHeight() - height());
+                //move(x(), q->taskbar()->desktop()->height() - q->taskbar()->preferedHeight() - height());
                 show();
             }
         });
 
-        connect(q->taskbar()->desktop(), &HolonDesktop::sizeChanged, this, [this, q](QSize size)
-        {
-            move(x(), size.height() - q->taskbar()->preferedHeight() - height());
-        });
+        //connect(q->taskbar()->desktop(), &HolonDesktop::sizeChanged, this, [this, q](QSize size)
+        //{
+        //    move(x(), size.height() - q->taskbar()->preferedHeight() - height());
+        //});
 
         QPushButton *quitButton = new QPushButton("Quit", this);
         {
@@ -109,9 +108,9 @@ public:
             QShortcut *shortcut = new QShortcut(q->taskbar()->desktop());
             {
                 shortcut->setKey(QKeySequence("Ctrl+Q"));
-                connect(shortcut, &QShortcut::activated, quitButton, [q, quitButton]
+                connect(shortcut, &QShortcut::activated, quitButton, [/*q,*/ quitButton]
                 {
-                    q->tree()->save();
+                    //q->tree()->save();
                     quitButton->click();
                 });
             }
@@ -122,19 +121,18 @@ public:
     }
 };
 
-HolonTaskMenu::HolonTaskMenu(QLoaderSettings *settings, HolonTaskbar *parent)
-:   QPushButton(QIcon(":/holon/holoniconlight.svg"), "", parent),
-    QLoaderSettings(settings)
+HolonTaskMenu::HolonTaskMenu(HolonTaskbar *parent)
+:   QPushButton(QIcon(":/holon/holoniconlight.svg"), "", parent)
 {
     if (!parent)
     {
-        emitError("HolonTaskbar not found");
+        //emitError("HolonTaskbar not found");
         return;
     } 
 
     setFlat(true);
 
-    QString stretch = value("stretch").toString();
+    QString stretch{};// = value("stretch").toString();
     if (stretch.contains("before"))
         parent->addStretch();
 
@@ -143,14 +141,14 @@ HolonTaskMenu::HolonTaskMenu(QLoaderSettings *settings, HolonTaskbar *parent)
     if (stretch.contains("after"))
         parent->addStretch();
 
-    int size = parent->preferedHeight();
-    if (parent->area() == HolonTaskbar::Top || parent->area() == HolonTaskbar::Bottom)
-        setFixedSize(size, size);
-    else
-        setFixedHeight(size);
+    //int size = parent->preferedHeight();
+    //if (parent->area() == HolonTaskbar::Top || parent->area() == HolonTaskbar::Bottom)
+    //    setFixedSize(size, size);
+    //else
+    //    setFixedHeight(size);
 
-    size *= 0.5;
-    setIconSize({size, size});
+    //size *= 0.5;
+    //setIconSize({size, size});
 
     setStyleSheet(desktop()->buttonStyleSheet());
 
@@ -167,7 +165,7 @@ HolonDesktop *HolonTaskMenu::desktop() const
 
 QString HolonTaskMenu::shortcut() const
 {
-    return value("shortcut").toString();
+    return {};//value("shortcut").toString();
 }
 
 HolonTaskbar *HolonTaskMenu::taskbar() const

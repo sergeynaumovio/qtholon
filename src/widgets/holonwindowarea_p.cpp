@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2022 Sergey Naumov
+** Copyright (C) 2022-2023 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -21,11 +21,11 @@
 #include "holonwindow.h"
 #include "holonwindowmenu.h"
 #include <QBoxLayout>
-#include <QLabel>
-#include <QPushButton>
-#include <QMainWindow>
 #include <QDockWidget>
+#include <QLabel>
 #include <QLoaderTree>
+#include <QMainWindow>
+#include <QPushButton>
 
 class TitleBar : public QWidget
 {

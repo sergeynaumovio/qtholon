@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2022 Sergey Naumov
+** Copyright (C) 2022-2023 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -19,10 +19,10 @@
 #include "holonwindowmenu.h"
 #include "holondesktop.h"
 #include "holonwindow.h"
-#include <QPushButton>
 #include <QBoxLayout>
-#include <QStyleOption>
 #include <QPainter>
+#include <QPushButton>
+#include <QStyleOption>
 
 class WindowButton : public QPushButton
 {

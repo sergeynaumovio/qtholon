@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2022 Sergey Naumov
+** Copyright (C) 2022-2023 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -17,13 +17,20 @@
 ****************************************************************************/
 
 #include "holonsidebarswitch.h"
-#include "holontaskbar.h"
 #include "holondesktop.h"
+#include "holonsidebar.h"
+#include "holontaskbar.h"
 #include <QAbstractButton>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QBoxLayout>
 #include <QLabel>
+
+class HolonSidebarSwitchPrivate
+{
+public:
+    HolonTaskbar *const parent;
+};
 
 class HolonSidebarButton : public QAbstractButton
 {
@@ -49,6 +56,7 @@ protected:
         default:
             break;
         }
+
         return QWidget::event(e);
     }
 
@@ -93,6 +101,7 @@ public:
             setFixedWidth(parent->taskbar()->preferedWidth());
             setFixedHeight(parent->taskbar()->preferedWidth());
         }
+
         setAttribute(Qt::WA_Hover);
         setCheckable(true);
         connect(this, &QAbstractButton::pressed, this, [this]
@@ -103,10 +112,13 @@ public:
     }
 };
 
-HolonSidebarSwitch::HolonSidebarSwitch(QLoaderSettings *settings, HolonTaskbar *parent)
+HolonSidebarSwitch::HolonSidebarSwitch(HolonTaskbar *parent)
 :   QWidget(parent),
-    QLoaderSettings(settings)
+    d(*new (&d_storage) HolonSidebarSwitchPrivate{parent})
 {
+    static_assert (sizeof (d_storage) == sizeof (HolonSidebarSwitchPrivate));
+    static_assert (sizeof (ptrdiff_t) == alignof (HolonSidebarSwitchPrivate));
+
     if (parent->area() == HolonTaskbar::Top ||
         parent->area() == HolonTaskbar::Bottom)
     {
@@ -131,6 +143,12 @@ HolonSidebarSwitch::HolonSidebarSwitch(QLoaderSettings *settings, HolonTaskbar *
     }
 
     parent->addWidget(this);
+
+}
+
+void HolonSidebarSwitch::addSidebar(HolonSidebar *sidebar)
+{
+    qDebug() << sidebar->title();
 }
 
 HolonDesktop *HolonSidebarSwitch::desktop() const

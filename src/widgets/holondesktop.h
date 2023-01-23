@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2022 Sergey Naumov
+** Copyright (C) 2022-2023 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -20,10 +20,11 @@
 #define HOLONDESKTOP_H
 
 #include "qtholonglobal.h"
-#include <QWidget>
 #include <QLoaderSettings>
+#include <QWidget>
 
 class HolonDesktopPrivate;
+class HolonMainWindow;
 class HolonSidebar;
 class HolonTask;
 class HolonTaskbar;
@@ -50,14 +51,14 @@ Q_SIGNALS:
     void sizeChanged(QSize);
 
 public:
-    Q_INVOKABLE HolonDesktop(QLoaderSettings *settings, QWidget *parent);
+    HolonDesktop(QLoaderSettings *settings, QWidget *parent);
     ~HolonDesktop();
 
-    bool addSidebar(HolonSidebar *sidebar);
+    void addSidebar(HolonSidebar *sidebar);
     void addTask(HolonTask *task);
-    void addTaskbar(HolonTaskbar *taskbar);
     void addWindow(HolonWindow *window);
     QString buttonStyleSheet() const;
+    HolonMainWindow *mainWindow() const;
     int menuBorder() const;
     QString menuStyleSheet() const;
     int menuWidth() const;

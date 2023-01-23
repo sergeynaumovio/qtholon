@@ -19,13 +19,13 @@
 #ifndef HOLONWINDOWAREA_H
 #define HOLONWINDOWAREA_H
 
-#include <QWidget>
 #include <QLoaderSettings>
+#include <QWidget>
 
-class HolonWindowAreaPrivate;
-class QStackedWidget;
 class HolonDesktop;
 class HolonWindow;
+class HolonWindowAreaPrivate;
+class QStackedWidget;
 
 class HolonWindowArea : public QWidget, public QLoaderSettings
 {

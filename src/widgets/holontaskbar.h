@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2022 Sergey Naumov
+** Copyright (C) 2022-2023 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -19,23 +19,20 @@
 #ifndef HOLONTASKBAR_H
 #define HOLONTASKBAR_H
 
-#include "qtholonglobal.h"
+#include "holondesktop.h"
 #include <QWidget>
-#include <QLoaderSettings>
 
-class HolonTaskbarPrivate;
 class HolonDesktop;
+class HolonSidebarSwitch;
+class HolonTaskbarPrivate;
 class QBoxLayout;
 
-class Q_HOLON_EXPORT HolonTaskbar : public QWidget, public QLoaderSettings
+class HolonTaskbar : public QWidget
 {
     Q_OBJECT
 
-    Q_PROPERTY(HolonTaskbar::Area area READ area CONSTANT)
-    Q_PROPERTY(int preferedHeight READ preferedHeight CONSTANT)
-    Q_PROPERTY(int preferedWidth READ preferedWidth CONSTANT)
-
-    const QScopedPointer<HolonTaskbarPrivate> d_ptr;
+    HolonTaskbarPrivate &d;
+    std::aligned_storage_t<32, sizeof (ptrdiff_t)> d_storage;
 
 protected:
     void paintEvent(QPaintEvent *) override;
@@ -50,7 +47,12 @@ public:
     };
     Q_ENUM(Area)
 
-    Q_INVOKABLE HolonTaskbar(QLoaderSettings *settings, HolonDesktop *parent);
+    HolonTaskbar(HolonTaskbar::Area area,
+                 int preferedWidth,
+                 int preferedHeight,
+                 const QString &styleSheet,
+                 HolonDesktop *desktop);
+
     ~HolonTaskbar();
 
     void addStretch();
@@ -58,6 +60,7 @@ public:
     HolonTaskbar::Area area() const;
     HolonDesktop *desktop() const;
     QBoxLayout *layout() const;
+    HolonSidebarSwitch *sidebarSwitch() const;
     int preferedHeight() const;
     int preferedWidth() const;
 };

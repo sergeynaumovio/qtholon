@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021, 2022 Sergey Naumov
+** Copyright (C) 2021-2023 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -17,10 +17,9 @@
 ****************************************************************************/
 
 #include "holonsidebar.h"
-#include "holonwindowarea_p.h"
 #include "holondesktop.h"
-#include "holontaskbar.h"
-#include "holonwindow.h"
+#include "holonsidebarstack.h"
+#include "holonwindowarea_p.h"
 #include <QBoxLayout>
 #include <QLabel>
 
@@ -32,7 +31,9 @@ public:
 
     HolonSidebarPrivate(HolonWindowArea *q, HolonDesktop *desktop)
     :   HolonWindowAreaPrivate(q, desktop)
-    { }
+    {
+
+    }
 };
 
 HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop)
@@ -54,15 +55,20 @@ HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop)
         return;
     }
 
-    if (!desktop->addSidebar(this))
-    {
-        emitError("sidebar is already added");
-        return;
-    }
+    desktop->addSidebar(this);
 }
+
+HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonSidebarStack *stack)
+:   HolonWindowArea(*new HolonSidebarPrivate(this, stack->desktop()), settings)
+{ }
 
 HolonSidebar::~HolonSidebar()
 { }
+
+QIcon HolonSidebar::icon() const
+{
+    return QIcon(":/holon/holoniconlight.svg");
+}
 
 QChar HolonSidebar::sidebar() const
 {
@@ -74,4 +80,9 @@ QString HolonSidebar::sidebarArea() const
 {
     Q_D(const HolonSidebar);
     return d->sidebarArea;
+}
+
+QString HolonSidebar::title() const
+{
+    return "Sidebar";
 }

@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021, 2022 Sergey Naumov
+** Copyright (C) 2021-2023 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -20,23 +20,26 @@
 #define HOLONSIDEBAR_H
 
 #include "holonwindowarea.h"
+#include "qtholonglobal.h"
 
-class HolonSidebarPrivate;
 class HolonDesktop;
-class HolonWindow;
-class HolonTaskbar;
+class HolonSidebarPrivate;
+class HolonSidebarStack;
 
-class HolonSidebar : public HolonWindowArea
+class Q_HOLON_EXPORT HolonSidebar : public HolonWindowArea
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(HolonSidebar)
 
 public:
-    Q_INVOKABLE HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop);
+    HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop);
+    HolonSidebar(QLoaderSettings *settings, HolonSidebarStack *stack);
     ~HolonSidebar();
 
+    virtual QIcon icon() const;
     QChar sidebar() const;
     QString sidebarArea() const;
+    virtual QString title() const;
 };
 
 #endif // HOLONSIDEBAR_H

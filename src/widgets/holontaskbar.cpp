@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2022 Sergey Naumov
+** Copyright (C) 2022-2023 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -18,23 +18,29 @@
 
 #include "holontaskbar.h"
 #include "holondesktop.h"
-
-#include <QStyleOption>
-#include <QPainter>
+#include "holonsidebarswitch.h"
+#include "holontaskmenu.h"
 #include <QBoxLayout>
+#include <QPainter>
+#include <QStyleOption>
 
 class HolonTaskbarPrivate
 {
 public:
-    HolonTaskbar *const q_ptr;
-    HolonDesktop *const parent;
     HolonTaskbar::Area area;
-    int preferedHeight;
-    int preferedWidth;
+    const int preferedWidth;
+    const int preferedHeight;
+    HolonDesktop *const desktop;
+    HolonSidebarSwitch *sidebarSwitch;
 
-    HolonTaskbarPrivate(HolonTaskbar *q, HolonDesktop *parent)
-    :   q_ptr(q),
-        parent(parent)
+    HolonTaskbarPrivate(HolonTaskbar::Area a,
+                        int prefWidth,
+                        int prefHeight,
+                        HolonDesktop *desk)
+    :   area(a),
+        preferedWidth(prefWidth),
+        preferedHeight(prefHeight),
+        desktop(desk)
     { }
 
 };
@@ -47,31 +53,24 @@ void HolonTaskbar::paintEvent(QPaintEvent *)
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
-HolonTaskbar::HolonTaskbar(QLoaderSettings *settings, HolonDesktop *parent)
-:   QLoaderSettings(settings),
-    d_ptr(new HolonTaskbarPrivate(this, parent))
+HolonTaskbar::HolonTaskbar(HolonTaskbar::Area area,
+                           int preferedWidth,
+                           int preferedHeight,
+                           const QString &styleSheet,
+                           HolonDesktop *desktop)
+:   QWidget(desktop),
+    d(*new (&d_storage) HolonTaskbarPrivate(area, preferedWidth, preferedHeight, desktop))
 {
-    if (!parent)
-    {
-        emitError("HolonDesktop not found");
-        return;
-    }
+    static_assert (sizeof (d_storage) == sizeof (HolonTaskbarPrivate));
+    static_assert (sizeof (ptrdiff_t) == alignof (HolonTaskbarPrivate));
 
-    d_ptr->preferedHeight = value("preferedHeight", 40).toInt();
-    d_ptr->preferedWidth = value("preferedWidth", 40).toInt();
-
-    QString area = value("area").toString();
-    if (area == "Left") d_ptr->area = Left;
-    else if (area == "Right") d_ptr->area = Right;
-    else if (area == "Top") d_ptr->area = Top;
-    else d_ptr->area = Bottom;
-
-    if (d_ptr->area == Left || d_ptr->area == Right)
+    if (area == HolonTaskbar::Left ||
+        area == HolonTaskbar::Right)
     {
         setLayout(new QVBoxLayout(this));
         {
             layout()->setContentsMargins({});
-            setFixedWidth(d_ptr->preferedWidth);
+            setFixedWidth(preferedWidth);
         }
     }
     else
@@ -79,11 +78,13 @@ HolonTaskbar::HolonTaskbar(QLoaderSettings *settings, HolonDesktop *parent)
         setLayout(new QHBoxLayout(this));
         {
             layout()->setContentsMargins({});
-            setFixedHeight(d_ptr->preferedHeight);
+            setFixedHeight(preferedHeight);
         }
     }
+    setStyleSheet(styleSheet);
 
-    parent->addTaskbar(this);
+    new HolonTaskMenu(this);
+    d.sidebarSwitch = new HolonSidebarSwitch(this);
 }
 
 HolonTaskbar::~HolonTaskbar()
@@ -101,12 +102,22 @@ void HolonTaskbar::addWidget(QWidget *widget)
 
 HolonTaskbar::Area HolonTaskbar::area() const
 {
-    return d_ptr->area;
+    return d.area;
+}
+
+int HolonTaskbar::preferedHeight() const
+{
+    return d.preferedHeight;
+}
+
+int HolonTaskbar::preferedWidth() const
+{
+    return d.preferedWidth;
 }
 
 HolonDesktop *HolonTaskbar::desktop() const
 {
-    return d_ptr->parent;
+    return d.desktop;
 }
 
 QBoxLayout *HolonTaskbar::layout() const
@@ -114,12 +125,7 @@ QBoxLayout *HolonTaskbar::layout() const
     return static_cast<QBoxLayout*>(QWidget::layout());
 }
 
-int HolonTaskbar::preferedHeight() const
+HolonSidebarSwitch *HolonTaskbar::sidebarSwitch() const
 {
-    return d_ptr->preferedHeight;
-}
-
-int HolonTaskbar::preferedWidth() const
-{
-    return d_ptr->preferedWidth;
+    return d.sidebarSwitch;
 }

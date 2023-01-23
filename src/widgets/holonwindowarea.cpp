@@ -18,9 +18,9 @@
 
 #include "holonwindowarea.h"
 #include "holonwindowarea_p.h"
-#include <QStackedWidget>
 #include <QBoxLayout>
 #include <QMainWindow>
+#include <QStackedWidget>
 
 HolonWindowArea::HolonWindowArea(HolonWindowAreaPrivate &d,
                                  QLoaderSettings *settings)
