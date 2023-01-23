@@ -20,7 +20,6 @@
 #include "holondesktop.h"
 #include "holonopentaskswindow.h"
 #include "holonsidebar.h"
-#include "holonsidebarstack.h"
 #include <QApplication>
 #include <QLoaderPluginInterface>
 #include <QLoaderSettings>
@@ -59,10 +58,6 @@ public:
             HolonDesktop *desktop = qobject_cast<HolonDesktop*>(parent);
             if (desktop)
                 return new HolonSidebar(settings, desktop);
-
-            HolonSidebarStack *stack = qobject_cast<HolonSidebarStack*>(parent);
-            if (stack)
-                return new HolonSidebar(settings, stack);
 
             return parent;
         }

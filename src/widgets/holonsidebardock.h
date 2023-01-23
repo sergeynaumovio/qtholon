@@ -30,12 +30,9 @@ class HolonSidebarDock : public QDockWidget
 {
     Q_OBJECT
 
-protected:
     const QScopedPointer<HolonSidebarDockPrivate> d_ptr;
 
-    HolonSidebarDock(HolonSidebarDockPrivate &d,
-                     const QString &name);
-
+protected:
     void resizeEvent(QResizeEvent *) override;
 
 public:

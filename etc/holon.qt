@@ -25,6 +25,7 @@ class = HolonOpenTasksWindow
 
 [Holon/Sidebar(1)]
 class = HolonSidebar
+group = 1
 icon = :/holon/screwdriver.svg
 sidebar = QChar(1)
 sidebarArea = Top
@@ -35,6 +36,7 @@ class = HolonOpenTasksWindow
 
 [Holon/Sidebar(2)]
 class = HolonSidebar
+group = 1
 sidebar = QChar(2)
 sidebarArea = Left
 

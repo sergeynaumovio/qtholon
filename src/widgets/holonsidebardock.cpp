@@ -26,10 +26,10 @@
 #include <QMainWindow>
 #include <QStackedWidget>
 
-class HolonSidebarStackTitleBar : public QWidget
+class HolonSidebarDockTitleBar : public QWidget
 {
 public:
-    HolonSidebarStackTitleBar(HolonDesktop *desktop, QDockWidget *parent)
+    HolonSidebarDockTitleBar(HolonDesktop *desktop, QDockWidget *parent)
     :   QWidget(parent)
     {
         setStyleSheet(desktop->titleBarStyleSheet());
@@ -54,7 +54,7 @@ public:
 
     struct
     {
-        HolonSidebarStackTitleBar *visible;
+        HolonSidebarDockTitleBar *visible;
         QWidget *hidden;
 
     } titlebar;
@@ -68,10 +68,17 @@ public:
     { }
 };
 
-HolonSidebarDock::HolonSidebarDock(HolonSidebarDockPrivate &d,
-                                   const QString &name)
-:   QDockWidget(d.mainWindow),
-    d_ptr(&d)
+void HolonSidebarDock::resizeEvent(QResizeEvent *)
+{
+    if (d_ptr->sidebarAreasAdded)
+        emit d_ptr->mainWindow->layoutChanged();
+}
+
+HolonSidebarDock::HolonSidebarDock(const QString &name,
+                                     HolonDesktop *desktop,
+                                     HolonMainWindow *parent)
+:   QDockWidget(parent),
+    d_ptr(new HolonSidebarDockPrivate(desktop, parent))
 {
     d_ptr->titlebar.hidden = new QWidget(this);
     d_ptr->widget = new QStackedWidget(this);
@@ -90,23 +97,11 @@ HolonSidebarDock::HolonSidebarDock(HolonSidebarDockPrivate &d,
     setTitleBarWidget(d_ptr->titlebar.hidden);
     setWidget(d_ptr->widget);
 
-    connect(this, &QDockWidget::dockLocationChanged, d.mainWindow, [this]
+    connect(this, &QDockWidget::dockLocationChanged, parent, [parent]
     {
-        emit d_ptr->mainWindow->layoutChanged();
+        emit parent->layoutChanged();
     });
 }
-
-void HolonSidebarDock::resizeEvent(QResizeEvent *)
-{
-    if (d_ptr->sidebarAreasAdded)
-        emit d_ptr->mainWindow->layoutChanged();
-}
-
-HolonSidebarDock::HolonSidebarDock(const QString &name,
-                                   HolonDesktop *desktop,
-                                   HolonMainWindow *parent)
-:   HolonSidebarDock(*new HolonSidebarDockPrivate(desktop, parent), name)
-{ }
 
 HolonSidebarDock::~HolonSidebarDock()
 { }
@@ -128,7 +123,7 @@ void HolonSidebarDock::showTitleBarWidget(bool show)
     {
         d_ptr->currentWidget = d_ptr->widget->currentWidget();
         d_ptr->widget->setCurrentIndex(0);
-        setTitleBarWidget(d_ptr->titlebar.visible = new HolonSidebarStackTitleBar(d_ptr->desktop, this));
+        setTitleBarWidget(d_ptr->titlebar.visible = new HolonSidebarDockTitleBar(d_ptr->desktop, this));
         d_ptr->titlebar.hidden->deleteLater();
     }
     else

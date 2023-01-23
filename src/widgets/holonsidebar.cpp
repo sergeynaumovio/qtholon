@@ -18,7 +18,6 @@
 
 #include "holonsidebar.h"
 #include "holondesktop.h"
-#include "holonsidebarstack.h"
 #include "holonwindowarea_p.h"
 #include <QBoxLayout>
 #include <QLabel>
@@ -57,10 +56,6 @@ HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop)
 
     desktop->addSidebar(this);
 }
-
-HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonSidebarStack *stack)
-:   HolonWindowArea(*new HolonSidebarPrivate(this, stack->desktop()), settings)
-{ }
 
 HolonSidebar::~HolonSidebar()
 { }

@@ -24,7 +24,6 @@
 
 class HolonDesktop;
 class HolonSidebarPrivate;
-class HolonSidebarStack;
 
 class Q_HOLON_EXPORT HolonSidebar : public HolonWindowArea
 {
@@ -33,7 +32,6 @@ class Q_HOLON_EXPORT HolonSidebar : public HolonWindowArea
 
 public:
     HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop);
-    HolonSidebar(QLoaderSettings *settings, HolonSidebarStack *stack);
     ~HolonSidebar();
 
     virtual QIcon icon() const;
