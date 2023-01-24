@@ -20,6 +20,7 @@
 #include "holondesktop.h"
 #include "holonwindowarea_p.h"
 #include <QBoxLayout>
+#include <QIcon>
 #include <QLabel>
 
 class HolonSidebarPrivate : public HolonWindowAreaPrivate
