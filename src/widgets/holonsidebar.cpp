@@ -26,35 +26,14 @@
 class HolonSidebarPrivate : public HolonWindowAreaPrivate
 {
 public:
-    QChar sidebar;
-    QString sidebarArea;
-
     HolonSidebarPrivate(HolonWindowArea *q, HolonDesktop *desktop)
     :   HolonWindowAreaPrivate(q, desktop)
-    {
-
-    }
+    { }
 };
 
 HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop)
 :   HolonWindowArea(*new HolonSidebarPrivate(this, desktop), settings)
 {
-    Q_D(HolonSidebar);
-    d->sidebar = value("sidebar").toChar();
-    d->sidebarArea = value("sidebarArea").toString();
-
-    if (!desktop->sidebarList().contains(d->sidebar))
-    {
-        emitError("sidebar is not in list");
-        return;
-    }
-
-    if (!desktop->sidebarAreaList().contains(d->sidebarArea))
-    {
-        emitError("sidebarArea is not in list");
-        return;
-    }
-
     desktop->addSidebar(this);
 }
 
@@ -63,22 +42,10 @@ HolonSidebar::~HolonSidebar()
 
 QIcon HolonSidebar::icon() const
 {
-    return QIcon(":/holon/holoniconlight.svg");
-}
-
-QChar HolonSidebar::sidebar() const
-{
-    Q_D(const HolonSidebar);
-    return d->sidebar;
-}
-
-QString HolonSidebar::sidebarArea() const
-{
-    Q_D(const HolonSidebar);
-    return d->sidebarArea;
+    return QIcon(value("icon", ":/holon/holoniconlight.svg").toString());
 }
 
 QString HolonSidebar::title() const
 {
-    return "Sidebar";
+    return value("title", section().constLast()).toString();
 }

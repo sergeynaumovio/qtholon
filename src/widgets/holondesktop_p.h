@@ -58,14 +58,13 @@ public:
     const QRegularExpression borderWidth{"^QWidget\\s*{[^}]*border:[^};]*(?<px>\\d+)px[^}]*}$"};
     const int menuBorder;
     const int menuWidth;
-    const QStringList sidebarAreaList;
-    const QList<QChar> sidebarCharList;
     QList<HolonSidebar*> sidebarList;
     const QString sidebarMoveShortcut;
     const int titleBarHeight;
     const QString titleBarStyleSheet;
     QList<HolonWindow *> windowList;
     HolonMainWindow *mainWindow;
+    int skipMainWindowSaveState{2};
     HolonTaskbar *taskbar;
 
     HolonDesktopPrivate(HolonDesktop *q);

@@ -43,7 +43,7 @@ public:
     ~HolonSidebarDock();
 
     void addSidebar(HolonSidebar *sidebar);
-    void setSidebarAreasAdded(bool added);
     void showTitleBarWidget(bool show);
 };
+
 #endif // HOLONSIDEBARDOCK_H

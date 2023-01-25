@@ -35,8 +35,6 @@ public:
     ~HolonSidebar();
 
     virtual QIcon icon() const;
-    QChar sidebar() const;
-    QString sidebarArea() const;
     virtual QString title() const;
 };
 

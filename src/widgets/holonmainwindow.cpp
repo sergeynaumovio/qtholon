@@ -27,32 +27,25 @@
 class HolonMainWindowPrivate
 {
 public:
-    QList<HolonSidebarDock*> areas;
+    HolonMainWindow *const q_ptr;
+    HolonDesktop *const desktop;
+    QStackedWidget *const workspaces;
+    QList<HolonSidebarDock *> docks;
     bool visibleTitleBar{};
-    QStackedWidget *workspaces;
 
-    HolonMainWindowPrivate(QStackedWidget *ws)
-    :   workspaces(ws)
+    HolonMainWindowPrivate(HolonMainWindow *q, HolonDesktop *desk)
+    :   q_ptr(q),
+        desktop(desk),
+        workspaces(new QStackedWidget(q))
     { }
 };
 
 HolonMainWindow::HolonMainWindow(HolonDesktop *desktop, QWidget *parent)
-:   d_ptr(new HolonMainWindowPrivate(new QStackedWidget(this)))
+:   d_ptr(new HolonMainWindowPrivate(this, desktop))
 {
     setParent(parent);
 
     setDockOptions(QMainWindow::AnimatedDocks | QMainWindow::AllowNestedDocks);
-
-    for (const QString &name : desktop->sidebarAreaList())
-    {
-        HolonSidebarDock *area = new HolonSidebarDock(name, desktop, this);
-        d_ptr->areas.append(area);
-        addDockWidget(Qt::LeftDockWidgetArea, area);
-    }
-
-    for (HolonSidebarDock *area : d_ptr->areas)
-        area->setSidebarAreasAdded(true);
-
     setCentralWidget(d_ptr->workspaces);
     d_ptr->workspaces->addWidget(new QLabel("Workspaces", d_ptr->workspaces));
 
@@ -61,7 +54,7 @@ HolonMainWindow::HolonMainWindow(HolonDesktop *desktop, QWidget *parent)
     connect(shortcut, &QShortcut::activated, this, [this]()
     {
         d_ptr->visibleTitleBar = !d_ptr->visibleTitleBar;
-        for (HolonSidebarDock *area : d_ptr->areas)
+        for (HolonSidebarDock *area : d_ptr->docks)
             area->showTitleBarWidget(d_ptr->visibleTitleBar);
     });
 }
@@ -71,12 +64,13 @@ HolonMainWindow::~HolonMainWindow()
 
 void HolonMainWindow::addSidebar(HolonSidebar *sidebar)
 {
-    for (HolonSidebarDock *area : d_ptr->areas)
-    {
-        if (area->objectName() == sidebar->sidebarArea())
-        {
-            area->addSidebar(sidebar);
-            break;
-        }
-    }
+    QString name = sidebar->value("group").toString();
+
+    if (name.isEmpty())
+        name = sidebar->section().constLast();
+
+    HolonSidebarDock *sidebarDock = new HolonSidebarDock(name, d_ptr->desktop, this);
+    addDockWidget(Qt::LeftDockWidgetArea, sidebarDock);
+    sidebarDock->addSidebar(sidebar);
+    d_ptr->docks.append(sidebarDock);
 }

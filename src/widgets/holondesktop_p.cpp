@@ -44,11 +44,11 @@ void HolonDesktopPrivate::setMainWindow(HolonMainWindow *&widget, QWidget *paren
     widget = new HolonMainWindow(q_ptr, parent);
     widget->setObjectName("ScreenCenter");
     parent->layout()->addWidget(widget);
-    widget->restoreState(q_ptr->value("mainWindowState").toByteArray());
 
     QObject::connect(widget, &HolonMainWindow::layoutChanged, widget, [widget, this]
     {
-        q_ptr->setValue("mainWindowState", widget->saveState());
+        if (!skipMainWindowSaveState)
+            q_ptr->setValue("mainWindowState", widget->saveState());
     });
 }
 
@@ -137,40 +137,10 @@ HolonDesktopPrivate::HolonDesktopPrivate(HolonDesktop *q)
         return 1;
     }()),
     menuWidth(q->value("menuWidth", 200).toInt()),
-    sidebarAreaList(q->value("sidebarAreaList").toStringList()),
-    sidebarCharList(q->value("sidebarList").value<QCharList>()),
     sidebarMoveShortcut(q->value("sidebarMoveShortcut").toString()),
     titleBarHeight(q->value("titleBarHeight", 10).toInt()),
     titleBarStyleSheet(q ->value("titleBarStyleSheet").toString())
 {
-    if (!sidebarAreaList.size())
-    {
-        error = "sidebarAreaList property is not set";
-        return;
-    }
-
-    bool validSidebarAreaList = [=, this]()
-    {
-        for (const QString &string : sidebarAreaList)
-        {
-            if (string.isEmpty())
-                return false;
-        }
-        return true;
-    }();
-
-    if (!validSidebarAreaList)
-    {
-        error = "sidebarArea name is not set";
-        return;
-    }
-
-    if (!sidebarCharList.size())
-    {
-        error = "sidebarList item is not set or not a char";
-        return;
-    }
-
     if (q->contains("saveShortcut") == QLoaderSettings::Value)
     {
         QShortcut *shortcut = new QShortcut(q);
@@ -186,6 +156,7 @@ void HolonDesktopPrivate::addSidebar(HolonSidebar *sidebar)
     sidebarList.append(sidebar);
     mainWindow->addSidebar(sidebar);
     taskbar->sidebarSwitch()->addSidebar(sidebar);
+    mainWindow->restoreState(q_ptr->value("mainWindowState").toByteArray());
 }
 
 void HolonDesktopPrivate::setLayout()

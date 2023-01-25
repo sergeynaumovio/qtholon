@@ -21,10 +21,10 @@
 #include "holonsidebar.h"
 #include "holontaskbar.h"
 #include <QAbstractButton>
-#include <QMouseEvent>
-#include <QPainter>
 #include <QBoxLayout>
 #include <QLabel>
+#include <QMouseEvent>
+#include <QPainter>
 
 class HolonSidebarSwitchPrivate
 {
@@ -34,9 +34,10 @@ public:
 
 class HolonSidebarButton : public QAbstractButton
 {
+    HolonSidebarSwitch *const sidebarSwitch;
     bool hovered{};
     bool checked{};
-    QChar c;
+    const QString title;
     const QColor color{Qt::white};
 
 protected:
@@ -81,19 +82,20 @@ protected:
             QLineF line(rect().bottomLeft(), rect().bottomRight());
             p.drawLine(line);
         }
-        p.setFont(QFont("Arial", 20));
-        p.drawText(rect(), Qt::AlignCenter, c);
+        QFont font("Arial", sidebarSwitch->taskbar()->preferedHeight() / 2.5);
+        font.setBold(true);
+        p.setFont(font);
+        p.drawText(rect(), Qt::AlignCenter, title);
     }
 public:
-    HolonSidebarButton(QChar chr, HolonSidebarSwitch *parent)
+    HolonSidebarButton(const QString &string, HolonSidebarSwitch *parent)
     :   QAbstractButton(parent),
-        c(chr)
+        sidebarSwitch(parent),
+        title(string)
     {
         if (parent->taskbar()->area() == HolonTaskbar::Top ||
             parent->taskbar()->area() == HolonTaskbar::Bottom)
         {
-            int preferedWidth = parent->taskbar()->preferedHeight();
-            setFixedWidth(preferedWidth + preferedWidth * 0.15);
             setFixedHeight(parent->taskbar()->preferedHeight());
         }
         else
@@ -137,18 +139,12 @@ HolonSidebarSwitch::HolonSidebarSwitch(HolonTaskbar *parent)
         }
     }
 
-    for (QChar chr : parent->desktop()->sidebarList())
-    {
-        layout()->addWidget(new HolonSidebarButton(chr, this));
-    }
-
     parent->addWidget(this);
-
 }
 
 void HolonSidebarSwitch::addSidebar(HolonSidebar *sidebar)
 {
-    qDebug() << sidebar->title();
+    layout()->addWidget(new HolonSidebarButton(sidebar->title(), this));
 }
 
 HolonDesktop *HolonSidebarSwitch::desktop() const
@@ -158,5 +154,5 @@ HolonDesktop *HolonSidebarSwitch::desktop() const
 
 HolonTaskbar *HolonSidebarSwitch::taskbar() const
 {
-    return static_cast<HolonTaskbar*>(parent());
+    return d.parent;
 }

@@ -28,6 +28,12 @@ void HolonDesktop::closeEvent(QCloseEvent *)
 
 void HolonDesktop::resizeEvent(QResizeEvent *)
 {
+    if (d_ptr->skipMainWindowSaveState)
+    {
+        d_ptr->skipMainWindowSaveState--;
+        return;
+    }
+
     emit sizeChanged(size());
 }
 
@@ -117,21 +123,6 @@ QString HolonDesktop::menuStyleSheet() const
 int HolonDesktop::menuWidth() const
 {
     return d_ptr->menuWidth;
-}
-
-HolonSidebar *HolonDesktop::sidebar(QChar /*chr*/) const
-{
-    return nullptr;
-}
-
-QStringList HolonDesktop::sidebarAreaList() const
-{
-    return d_ptr->sidebarAreaList;
-}
-
-QCharList HolonDesktop::sidebarList() const
-{
-    return d_ptr->sidebarCharList;
 }
 
 int HolonDesktop::titleBarHeight() const

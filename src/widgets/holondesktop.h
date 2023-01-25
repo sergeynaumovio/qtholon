@@ -30,13 +30,9 @@ class HolonTask;
 class HolonTaskbar;
 class HolonWindow;
 
-using QCharList = QList<QChar>;
-
 class Q_HOLON_EXPORT HolonDesktop : public QWidget, public QLoaderSettings
 {
     Q_OBJECT
-    Q_PROPERTY(QList<QChar> sidebarList READ sidebarList CONSTANT)
-    Q_PROPERTY(QStringList sidebarAreaList READ sidebarAreaList CONSTANT)
 
     friend class HolonDesktopPrivate;
     const QScopedPointer<HolonDesktopPrivate> d_ptr;
@@ -62,9 +58,6 @@ public:
     int menuBorder() const;
     QString menuStyleSheet() const;
     int menuWidth() const;
-    HolonSidebar *sidebar(QChar chr) const;
-    QStringList sidebarAreaList() const;
-    QCharList sidebarList() const;
     int titleBarHeight() const;
     QString titleBarStyleSheet() const;
     const QList<HolonWindow *> &windowList() const;

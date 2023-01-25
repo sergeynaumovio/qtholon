@@ -50,7 +50,6 @@ class HolonSidebarDockPrivate
 public:
     HolonDesktop *const desktop;
     HolonMainWindow *const mainWindow;
-    bool sidebarAreasAdded{};
 
     struct
     {
@@ -59,7 +58,7 @@ public:
 
     } titlebar;
 
-    QStackedWidget *widget;
+    QStackedWidget *stackedWidget;
     QWidget *currentWidget;
 
     HolonSidebarDockPrivate(HolonDesktop *desk, HolonMainWindow *parent)
@@ -70,18 +69,17 @@ public:
 
 void HolonSidebarDock::resizeEvent(QResizeEvent *)
 {
-    if (d_ptr->sidebarAreasAdded)
-        emit d_ptr->mainWindow->layoutChanged();
+    emit d_ptr->mainWindow->layoutChanged();
 }
 
 HolonSidebarDock::HolonSidebarDock(const QString &name,
-                                     HolonDesktop *desktop,
-                                     HolonMainWindow *parent)
+                                   HolonDesktop *desktop,
+                                   HolonMainWindow *parent)
 :   QDockWidget(parent),
     d_ptr(new HolonSidebarDockPrivate(desktop, parent))
 {
     d_ptr->titlebar.hidden = new QWidget(this);
-    d_ptr->widget = new QStackedWidget(this);
+    d_ptr->stackedWidget = new QStackedWidget(this);
 
     QLabel *label = new QLabel(this);
     {
@@ -89,18 +87,13 @@ HolonSidebarDock::HolonSidebarDock(const QString &name,
         QFont font("Arial", 20, QFont::Bold);
         label->setFont(font);
         label->setAlignment(Qt::AlignCenter);
-        d_ptr->widget->addWidget(label);
+        d_ptr->stackedWidget->addWidget(label);
     }
 
     setFeatures(QDockWidget::DockWidgetMovable);
     setObjectName(name);
     setTitleBarWidget(d_ptr->titlebar.hidden);
-    setWidget(d_ptr->widget);
-
-    connect(this, &QDockWidget::dockLocationChanged, parent, [parent]
-    {
-        emit parent->layoutChanged();
-    });
+    setWidget(d_ptr->stackedWidget);
 }
 
 HolonSidebarDock::~HolonSidebarDock()
@@ -108,27 +101,22 @@ HolonSidebarDock::~HolonSidebarDock()
 
 void HolonSidebarDock::addSidebar(HolonSidebar *sidebar)
 {
-    d_ptr->widget->addWidget(sidebar);
-    d_ptr->widget->setCurrentWidget(sidebar);
-}
-
-void HolonSidebarDock::setSidebarAreasAdded(bool added)
-{
-    d_ptr->sidebarAreasAdded = added;
+    d_ptr->stackedWidget->addWidget(sidebar);
+    d_ptr->stackedWidget->setCurrentWidget(sidebar);
 }
 
 void HolonSidebarDock::showTitleBarWidget(bool show)
 {
     if (show)
     {
-        d_ptr->currentWidget = d_ptr->widget->currentWidget();
-        d_ptr->widget->setCurrentIndex(0);
+        d_ptr->currentWidget = d_ptr->stackedWidget->currentWidget();
+        d_ptr->stackedWidget->setCurrentIndex(0);
         setTitleBarWidget(d_ptr->titlebar.visible = new HolonSidebarDockTitleBar(d_ptr->desktop, this));
         d_ptr->titlebar.hidden->deleteLater();
     }
     else
     {
-        d_ptr->widget->setCurrentWidget(d_ptr->currentWidget);
+        d_ptr->stackedWidget->setCurrentWidget(d_ptr->currentWidget);
         setTitleBarWidget(d_ptr->titlebar.hidden = new QWidget(this));
         d_ptr->titlebar.visible->deleteLater();
     }
