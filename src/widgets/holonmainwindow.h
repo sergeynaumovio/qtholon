@@ -19,28 +19,24 @@
 #ifndef HOLONMAINWINDOW_H
 #define HOLONMAINWINDOW_H
 
-#include "qtholonglobal.h"
 #include <QMainWindow>
 
-class HolonDesktop;
+class HolonDesktopPrivate;
 class HolonMainWindowPrivate;
 class HolonSidebar;
+class HolonSidebarDock;
 
-class Q_HOLON_EXPORT HolonMainWindow : public QMainWindow
+class HolonMainWindow : public QMainWindow
 {
     Q_OBJECT
 
     const QScopedPointer<HolonMainWindowPrivate> d_ptr;
 
-Q_SIGNALS:
-    void layoutChanged();
-
 public:
-    HolonMainWindow(HolonDesktop *desktop, QWidget *parent);
+    HolonMainWindow(HolonDesktopPrivate &desktop_d, QWidget *parent);
     ~HolonMainWindow();
 
     void addSidebar(HolonSidebar *sidebar);
 };
-
 
 #endif // HOLONMAINWINDOW_H

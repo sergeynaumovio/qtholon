@@ -27,7 +27,7 @@
 class WindowButton : public QPushButton
 {
 public:
-    WindowButton(HolonWindow *window, HolonDesktop *desktop, HolonWindowMenu *parent)
+    WindowButton(HolonDesktop *desktop, HolonWindow *window, HolonWindowMenu *parent)
     :   QPushButton(parent)
     {
         setIcon(window->icon());
@@ -59,10 +59,10 @@ HolonWindowMenu::HolonWindowMenu(HolonDesktop *desktop, QWidget *parent)
         layout()->setContentsMargins({px, px, px, px});
         layout()->setSpacing(0);
 
-        for (HolonWindow *w : desktop->windowList())
+        for (HolonWindow *window : desktop->windowList())
         {
-            if (w->areas().testFlag(HolonWindow::Sidebar))
-                l->addWidget(new WindowButton(w, desktop, this), 0, Qt::AlignHCenter);
+            if (window->areas().testFlag(HolonWindow::Sidebar))
+                l->addWidget(new WindowButton(desktop, window, this), 0, Qt::AlignHCenter);
         }
     }
     setFixedWidth(desktop->menuWidth() + px * 2);

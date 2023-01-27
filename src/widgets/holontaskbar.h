@@ -22,7 +22,7 @@
 #include "holondesktop.h"
 #include <QWidget>
 
-class HolonDesktop;
+class HolonDesktopPrivate;
 class HolonSidebarSwitch;
 class HolonTaskbarPrivate;
 class QBoxLayout;
@@ -32,37 +32,19 @@ class HolonTaskbar : public QWidget
     Q_OBJECT
 
     HolonTaskbarPrivate &d;
-    std::aligned_storage_t<32, sizeof (ptrdiff_t)> d_storage;
+    std::aligned_storage_t<16, sizeof (ptrdiff_t)> d_storage;
 
 protected:
     void paintEvent(QPaintEvent *) override;
 
 public:
-    enum Area
-    {
-        Left,
-        Right,
-        Top,
-        Bottom
-    };
-    Q_ENUM(Area)
-
-    HolonTaskbar(HolonTaskbar::Area area,
-                 int preferedWidth,
-                 int preferedHeight,
-                 const QString &styleSheet,
-                 HolonDesktop *desktop);
-
+    HolonTaskbar(HolonDesktopPrivate &desktop_d);
     ~HolonTaskbar();
 
     void addStretch();
     void addWidget(QWidget *widget);
-    HolonTaskbar::Area area() const;
-    HolonDesktop *desktop() const;
     QBoxLayout *layout() const;
     HolonSidebarSwitch *sidebarSwitch() const;
-    int preferedHeight() const;
-    int preferedWidth() const;
 };
 
 #endif // HOLONTASKBAR_H

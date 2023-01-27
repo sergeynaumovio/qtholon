@@ -16,7 +16,7 @@
 **
 ****************************************************************************/
 
-#include "holondesktop.h"
+#include "holondesktop_p.h"
 #include "holonmainwindow.h"
 #include "holonsidebar.h"
 #include "holonsidebardock.h"
@@ -28,20 +28,20 @@ class HolonMainWindowPrivate
 {
 public:
     HolonMainWindow *const q_ptr;
-    HolonDesktop *const desktop;
+    HolonDesktopPrivate &desktop_d;
     QStackedWidget *const workspaces;
     QList<HolonSidebarDock *> docks;
     bool visibleTitleBar{};
 
-    HolonMainWindowPrivate(HolonMainWindow *q, HolonDesktop *desk)
+    HolonMainWindowPrivate(HolonMainWindow *q, HolonDesktopPrivate &desk_d)
     :   q_ptr(q),
-        desktop(desk),
+        desktop_d(desk_d),
         workspaces(new QStackedWidget(q))
     { }
 };
 
-HolonMainWindow::HolonMainWindow(HolonDesktop *desktop, QWidget *parent)
-:   d_ptr(new HolonMainWindowPrivate(this, desktop))
+HolonMainWindow::HolonMainWindow(HolonDesktopPrivate &desktop_d, QWidget *parent)
+:   d_ptr(new HolonMainWindowPrivate(this, desktop_d))
 {
     setParent(parent);
 
@@ -49,8 +49,7 @@ HolonMainWindow::HolonMainWindow(HolonDesktop *desktop, QWidget *parent)
     setCentralWidget(d_ptr->workspaces);
     d_ptr->workspaces->addWidget(new QLabel("Workspaces", d_ptr->workspaces));
 
-    QString sidebarMoveShortcut = desktop->value("sidebarMoveShortcut").toString();
-    QShortcut *shortcut = new QShortcut(QKeySequence(sidebarMoveShortcut), this);
+    QShortcut *shortcut = new QShortcut(QKeySequence(desktop_d.sidebarMoveShortcut()), this);
     connect(shortcut, &QShortcut::activated, this, [this]()
     {
         d_ptr->visibleTitleBar = !d_ptr->visibleTitleBar;
@@ -69,8 +68,8 @@ void HolonMainWindow::addSidebar(HolonSidebar *sidebar)
     if (name.isEmpty())
         name = sidebar->section().constLast();
 
-    HolonSidebarDock *sidebarDock = new HolonSidebarDock(name, d_ptr->desktop, this);
+    HolonSidebarDock *sidebarDock = new HolonSidebarDock(d_ptr->desktop_d, name, this);
     addDockWidget(Qt::LeftDockWidgetArea, sidebarDock);
-    sidebarDock->addSidebar(sidebar);
     d_ptr->docks.append(sidebarDock);
+    sidebarDock->addSidebar(sidebar);
 }

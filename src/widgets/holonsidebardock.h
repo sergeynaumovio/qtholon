@@ -22,6 +22,7 @@
 #include <QDockWidget>
 
 class HolonDesktop;
+class HolonDesktopPrivate;
 class HolonMainWindow;
 class HolonSidebar;
 class HolonSidebarDockPrivate;
@@ -30,14 +31,15 @@ class HolonSidebarDock : public QDockWidget
 {
     Q_OBJECT
 
-    const QScopedPointer<HolonSidebarDockPrivate> d_ptr;
+    HolonSidebarDockPrivate &d;
+    std::aligned_storage_t<48, sizeof (ptrdiff_t)> d_storage;
 
 protected:
     void resizeEvent(QResizeEvent *) override;
 
 public:
-    HolonSidebarDock(const QString &name,
-                     HolonDesktop *desktop,
+    HolonSidebarDock(HolonDesktopPrivate &desktop_d,
+                     const QString &name,
                      HolonMainWindow *parent);
 
     ~HolonSidebarDock();

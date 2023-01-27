@@ -19,23 +19,25 @@
 #ifndef HOLONWINDOWAREA_P_H
 #define HOLONWINDOWAREA_P_H
 
-#include "holonwindowarea.h"
+#include <QList>
 
 class HolonDesktop;
+class HolonWindow;
+class HolonWindowArea;
 class QDockWidget;
 class QMainWindow;
 
 class HolonWindowAreaPrivate
 {
 public:
-    HolonWindowArea *q_ptr;
     HolonDesktop *const desktop;
+    HolonWindowArea *q_ptr;
     QMainWindow *const mainWindow;
     QDockWidget *const defaultDock;
-    QList<QDockWidget*> dockList;
+    QList<QDockWidget *> dockList;
     bool maximized{};
 
-    HolonWindowAreaPrivate(HolonWindowArea *q, HolonDesktop *desktop);
+    HolonWindowAreaPrivate(HolonDesktop *desktop, HolonWindowArea *q);
     virtual ~HolonWindowAreaPrivate();
 
     void addWindow(HolonWindow *window);

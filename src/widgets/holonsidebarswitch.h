@@ -21,7 +21,7 @@
 
 #include <QWidget>
 
-class HolonDesktop;
+class HolonDesktopPrivate;
 class HolonSidebar;
 class HolonSidebarSwitchPrivate;
 class HolonTaskbar;
@@ -34,11 +34,9 @@ class HolonSidebarSwitch : public QWidget
     std::aligned_storage_t<8, sizeof (ptrdiff_t)> d_storage;
 
 public:
-    HolonSidebarSwitch(HolonTaskbar *parent);
+    HolonSidebarSwitch(HolonDesktopPrivate &desktop_d, HolonTaskbar *parent);
 
     void addSidebar(HolonSidebar *sidebar);
-    HolonDesktop *desktop() const;
-    HolonTaskbar *taskbar() const;
 };
 
 #endif // HOLONSIDEBARSWITCH_H

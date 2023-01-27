@@ -17,6 +17,7 @@
 ****************************************************************************/
 
 #include "holonwindowarea_p.h"
+#include "holonwindowarea.h"
 #include "holondesktop.h"
 #include "holonwindow.h"
 #include "holonwindowmenu.h"
@@ -94,7 +95,7 @@ class DockWidget : public QDockWidget
     }
 
 public:
-    DockWidget(HolonWindowArea *area, HolonDesktop *desktop, QMainWindow *parent)
+    DockWidget(HolonDesktop *desktop, HolonWindowArea *area, QMainWindow *parent)
     :   DockWidget(parent)
     {
         setTitleBarWidget(new TitleBar(desktop, this));
@@ -124,11 +125,11 @@ public:
     }
 };
 
-HolonWindowAreaPrivate::HolonWindowAreaPrivate(HolonWindowArea *q, HolonDesktop *desktop)
-:   q_ptr(q),
-    desktop(desktop),
+HolonWindowAreaPrivate::HolonWindowAreaPrivate(HolonDesktop *desk, HolonWindowArea *q)
+:   desktop(desk),
+    q_ptr(q),
     mainWindow(new QMainWindow),
-    defaultDock(new DockWidget(q, desktop, mainWindow))
+    defaultDock(new DockWidget(desktop, q, mainWindow))
 {
     mainWindow->setDockOptions(QMainWindow::AnimatedDocks | QMainWindow::AllowNestedDocks);
 }

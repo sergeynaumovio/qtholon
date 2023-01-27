@@ -17,7 +17,7 @@
 ****************************************************************************/
 
 #include "holontaskmenu.h"
-#include "holondesktop.h"
+#include "holondesktop_p.h"
 #include "holontaskbar.h"
 #include <QBoxLayout>
 #include <QKeyEvent>
@@ -67,17 +67,17 @@ protected:
     }
 
 public:
-    HolonNewTaskMenuWidget(HolonTaskMenu *q)
-    :   QWidget(q->taskbar()->desktop())
+    HolonNewTaskMenuWidget(HolonDesktopPrivate &desktop_d, HolonTaskMenu *q)
+    :   QWidget(desktop_d.q_ptr)
     {
         setLayout(new QVBoxLayout(this));
-        setStyleSheet(q->taskbar()->styleSheet());
+        setStyleSheet(desktop_d.taskbarStyleSheet());
 
         #if HOLON_DESKTOP_EMBEDDED
             q->taskbar()->desktop()->installEventFilter(new HolonNewTaskMenuPress(q));
         #endif
 
-        QShortcut *newTaskShortcut = new QShortcut(q->taskbar()->desktop());
+        QShortcut *newTaskShortcut = new QShortcut(desktop_d.q_ptr);
         {
             newTaskShortcut->setKey(QKeySequence(q->shortcut()));
             connect(newTaskShortcut, &QShortcut::activated, this, [q]{ q->click(); });
@@ -100,12 +100,12 @@ public:
 
         QPushButton *quitButton = new QPushButton("Quit", this);
         {
-            connect(quitButton, &QPushButton::clicked, this, [q]()
+            connect(quitButton, &QPushButton::clicked, this, [&desktop_d]()
             {
-                q->taskbar()->desktop()->deleteLater();
+                desktop_d.q_ptr->deleteLater();
             });
 
-            QShortcut *shortcut = new QShortcut(q->taskbar()->desktop());
+            QShortcut *shortcut = new QShortcut(desktop_d.q_ptr);
             {
                 shortcut->setKey(QKeySequence("Ctrl+Q"));
                 connect(shortcut, &QShortcut::activated, quitButton, [/*q,*/ quitButton]
@@ -121,25 +121,19 @@ public:
     }
 };
 
-HolonTaskMenu::HolonTaskMenu(HolonTaskbar *parent)
-:   QPushButton(QIcon(":/holon/holoniconlight.svg"), "", parent)
+HolonTaskMenu::HolonTaskMenu(HolonDesktopPrivate &desktop_d, HolonTaskbar *taskbar)
+:   QPushButton(QIcon(":/holon/holoniconlight.svg"), "", taskbar)
 {
-    if (!parent)
-    {
-        //emitError("HolonTaskbar not found");
-        return;
-    } 
-
     setFlat(true);
 
     QString stretch{};// = value("stretch").toString();
     if (stretch.contains("before"))
-        parent->addStretch();
+        taskbar->addStretch();
 
-    parent->addWidget(this);
+    taskbar->addWidget(this);
 
     if (stretch.contains("after"))
-        parent->addStretch();
+        taskbar->addStretch();
 
     //int size = parent->preferedHeight();
     //if (parent->area() == HolonTaskbar::Top || parent->area() == HolonTaskbar::Bottom)
@@ -150,25 +144,7 @@ HolonTaskMenu::HolonTaskMenu(HolonTaskbar *parent)
     //size *= 0.5;
     //setIconSize({size, size});
 
-    setStyleSheet(desktop()->buttonStyleSheet());
+    setStyleSheet(desktop_d.buttonStyleSheet());
 
-    new HolonNewTaskMenuWidget(this);
-}
-
-HolonDesktop *HolonTaskMenu::desktop() const
-{
-    if (HolonTaskbar *bar = taskbar())
-        return  bar->desktop();
-
-    return nullptr;
-}
-
-QString HolonTaskMenu::shortcut() const
-{
-    return {};//value("shortcut").toString();
-}
-
-HolonTaskbar *HolonTaskMenu::taskbar() const
-{
-    return qobject_cast<HolonTaskbar*>(parent());
+    new HolonNewTaskMenuWidget(desktop_d, this);
 }

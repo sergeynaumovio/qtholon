@@ -17,7 +17,7 @@
 ****************************************************************************/
 
 #include "holontaskbar.h"
-#include "holondesktop.h"
+#include "holondesktop_p.h"
 #include "holonsidebarswitch.h"
 #include "holontaskmenu.h"
 #include <QBoxLayout>
@@ -27,20 +27,11 @@
 class HolonTaskbarPrivate
 {
 public:
-    HolonTaskbar::Area area;
-    const int preferedWidth;
-    const int preferedHeight;
-    HolonDesktop *const desktop;
+    HolonDesktopPrivate &desktop_d;
     HolonSidebarSwitch *sidebarSwitch;
 
-    HolonTaskbarPrivate(HolonTaskbar::Area a,
-                        int prefWidth,
-                        int prefHeight,
-                        HolonDesktop *desk)
-    :   area(a),
-        preferedWidth(prefWidth),
-        preferedHeight(prefHeight),
-        desktop(desk)
+    HolonTaskbarPrivate(HolonDesktopPrivate &desk_d)
+    :   desktop_d(desk_d)
     { }
 
 };
@@ -53,24 +44,20 @@ void HolonTaskbar::paintEvent(QPaintEvent *)
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
-HolonTaskbar::HolonTaskbar(HolonTaskbar::Area area,
-                           int preferedWidth,
-                           int preferedHeight,
-                           const QString &styleSheet,
-                           HolonDesktop *desktop)
-:   QWidget(desktop),
-    d(*new (&d_storage) HolonTaskbarPrivate(area, preferedWidth, preferedHeight, desktop))
+HolonTaskbar::HolonTaskbar(HolonDesktopPrivate &desktop_d)
+:   QWidget(desktop_d.q_ptr),
+    d(*new (&d_storage) HolonTaskbarPrivate(desktop_d))
 {
     static_assert (sizeof (d_storage) == sizeof (HolonTaskbarPrivate));
     static_assert (sizeof (ptrdiff_t) == alignof (HolonTaskbarPrivate));
 
-    if (area == HolonTaskbar::Left ||
-        area == HolonTaskbar::Right)
+    if (desktop_d.taskbarArea() == HolonDesktopPrivate::Area::Left ||
+        desktop_d.taskbarArea() == HolonDesktopPrivate::Area::Right)
     {
         setLayout(new QVBoxLayout(this));
         {
             layout()->setContentsMargins({});
-            setFixedWidth(preferedWidth);
+            setFixedWidth(desktop_d.taskbarPreferedWidth());
         }
     }
     else
@@ -78,13 +65,13 @@ HolonTaskbar::HolonTaskbar(HolonTaskbar::Area area,
         setLayout(new QHBoxLayout(this));
         {
             layout()->setContentsMargins({});
-            setFixedHeight(preferedHeight);
+            setFixedHeight(desktop_d.taskbarPreferedHeight());
         }
     }
-    setStyleSheet(styleSheet);
+    setStyleSheet(desktop_d.taskbarStyleSheet());
 
-    new HolonTaskMenu(this);
-    d.sidebarSwitch = new HolonSidebarSwitch(this);
+    new HolonTaskMenu(desktop_d, this);
+    d.sidebarSwitch = new HolonSidebarSwitch(desktop_d, this);
 }
 
 HolonTaskbar::~HolonTaskbar()
@@ -98,26 +85,6 @@ void HolonTaskbar::addStretch()
 void HolonTaskbar::addWidget(QWidget *widget)
 {
     layout()->addWidget(widget);
-}
-
-HolonTaskbar::Area HolonTaskbar::area() const
-{
-    return d.area;
-}
-
-int HolonTaskbar::preferedHeight() const
-{
-    return d.preferedHeight;
-}
-
-int HolonTaskbar::preferedWidth() const
-{
-    return d.preferedWidth;
-}
-
-HolonDesktop *HolonTaskbar::desktop() const
-{
-    return d.desktop;
 }
 
 QBoxLayout *HolonTaskbar::layout() const

@@ -26,15 +26,9 @@ void HolonDesktop::closeEvent(QCloseEvent *)
     deleteLater();
 }
 
-void HolonDesktop::resizeEvent(QResizeEvent *)
+void HolonDesktop::resizeEvent(QResizeEvent *e)
 {
-    if (d_ptr->skipMainWindowSaveState)
-    {
-        d_ptr->skipMainWindowSaveState--;
-        return;
-    }
-
-    emit sizeChanged(size());
+    d_ptr->resizeEvent(e);
 }
 
 QVariant HolonDesktop::fromString(const QString &string) const
@@ -52,12 +46,6 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
     QLoaderSettings(settings),
     d_ptr(new HolonDesktopPrivate(this))
 {
-    if (d_ptr->error.size())
-    {
-        emitError(d_ptr->error);
-        return;
-    }
-
     connect(tree(), &QLoaderTree::errorChanged, this, [](QObject *sender, QString message)
     {
         qDebug().noquote().nospace() << "QLoaderTree::errorChanged("
@@ -97,45 +85,40 @@ void HolonDesktop::addTask(HolonTask* /*task*/)
 
 void HolonDesktop::addWindow(HolonWindow *window)
 {
-    d_ptr->windowList.append(window);
+    d_ptr->addWindow(window);
 }
 
 QString HolonDesktop::buttonStyleSheet() const
 {
-    return d_ptr->buttonStyleSheet;
-}
-
-HolonMainWindow *HolonDesktop::mainWindow() const
-{
-    return d_ptr->mainWindow;
+    return d_ptr->buttonStyleSheet();
 }
 
 int HolonDesktop::menuBorder() const
 {
-    return d_ptr->menuBorder;
+    return d_ptr->menuBorder();
 }
 
 QString HolonDesktop::menuStyleSheet() const
 {
-    return d_ptr->menuStyleSheet;
+    return d_ptr->menuStyleSheet();
 }
 
 int HolonDesktop::menuWidth() const
 {
-    return d_ptr->menuWidth;
+    return d_ptr->menuWidth();
 }
 
 int HolonDesktop::titleBarHeight() const
 {
-    return d_ptr->titleBarHeight;
+    return d_ptr->titleBarHeight();
 }
 
 QString HolonDesktop::titleBarStyleSheet() const
 {
-    return d_ptr->titleBarStyleSheet;
+    return d_ptr->titleBarStyleSheet();
 }
 
-const QList<HolonWindow *> &HolonDesktop::windowList() const
+QList<HolonWindow *> HolonDesktop::windowList() const
 {
-    return d_ptr->windowList;
+    return d_ptr->windowList();
 }

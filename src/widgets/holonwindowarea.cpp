@@ -36,10 +36,10 @@ HolonWindowArea::HolonWindowArea(HolonWindowAreaPrivate &d,
     }
 }
 
-HolonWindowArea::HolonWindowArea(QLoaderSettings *settings,
-                                 HolonDesktop *desktop,
+HolonWindowArea::HolonWindowArea(HolonDesktop *desktop,
+                                 QLoaderSettings *settings,
                                  QStackedWidget *parent)
-:   HolonWindowArea(*new HolonWindowAreaPrivate(this, desktop), settings)
+:   HolonWindowArea(*new HolonWindowAreaPrivate(desktop, this), settings)
 {
     parent->addWidget(this);
 }

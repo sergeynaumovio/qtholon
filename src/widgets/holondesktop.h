@@ -24,7 +24,6 @@
 #include <QWidget>
 
 class HolonDesktopPrivate;
-class HolonMainWindow;
 class HolonSidebar;
 class HolonTask;
 class HolonTaskbar;
@@ -54,13 +53,12 @@ public:
     void addTask(HolonTask *task);
     void addWindow(HolonWindow *window);
     QString buttonStyleSheet() const;
-    HolonMainWindow *mainWindow() const;
     int menuBorder() const;
     QString menuStyleSheet() const;
     int menuWidth() const;
     int titleBarHeight() const;
     QString titleBarStyleSheet() const;
-    const QList<HolonWindow *> &windowList() const;
+    QList<HolonWindow *> windowList() const;
 };
 
 #endif // HOLONDESKTOP_H

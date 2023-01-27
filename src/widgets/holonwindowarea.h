@@ -19,6 +19,7 @@
 #ifndef HOLONWINDOWAREA_H
 #define HOLONWINDOWAREA_H
 
+#include "qtholonglobal.h"
 #include <QLoaderSettings>
 #include <QWidget>
 
@@ -27,7 +28,7 @@ class HolonWindow;
 class HolonWindowAreaPrivate;
 class QStackedWidget;
 
-class HolonWindowArea : public QWidget, public QLoaderSettings
+class Q_HOLON_EXPORT HolonWindowArea : public QWidget, public QLoaderSettings
 {
     Q_OBJECT
 
@@ -37,11 +38,11 @@ protected:
     HolonWindowArea(HolonWindowAreaPrivate &d,
                     QLoaderSettings *settings);
 
-public:
-    HolonWindowArea(QLoaderSettings *settings,
-                    HolonDesktop *desktop,
+    HolonWindowArea(HolonDesktop *desktop,
+                    QLoaderSettings *settings,
                     QStackedWidget *parent);
 
+public:
     ~HolonWindowArea();
 
     void addWindow(HolonWindow *window);

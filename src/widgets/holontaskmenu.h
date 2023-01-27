@@ -21,19 +21,15 @@
 
 #include <QPushButton>
 
+class HolonDesktopPrivate;
 class HolonTaskbar;
-class HolonDesktop;
 
 class HolonTaskMenu : public QPushButton
 {
     Q_OBJECT
 
 public:
-    HolonTaskMenu(HolonTaskbar *parent);
-
-    HolonDesktop *desktop() const;
-    QString shortcut() const;
-    HolonTaskbar *taskbar() const;
+    HolonTaskMenu(HolonDesktopPrivate &desktop_d, HolonTaskbar *parent);
 };
 
 #endif // HOLONTASKMENU_H

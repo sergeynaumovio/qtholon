@@ -17,7 +17,7 @@
 ****************************************************************************/
 
 #include "holonsidebarswitch.h"
-#include "holondesktop.h"
+#include "holondesktop_p.h"
 #include "holonsidebar.h"
 #include "holontaskbar.h"
 #include <QAbstractButton>
@@ -29,12 +29,12 @@
 class HolonSidebarSwitchPrivate
 {
 public:
-    HolonTaskbar *const parent;
+    HolonDesktopPrivate &desktop_d;
 };
 
 class HolonSidebarButton : public QAbstractButton
 {
-    HolonSidebarSwitch *const sidebarSwitch;
+    HolonDesktopPrivate &desktop_d;
     bool hovered{};
     bool checked{};
     const QString title;
@@ -82,26 +82,28 @@ protected:
             QLineF line(rect().bottomLeft(), rect().bottomRight());
             p.drawLine(line);
         }
-        QFont font("Arial", sidebarSwitch->taskbar()->preferedHeight() / 2.5);
+        QFont font("Arial", desktop_d.taskbarPreferedHeight() / 2.5);
         font.setBold(true);
         p.setFont(font);
         p.drawText(rect(), Qt::AlignCenter, title);
     }
 public:
-    HolonSidebarButton(const QString &string, HolonSidebarSwitch *parent)
+    HolonSidebarButton(HolonDesktopPrivate &desk_d,
+                       const QString &buttonTitle,
+                       HolonSidebarSwitch *parent)
     :   QAbstractButton(parent),
-        sidebarSwitch(parent),
-        title(string)
+        desktop_d(desk_d),
+        title(buttonTitle)
     {
-        if (parent->taskbar()->area() == HolonTaskbar::Top ||
-            parent->taskbar()->area() == HolonTaskbar::Bottom)
+        if (desktop_d.taskbarArea() == HolonDesktopPrivate::Area::Top ||
+            desktop_d.taskbarArea() == HolonDesktopPrivate::Area::Bottom)
         {
-            setFixedHeight(parent->taskbar()->preferedHeight());
+            setFixedHeight(desktop_d.taskbarPreferedHeight());
         }
         else
         {
-            setFixedWidth(parent->taskbar()->preferedWidth());
-            setFixedHeight(parent->taskbar()->preferedWidth());
+            setFixedWidth(desktop_d.taskbarPreferedWidth());
+            setFixedHeight(desktop_d.taskbarPreferedWidth());
         }
 
         setAttribute(Qt::WA_Hover);
@@ -114,15 +116,15 @@ public:
     }
 };
 
-HolonSidebarSwitch::HolonSidebarSwitch(HolonTaskbar *parent)
-:   QWidget(parent),
-    d(*new (&d_storage) HolonSidebarSwitchPrivate{parent})
+HolonSidebarSwitch::HolonSidebarSwitch(HolonDesktopPrivate &desktop_d, HolonTaskbar *taskbar)
+:   QWidget(taskbar),
+    d(*new (&d_storage) HolonSidebarSwitchPrivate{desktop_d})
 {
     static_assert (sizeof (d_storage) == sizeof (HolonSidebarSwitchPrivate));
     static_assert (sizeof (ptrdiff_t) == alignof (HolonSidebarSwitchPrivate));
 
-    if (parent->area() == HolonTaskbar::Top ||
-        parent->area() == HolonTaskbar::Bottom)
+    if (desktop_d.taskbarArea() == HolonDesktopPrivate::Area::Top ||
+        desktop_d.taskbarArea() == HolonDesktopPrivate::Area::Bottom)
     {
         QBoxLayout *layout = new QHBoxLayout(this);
         {
@@ -139,20 +141,11 @@ HolonSidebarSwitch::HolonSidebarSwitch(HolonTaskbar *parent)
         }
     }
 
-    parent->addWidget(this);
+    taskbar->addWidget(this);
 }
 
 void HolonSidebarSwitch::addSidebar(HolonSidebar *sidebar)
 {
-    layout()->addWidget(new HolonSidebarButton(sidebar->title(), this));
+    layout()->addWidget(new HolonSidebarButton(d.desktop_d, sidebar->title(), this));
 }
 
-HolonDesktop *HolonSidebarSwitch::desktop() const
-{
-    return taskbar()->desktop();
-}
-
-HolonTaskbar *HolonSidebarSwitch::taskbar() const
-{
-    return d.parent;
-}

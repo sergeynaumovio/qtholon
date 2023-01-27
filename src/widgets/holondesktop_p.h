@@ -19,58 +19,60 @@
 #ifndef HOLONDESKTOP_P_H
 #define HOLONDESKTOP_P_H
 
-#include "holontaskbar.h"
-#include <QRegularExpression>
-#include <QStringList>
+#include <QMetaType>
 
 class HolonDesktop;
-class HolonMainWindow;
+class HolonDesktopPrivateData;
 class HolonSidebar;
 class HolonTaskbar;
 class HolonWindow;
-class QWidget;
+template<typename> class QList;
+class QResizeEvent;
+class QString;
 
 class HolonDesktopPrivate
 {
-    QWidget *screen;
-    QWidget *top;
-    QWidget *middle;
-    QWidget *bottom;
-    QWidget *left;
-    QWidget *right;
+    Q_GADGET
 
-    void addWidget(QWidget *widget, QWidget *parent);
-    void setHBoxLayout(QWidget *&widget, const char *name, QWidget *parent);
-    void setMainWindow(HolonMainWindow *&widget, QWidget *parent);
-    void setTaskbar();
-    void setVBoxLayout();
-    void setVBoxLayout(QWidget *&widget, const char *name, QWidget *parent);
-    HolonTaskbar::Area taskbarArea() const;
-    int taskbarPreferedHeight() const;
-    int taskbarPreferedWidth() const;
-    QString taskbarStyleSheet() const;
-
-public:
-    HolonDesktop *const q_ptr;
-    QString error;
-    const QString buttonStyleSheet;
-    const QString menuStyleSheet;
-    const QRegularExpression borderWidth{"^QWidget\\s*{[^}]*border:[^};]*(?<px>\\d+)px[^}]*}$"};
-    const int menuBorder;
-    const int menuWidth;
-    QList<HolonSidebar*> sidebarList;
-    const QString sidebarMoveShortcut;
-    const int titleBarHeight;
-    const QString titleBarStyleSheet;
-    QList<HolonWindow *> windowList;
-    HolonMainWindow *mainWindow;
-    int skipMainWindowSaveState{2};
-    HolonTaskbar *taskbar;
+    friend class HolonDesktop;
+    HolonDesktopPrivateData &d;
+    std::aligned_storage_t<296, sizeof (ptrdiff_t)> d_storage;
 
     HolonDesktopPrivate(HolonDesktop *q);
 
     void addSidebar(HolonSidebar *sidebar);
+    void addWindow(HolonWindow *window);
+    void resizeEvent(QResizeEvent *e);
     void setLayout();
+
+public:
+    enum Area
+    {
+        Left,
+        Right,
+        Top,
+        Bottom
+    };
+    Q_ENUM(Area)
+
+
+    HolonDesktop *const q_ptr;
+
+    QString buttonStyleSheet() const;
+    int menuBorder() const;
+    QString menuStyleSheet() const;
+    int menuWidth() const;
+    QString sidebarMoveShortcut() const;
+    HolonTaskbar *taskbar() const;
+    HolonDesktopPrivate::Area taskbarArea() const;
+    int taskbarPreferedHeight() const;
+    int taskbarPreferedWidth() const ;
+    QString taskbarStyleSheet() const;
+    int titleBarHeight() const;
+    QString titleBarStyleSheet() const;
+    QList<HolonWindow *> windowList() const;
+
+    void saveState();
 };
 
 #endif // HOLONDESKTOP_P_H
