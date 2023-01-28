@@ -61,7 +61,7 @@ HolonMainWindow::HolonMainWindow(HolonDesktopPrivate &desktop_d, QWidget *parent
 HolonMainWindow::~HolonMainWindow()
 { }
 
-void HolonMainWindow::addSidebar(HolonSidebar *sidebar)
+HolonSidebarDock *HolonMainWindow::addSidebar(HolonSidebar *sidebar)
 {
     QString name = sidebar->value("group").toString();
 
@@ -72,4 +72,6 @@ void HolonMainWindow::addSidebar(HolonSidebar *sidebar)
     addDockWidget(Qt::LeftDockWidgetArea, sidebarDock);
     d_ptr->docks.append(sidebarDock);
     sidebarDock->addSidebar(sidebar);
+
+    return sidebarDock;
 }

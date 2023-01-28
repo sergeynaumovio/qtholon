@@ -19,12 +19,14 @@
 #include "holonsidebarswitch.h"
 #include "holondesktop_p.h"
 #include "holonsidebar.h"
+#include "holonsidebardock.h"
 #include "holontaskbar.h"
 #include <QAbstractButton>
 #include <QBoxLayout>
 #include <QLabel>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QShortcut>
 
 class HolonSidebarSwitchPrivate
 {
@@ -95,8 +97,8 @@ public:
         desktop_d(desk_d),
         title(buttonTitle)
     {
-        if (desktop_d.taskbarArea() == HolonDesktopPrivate::Area::Top ||
-            desktop_d.taskbarArea() == HolonDesktopPrivate::Area::Bottom)
+        if (desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Top ||
+            desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Bottom)
         {
             setFixedHeight(desktop_d.taskbarPreferedHeight());
         }
@@ -123,8 +125,8 @@ HolonSidebarSwitch::HolonSidebarSwitch(HolonDesktopPrivate &desktop_d, HolonTask
     static_assert (sizeof (d_storage) == sizeof (HolonSidebarSwitchPrivate));
     static_assert (sizeof (ptrdiff_t) == alignof (HolonSidebarSwitchPrivate));
 
-    if (desktop_d.taskbarArea() == HolonDesktopPrivate::Area::Top ||
-        desktop_d.taskbarArea() == HolonDesktopPrivate::Area::Bottom)
+    if (desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Top ||
+        desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Bottom)
     {
         QBoxLayout *layout = new QHBoxLayout(this);
         {
@@ -146,6 +148,24 @@ HolonSidebarSwitch::HolonSidebarSwitch(HolonDesktopPrivate &desktop_d, HolonTask
 
 void HolonSidebarSwitch::addSidebar(HolonSidebar *sidebar)
 {
-    layout()->addWidget(new HolonSidebarButton(d.desktop_d, sidebar->title(), this));
+    HolonSidebarButton *sidebarButton = new HolonSidebarButton(d.desktop_d, sidebar->title(), this);
+    layout()->addWidget(sidebarButton);
+    HolonSidebarDock *dock = d.desktop_d.sidebarDock(sidebar);
+
+    connect(sidebarButton, &QAbstractButton::toggled, d.desktop_d.sidebarDock(sidebar), [dock, this](bool checked)
+    {
+        if (checked)
+            d.desktop_d.restoreDockWidget(dock);
+        else
+            d.desktop_d.removeDockWidget(dock);
+
+        d.desktop_d.resizeDocks();
+    });
+
+    QShortcut *shortcut = new QShortcut(QKeySequence(sidebar->value("shortcut").toString()), this);
+    connect(shortcut, &QShortcut::activated, this, [sidebarButton]()
+    {
+        sidebarButton->setChecked(!sidebarButton->isChecked());
+    });
 }
 

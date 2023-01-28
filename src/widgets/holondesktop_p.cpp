@@ -39,9 +39,8 @@ public:
     const QRegularExpression borderWidth{"^QWidget\\s*{[^}]*border:[^};]*(?<px>\\d+)px[^}]*}$"};
     const int menuBorder;
     const int menuWidth;
-    QList<HolonSidebar*> sidebarList;
     const QString sidebarMoveShortcut;
-    const HolonDesktopPrivate::Area taskbarArea;
+    const HolonDesktopPrivate::TaskbarArea taskbarArea;
     const int taskbarPreferedHeight;
     const int taskbarPreferedWidth;
     const QString taskbarStyleSheet;
@@ -59,8 +58,23 @@ public:
     HolonMainWindow *mainWindow;
     int skipMainWindowSaveState{2};
     HolonTaskbar *taskbar;
+    struct
+    {
+        QHash<HolonSidebar *, HolonSidebarDock *> dockBySidebar;
+        std::map<HolonSidebarDock *, int> dockWidth;
+        //QHash<HolonSidebarDock *, int> dockWidth;
+
+        struct
+        {
+            QList<QDockWidget *> dockList;
+            QList<int> widthList;
+
+        } visible;
+
+    } sidebars;
 
     HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDesktop *q);
+    ~HolonDesktopPrivateData() { }
 
     void addSidebar(HolonSidebar *sidebar);
     void addWidget(QWidget *widget, QWidget *parent);
@@ -92,15 +106,15 @@ HolonDesktopPrivateData::HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDe
     {
         QString string = q_ptr->value("taskbarArea").toString();
         if (string == "left")
-            return HolonDesktopPrivate::Area::Left;
+            return HolonDesktopPrivate::TaskbarArea::Left;
 
         if (string == "right")
-            return HolonDesktopPrivate::Area::Right;
+            return HolonDesktopPrivate::TaskbarArea::Right;
 
         if (string == "top")
-            return HolonDesktopPrivate::Area::Top;
+            return HolonDesktopPrivate::TaskbarArea::Top;
 
-        return HolonDesktopPrivate::Area::Bottom;
+        return HolonDesktopPrivate::TaskbarArea::Bottom;
     }()),
     taskbarPreferedHeight(q_ptr->value("taskbarPreferedHeight", 40).toInt()),
     taskbarPreferedWidth(q_ptr->value("taskbarPreferedWidth", 50).toInt()),
@@ -111,8 +125,12 @@ HolonDesktopPrivateData::HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDe
 
 void HolonDesktopPrivateData::addSidebar(HolonSidebar *sidebar)
 {
-    sidebarList.append(sidebar);
-    mainWindow->addSidebar(sidebar);
+    HolonSidebarDock *sidebarDock = mainWindow->addSidebar(sidebar);
+    sidebars.dockBySidebar.insert(sidebar, sidebarDock);
+
+    sidebars.visible.dockList.reserve(sidebars.dockWidth.size());
+    sidebars.visible.widthList.reserve(sidebars.dockWidth.size());
+
     mainWindow->restoreState(q_ptr->value("mainWindowState").toByteArray());
     taskbar->sidebarSwitch()->addSidebar(sidebar);
 }
@@ -232,6 +250,11 @@ void HolonDesktopPrivate::setLayout()
     d.setLayout();
 }
 
+HolonDesktopPrivate::~HolonDesktopPrivate()
+{
+    d.~HolonDesktopPrivateData();
+}
+
 QString HolonDesktopPrivate::buttonStyleSheet() const
 {
     return d.buttonStyleSheet;
@@ -272,7 +295,7 @@ HolonTaskbar *HolonDesktopPrivate::taskbar() const
     return d.taskbar;
 }
 
-HolonDesktopPrivate::Area HolonDesktopPrivate::taskbarArea() const
+HolonDesktopPrivate::TaskbarArea HolonDesktopPrivate::taskbarArea() const
 {
     return d.taskbarArea;
 }
@@ -297,8 +320,47 @@ QList<HolonWindow *> HolonDesktopPrivate::windowList() const
     return d.windowList;
 }
 
-void HolonDesktopPrivate::saveState()
+void HolonDesktopPrivate::removeDockWidget(HolonSidebarDock *dock)
 {
+    d.mainWindow->removeDockWidget(dock);
+}
+
+void HolonDesktopPrivate::resizeDocks()
+{
+    for (auto [dock, width] : d.sidebars.dockWidth)
+    {
+        if (dock->isVisible())
+        {
+            d.sidebars.visible.dockList.append(dock);
+            d.sidebars.visible.widthList.append(width);
+        }
+    }
+
+    d.mainWindow->resizeDocks(d.sidebars.visible.dockList,
+                              d.sidebars.visible.widthList,
+                              Qt::Horizontal);
+
+    d.sidebars.visible.dockList.clear();
+    d.sidebars.visible.widthList.clear();
+}
+
+void HolonDesktopPrivate::restoreDockWidget(HolonSidebarDock *dock)
+{
+    d.mainWindow->restoreDockWidget(dock);
+}
+
+void HolonDesktopPrivate::saveDockWidgetWidth(HolonSidebarDock *dock, int width)
+{
+    d.sidebars.dockWidth[dock] = width;
+
     if (!d.skipMainWindowSaveState)
         q_ptr->setValue("mainWindowState", d.mainWindow->saveState());
+}
+
+HolonSidebarDock *HolonDesktopPrivate::sidebarDock(HolonSidebar *sidebar) const
+{
+    if (d.sidebars.dockBySidebar.contains(sidebar))
+        return d.sidebars.dockBySidebar.value(sidebar);
+
+    return nullptr;
 }

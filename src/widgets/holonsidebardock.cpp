@@ -17,7 +17,6 @@
 ****************************************************************************/
 
 #include "holonsidebardock.h"
-#include "holondesktop.h"
 #include "holondesktop_p.h"
 #include "holonmainwindow.h"
 #include "holonsidebar.h"
@@ -25,6 +24,7 @@
 #include <QDockWidget>
 #include <QLabel>
 #include <QMainWindow>
+#include <QResizeEvent>
 #include <QStackedWidget>
 
 class HolonSidebarDockTitleBar : public QWidget
@@ -69,9 +69,9 @@ public:
     { }
 };
 
-void HolonSidebarDock::resizeEvent(QResizeEvent *)
+void HolonSidebarDock::resizeEvent(QResizeEvent *e)
 {
-    d.desktop_d.saveState();
+    d.desktop_d.saveDockWidgetWidth(this, e->size().width());
 }
 
 HolonSidebarDock::HolonSidebarDock(HolonDesktopPrivate &desktop_d,

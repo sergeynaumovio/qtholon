@@ -23,6 +23,7 @@ class = HolonOpenTasksWindow
 
 [Holon/Sidebar(1)]
 class = HolonSidebar
+shortcut = Alt+1
 title = Open Tasks
 
 [Holon/Sidebar(1)/OpenTasksWindow]
@@ -30,6 +31,7 @@ class = HolonOpenTasksWindow
 
 [Holon/Sidebar(2)]
 class = HolonSidebar
+shortcut = Alt+2
 title = Parameters
 
 [Holon/Data]

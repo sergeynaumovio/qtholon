@@ -36,7 +36,7 @@ public:
     HolonMainWindow(HolonDesktopPrivate &desktop_d, QWidget *parent);
     ~HolonMainWindow();
 
-    void addSidebar(HolonSidebar *sidebar);
+    HolonSidebarDock *addSidebar(HolonSidebar *sidebar);
 };
 
 #endif // HOLONMAINWINDOW_H

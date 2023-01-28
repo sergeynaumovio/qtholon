@@ -24,6 +24,7 @@
 class HolonDesktop;
 class HolonDesktopPrivateData;
 class HolonSidebar;
+class HolonSidebarDock;
 class HolonTaskbar;
 class HolonWindow;
 template<typename> class QList;
@@ -36,7 +37,7 @@ class HolonDesktopPrivate
 
     friend class HolonDesktop;
     HolonDesktopPrivateData &d;
-    std::aligned_storage_t<296, sizeof (ptrdiff_t)> d_storage;
+    std::aligned_storage_t<376, sizeof (ptrdiff_t)> d_storage;
 
     HolonDesktopPrivate(HolonDesktop *q);
 
@@ -46,17 +47,19 @@ class HolonDesktopPrivate
     void setLayout();
 
 public:
-    enum Area
+    enum TaskbarArea
     {
         Left,
         Right,
         Top,
         Bottom
     };
-    Q_ENUM(Area)
+    Q_ENUM(TaskbarArea)
 
 
     HolonDesktop *const q_ptr;
+
+    ~HolonDesktopPrivate();
 
     QString buttonStyleSheet() const;
     int menuBorder() const;
@@ -64,7 +67,7 @@ public:
     int menuWidth() const;
     QString sidebarMoveShortcut() const;
     HolonTaskbar *taskbar() const;
-    HolonDesktopPrivate::Area taskbarArea() const;
+    HolonDesktopPrivate::TaskbarArea taskbarArea() const;
     int taskbarPreferedHeight() const;
     int taskbarPreferedWidth() const ;
     QString taskbarStyleSheet() const;
@@ -72,7 +75,11 @@ public:
     QString titleBarStyleSheet() const;
     QList<HolonWindow *> windowList() const;
 
-    void saveState();
+    void removeDockWidget(HolonSidebarDock *dock);
+    void resizeDocks();
+    void restoreDockWidget(HolonSidebarDock *dock);
+    void saveDockWidgetWidth(HolonSidebarDock *dock, int width);
+    HolonSidebarDock *sidebarDock(HolonSidebar *sidebar) const;
 };
 
 #endif // HOLONDESKTOP_P_H

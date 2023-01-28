@@ -35,7 +35,7 @@ class HolonSidebarDock : public QDockWidget
     std::aligned_storage_t<48, sizeof (ptrdiff_t)> d_storage;
 
 protected:
-    void resizeEvent(QResizeEvent *) override;
+    void resizeEvent(QResizeEvent *e) override;
 
 public:
     HolonSidebarDock(HolonDesktopPrivate &desktop_d,

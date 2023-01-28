@@ -51,8 +51,8 @@ HolonTaskbar::HolonTaskbar(HolonDesktopPrivate &desktop_d)
     static_assert (sizeof (d_storage) == sizeof (HolonTaskbarPrivate));
     static_assert (sizeof (ptrdiff_t) == alignof (HolonTaskbarPrivate));
 
-    if (desktop_d.taskbarArea() == HolonDesktopPrivate::Area::Left ||
-        desktop_d.taskbarArea() == HolonDesktopPrivate::Area::Right)
+    if (desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Left ||
+        desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Right)
     {
         setLayout(new QVBoxLayout(this));
         {
