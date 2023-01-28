@@ -61,8 +61,7 @@ public:
     struct
     {
         QHash<HolonSidebar *, HolonSidebarDock *> dockBySidebar;
-        std::map<HolonSidebarDock *, int> dockWidth;
-        //QHash<HolonSidebarDock *, int> dockWidth;
+        QMap<HolonSidebarDock *, int> dockWidth;
 
         struct
         {
@@ -327,12 +326,14 @@ void HolonDesktopPrivate::removeDockWidget(HolonSidebarDock *dock)
 
 void HolonDesktopPrivate::resizeDocks()
 {
-    for (auto [dock, width] : d.sidebars.dockWidth)
+    QMapIterator it(d.sidebars.dockWidth);
+    while(it.hasNext())
     {
-        if (dock->isVisible())
+        it.next();
+        if (it.key()->isVisible())
         {
-            d.sidebars.visible.dockList.append(dock);
-            d.sidebars.visible.widthList.append(width);
+            d.sidebars.visible.dockList.append(it.key());
+            d.sidebars.visible.widthList.append(it.value());
         }
     }
 
