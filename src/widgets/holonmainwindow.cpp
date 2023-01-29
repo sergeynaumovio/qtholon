@@ -21,6 +21,7 @@
 #include "holonsidebar.h"
 #include "holonsidebardock.h"
 #include <QLabel>
+#include <QLayout>
 #include <QShortcut>
 #include <QStackedWidget>
 
@@ -29,33 +30,42 @@ class HolonMainWindowPrivate
 public:
     HolonMainWindow *const q_ptr;
     HolonDesktopPrivate &desktop_d;
+
+    HolonMainWindow *const external;
     QStackedWidget *const workspaces;
-    QList<HolonSidebarDock *> docks;
     bool visibleTitleBar{};
 
-    HolonMainWindowPrivate(HolonMainWindow *q, HolonDesktopPrivate &desk_d)
+    HolonMainWindowPrivate(HolonMainWindow *q, HolonDesktopPrivate &desk_d, QWidget *parent)
     :   q_ptr(q),
         desktop_d(desk_d),
-        workspaces(new QStackedWidget(q))
+        external(qobject_cast<HolonMainWindow *>(parent)),
+        workspaces(external ? new QStackedWidget(q) : nullptr)
     { }
 };
 
 HolonMainWindow::HolonMainWindow(HolonDesktopPrivate &desktop_d, QWidget *parent)
-:   d_ptr(new HolonMainWindowPrivate(this, desktop_d))
+:   d_ptr(new HolonMainWindowPrivate(this, desktop_d, parent))
 {
     setParent(parent);
 
     setDockOptions(QMainWindow::AnimatedDocks | QMainWindow::AllowNestedDocks);
-    setCentralWidget(d_ptr->workspaces);
-    d_ptr->workspaces->addWidget(new QLabel("Workspaces", d_ptr->workspaces));
 
-    QShortcut *shortcut = new QShortcut(QKeySequence(desktop_d.sidebarMoveShortcut()), this);
-    connect(shortcut, &QShortcut::activated, this, [this]()
+    if (d_ptr->external)
     {
-        d_ptr->visibleTitleBar = !d_ptr->visibleTitleBar;
-        for (HolonSidebarDock *area : d_ptr->docks)
-            area->showTitleBarWidget(d_ptr->visibleTitleBar);
-    });
+        setCentralWidget(d_ptr->workspaces);
+        d_ptr->workspaces->addWidget(new QLabel("Workspaces", d_ptr->workspaces));
+        d_ptr->external->setCentralWidget(this);
+
+        QShortcut *shortcut = new QShortcut(QKeySequence(desktop_d.sidebarMoveShortcut()), this);
+        connect(shortcut, &QShortcut::activated, this, [this]()
+        {
+            d_ptr->visibleTitleBar = !d_ptr->visibleTitleBar;
+            for (HolonSidebarDock *dock : d_ptr->desktop_d.sidebarDocks())
+                dock->showTitleBarWidget(d_ptr->visibleTitleBar);
+        });
+    }
+    else
+        parent->layout()->addWidget(this);
 }
 
 HolonMainWindow::~HolonMainWindow()
@@ -70,7 +80,6 @@ HolonSidebarDock *HolonMainWindow::addSidebar(HolonSidebar *sidebar)
 
     HolonSidebarDock *sidebarDock = new HolonSidebarDock(d_ptr->desktop_d, name, this);
     addDockWidget(Qt::LeftDockWidgetArea, sidebarDock);
-    d_ptr->docks.append(sidebarDock);
     sidebarDock->addSidebar(sidebar);
 
     return sidebarDock;

@@ -3,7 +3,8 @@
 [Holon]
 class = HolonDesktop
 buttonStyleSheet = QPushButton { border: 0px; } QPushButton:hover { background-color: rgb(74, 76, 78); color: white; }
-mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAGRAAACvPwCAAAAAfwAAAAAAAACvAAAAIsA/////AEAAAAC+wAAABQAUwBpAGQAZQBiAGEAcgAoADEAKQEAAAAAAAAAyQAAAKcA////+wAAABQAUwBpAGQAZQBiAGEAcgAoADIAKQEAAADKAAAAxwAAAKcA////AAABFQAAArwAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
+externalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAH3AAACvPwCAAAAAfwAAAAAAAACvAAAAFEA/////AEAAAAD+wAAABQAUwBpAGQAZQBiAGEAcgAoADEAKQEAAAAAAAAApwAAAKcA////+wAAABQAUwBpAGQAZQBiAGEAcgAoADIAKQEAAACoAAAApwAAAKcA////+wAAABQAUwBpAGQAZQBiAGEAcgAoADMAKQEAAAFQAAAApwAAAKcA////AAAArwAAArwAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
+internalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAACvAAAAtfwBAAAAAfsAAAAUAFMAaQBkAGUAYgBhAHIAKAA0ACkBAAAAAAAAAK8AAACnAP///wAAAK8AAAIGAAAABAAAAAQAAAAIAAAACPwAAAAA)
 menuStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); border: 1px solid rgb(34, 36, 38); }
 menuWidth = 180
 minimumHeight = 200
@@ -23,6 +24,7 @@ class = HolonOpenTasksWindow
 
 [Holon/Sidebar(1)]
 class = HolonSidebar
+layout = external
 shortcut = Alt+1
 title = Open Tasks
 
@@ -31,8 +33,30 @@ class = HolonOpenTasksWindow
 
 [Holon/Sidebar(2)]
 class = HolonSidebar
+layout = external
 shortcut = Alt+2
 title = Parameters
+
+[Holon/Sidebar(2)/OpenTasksWindow]
+class = HolonOpenTasksWindow
+
+[Holon/Sidebar(3)]
+class = HolonSidebar
+layout = external
+shortcut = Alt+3
+title = Visual Settings
+
+[Holon/Sidebar(3)/OpenTasksWindow]
+class = HolonOpenTasksWindow
+
+[Holon/Sidebar(4)]
+class = HolonSidebar
+layout = internal
+shortcut = Alt+4
+title = Log
+
+[Holon/Sidebar(4)/OpenTasksWindow]
+class = HolonOpenTasksWindow
 
 [Holon/Data]
 class = QLoaderData
