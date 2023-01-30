@@ -44,24 +44,27 @@ public:
 };
 
 HolonMainWindow::HolonMainWindow(HolonDesktopPrivate &desktop_d, QWidget *parent)
-:   d_ptr(new HolonMainWindowPrivate(this, desktop_d, parent))
+:   d(*new (&d_storage) HolonMainWindowPrivate(this, desktop_d, parent))
 {
+    static_assert (sizeof (d_storage) == sizeof (HolonMainWindowPrivate));
+    static_assert (sizeof (ptrdiff_t) == alignof (HolonMainWindowPrivate));
+
     setParent(parent);
 
     setDockOptions(QMainWindow::AnimatedDocks | QMainWindow::AllowNestedDocks);
 
-    if (d_ptr->external)
+    if (d.external)
     {
-        setCentralWidget(d_ptr->workspaces);
-        d_ptr->workspaces->addWidget(new QLabel("Workspaces", d_ptr->workspaces));
-        d_ptr->external->setCentralWidget(this);
+        setCentralWidget(d.workspaces);
+        d.workspaces->addWidget(new QLabel("Workspaces", d.workspaces));
+        d.external->setCentralWidget(this);
 
         QShortcut *shortcut = new QShortcut(QKeySequence(desktop_d.sidebarMoveShortcut()), this);
         connect(shortcut, &QShortcut::activated, this, [this]()
         {
-            d_ptr->visibleTitleBar = !d_ptr->visibleTitleBar;
-            for (HolonSidebarDock *dock : d_ptr->desktop_d.sidebarDocks())
-                dock->showTitleBarWidget(d_ptr->visibleTitleBar);
+            d.visibleTitleBar = !d.visibleTitleBar;
+            for (HolonSidebarDock *dock : d.desktop_d.sidebarDocks())
+                dock->showTitleBarWidget(d.visibleTitleBar);
         });
     }
     else
@@ -78,7 +81,7 @@ HolonSidebarDock *HolonMainWindow::addSidebar(HolonSidebar *sidebar)
     if (name.isEmpty())
         name = sidebar->section().constLast();
 
-    HolonSidebarDock *sidebarDock = new HolonSidebarDock(d_ptr->desktop_d, name, this);
+    HolonSidebarDock *sidebarDock = new HolonSidebarDock(d.desktop_d, name, this);
     addDockWidget(Qt::LeftDockWidgetArea, sidebarDock);
     sidebarDock->addSidebar(sidebar);
 
