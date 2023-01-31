@@ -67,6 +67,7 @@ public:
     int menuWidth() const;
     const QList<HolonSidebarDock *> &sidebarDocks() const;
     QString sidebarMoveShortcut() const;
+    int sidebarSwitchButtonWidth() const;
     HolonTaskbar *taskbar() const;
     HolonDesktopPrivate::TaskbarArea taskbarArea() const;
     int taskbarPreferedHeight() const;

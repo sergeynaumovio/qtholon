@@ -3,17 +3,18 @@
 [Holon]
 class = HolonDesktop
 buttonStyleSheet = QPushButton { border: 0px; } QPushButton:hover { background-color: rgb(74, 76, 78); color: white; }
-externalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAH3AAACvPwCAAAAAfwAAAAAAAACvAAAAFEA/////AEAAAAD+wAAABQAUwBpAGQAZQBiAGEAcgAoADEAKQEAAAAAAAAApwAAAKcA////+wAAABQAUwBpAGQAZQBiAGEAcgAoADIAKQEAAACoAAAApwAAAKcA////+wAAABQAUwBpAGQAZQBiAGEAcgAoADMAKQEAAAFQAAAApwAAAKcA////AAAArwAAArwAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
-internalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAACvAAAAtfwBAAAAAfsAAAAUAFMAaQBkAGUAYgBhAHIAKAA0ACkBAAAAAAAAAK8AAACnAP///wAAAK8AAAIGAAAABAAAAAQAAAAIAAAACPwAAAAA)
+externalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAAH3AAACuvwCAAAAAfwAAAAAAAACugAAADgA///+/AEAAAAF+wAAABAATgBlAHcAIABUAGEAcwBrAQAAAAAAAACnAAAAAAAAAAD7AAAAFABPAHAAZQBuACAAVABhAHMAawBzAQAAAKgAAACnAAAAAAAAAAD7AAAACgBUAGEAcwBrAHMBAAAAAAAAAKcAAACnAP////sAAAAKAFQAYQBzAGsAcwEAAACoAAAApwAAAKcA////+wAAABQAUABhAHIAYQBtAGUAdABlAHIAcwEAAAFQAAAApwAAAKcA////AAAAAQAAAKcAAAK6/AIAAAAB+wAAABAAUwBlAHQAdABpAG4AZwBzAQAAAAAAAAK6AAAAOAD///4AAADXAAACugAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
+internalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAADXAAAAaPwBAAAAAfsAAAAQAE0AZQBzAHMAYQBnAGUAcwEAAAAAAAAA1wAAAKcA////AAAA1wAAAlEAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 menuStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); border: 1px solid rgb(34, 36, 38); }
 menuWidth = 180
 minimumHeight = 200
 minimumWidth = 400
 saveShortcut = Ctrl+S
 sidebarMoveShortcut = Alt+M
+sidebarSwitchButtonWidth = 120
 styleSheet = QMainWindow::separator { width: 1px; height: 1px; background-color: rgb(34, 36, 38); }
 taskbarArea = bottom
-taskbarPreferedHeight = 24
+taskbarPreferedHeight = 26
 taskbarPreferedWidth = 50
 taskbarStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
 titleBarHeight = 24
@@ -22,40 +23,51 @@ titleBarStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); 
 [Holon/OpenTasksWindow]
 class = HolonOpenTasksWindow
 
-[Holon/Sidebar(1)]
+[Holon/New Task]
 class = HolonSidebar
+group = Tasks
 layout = external
 shortcut = Alt+1
-title = Open Tasks
+title = New Task
 
-[Holon/Sidebar(1)/OpenTasksWindow]
+[Holon/New Task/OpenTasksWindow]
 class = HolonOpenTasksWindow
 
-[Holon/Sidebar(2)]
+[Holon/Open Tasks]
 class = HolonSidebar
+group = Tasks
 layout = external
 shortcut = Alt+2
-title = Parameters
+title = Open Tasks
 
-[Holon/Sidebar(2)/OpenTasksWindow]
+[Holon/Open Tasks/OpenTasksWindow]
 class = HolonOpenTasksWindow
 
-[Holon/Sidebar(3)]
+[Holon/Parameters]
 class = HolonSidebar
 layout = external
 shortcut = Alt+3
-title = Visual Settings
+title = Parameters
 
-[Holon/Sidebar(3)/OpenTasksWindow]
+[Holon/Parameters/OpenTasksWindow]
 class = HolonOpenTasksWindow
 
-[Holon/Sidebar(4)]
+[Holon/Messages]
 class = HolonSidebar
 layout = internal
 shortcut = Alt+4
-title = Log
+title = Messages
 
-[Holon/Sidebar(4)/OpenTasksWindow]
+[Holon/Messages/OpenTasksWindow]
+class = HolonOpenTasksWindow
+
+[Holon/Settings]
+class = HolonSidebar
+layout = external
+shortcut = Alt+0
+title = Settings
+
+[Holon/Settings/OpenTasksWindow]
 class = HolonOpenTasksWindow
 
 [Holon/Data]

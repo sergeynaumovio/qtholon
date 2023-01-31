@@ -19,7 +19,6 @@
 #ifndef HOLONTASKBAR_H
 #define HOLONTASKBAR_H
 
-#include "holondesktop.h"
 #include <QWidget>
 
 class HolonDesktopPrivate;
@@ -41,7 +40,6 @@ public:
     HolonTaskbar(HolonDesktopPrivate &desktop_d);
     ~HolonTaskbar();
 
-    void addStretch();
     void addWidget(QWidget *widget);
     QBoxLayout *layout() const;
     HolonSidebarSwitch *sidebarSwitch() const;

@@ -65,6 +65,7 @@ protected:
 
     void paintEvent(QPaintEvent *) override
     {
+
         QPainter p(this);
         QPen pen(color);
         pen.setWidth(2);
@@ -84,10 +85,11 @@ protected:
             QLineF line(rect().bottomLeft(), rect().bottomRight());
             p.drawLine(line);
         }
-        QFont font("Arial", desktop_d.taskbarPreferedHeight() / 2.5);
-        font.setBold(true);
+        QFont font("Arial", desktop_d.taskbarPreferedHeight() / 2.6 );
         p.setFont(font);
-        p.drawText(rect(), Qt::AlignCenter, title);
+        QRect rectangle = rect();
+        rectangle.adjust(10, 0, 0, 0);
+        p.drawText(rectangle, Qt::AlignLeft | Qt::AlignVCenter, title);
     }
 public:
     HolonSidebarButton(HolonDesktopPrivate &desk_d,
@@ -101,6 +103,7 @@ public:
             desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Bottom)
         {
             setFixedHeight(desktop_d.taskbarPreferedHeight());
+            setFixedWidth(desktop_d.sidebarSwitchButtonWidth());
         }
         else
         {
@@ -131,7 +134,8 @@ HolonSidebarSwitch::HolonSidebarSwitch(HolonDesktopPrivate &desktop_d, HolonTask
         QBoxLayout *layout = new QHBoxLayout(this);
         {
             setLayout(layout);
-            layout->setContentsMargins(5, 0, 5, 0);
+            layout->setContentsMargins({4, 0, 0, 0});
+            layout->setSpacing(4);
         }
     }
     else
@@ -142,8 +146,6 @@ HolonSidebarSwitch::HolonSidebarSwitch(HolonDesktopPrivate &desktop_d, HolonTask
             layout->setContentsMargins(0, 5, 0, 5);
         }
     }
-
-    taskbar->addWidget(this);
 }
 
 void HolonSidebarSwitch::addSidebar(HolonSidebar *sidebar)

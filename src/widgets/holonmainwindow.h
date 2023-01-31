@@ -31,7 +31,7 @@ class HolonMainWindow : public QMainWindow
     Q_OBJECT
 
     HolonMainWindowPrivate &d;
-    std::aligned_storage_t<40, sizeof (ptrdiff_t)> d_storage;
+    std::aligned_storage_t<48, sizeof (ptrdiff_t)> d_storage;
 
 public:
     HolonMainWindow(HolonDesktopPrivate &desktop_d, QWidget *parent);

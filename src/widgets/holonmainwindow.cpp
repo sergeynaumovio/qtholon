@@ -34,6 +34,7 @@ public:
     HolonMainWindow *const external;
     QStackedWidget *const workspaces;
     bool visibleTitleBar{};
+    QMap<QString, HolonSidebarDock *> groupDock;
 
     HolonMainWindowPrivate(HolonMainWindow *q, HolonDesktopPrivate &desk_d, QWidget *parent)
     :   q_ptr(q),
@@ -72,17 +73,29 @@ HolonMainWindow::HolonMainWindow(HolonDesktopPrivate &desktop_d, QWidget *parent
 }
 
 HolonMainWindow::~HolonMainWindow()
-{ }
+{
+    d.~HolonMainWindowPrivate();
+}
 
 HolonSidebarDock *HolonMainWindow::addSidebar(HolonSidebar *sidebar)
 {
-    QString name = sidebar->value("group").toString();
+    QString dockName = sidebar->value("group").toString();
+    HolonSidebarDock *sidebarDock;
 
-    if (name.isEmpty())
-        name = sidebar->section().constLast();
+    if (dockName.isEmpty() || !d.groupDock.contains(dockName))
+    {
+        if (dockName.isEmpty())
+            dockName = sidebar->section().constLast();
 
-    HolonSidebarDock *sidebarDock = new HolonSidebarDock(d.desktop_d, name, this);
-    addDockWidget(Qt::LeftDockWidgetArea, sidebarDock);
+        sidebarDock = new HolonSidebarDock(d.desktop_d, dockName, this);
+        addDockWidget(Qt::LeftDockWidgetArea, sidebarDock);
+
+        if (!dockName.isEmpty())
+            d.groupDock.insert(dockName, sidebarDock);
+    }
+    else
+        sidebarDock = d.groupDock.value(dockName);
+
     sidebarDock->addSidebar(sidebar);
 
     return sidebarDock;

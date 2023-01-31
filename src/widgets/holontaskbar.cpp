@@ -17,9 +17,9 @@
 ****************************************************************************/
 
 #include "holontaskbar.h"
+#include "holondesktop.h"
 #include "holondesktop_p.h"
 #include "holonsidebarswitch.h"
-#include "holontaskmenu.h"
 #include <QBoxLayout>
 #include <QPainter>
 #include <QStyleOption>
@@ -68,19 +68,16 @@ HolonTaskbar::HolonTaskbar(HolonDesktopPrivate &desktop_d)
             setFixedHeight(desktop_d.taskbarPreferedHeight());
         }
     }
-    setStyleSheet(desktop_d.taskbarStyleSheet());
+    layout()->setSpacing(0);
+    //layout()->addWidget(new HolonTaskMenu(desktop_d, this));
+    layout()->addWidget(d.sidebarSwitch = new HolonSidebarSwitch(desktop_d, this));
+    layout()->addStretch();
 
-    new HolonTaskMenu(desktop_d, this);
-    d.sidebarSwitch = new HolonSidebarSwitch(desktop_d, this);
+    setStyleSheet(desktop_d.taskbarStyleSheet());
 }
 
 HolonTaskbar::~HolonTaskbar()
 { }
-
-void HolonTaskbar::addStretch()
-{
-    layout()->addStretch();
-}
 
 void HolonTaskbar::addWidget(QWidget *widget)
 {

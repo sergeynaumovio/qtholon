@@ -17,6 +17,7 @@
 ****************************************************************************/
 
 #include "holontaskmenu.h"
+#include "holondesktop.h"
 #include "holondesktop_p.h"
 #include "holontaskbar.h"
 #include <QBoxLayout>
@@ -126,23 +127,17 @@ HolonTaskMenu::HolonTaskMenu(HolonDesktopPrivate &desktop_d, HolonTaskbar *taskb
 {
     setFlat(true);
 
-    QString stretch{};// = value("stretch").toString();
-    if (stretch.contains("before"))
-        taskbar->addStretch();
+    int size = desktop_d.taskbarPreferedHeight();
+    if (desktop_d.taskbarArea() == HolonDesktopPrivate::Top ||
+        desktop_d.taskbarArea() == HolonDesktopPrivate::Bottom)
+    {
+        setFixedSize(size, size);
+    }
+    else
+        setFixedHeight(size);
 
-    taskbar->addWidget(this);
-
-    if (stretch.contains("after"))
-        taskbar->addStretch();
-
-    //int size = parent->preferedHeight();
-    //if (parent->area() == HolonTaskbar::Top || parent->area() == HolonTaskbar::Bottom)
-    //    setFixedSize(size, size);
-    //else
-    //    setFixedHeight(size);
-
-    //size *= 0.5;
-    //setIconSize({size, size});
+    size *= 0.5;
+    setIconSize({size, size});
 
     setStyleSheet(desktop_d.buttonStyleSheet());
 

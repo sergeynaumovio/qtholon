@@ -40,6 +40,7 @@ public:
     const int menuBorder;
     const int menuWidth;
     const QString sidebarMoveShortcut;
+    const int sidebarSwitchButtonWidth;
     const HolonDesktopPrivate::TaskbarArea taskbarArea;
     const int taskbarPreferedHeight;
     const int taskbarPreferedWidth;
@@ -104,6 +105,7 @@ HolonDesktopPrivateData::HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDe
     }()),
     menuWidth(q_ptr->value("menuWidth", 200).toInt()),
     sidebarMoveShortcut(q_ptr->value("sidebarMoveShortcut").toString()),
+    sidebarSwitchButtonWidth(q_ptr->value("sidebarSwitchButtonWidth", 80).toInt()),
     taskbarArea([this]()
     {
         QString string = q_ptr->value("taskbarArea").toString();
@@ -309,6 +311,11 @@ QString HolonDesktopPrivate::titleBarStyleSheet() const
 QString HolonDesktopPrivate::sidebarMoveShortcut() const
 {
     return d.sidebarMoveShortcut;
+}
+
+int HolonDesktopPrivate::sidebarSwitchButtonWidth() const
+{
+    return d.sidebarSwitchButtonWidth;
 }
 
 HolonTaskbar *HolonDesktopPrivate::taskbar() const
