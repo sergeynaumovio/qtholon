@@ -63,7 +63,7 @@ public:
     struct
     {
         QMap<HolonSidebarDock *, HolonMainWindow *> mainWindowByDock;
-        QList<HolonSidebarDock *> docks;
+        QSet<HolonSidebarDock *> docks;
         QMap<HolonSidebar *, HolonSidebarDock *> dockBySidebar;
         QMap<HolonSidebarDock *, int> dockWidth;
 
@@ -142,7 +142,8 @@ void HolonDesktopPrivateData::addSidebar(HolonSidebar *sidebar)
         sidebars.mainWindowByDock.insert(sidebarDock, internalMainWindow);
     }
 
-    sidebars.docks.append(sidebarDock);
+    sidebars.docks.insert(sidebarDock);
+
     sidebars.dockBySidebar.insert(sidebar, sidebarDock);
 
     sidebars.visible.dockList.reserve(sidebars.dockWidth.size());
@@ -293,7 +294,7 @@ int HolonDesktopPrivate::menuWidth() const
     return d.menuWidth;
 }
 
-const QList<HolonSidebarDock *> &HolonDesktopPrivate::sidebarDocks() const
+const QSet<HolonSidebarDock *> &HolonDesktopPrivate::sidebarDocks() const
 {
     return d.sidebars.docks;
 }

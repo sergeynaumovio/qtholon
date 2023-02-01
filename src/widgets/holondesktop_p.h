@@ -37,7 +37,7 @@ class HolonDesktopPrivate
 
     friend class HolonDesktop;
     HolonDesktopPrivateData &d;
-    std::aligned_storage_t<376, sizeof (ptrdiff_t)> d_storage;
+    std::aligned_storage_t<360, sizeof (ptrdiff_t)> d_storage;
 
     HolonDesktopPrivate(HolonDesktop *q);
 
@@ -65,7 +65,7 @@ public:
     int menuBorder() const;
     QString menuStyleSheet() const;
     int menuWidth() const;
-    const QList<HolonSidebarDock *> &sidebarDocks() const;
+    const QSet<HolonSidebarDock *> &sidebarDocks() const;
     QString sidebarMoveShortcut() const;
     int sidebarSwitchButtonWidth() const;
     HolonTaskbar *taskbar() const;
