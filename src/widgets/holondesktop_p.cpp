@@ -20,7 +20,9 @@
 #include "holondesktop.h"
 #include "holonmainwindow.h"
 #include "holonsidebar.h"
+#include "holonsidebar_p.h"
 #include "holonsidebardock.h"
+#include "holonsidebardock_p.h"
 #include "holontaskbar.h"
 #include "holonsidebarswitch.h"
 #include <QLayout>
@@ -352,6 +354,7 @@ QList<HolonWindow *> HolonDesktopPrivate::windowList() const
 void HolonDesktopPrivate::removeDockWidget(HolonSidebarDock *dock)
 {
     d.sidebars.mainWindowByDock.value(dock)->removeDockWidget(dock);
+    dock->d.currentSidebar()->d_func()->setChecked(false);
 }
 
 void HolonDesktopPrivate::resizeDocks()
@@ -379,6 +382,7 @@ void HolonDesktopPrivate::resizeDocks()
 void HolonDesktopPrivate::restoreDockWidget(HolonSidebarDock *dock)
 {
     d.sidebars.mainWindowByDock.value(dock)->restoreDockWidget(dock);
+    dock->d.currentSidebar()->d_func()->setChecked(true);
 }
 
 void HolonDesktopPrivate::saveDockWidgetWidth(HolonSidebarDock *dock, int width)

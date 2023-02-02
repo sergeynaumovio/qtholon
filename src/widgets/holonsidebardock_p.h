@@ -16,37 +16,36 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONSIDEBARDOCK_H
-#define HOLONSIDEBARDOCK_H
+#ifndef HOLONSIDEBARDOCK_P_H
+#define HOLONSIDEBARDOCK_P_H
 
-#include <QDockWidget>
+#include <stddef.h>
+#include <type_traits>
 
-class HolonDesktop;
 class HolonDesktopPrivate;
 class HolonMainWindow;
 class HolonSidebar;
-class HolonSidebarDockPrivate;
+class HolonSidebarDock;
+class HolonSidebarDockPrivateData;
+class QStackedWidget;
+class QString;
 
-class HolonSidebarDock : public QDockWidget
+class HolonSidebarDockPrivate
 {
-    Q_OBJECT
-
-    friend class HolonDesktopPrivate;
-    HolonSidebarDockPrivate &d;
-    std::aligned_storage_t<64, sizeof (ptrdiff_t)> d_storage;
-
-protected:
-    void resizeEvent(QResizeEvent *e) override;
+    HolonSidebarDockPrivateData &d;
+    std::aligned_storage_t<56, sizeof (ptrdiff_t)> d_storage;
 
 public:
-    HolonSidebarDock(HolonDesktopPrivate &desktop_d,
-                     const QString &name,
-                     HolonMainWindow *parent);
+    HolonSidebarDockPrivate(HolonDesktopPrivate &desktop_d,
+                            HolonSidebarDock *q,
+                            const QString &name,
+                            HolonMainWindow *parent);
 
-    ~HolonSidebarDock();
+    HolonSidebar *currentSidebar() const;
+    HolonDesktopPrivate &desktop_d() const;
+    void showTitleBarWidget(bool show) const;
+    QStackedWidget *stackedWidget() const;
 
-    void addSidebar(HolonSidebar *sidebar);
-    void showTitleBarWidget(bool show);
 };
 
-#endif // HOLONSIDEBARDOCK_H
+#endif // HOLONSIDEBARDOCK_P_H

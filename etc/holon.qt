@@ -3,8 +3,8 @@
 [Holon]
 class = HolonDesktop
 buttonStyleSheet = QPushButton { border: 0px; } QPushButton:hover { background-color: rgb(74, 76, 78); color: white; }
-externalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAAH3AAACuvwCAAAAAfwAAAAAAAACugAAADgA///+/AEAAAAF+wAAABAATgBlAHcAIABUAGEAcwBrAQAAAAAAAACnAAAAAAAAAAD7AAAAFABPAHAAZQBuACAAVABhAHMAawBzAQAAAKgAAACnAAAAAAAAAAD7AAAACgBUAGEAcwBrAHMBAAAAAAAAAKcAAACnAP////sAAAAKAFQAYQBzAGsAcwEAAACoAAAApwAAAKcA////+wAAABQAUABhAHIAYQBtAGUAdABlAHIAcwEAAAFQAAAApwAAAKcA////AAAAAQAAAKcAAAK6/AIAAAAB+wAAABAAUwBlAHQAdABpAG4AZwBzAQAAAAAAAAK6AAAAOAD///4AAADXAAACugAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
-internalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAADXAAAAaPwBAAAAAfsAAAAQAE0AZQBzAHMAYQBnAGUAcwEAAAAAAAAA1wAAAKcA////AAAA1wAAAlEAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
+externalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAAFYAAACuvwCAAAAAfwAAAAAAAACugAAAEMA///+/AEAAAAF+wAAABAATgBlAHcAIABUAGEAcwBrAQAAAAAAAACnAAAAAAAAAAD7AAAAFABPAHAAZQBuACAAVABhAHMAawBzAQAAAKgAAACnAAAAAAAAAAD7AAAACgBUAGEAcwBrAHMBAAAAAAAAALAAAADIAP////sAAAAKAFQAYQBzAGsAcwEAAACoAAAApwAAAAAAAAAA+wAAABQAUABhAHIAYQBtAGUAdABlAHIAcwEAAACxAAAApwAAAKcA////AAAAAQAAAKcAAAK6/AIAAAAB+wAAABAAUwBlAHQAdABpAG4AZwBzAQAAAAAAAAK6AAAAOAD///4AAACnAAACugAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
+internalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAACnAAAAaPwBAAAAAfsAAAAQAE0AZQBzAHMAYQBnAGUAcwEAAAAAAAAApwAAAKcA////AAAApwAAAlEAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 menuStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); border: 1px solid rgb(34, 36, 38); }
 menuWidth = 180
 minimumHeight = 200
@@ -25,6 +25,7 @@ class = HolonOpenTasksWindow
 
 [Holon/New Task]
 class = HolonSidebar
+checked = false
 group = Tasks
 layout = external
 shortcut = Alt+1
@@ -35,6 +36,7 @@ class = HolonOpenTasksWindow
 
 [Holon/Open Tasks]
 class = HolonSidebar
+checked = true
 group = Tasks
 layout = external
 shortcut = Alt+2
@@ -45,6 +47,7 @@ class = HolonOpenTasksWindow
 
 [Holon/Parameters]
 class = HolonSidebar
+checked = true
 layout = external
 shortcut = Alt+3
 title = Parameters
@@ -54,6 +57,7 @@ class = HolonOpenTasksWindow
 
 [Holon/Messages]
 class = HolonSidebar
+checked = true
 layout = internal
 shortcut = Alt+4
 title = Messages
@@ -63,6 +67,7 @@ class = HolonOpenTasksWindow
 
 [Holon/Settings]
 class = HolonSidebar
+checked = true
 layout = external
 shortcut = Alt+0
 title = Settings

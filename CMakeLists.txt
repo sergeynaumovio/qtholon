@@ -52,8 +52,12 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonopentaskswindow.cpp
             src/widgets/holonsidebar.h
             src/widgets/holonsidebar.cpp
+            src/widgets/holonsidebar_p.h
+            src/widgets/holonsidebar_p.cpp
             src/widgets/holonsidebardock.h
             src/widgets/holonsidebardock.cpp
+            src/widgets/holonsidebardock_p.h
+            src/widgets/holonsidebardock_p.cpp
             src/widgets/holonsidebarswitch.h
             src/widgets/holonsidebarswitch.cpp
             src/widgets/holonwindow.h
@@ -79,6 +83,8 @@ set(QT_HOLON_PUBLIC_HEADERS
     src/core/holontask.h
     src/widgets/HolonDesktop
     src/widgets/holondesktop.h
+    src/widgets/HolonSidebar
+    src/widgets/holonsidebar.h
 )
 
 set_target_properties(${QT_HOLON_LIBRARY} PROPERTIES

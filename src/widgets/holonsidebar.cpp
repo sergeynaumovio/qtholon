@@ -18,18 +18,11 @@
 
 #include "holonsidebar.h"
 #include "holondesktop.h"
+#include "holonsidebar_p.h"
 #include "holonwindowarea_p.h"
 #include <QBoxLayout>
 #include <QIcon>
 #include <QLabel>
-
-class HolonSidebarPrivate : public HolonWindowAreaPrivate
-{
-public:
-    HolonSidebarPrivate(HolonDesktop *desktop, HolonWindowArea *q)
-    :   HolonWindowAreaPrivate(desktop, q)
-    { }
-};
 
 HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop)
 :   HolonWindowArea(*new HolonSidebarPrivate(desktop, this), settings)

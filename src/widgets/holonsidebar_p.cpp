@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2021-2023 Sergey Naumov
+** Copyright (C) 2023 Sergey Naumov
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -16,29 +16,14 @@
 **
 ****************************************************************************/
 
-#ifndef HOLONSIDEBAR_H
-#define HOLONSIDEBAR_H
+#include "holonsidebar_p.h"
 
-#include "holonwindowarea.h"
-#include "qtholonglobal.h"
+HolonSidebarPrivate::HolonSidebarPrivate(HolonDesktop *desktop, HolonSidebar *q)
+:   HolonWindowAreaPrivate(desktop, q)
+{ }
 
-class HolonDesktop;
-class HolonSidebarPrivate;
-class QDockWidget;
-
-class Q_HOLON_EXPORT HolonSidebar : public HolonWindowArea
+void HolonSidebarPrivate::setChecked(bool checked)
 {
-    Q_OBJECT
-    Q_DECLARE_PRIVATE(HolonSidebar)
-
-    friend class HolonDesktopPrivate;
-
-public:
-    HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop);
-    ~HolonSidebar();
-
-    virtual QIcon icon() const;
-    virtual QString title() const;
-};
-
-#endif // HOLONSIDEBAR_H
+    Q_Q(HolonSidebar);
+    q->setValue("checked", checked);
+}
