@@ -13,6 +13,7 @@
 #include <QLayout>
 #include <QLoaderTree>
 #include <QShortcut>
+#include <QStackedWidget>
 #include <QStringList>
 #include <QRegularExpression>
 
@@ -68,6 +69,7 @@ public:
 
     void addSidebar(HolonSidebar *sidebar);
     void addWidget(QWidget *widget, QWidget *parent);
+    void removeUncheckedDocks(HolonMainWindow *mainWindow);
     void resizeEvent();
     void setHBoxLayout(QWidget *&widget, const char *name, QWidget *parent);
     void setLayout();
@@ -121,12 +123,16 @@ void HolonDesktopPrivateData::addSidebar(HolonSidebar *sidebar)
     if (sidebar->value("layout", "external").toString() == "external")
     {
         sidebarDock = externalMainWindow->addSidebar(sidebar);
+        externalMainWindow->restoreState(q_ptr->value("externalMainWindowState").toByteArray());
         sidebars.mainWindowByDock.insert(sidebarDock, externalMainWindow);
+        removeUncheckedDocks(externalMainWindow);
     }
     else
     {
         sidebarDock = internalMainWindow->addSidebar(sidebar);
+        internalMainWindow->restoreState(q_ptr->value("internalMainWindowState").toByteArray());
         sidebars.mainWindowByDock.insert(sidebarDock, internalMainWindow);
+        removeUncheckedDocks(internalMainWindow);
     }
 
     sidebars.docks.insert(sidebarDock);
@@ -136,14 +142,39 @@ void HolonDesktopPrivateData::addSidebar(HolonSidebar *sidebar)
     sidebars.visible.dockList.reserve(sidebars.dockWidth.size());
     sidebars.visible.widthList.reserve(sidebars.dockWidth.size());
 
-    externalMainWindow->restoreState(q_ptr->value("externalMainWindowState").toByteArray());
-    internalMainWindow->restoreState(q_ptr->value("internalMainWindowState").toByteArray());
     taskbar->sidebarSwitch()->addSidebar(sidebar);
 }
 
 void HolonDesktopPrivateData::addWidget(QWidget *widget, QWidget *parent)
 {
     parent->layout()->addWidget(widget);
+}
+
+void HolonDesktopPrivateData::removeUncheckedDocks(HolonMainWindow *mainWindow)
+{
+    QMapIterator it(sidebars.mainWindowByDock);
+    while(it.hasNext())
+    {
+        it.next();
+        if (it.value() == mainWindow)
+        {
+            QStackedWidget *stackedWidget = desktop_d.sidebarDockStackedWidget(it.key());
+            bool remove{true};
+            for (int i = 0; i < stackedWidget->count(); ++i)
+            {
+                QWidget *widget = stackedWidget->widget(i);
+                HolonSidebar *sidebar = qobject_cast<HolonSidebar *>(widget);
+
+                if (sidebar && sidebar->isChecked())
+                {
+                    remove = false;
+                    break;
+                }
+            }
+            if (remove)
+                mainWindow->removeDockWidget(it.key());
+        }
+    }
 }
 
 void HolonDesktopPrivateData::resizeEvent()
@@ -244,6 +275,11 @@ void HolonDesktopPrivate::addSidebar(HolonSidebar *sidebar)
 void HolonDesktopPrivate::addWindow(HolonWindow *window)
 {
     d.windowList.append(window);
+}
+
+QStackedWidget *HolonDesktopPrivate::sidebarDockStackedWidget(HolonSidebarDock *dock) const
+{
+    return dock->d.stackedWidget();
 }
 void HolonDesktopPrivate::resizeEvent(QResizeEvent *)
 {

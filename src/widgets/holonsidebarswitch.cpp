@@ -149,6 +149,9 @@ void HolonSidebarSwitch::addSidebar(HolonSidebar *sidebar)
         d.desktop_d.resizeDocks();
     });
 
+    if (sidebar->isChecked())
+        emit sidebarButton->pressed();
+
     QShortcut *shortcut = new QShortcut(QKeySequence(sidebar->value("shortcut").toString()), this);
     connect(shortcut, &QShortcut::activated, this, [sidebarButton]()
     {

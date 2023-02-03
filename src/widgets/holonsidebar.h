@@ -22,6 +22,7 @@ public:
     HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop);
     ~HolonSidebar();
 
+    bool isChecked() const;
     virtual QIcon icon() const;
     virtual QString title() const;
 };

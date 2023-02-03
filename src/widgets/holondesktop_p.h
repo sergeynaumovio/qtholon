@@ -14,6 +14,7 @@ class HolonTaskbar;
 class HolonWindow;
 template<typename> class QList;
 class QResizeEvent;
+class QStackedWidget;
 class QString;
 
 class HolonDesktopPrivate
@@ -21,6 +22,7 @@ class HolonDesktopPrivate
     Q_GADGET
 
     friend class HolonDesktop;
+    friend class HolonDesktopPrivateData;
     HolonDesktopPrivateData &d;
     std::aligned_storage_t<360, sizeof (ptrdiff_t)> d_storage;
 
@@ -28,6 +30,7 @@ class HolonDesktopPrivate
 
     void addSidebar(HolonSidebar *sidebar);
     void addWindow(HolonWindow *window);
+    QStackedWidget *sidebarDockStackedWidget(HolonSidebarDock *dock) const;
     void resizeEvent(QResizeEvent *e);
     void setLayout();
 

@@ -18,6 +18,11 @@ HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop)
 HolonSidebar::~HolonSidebar()
 { }
 
+bool HolonSidebar::isChecked() const
+{
+    return value("checked", false).toBool();
+}
+
 QIcon HolonSidebar::icon() const
 {
     return QIcon(value("icon", ":/holon/holoniconlight.svg").toString());
