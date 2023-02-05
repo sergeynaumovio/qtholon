@@ -127,7 +127,6 @@ HolonSidebarDockPrivate::HolonSidebarDockPrivate(HolonDesktopPrivate &desktop_d,
     static_assert (sizeof (d_storage) == sizeof (HolonSidebarDockPrivateData));
     static_assert (sizeof (ptrdiff_t) == alignof (HolonSidebarDockPrivateData));
 
-
     q->setFeatures(QDockWidget::DockWidgetMovable);
     q->setTitleBarWidget(d.titlebar.hidden);
     q->setWidget(d.stackedWidget.root);

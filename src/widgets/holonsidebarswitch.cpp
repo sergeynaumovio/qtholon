@@ -19,7 +19,6 @@ class HolonSidebarSwitchPrivate
 public:
     HolonDesktopPrivate &desktop_d;
     QMap<QString, QButtonGroup *> buttonGroupByName;
-    QMap<QAbstractButton *, QButtonGroup *> buttonGroupByButton;
     QMap<QButtonGroup *, bool> toggledByButtonGroup;
 
     HolonSidebarSwitchPrivate(HolonDesktopPrivate &desk_d)
@@ -121,7 +120,6 @@ public:
             if (switch_d.buttonGroupByName.contains(sidebar->group()))
             {
                 buttonGroup = switch_d.buttonGroupByName.value(sidebar->group());
-                switch_d.buttonGroupByButton.insert(this, buttonGroup);
                 switch_d.toggledByButtonGroup.insert(buttonGroup, isChecked());
             }
             else
@@ -129,7 +127,6 @@ public:
                 buttonGroup = new QButtonGroup(this);
                 buttonGroup->setExclusive(false);
                 switch_d.buttonGroupByName.insert(sidebar->group(), buttonGroup);
-                switch_d.buttonGroupByButton.insert(this, buttonGroup);
             }
             buttonGroup->addButton(this);
 

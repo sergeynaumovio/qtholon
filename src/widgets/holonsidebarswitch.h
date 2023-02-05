@@ -16,7 +16,7 @@ class HolonSidebarSwitch : public QWidget
     Q_OBJECT
 
     HolonSidebarSwitchPrivate &d;
-    std::aligned_storage_t<32, sizeof (ptrdiff_t)> d_storage;
+    std::aligned_storage_t<24, sizeof (ptrdiff_t)> d_storage;
 
 public:
     HolonSidebarSwitch(HolonDesktopPrivate &desktop_d, HolonTaskbar *parent);
