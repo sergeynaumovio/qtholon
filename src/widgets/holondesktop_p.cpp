@@ -158,14 +158,14 @@ void HolonDesktopPrivateData::removeUncheckedDocks(HolonMainWindow *mainWindow)
         if (it.value() == mainWindow)
         {
             HolonSidebarDock *dock = it.key();
-            QList<HolonSidebar *> sidebars = dock->sidebars();
+            QList<HolonSidebar *> sidebarList = dock->sidebars();
             int i{};
 
-            for (; i < sidebars.size(); ++i)
-                if (sidebars[i]->isChecked())
+            for (; i < sidebarList.size(); ++i)
+                if (sidebarList[i]->isChecked())
                     break;
 
-            if (i == sidebars.size())
+            if (i == sidebarList.size())
                 mainWindow->removeDockWidget(it.key());
         }
     }
