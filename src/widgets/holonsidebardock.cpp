@@ -33,8 +33,12 @@ HolonSidebarDock::~HolonSidebarDock()
 
 void HolonSidebarDock::addSidebar(HolonSidebar *sidebar)
 {
-    d.stackedWidget()->addWidget(sidebar);
-    d.stackedWidget()->setCurrentWidget(sidebar);
+    d.addSidebar(sidebar);
+}
+
+QList<HolonSidebar *> HolonSidebarDock::sidebars() const
+{
+    return d.sidebars();
 }
 
 void HolonSidebarDock::showTitleBarWidget(bool show)

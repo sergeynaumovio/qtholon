@@ -18,6 +18,8 @@ class HolonTaskbar : public QWidget
     HolonTaskbarPrivate &d;
     std::aligned_storage_t<16, sizeof (ptrdiff_t)> d_storage;
 
+    QBoxLayout *layout() const;
+
 protected:
     void paintEvent(QPaintEvent *) override;
 
@@ -26,7 +28,6 @@ public:
     ~HolonTaskbar();
 
     void addWidget(QWidget *widget);
-    QBoxLayout *layout() const;
     HolonSidebarSwitch *sidebarSwitch() const;
 };
 

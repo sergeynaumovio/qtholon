@@ -18,6 +18,11 @@ HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop)
 HolonSidebar::~HolonSidebar()
 { }
 
+QString HolonSidebar::group() const
+{
+    return value("group").toString();
+}
+
 bool HolonSidebar::isChecked() const
 {
     return value("checked", false).toBool();

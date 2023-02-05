@@ -12,7 +12,6 @@ HolonWindowArea::HolonWindowArea(HolonWindowAreaPrivate &d,
 :   QLoaderSettings(settings),
     d_ptr(&d)
 {
-    d_ptr->q_ptr = this;
     d_ptr->mainWindow->setParent(this);
     setLayout(new QHBoxLayout(this));
     {

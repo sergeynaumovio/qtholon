@@ -16,7 +16,7 @@ class HolonWindowAreaPrivate
 {
 public:
     HolonDesktop *const desktop;
-    HolonWindowArea *q_ptr;
+    HolonWindowArea *const q_ptr;
     QMainWindow *const mainWindow;
     QDockWidget *const defaultDock;
     QList<QDockWidget *> dockList;

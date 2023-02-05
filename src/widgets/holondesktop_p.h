@@ -30,8 +30,8 @@ class HolonDesktopPrivate
 
     void addSidebar(HolonSidebar *sidebar);
     void addWindow(HolonWindow *window);
-    QStackedWidget *sidebarDockStackedWidget(HolonSidebarDock *dock) const;
     void resizeEvent(QResizeEvent *e);
+    void saveMainWindowState();
     void setLayout();
 
 public:
@@ -65,9 +65,9 @@ public:
     QString titleBarStyleSheet() const;
     QList<HolonWindow *> windowList() const;
 
-    void removeDockWidget(HolonSidebarDock *dock);
+    void removeSidebar(HolonSidebar *sidebar);
     void resizeDocks();
-    void restoreDockWidget(HolonSidebarDock *dock);
+    void restoreSidebar(HolonSidebar *sidebar);
     void saveDockWidgetWidth(HolonSidebarDock *dock, int width);
     HolonSidebarDock *sidebarDock(HolonSidebar *sidebar) const;
 };

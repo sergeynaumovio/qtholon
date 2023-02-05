@@ -12,13 +12,14 @@ class HolonMainWindow;
 class HolonSidebar;
 class HolonSidebarDock;
 class HolonSidebarDockPrivateData;
+template<typename> class QList;
 class QStackedWidget;
 class QString;
 
 class HolonSidebarDockPrivate
 {
     HolonSidebarDockPrivateData &d;
-    std::aligned_storage_t<56, sizeof (ptrdiff_t)> d_storage;
+    std::aligned_storage_t<88, sizeof (ptrdiff_t)> d_storage;
 
 public:
     HolonSidebarDockPrivate(HolonDesktopPrivate &desktop_d,
@@ -26,11 +27,12 @@ public:
                             const QString &name,
                             HolonMainWindow *parent);
 
+    void addSidebar(HolonSidebar *sidebar);
     HolonSidebar *currentSidebar() const;
     HolonDesktopPrivate &desktop_d() const;
+    void setSidebar(HolonSidebar *sidebar);
+    const QList<HolonSidebar *> &sidebars() const;
     void showTitleBarWidget(bool show) const;
-    QStackedWidget *stackedWidget() const;
-
 };
 
 #endif // HOLONSIDEBARDOCK_P_H
