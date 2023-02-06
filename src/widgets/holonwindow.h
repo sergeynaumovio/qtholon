@@ -25,12 +25,22 @@ protected:
 public:
     enum Area
     {
-        Central = 0x1,
-        Sidebar = 0x2
+        Central = 0x00000001,
+        Sidebar = 0x00000002
     };
     Q_DECLARE_FLAGS(Areas, HolonWindow::Area)
 
+    enum Attribute
+    {
+        WindowMinimizeButtonHint = 0x00000001,
+        WindowMaximizeButtonHint = 0x00000002,
+        WindowMinMaxButtonsHint = WindowMinimizeButtonHint | WindowMaximizeButtonHint,
+        WindowCloseButtonHint = 0x00000004
+    };
+    Q_DECLARE_FLAGS(Attributes, HolonWindow::Attribute)
+
     virtual HolonWindow::Areas areas() const;
+    virtual HolonWindow::Attributes attributes() const;
     QIcon icon() const override;
     virtual QString title() const;
     virtual QWidget *toolbar() const;
@@ -38,5 +48,7 @@ public:
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(HolonWindow::Areas)
+Q_DECLARE_OPERATORS_FOR_FLAGS(HolonWindow::Attributes)
+
 
 #endif // HOLONWINDOW_H

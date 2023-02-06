@@ -20,7 +20,12 @@ HolonWindow::HolonWindow(QLoaderSettings *settings, HolonSidebar *parent)
 
 HolonWindow::Areas HolonWindow::areas() const
 {
-    return {};
+    return Central | Sidebar;
+}
+
+HolonWindow::Attributes HolonWindow::attributes() const
+{
+    return WindowMinMaxButtonsHint | WindowCloseButtonHint;
 }
 
 QIcon HolonWindow::icon() const

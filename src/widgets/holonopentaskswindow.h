@@ -1,37 +1,36 @@
-// Copyright (C) 2022 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONOPENTASKSWINDOW_H
 #define HOLONOPENTASKSWINDOW_H
 
 #include "holonwindow.h"
+#include <QLoaderCopyableInterface>
 #include <QWidget>
-#include <QLoaderCopyInterface>
 
 class HolonOpenTasksWindowPrivate;
 class HolonDesktop;
 class HolonSidebar;
 
-class HolonOpenTasksWindow : public HolonWindow, public QLoaderCopyInterface
+class HolonOpenTasksWindow : public HolonWindow, public QLoaderCopyableInterface
 {
     Q_OBJECT
-    Q_INTERFACES(QLoaderCopyInterface)
+    Q_INTERFACES(QLoaderCopyableInterface)
 
     QScopedPointer<HolonOpenTasksWindowPrivate> d_ptr;
 
 public:
-    Q_INVOKABLE HolonOpenTasksWindow(QLoaderSettings *settings, HolonDesktop *parent);
-    Q_INVOKABLE HolonOpenTasksWindow(QLoaderSettings *settings, HolonSidebar *parent);
+    HolonOpenTasksWindow(QLoaderSettings *settings, HolonDesktop *parent);
+    HolonOpenTasksWindow(QLoaderSettings *settings, HolonSidebar *parent);
     ~HolonOpenTasksWindow();
 
     HolonWindow::Areas areas() const override;
-    bool copy(const QStringList &to) const override;
-    void copy(QObject *from) override;
+    HolonWindow::Attributes attributes() const override;
+    bool isCopyable(const QStringList &to) const override;
     QIcon icon() const override;
     QString title() const override;
     QWidget *toolbar() const override;
     QWidget *widget() const override;
-
 };
 
 class HolonOpenTasksToolbar : public QWidget

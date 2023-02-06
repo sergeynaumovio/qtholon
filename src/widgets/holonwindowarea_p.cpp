@@ -48,23 +48,30 @@ public:
                 return button;
             };
 
-            QPushButton *maximize = addButton('M');
+            HolonWindow::Attributes attributes = window->attributes();
+            if (attributes.testFlag(HolonWindow::WindowMinMaxButtonsHint))
             {
-                connect(maximize, &QPushButton::clicked, this, [=]()
+                QPushButton *maximize = addButton('M');
                 {
-                    d->maximized = !d->maximized;
-                    if (d->maximized)
-                        maximize->setText("m");
-                    else
-                        maximize->setText("M");
+                    connect(maximize, &QPushButton::clicked, this, [=]()
+                    {
+                        d->maximized = !d->maximized;
+                        if (d->maximized)
+                            maximize->setText("m");
+                        else
+                            maximize->setText("M");
 
-                     d->maximizeWindow(parent);
-                });
+                         d->maximizeWindow(parent);
+                    });
+                }
             }
 
-            QPushButton *close = addButton('X');
+            if (attributes.testAnyFlag(HolonWindow::WindowCloseButtonHint))
             {
-                connect(close, &QPushButton::clicked, this, [=](){ d->closeWindow(parent, window); });
+                QPushButton *close = addButton('X');
+                {
+                    connect(close, &QPushButton::clicked, this, [=](){ d->closeWindow(parent, window); });
+                }
             }
         }
     }
@@ -84,7 +91,7 @@ public:
     :   DockWidget(parent)
     {
         setTitleBarWidget(new TitleBar(desktop, this));
-        QWidget *widget = new QWidget(this);
+            QWidget *widget = new QWidget(this);
         {
             QVBoxLayout *l = new QVBoxLayout(widget);
             {

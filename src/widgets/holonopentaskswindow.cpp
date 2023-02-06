@@ -34,7 +34,12 @@ HolonWindow::Areas HolonOpenTasksWindow::areas() const
     return HolonWindow::Sidebar;
 }
 
-bool HolonOpenTasksWindow::copy(const QStringList &to) const
+HolonWindow::Attributes HolonOpenTasksWindow::attributes() const
+{
+    return {};
+}
+
+bool HolonOpenTasksWindow::isCopyable(const QStringList &to) const
 {
     QStringList parentSection = to;
     if (to.size() > 1)
@@ -47,9 +52,6 @@ bool HolonOpenTasksWindow::copy(const QStringList &to) const
 
     return false;
 }
-
-void HolonOpenTasksWindow::copy(QObject */*from*/)
-{ }
 
 QIcon HolonOpenTasksWindow::icon() const
 {
