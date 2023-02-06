@@ -4,13 +4,12 @@
 #ifndef HOLONWINDOWMENU_H
 #define HOLONWINDOWMENU_H
 
-#include "qtholonglobal.h"
 #include <QWidget>
 
 class HolonDesktop;
 class HolonWindow;
 
-class Q_HOLON_EXPORT HolonWindowMenu : public QWidget
+class HolonWindowMenu : public QWidget
 {
     Q_OBJECT
 
