@@ -43,7 +43,7 @@ public:
     int menuWidth() const;
     int titleBarHeight() const;
     QString titleBarStyleSheet() const;
-    QList<HolonWindow *> windowList() const;
+    QList<HolonWindow *> windows() const;
 };
 
 #endif // HOLONDESKTOP_H

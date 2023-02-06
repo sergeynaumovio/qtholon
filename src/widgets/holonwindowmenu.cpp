@@ -44,7 +44,7 @@ HolonWindowMenu::HolonWindowMenu(HolonDesktop *desktop, QWidget *parent)
         layout()->setContentsMargins({px, px, px, px});
         layout()->setSpacing(0);
 
-        for (HolonWindow *window : desktop->windowList())
+        for (HolonWindow *window : desktop->windows())
         {
             if (window->areas().testFlag(HolonWindow::Sidebar))
                 l->addWidget(new WindowButton(desktop, window, this), 0, Qt::AlignHCenter);

@@ -48,6 +48,7 @@ public:
     HolonMainWindow *internalMainWindow;
     int skipExternalMainWindowSaveState{2};
     HolonTaskbar *taskbar;
+
     struct
     {
         QMap<HolonSidebarDock *, HolonMainWindow *> mainWindowByDock;

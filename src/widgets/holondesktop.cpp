@@ -103,7 +103,7 @@ QString HolonDesktop::titleBarStyleSheet() const
     return d_ptr->titleBarStyleSheet();
 }
 
-QList<HolonWindow *> HolonDesktop::windowList() const
+QList<HolonWindow *> HolonDesktop::windows() const
 {
     return d_ptr->windowList();
 }
