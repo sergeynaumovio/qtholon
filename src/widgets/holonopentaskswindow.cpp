@@ -1,4 +1,4 @@
-// Copyright (C) 2022 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonopentaskswindow.h"
@@ -39,6 +39,11 @@ HolonWindow::Attributes HolonOpenTasksWindow::attributes() const
     return {};
 }
 
+QIcon HolonOpenTasksWindow::icon() const
+{
+    return {};
+}
+
 bool HolonOpenTasksWindow::isCopyable(const QStringList &to) const
 {
     QStringList parentSection = to;
@@ -51,11 +56,6 @@ bool HolonOpenTasksWindow::isCopyable(const QStringList &to) const
     }
 
     return false;
-}
-
-QIcon HolonOpenTasksWindow::icon() const
-{
-    return {};
 }
 
 QString HolonOpenTasksWindow::title() const

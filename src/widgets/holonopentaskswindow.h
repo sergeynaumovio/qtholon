@@ -8,8 +8,8 @@
 #include <QLoaderCopyableInterface>
 #include <QWidget>
 
-class HolonOpenTasksWindowPrivate;
 class HolonDesktop;
+class HolonOpenTasksWindowPrivate;
 class HolonSidebar;
 
 class HolonOpenTasksWindow : public HolonWindow, public QLoaderCopyableInterface
@@ -26,21 +26,11 @@ public:
 
     HolonWindow::Areas areas() const override;
     HolonWindow::Attributes attributes() const override;
-    bool isCopyable(const QStringList &to) const override;
     QIcon icon() const override;
+    bool isCopyable(const QStringList &to) const override;
     QString title() const override;
     QWidget *toolbar() const override;
     QWidget *widget() const override;
-};
-
-class HolonOpenTasksToolbar : public QWidget
-{
-
-};
-
-class HolonOpenTasksWidget : public QWidget
-{
-
 };
 
 #endif // HOLONOPENTASKSWINDOW_H
