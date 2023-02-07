@@ -5,17 +5,15 @@
 #define HOLONOPENTASKSWINDOW_H
 
 #include "holonwindow.h"
-#include <QLoaderCopyableInterface>
 #include <QWidget>
 
 class HolonDesktop;
 class HolonOpenTasksWindowPrivate;
 class HolonSidebar;
 
-class HolonOpenTasksWindow : public HolonWindow, public QLoaderCopyableInterface
+class HolonOpenTasksWindow : public HolonWindow
 {
     Q_OBJECT
-    Q_INTERFACES(QLoaderCopyableInterface)
 
     QScopedPointer<HolonOpenTasksWindowPrivate> d_ptr;
 
