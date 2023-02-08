@@ -43,7 +43,7 @@ public:
     int menuBorder() const;
     QString menuStyleSheet() const;
     int menuWidth() const;
-    void setNewTasksModel(HolonNewTasksModel *newTaskModel);
+    void setNewTasksModel(HolonNewTasksModel *newTasksModel);
     int titleBarHeight() const;
     QString titleBarStyleSheet() const;
     QList<HolonWindow *> windows() const;
