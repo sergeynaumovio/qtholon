@@ -3,8 +3,8 @@
 [Holon]
 class = HolonDesktop
 buttonStyleSheet = QPushButton { border: 0px; } QPushButton:hover { background-color: rgb(74, 76, 78); color: white; }
-externalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAADIAAACuvwCAAAAA/wAAAAAAAACugAAAAAA/////AEAAAAC+wAAABAATgBlAHcAIABUAGEAcwBrAQAAAAAAAACnAAAAAAAAAAD7AAAAFABPAHAAZQBuACAAVABhAHMAawBzAQAAAKgAAACnAAAAAAAAAAD8AAAAAAAAAroAAAA4AP///vwBAAAAAvsAAAAKAFQAYQBzAGsAcwEAAAAAAAAAsAAAAAAAAAAA+wAAABQAUABhAHIAYQBtAGUAdABlAHIAcwEAAAAAAAAAyAAAAKcA////+wAAAAoAVABhAHMAawBzAQAAAAD/////AAAAAAAAAAAAAAABAAAAyAAAArr8AgAAAAH7AAAAEABTAGUAdAB0AGkAbgBnAHMBAAAAAAAAAroAAAA4AP///gAAARUAAAK6AAAABAAAAAQAAAAIAAAACPwAAAAA)
-internalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAAEVAAAAxvwBAAAAAfsAAAAQAE0AZQBzAHMAYQBnAGUAcwEAAAAAAAABFQAAAKcA////AAABFQAAAfMAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
+externalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAADQAAACuvwCAAAAAfwAAAAAAAACugAAADgA///+/AEAAAAC+wAAAAoAVABhAHMAawBzAQAAAAAAAADTAAAAAAAAAAD7AAAAFABQAGEAcgBhAG0AZQB0AGUAcgBzAQAAAAAAAADQAAAAlAD///8AAAABAAAAsQAAArr8AgAAAAH7AAAAEABTAGUAdAB0AGkAbgBnAHMBAAAAAAAAAroAAAA4AP///gAAASQAAAK6AAAABAAAAAQAAAAIAAAACPwAAAAA)
+internalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAAEkAAAAgfwBAAAAAfsAAAAQAE0AZQBzAHMAYQBnAGUAcwEAAAAAAAABJAAAAIIA////AAABJAAAAjgAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 menuStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); border: 1px solid rgb(34, 36, 38); }
 menuWidth = 180
 minimumHeight = 200
@@ -20,16 +20,43 @@ taskbarStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
 titleBarHeight = 24
 titleBarStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
 
+[Holon/NewTasksModel]
+class = HolonNewTasksModel
+
+[Holon/NewTasksModel/DirA]
+class = HolonNewTasksDir
+
+[Holon/NewTasksModel/DirA/CustomTask]
+class = HolonCustomTask
+
+[Holon/NewTasksModel/DirB]
+class = HolonNewTasksDir
+
+[Holon/OpenTasksModel1]
+class = HolonOpenTasksModel
+
+[Holon/OpenTasksModel1/Branch1]
+class = HolonOpenTasksDir
+
+[Holon/OpenTasksModel1/Branch1/CustomTask]
+class = HolonCustomTask
+
+[Holon/MarkupCommanderWindow]
+class = HolonMarkupCommanderWindow
+
+[Holon/NewTasksWindow]
+class = HolonNewTasksWindow
+
 [Holon/OpenTasksWindow]
 class = HolonOpenTasksWindow
 
-[Holon/New Task]
+[Holon/New Tasks]
 class = HolonSidebar
 checked = false
 group = Tasks
 layout = external
 shortcut = Alt+1
-title = New Task
+title = New Tasks
 
 [Holon/Open Tasks]
 class = HolonSidebar

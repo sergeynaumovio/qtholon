@@ -9,6 +9,8 @@
 #include <QWidget>
 
 class HolonDesktopPrivate;
+class HolonNewTasksModel;
+class HolonOpenTasksModel;
 class HolonSidebar;
 class HolonTask;
 class HolonTaskbar;
@@ -34,13 +36,14 @@ public:
     HolonDesktop(QLoaderSettings *settings, QWidget *parent);
     ~HolonDesktop();
 
+    void addOpenTasksModel(HolonOpenTasksModel *openTasksModel);
     void addSidebar(HolonSidebar *sidebar);
-    void addTask(HolonTask *task);
     void addWindow(HolonWindow *window);
     QString buttonStyleSheet() const;
     int menuBorder() const;
     QString menuStyleSheet() const;
     int menuWidth() const;
+    void setNewTasksModel(HolonNewTasksModel *newTaskModel);
     int titleBarHeight() const;
     QString titleBarStyleSheet() const;
     QList<HolonWindow *> windows() const;

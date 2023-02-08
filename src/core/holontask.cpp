@@ -1,24 +1,24 @@
-// Copyright (C) 2022 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holontask.h"
-#include "holoncore.h"
-#include "holondesktop.h"
+#include "holonnewtasksdir.h"
+#include "holonopentasksdir.h"
 
-HolonTask::HolonTask(QLoaderSettings *settings, HolonCore *parent)
-:   QObject(parent),
+HolonTask::HolonTask(QLoaderSettings *settings, HolonNewTasksDir *newTasksDir)
+:   QObject(newTasksDir),
     QLoaderSettings(settings),
     d_ptr(new HolonTaskData)
 {
-    parent->addTask(this);
+    newTasksDir->addTask(this);
 }
 
-HolonTask::HolonTask(QLoaderSettings *settings, HolonDesktop *parent)
-:   QObject(parent),
+HolonTask::HolonTask(QLoaderSettings *settings, HolonOpenTasksDir *openTasksDir)
+:   QObject(openTasksDir),
     QLoaderSettings(settings),
     d_ptr(new HolonTaskData)
 {
-    parent->addTask(this);
+    openTasksDir->addTask(this);
 }
 
 HolonTask::~HolonTask()

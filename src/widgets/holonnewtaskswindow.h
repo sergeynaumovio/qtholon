@@ -1,26 +1,26 @@
 // Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
-#ifndef HOLONOPENTASKSWINDOW_H
-#define HOLONOPENTASKSWINDOW_H
+#ifndef HOLONNEWTASKSWINDOW_H
+#define HOLONNEWTASKSWINDOW_H
 
 #include "holonwindow.h"
 #include <QWidget>
 
 class HolonDesktop;
-class HolonOpenTasksWindowPrivate;
+class HolonNewTasksWindowPrivate;
 class HolonSidebar;
 
-class HolonOpenTasksWindow : public HolonWindow
+class HolonNewTasksWindow : public HolonWindow
 {
     Q_OBJECT
 
-    const QScopedPointer<HolonOpenTasksWindowPrivate> d_ptr;
+    const QScopedPointer<HolonNewTasksWindowPrivate> d_ptr;
 
 public:
-    HolonOpenTasksWindow(QLoaderSettings *settings, HolonDesktop *parent);
-    HolonOpenTasksWindow(QLoaderSettings *settings, HolonSidebar *parent);
-    ~HolonOpenTasksWindow();
+    HolonNewTasksWindow(QLoaderSettings *settings, HolonDesktop *parent);
+    HolonNewTasksWindow(QLoaderSettings *settings, HolonSidebar *parent);
+    ~HolonNewTasksWindow();
 
     HolonWindow::Areas areas() const override;
     HolonWindow::Attributes attributes() const override;
@@ -31,4 +31,4 @@ public:
     QWidget *widget() const override;
 };
 
-#endif // HOLONOPENTASKSWINDOW_H
+#endif // HOLONNEWTASKSWINDOW_H

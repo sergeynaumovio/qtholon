@@ -33,6 +33,16 @@ add_library(${QT_HOLON_LIBRARY} SHARED)
 target_sources(${QT_HOLON_LIBRARY}
     PRIVATE src/core/holoncore.cpp
             src/core/holoncore.h
+            src/core/holoncustomtask.cpp
+            src/core/holoncustomtask.h
+            src/core/holonnewtasksdir.cpp
+            src/core/holonnewtasksdir.h
+            src/core/holonnewtasksmodel.cpp
+            src/core/holonnewtasksmodel.h
+            src/core/holonopentasksdir.cpp
+            src/core/holonopentasksdir.h
+            src/core/holonopentasksmodel.cpp
+            src/core/holonopentasksmodel.h
             src/core/holontask.cpp
             src/core/holontask.h
             src/core/qtholonglobal.h
@@ -42,6 +52,10 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holondesktop_p.h
             src/widgets/holonmainwindow.cpp
             src/widgets/holonmainwindow.h
+            src/widgets/holonmarkupcommanderwindow.cpp
+            src/widgets/holonmarkupcommanderwindow.h
+            src/widgets/holonnewtaskswindow.cpp
+            src/widgets/holonnewtaskswindow.h
             src/widgets/holonopentaskswindow.cpp
             src/widgets/holonopentaskswindow.h
             src/widgets/holonsidebar.cpp

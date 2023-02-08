@@ -1,4 +1,4 @@
-// Copyright (C) 2022 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONTASK_H
@@ -7,8 +7,8 @@
 #include "qtholonglobal.h"
 #include <QLoaderSettings>
 
-class HolonCore;
-class HolonDesktop;
+class HolonNewTasksDir;
+class HolonOpenTasksDir;
 class HolonWindow;
 
 class HolonTaskData
@@ -23,14 +23,15 @@ class Q_HOLON_EXPORT HolonTask : public QObject, public QLoaderSettings
 {
     Q_OBJECT
 
-protected:
     const QScopedPointer<HolonTaskData> d_ptr;
 
-    HolonTask(QLoaderSettings *settings, HolonCore *parent);
-    HolonTask(QLoaderSettings *settings, HolonDesktop *parent);
-    virtual ~HolonTask();
+protected:
+    HolonTask(QLoaderSettings *settings, HolonNewTasksDir *newTasksDir);
+    HolonTask(QLoaderSettings *settings, HolonOpenTasksDir *openTasksDir);
 
 public:
+    ~HolonTask();
+
     void addAttributesWindow(HolonWindow *window) { d_ptr->attributes.append(window); }
     void addCentralWindow(HolonWindow *window) { d_ptr->central.append(window); }
     const QList<HolonWindow*> &attributesWindowList() { return d_ptr->attributes; }

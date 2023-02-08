@@ -58,14 +58,14 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
 HolonDesktop::~HolonDesktop()
 { }
 
+void HolonDesktop::addOpenTasksModel(HolonOpenTasksModel *openTasksModel)
+{
+    Q_UNUSED(openTasksModel)
+}
+
 void HolonDesktop::addSidebar(HolonSidebar *sidebar)
 {
     d_ptr->addSidebar(sidebar);
-}
-
-void HolonDesktop::addTask(HolonTask* /*task*/)
-{
-
 }
 
 void HolonDesktop::addWindow(HolonWindow *window)
@@ -91,6 +91,11 @@ QString HolonDesktop::menuStyleSheet() const
 int HolonDesktop::menuWidth() const
 {
     return d_ptr->menuWidth();
+}
+
+void HolonDesktop::setNewTasksModel(HolonNewTasksModel *newTasksModel)
+{
+    Q_UNUSED(newTasksModel)
 }
 
 int HolonDesktop::titleBarHeight() const

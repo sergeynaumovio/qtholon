@@ -8,7 +8,7 @@ HolonCore::HolonCore(QLoaderSettings *settings, QObject *parent)
     QLoaderSettings(settings)
 { }
 
-void HolonCore::addTask(HolonTask */*task*/)
+void HolonCore::addOpenTasksModel(HolonOpenTasksModel *openTasksModel)
 {
-
+    Q_UNUSED(openTasksModel)
 }

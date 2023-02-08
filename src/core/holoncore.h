@@ -7,7 +7,7 @@
 #include "qtholonglobal.h"
 #include <QLoaderSettings>
 
-class HolonTask;
+class HolonOpenTasksModel;
 
 class Q_HOLON_EXPORT HolonCore : public QObject, public QLoaderSettings
 {
@@ -16,7 +16,7 @@ class Q_HOLON_EXPORT HolonCore : public QObject, public QLoaderSettings
 public:
     HolonCore(QLoaderSettings *settings, QObject *parent);
 
-    void addTask(HolonTask *task);
+    void addOpenTasksModel(HolonOpenTasksModel *openTasksModel);
 };
 
 #endif // HOLONCORE_H
