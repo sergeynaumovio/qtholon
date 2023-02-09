@@ -35,3 +35,8 @@ void HolonWindowArea::addWindow(HolonWindow *window)
 {
     d_ptr->addWindow(window);
 }
+
+void HolonWindowArea::closeWindow(HolonWindow *window)
+{
+    d_ptr->closeWindow(window);
+}

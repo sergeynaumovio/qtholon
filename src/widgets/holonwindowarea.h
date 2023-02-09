@@ -31,6 +31,7 @@ public:
     ~HolonWindowArea();
 
     void addWindow(HolonWindow *window);
+    void closeWindow(HolonWindow *window);
 };
 
 #endif // HOLONWINDOWAREA_H

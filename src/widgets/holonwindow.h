@@ -10,6 +10,7 @@
 
 class HolonDesktop;
 class HolonSidebar;
+class HolonWindowPrivate;
 
 class Q_HOLON_EXPORT HolonWindow : public QObject, public QLoaderSettings,
                                                    public QLoaderIconInterface
@@ -18,11 +19,15 @@ class Q_HOLON_EXPORT HolonWindow : public QObject, public QLoaderSettings,
     Q_OBJECT
     Q_INTERFACES(QLoaderIconInterface)
 
+    const QScopedPointer<HolonWindowPrivate> d_ptr;
+
 protected:
-    HolonWindow(QLoaderSettings *settings, HolonDesktop *parent);
-    HolonWindow(QLoaderSettings *settings, HolonSidebar *parent);
+    HolonWindow(QLoaderSettings *&settings, HolonDesktop *parent);
+    HolonWindow(QLoaderSettings *&settings, HolonSidebar *parent);
 
 public:
+    ~HolonWindow();
+
     enum Area
     {
         Central = 0x00000001,
@@ -41,6 +46,7 @@ public:
 
     virtual HolonWindow::Areas areas() const;
     virtual HolonWindow::Attributes attributes() const;
+    void close();
     QIcon icon() const override;
     virtual QString title() const;
     virtual QWidget *toolbar() const;

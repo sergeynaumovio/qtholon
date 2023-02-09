@@ -70,7 +70,7 @@ public:
             {
                 QPushButton *close = addButton('X');
                 {
-                    connect(close, &QPushButton::clicked, this, [=](){ d->closeWindow(parent, window); });
+                    connect(close, &QPushButton::clicked, this, [=](){ d->closeWindow(window); });
                 }
             }
         }
@@ -114,6 +114,7 @@ public:
     {
         setTitleBarWidget(new TitleBar(desktop, this, window, d));
         setWidget(window->widget());
+        widget()->setFocus();
     }
 };
 
@@ -131,10 +132,13 @@ HolonWindowAreaPrivate::~HolonWindowAreaPrivate()
 
 void HolonWindowAreaPrivate::addWindow(HolonWindow *window)
 {
-    dockList.append(new DockWidget(desktop, mainWindow, window, this));
+    QDockWidget *dock = new DockWidget(desktop, mainWindow, window, this);
+    dockList.append(dock);
 
     if (dockList.count())
         defaultDock->hide();
+
+    dockByWindow.insert(window, dock);
 }
 
 void HolonWindowAreaPrivate::maximizeWindow(QDockWidget *dock)
@@ -153,8 +157,9 @@ void HolonWindowAreaPrivate::maximizeWindow(QDockWidget *dock)
     }
 }
 
-void HolonWindowAreaPrivate::closeWindow(QDockWidget *dock, HolonWindow *window)
+void HolonWindowAreaPrivate::closeWindow(HolonWindow *window)
 {
+    QDockWidget *dock = dockByWindow.value(window);
     mainWindow->removeDockWidget(dock);
     dock->deleteLater();
     window->deleteLater();
