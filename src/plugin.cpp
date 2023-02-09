@@ -4,7 +4,6 @@
 #include "holoncore.h"
 #include "holoncustomtask.h"
 #include "holondesktop.h"
-#include "holonmarkupcommanderwindow.h"
 #include "holonnewtasksdir.h"
 #include "holonnewtasksmodel.h"
 #include "holonnewtaskswindow.h"
@@ -12,6 +11,7 @@
 #include "holonopentasksmodel.h"
 #include "holonopentaskswindow.h"
 #include "holonsidebar.h"
+#include "holonterminalwindow.h"
 #include <QApplication>
 #include <QLoaderPluginInterface>
 #include <QLoaderSettings>
@@ -49,17 +49,6 @@ public:
             QWidget *widget = qobject_cast<QWidget*>(parent);
             if (!parent || (parent && widget))
                 return new HolonDesktop(settings, widget);
-
-            return parent;
-        }
-
-        if (!qstrcmp(shortName, "MarkupCommanderWindow"))
-        {
-            if (qobject_cast<HolonCore*>(parent))
-                return nullptr;
-
-            if (HolonDesktop *desktop = qobject_cast<HolonDesktop*>(parent))
-                return new HolonMarkupCommanderWindow(settings, desktop);
 
             return parent;
         }
@@ -147,6 +136,20 @@ public:
 
             if (HolonDesktop *desktop = qobject_cast<HolonDesktop*>(parent))
                 return new HolonSidebar(settings, desktop);
+
+            return parent;
+        }
+
+        if (!qstrcmp(shortName, "TerminalWindow"))
+        {
+            if (qobject_cast<HolonCore*>(parent))
+                return nullptr;
+
+            if (HolonDesktop *desktop = qobject_cast<HolonDesktop*>(parent))
+                return new HolonTerminalWindow(settings, desktop);
+
+            if (HolonSidebar *sidebar = qobject_cast<HolonSidebar*>(parent))
+                return new HolonTerminalWindow(settings, sidebar);
 
             return parent;
         }

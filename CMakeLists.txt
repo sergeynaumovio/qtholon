@@ -52,8 +52,8 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holondesktop_p.h
             src/widgets/holonmainwindow.cpp
             src/widgets/holonmainwindow.h
-            src/widgets/holonmarkupcommanderwindow.cpp
-            src/widgets/holonmarkupcommanderwindow.h
+            src/widgets/holonterminalwindow.cpp
+            src/widgets/holonterminalwindow.h
             src/widgets/holonnewtaskswindow.cpp
             src/widgets/holonnewtaskswindow.h
             src/widgets/holonopentaskswindow.cpp

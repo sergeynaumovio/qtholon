@@ -1,26 +1,26 @@
 // Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
-#ifndef HOLONMARKUPCOMMANDERWINDOW_H
-#define HOLONMARKUPCOMMANDERWINDOW_H
+#ifndef HOLONTERMINALWINDOW_H
+#define HOLONTERMINALWINDOW_H
 
 #include "holonwindow.h"
 #include <QWidget>
 
 class HolonDesktop;
-class HolonMarkupCommanderWindowPrivate;
+class HolonTerminalWindowPrivate;
 class HolonSidebar;
 
-class HolonMarkupCommanderWindow : public HolonWindow
+class HolonTerminalWindow : public HolonWindow
 {
     Q_OBJECT
 
-    const QScopedPointer<HolonMarkupCommanderWindowPrivate> d_ptr;
+    const QScopedPointer<HolonTerminalWindowPrivate> d_ptr;
 
 public:
-    HolonMarkupCommanderWindow(QLoaderSettings *settings, HolonDesktop *parent);
-    HolonMarkupCommanderWindow(QLoaderSettings *settings, HolonSidebar *parent);
-    ~HolonMarkupCommanderWindow();
+    HolonTerminalWindow(QLoaderSettings *settings, HolonDesktop *parent);
+    HolonTerminalWindow(QLoaderSettings *settings, HolonSidebar *parent);
+    ~HolonTerminalWindow();
 
     HolonWindow::Areas areas() const override;
     HolonWindow::Attributes attributes() const override;
@@ -31,4 +31,4 @@ public:
     QWidget *widget() const override;
 };
 
-#endif // HOLONMARKUPCOMMANDERWINDOW_H
+#endif // HOLONTERMINALWINDOW_H
