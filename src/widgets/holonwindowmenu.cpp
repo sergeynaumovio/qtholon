@@ -21,7 +21,7 @@ public:
         setStyleSheet(desktop->buttonStyleSheet() + "QPushButton { text-align:left; padding-left: 7px; }");
         setText(window->title());
 
-        connect(this, &QPushButton::pressed, this, [window, parent]() { emit parent->triggered(window); });
+        connect(this, &QPushButton::clicked, this, [window, parent]() { emit parent->triggered(window); });
     }
 };
 
