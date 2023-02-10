@@ -104,16 +104,16 @@ class = QLoaderShell
 home = QStringList(Holon, Data)
 
 [Holon/Shell/Cd]
-class = QLoaderCd
+class = QLoaderShellCd
 
 [Holon/Shell/Clear]
-class = QLoaderClear
+class = QLoaderShellClear
 
 [Holon/Shell/Exit]
-class = QLoaderExit
+class = QLoaderShellExit
 
 [Holon/Shell/Save]
-class = QLoaderSave
+class = QLoaderShellSave
 
 [Holon/Data]
 class = QLoaderData
