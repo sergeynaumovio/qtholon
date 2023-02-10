@@ -29,7 +29,7 @@ public:
     {
         if (!w)
         {
-            w = new QLoaderTerminal(settings, nullptr);
+            w = new QLoaderTerminal(settings);
             QObject::connect(sidebar, &QObject::destroyed, q_ptr, [this] { close = false; });
             QObject::connect(w, &QObject::destroyed, q_ptr, [this] { if (close) q_ptr->close(); });
         }
