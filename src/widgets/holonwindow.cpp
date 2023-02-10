@@ -12,14 +12,14 @@ public:
     HolonSidebar *sidebar{};
 };
 
-HolonWindow::HolonWindow(QLoaderSettings *&settings, HolonDesktop *parent)
+HolonWindow::HolonWindow(QLoaderSettings *settings, HolonDesktop *parent)
 :   QObject(parent),
     QLoaderSettings(settings)
 {
     parent->addWindow(this);
 }
 
-HolonWindow::HolonWindow(QLoaderSettings *&settings, HolonSidebar *parent)
+HolonWindow::HolonWindow(QLoaderSettings *settings, HolonSidebar *parent)
 :   QObject(parent),
     QLoaderSettings(settings),
     d_ptr(new HolonWindowPrivate{parent})

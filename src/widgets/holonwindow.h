@@ -22,8 +22,8 @@ class Q_HOLON_EXPORT HolonWindow : public QObject, public QLoaderSettings,
     const QScopedPointer<HolonWindowPrivate> d_ptr;
 
 protected:
-    HolonWindow(QLoaderSettings *&settings, HolonDesktop *parent);
-    HolonWindow(QLoaderSettings *&settings, HolonSidebar *parent);
+    HolonWindow(QLoaderSettings *settings, HolonDesktop *parent);
+    HolonWindow(QLoaderSettings *settings, HolonSidebar *parent);
 
 public:
     ~HolonWindow();
