@@ -4,14 +4,14 @@
 #ifndef HOLONNEWTASKSMODEL_H
 #define HOLONNEWTASKSMODEL_H
 
-#include "qtholonglobal.h"
+#include <QAbstractItemModel>
 #include <QLoaderSettings>
 
 class HolonDesktop;
 class HolonNewTasksDir;
 class HolonNewTasksModelPrivate;
 
-class Q_HOLON_EXPORT HolonNewTasksModel : public QObject, public QLoaderSettings
+class HolonNewTasksModel : public QAbstractItemModel, public QLoaderSettings
 {
     Q_OBJECT
 
@@ -21,7 +21,11 @@ public:
     HolonNewTasksModel(QLoaderSettings *settings, HolonDesktop *desktop);
     ~HolonNewTasksModel();
 
-    void addDir(HolonNewTasksDir *dir);
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
+    QModelIndex parent(const QModelIndex &child) const override;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 };
 
 #endif // HOLONNEWTASKSMODEL_H
