@@ -3,8 +3,8 @@
 [Holon]
 class = HolonDesktop
 buttonStyleSheet = QPushButton { border: 0px; } QPushButton:hover { background-color: rgb(74, 76, 78); color: white; }
-externalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAADIAAACuvwCAAAAAfwAAAAAAAACugAAAHMA///+/AEAAAAC+wAAAAoAVABhAHMAawBzAQAAAAAAAADIAAAAyAD////7AAAAFABQAGEAcgBhAG0AZQB0AGUAcgBzAQAAAMkAAACUAAAAAAAAAAAAAAABAAAAnwAAArr8AgAAAAH7AAAAEABTAGUAdAB0AGkAbgBnAHMBAAAAAAAAAroAAAA4AP///gAAAT4AAAK6AAAABAAAAAQAAAAIAAAACPwAAAAA)
-internalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAAE+AAAAgfwBAAAAAfsAAAAQAE0AZQBzAHMAYQBnAGUAcwEAAAAAAAABPgAAAIIA////AAABPgAAAjgAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
+externalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAADIAAACuvwCAAAAAfwAAAAAAAACugAAAF0A///+/AEAAAAC+wAAAAoAVABhAHMAawBzAQAAAAAAAADIAAAAUgD////7AAAAFABQAGEAcgBhAG0AZQB0AGUAcgBzAQAAAMkAAACUAAAAAAAAAAAAAAABAAAAyAAAArr8AgAAAAH7AAAAEABTAGUAdAB0AGkAbgBnAHMBAAAAAAAAAroAAAA4AP///gAAARUAAAK6AAAABAAAAAQAAAAIAAAACPwAAAAA)
+internalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAAEVAAAAgfwBAAAAAfsAAAAQAE0AZQBzAHMAYQBnAGUAcwEAAAAAAAABFQAAAIIA////AAABFQAAAjgAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 menuStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); border: 1px solid rgb(34, 36, 38); }
 menuWidth = 180
 minimumHeight = 200
@@ -26,11 +26,14 @@ class = HolonNewTasksModel
 [Holon/NewTasksModel/DirA]
 class = HolonNewTasksDir
 
-[Holon/NewTasksModel/DirA/CustomTask]
+[Holon/NewTasksModel/DirA/CustomTask1]
 class = HolonCustomTask
 
 [Holon/NewTasksModel/DirB]
 class = HolonNewTasksDir
+
+[Holon/NewTasksModel/DirB/CustomTask2]
+class = HolonCustomTask
 
 [Holon/OpenTasksModel1]
 class = HolonOpenTasksModel
@@ -57,6 +60,9 @@ group = Tasks
 layout = external
 shortcut = Alt+1
 title = New Tasks
+
+[Holon/New Tasks/NewTasksWindow]
+class = HolonNewTasksWindow
 
 [Holon/Open Tasks]
 class = HolonSidebar
