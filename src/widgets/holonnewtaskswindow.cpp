@@ -28,9 +28,9 @@ public:
         if (!view)
             view = new QTreeView;
 
-        if (desktop->models(HolonDesktop::NewTasks).size())
+        if (desktop->models(Holon::NewTasks).size())
         {
-            view->setModel(desktop->models(HolonDesktop::NewTasks).at(0));
+            view->setModel(desktop->models(Holon::NewTasks).at(0));
             view->header()->hide();
         }
 

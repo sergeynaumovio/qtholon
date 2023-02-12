@@ -58,7 +58,7 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
 HolonDesktop::~HolonDesktop()
 { }
 
-void HolonDesktop::addModel(QAbstractItemModel *model, Tasks tasks)
+void HolonDesktop::addModel(QAbstractItemModel *model, Holon::Tasks tasks)
 {
     d_ptr->addModel(model, tasks);
 }
@@ -93,7 +93,7 @@ int HolonDesktop::menuWidth() const
     return d_ptr->menuWidth();
 }
 
-QList<QAbstractItemModel *> HolonDesktop::models(Tasks tasks) const
+QList<QAbstractItemModel *> HolonDesktop::models(Holon::Tasks tasks) const
 {
     return d_ptr->models(tasks);
 }

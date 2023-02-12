@@ -1,14 +1,22 @@
-// Copyright (C) 2022 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holoncore.h"
+#include "holoncore_p.h"
 
 HolonCore::HolonCore(QLoaderSettings *settings, QObject *parent)
 :   QObject(parent),
-    QLoaderSettings(settings)
+    QLoaderSettings(settings),
+    d_ptr(new HolonCorePrivate)
 { }
 
-void HolonCore::addOpenTasksModel(HolonOpenTasksModel *openTasksModel)
+HolonCore::~HolonCore()
+{ }
+
+void HolonCore::addModel(QAbstractItemModel *model, Holon::Tasks tasks)
 {
-    Q_UNUSED(openTasksModel)
+    if (tasks == Holon::NewTasks)
+        d_ptr->models.newTasks.append(model);
+    else
+        d_ptr->models.openTasks.append(model);
 }

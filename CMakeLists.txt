@@ -33,8 +33,10 @@ add_library(${QT_HOLON_LIBRARY} SHARED)
 target_sources(${QT_HOLON_LIBRARY}
     PRIVATE src/core/holoncore.cpp
             src/core/holoncore.h
+            src/core/holoncore_p.h
             src/core/holoncustomtask.cpp
             src/core/holoncustomtask.h
+            src/core/holonnamespace.h
             src/core/holonnewtasksdir.cpp
             src/core/holonnewtasksdir.h
             src/core/holonnewtasksmodel.cpp
@@ -92,6 +94,7 @@ set(QT_HOLON_PUBLIC_HEADERS
     src/core/HolonCore
     src/core/HolonTask
     src/core/holoncore.h
+    src/core/holonnamespace.h
     src/core/holontask.h
     src/core/qtholonglobal.h
     src/widgets/HolonDesktop

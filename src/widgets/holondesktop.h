@@ -4,6 +4,7 @@
 #ifndef HOLONDESKTOP_H
 #define HOLONDESKTOP_H
 
+#include "holonnamespace.h"
 #include "qtholonglobal.h"
 #include <QLoaderSettings>
 #include <QWidget>
@@ -32,25 +33,18 @@ Q_SIGNALS:
     void sizeChanged(QSize);
 
 public:
-    enum Tasks
-    {
-        NewTasks,
-        OpenTasks
-    };
-    Q_ENUM(Tasks)
-
     HolonDesktop(QLoaderSettings *settings, QWidget *parent);
     ~HolonDesktop();
 
     void addSidebar(HolonSidebar *sidebar);
-    void addModel(QAbstractItemModel *model, Tasks tasks);
+    void addModel(QAbstractItemModel *model, Holon::Tasks tasks);
     void addWindow(HolonWindow *window);
     QString buttonStyleSheet() const;
     HolonTask *currentTask() const;
     int menuBorder() const;
     QString menuStyleSheet() const;
     int menuWidth() const;
-    QList<QAbstractItemModel *> models(Tasks tasks) const;
+    QList<QAbstractItemModel *> models(Holon::Tasks tasks) const;
     void setCurrentTask(HolonTask *task);
     int titleBarHeight() const;
     QString titleBarStyleSheet() const;

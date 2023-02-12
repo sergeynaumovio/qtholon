@@ -4,7 +4,8 @@
 #ifndef HOLONDESKTOP_P_H
 #define HOLONDESKTOP_P_H
 
-#include "holondesktop.h"
+#include "holonnamespace.h"
+#include <QMetaType>
 
 class HolonDesktop;
 class HolonDesktopPrivateData;
@@ -12,6 +13,7 @@ class HolonSidebar;
 class HolonSidebarDock;
 class HolonTaskbar;
 class HolonWindow;
+class QAbstractItemModel;
 template<typename> class QList;
 class QResizeEvent;
 class QStackedWidget;
@@ -28,7 +30,7 @@ class HolonDesktopPrivate
 
     HolonDesktopPrivate(HolonDesktop *q);
 
-    void addModel(QAbstractItemModel *model, HolonDesktop::Tasks tasks);
+    void addModel(QAbstractItemModel *model, Holon::Tasks tasks);
     void addSidebar(HolonSidebar *sidebar);
     void addWindow(HolonWindow *window);
     void resizeEvent(QResizeEvent *e);
@@ -54,7 +56,7 @@ public:
     int menuBorder() const;
     QString menuStyleSheet() const;
     int menuWidth() const;
-    QList<QAbstractItemModel *> models(HolonDesktop::Tasks tasks) const;
+    QList<QAbstractItemModel *> models(Holon::Tasks tasks) const;
     const QSet<HolonSidebarDock *> &sidebarDocks() const;
     QString sidebarMoveShortcut() const;
     int sidebarSwitchButtonWidth() const;

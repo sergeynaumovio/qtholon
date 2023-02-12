@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holondesktop_p.h"
+#include "holoncore_p.h"
 #include "holondesktop.h"
 #include "holonmainwindow.h"
 #include "holonsidebar.h"
@@ -17,7 +18,7 @@
 #include <QStringList>
 #include <QRegularExpression>
 
-class HolonDesktopPrivateData
+class HolonDesktopPrivateData : public HolonCorePrivate
 {
 public:
     HolonDesktopPrivate &desktop_d;
@@ -48,13 +49,6 @@ public:
     HolonMainWindow *internalMainWindow;
     int skipExternalMainWindowSaveState{2};
     HolonTaskbar *taskbar;
-
-    struct
-    {
-        QList<QAbstractItemModel *> newTasks;
-        QList<QAbstractItemModel *> openTasks;
-
-    } models;
 
     struct
     {
@@ -263,9 +257,9 @@ HolonDesktopPrivate::HolonDesktopPrivate(HolonDesktop *q)
     }
 }
 
-void HolonDesktopPrivate::addModel(QAbstractItemModel *model, HolonDesktop::Tasks tasks)
+void HolonDesktopPrivate::addModel(QAbstractItemModel *model, Holon::Tasks tasks)
 {
-    if (tasks == HolonDesktop::NewTasks)
+    if (tasks == Holon::NewTasks)
         d.models.newTasks.append(model);
     else
         d.models.openTasks.append(model);
@@ -326,9 +320,9 @@ int HolonDesktopPrivate::menuWidth() const
     return d.menuWidth;
 }
 
-QList<QAbstractItemModel *> HolonDesktopPrivate::models(HolonDesktop::Tasks tasks) const
+QList<QAbstractItemModel *> HolonDesktopPrivate::models(Holon::Tasks tasks) const
 {
-    if (tasks == HolonDesktop::NewTasks)
+    if (tasks == Holon::NewTasks)
         return d.models.newTasks;
 
     return d.models.openTasks;
