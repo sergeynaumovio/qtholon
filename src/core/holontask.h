@@ -37,7 +37,7 @@ public:
     const QList<HolonWindow*> &attributesWindowList() { return d_ptr->attributes; }
     const QList<HolonWindow*> &centralWindowList() { return d_ptr->central; }
     HolonWindow *controlWindow() { return d_ptr->control; }
-    virtual int exec();
+    virtual int exec() = 0;
     void setControlWindow(HolonWindow *window) { d_ptr->control = window; }
 };
 

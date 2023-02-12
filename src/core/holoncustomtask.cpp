@@ -20,5 +20,10 @@ HolonCustomTask::HolonCustomTask(QLoaderSettings *settings, HolonOpenTasksDir *o
     d_ptr(new HolonCustomTaskPrivate)
 { }
 
+int HolonCustomTask::exec()
+{
+    return 0;
+}
+
 HolonCustomTask::~HolonCustomTask()
 { }
