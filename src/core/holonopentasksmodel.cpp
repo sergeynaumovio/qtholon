@@ -7,29 +7,63 @@
 
 class HolonOpenTasksModelPrivate
 {
-
+public:
+    QLoaderSettings *settings;
 };
 
 HolonOpenTasksModel::HolonOpenTasksModel(QLoaderSettings *settings, HolonCore *core)
-:   QObject(core),
+:   QAbstractItemModel(core),
     QLoaderSettings(settings),
-    d_ptr(new HolonOpenTasksModelPrivate)
+    d_ptr(new HolonOpenTasksModelPrivate{settings})
 {
-    core->addOpenTasksModel(this);
+    core->addModel(this, Holon::OpenTasks);
 }
 
 HolonOpenTasksModel::HolonOpenTasksModel(QLoaderSettings *settings, HolonDesktop *desktop)
-:   QObject(desktop),
+:   QAbstractItemModel(desktop),
     QLoaderSettings(settings),
-    d_ptr(new HolonOpenTasksModelPrivate)
+    d_ptr(new HolonOpenTasksModelPrivate{settings})
 {
-    desktop->addOpenTasksModel(this);
+    desktop->addModel(this, Holon::OpenTasks);
 }
 
 HolonOpenTasksModel::~HolonOpenTasksModel()
 { }
 
-void HolonOpenTasksModel::addDir(HolonOpenTasksDir *dir)
+int HolonOpenTasksModel::columnCount(const QModelIndex &parent) const
 {
-    Q_UNUSED(dir)
+    Q_UNUSED(parent);
+
+    return 1;
+}
+
+QVariant HolonOpenTasksModel::data(const QModelIndex &index, int role) const
+{
+    Q_UNUSED(index)
+    Q_UNUSED(role)
+
+    return {};
+}
+
+QModelIndex HolonOpenTasksModel::index(int row, int column, const QModelIndex &parent) const
+{
+    Q_UNUSED(row)
+    Q_UNUSED(column)
+    Q_UNUSED(parent)
+
+    return {};
+}
+
+QModelIndex HolonOpenTasksModel::parent(const QModelIndex &child) const
+{
+    Q_UNUSED(child)
+
+    return {};
+}
+
+int HolonOpenTasksModel::rowCount(const QModelIndex &parent) const
+{
+    Q_UNUSED(parent)
+
+    return 1;
 }
