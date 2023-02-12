@@ -10,7 +10,6 @@ HolonOpenTasksDir::HolonOpenTasksDir(QLoaderSettings *settings, HolonOpenTasksMo
     QLoaderSettings(settings)
 { }
 
-
 QIcon HolonOpenTasksDir::icon() const
 {
     return QIcon(value("icon", ":/holon/holoniconlight.svg").toString());

@@ -38,6 +38,7 @@ public:
     const QList<HolonWindow*> &centralWindowList() { return d_ptr->central; }
     HolonWindow *controlWindow() { return d_ptr->control; }
     virtual int exec() = 0;
+    bool isCopyable(const QStringList &to) const override;
     void setControlWindow(HolonWindow *window) { d_ptr->control = window; }
 };
 
