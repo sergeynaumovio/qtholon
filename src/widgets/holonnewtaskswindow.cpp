@@ -5,14 +5,37 @@
 #include "holondesktop.h"
 #include "holonsidebar.h"
 #include <QBoxLayout>
+#include <QHeaderView>
 #include <QLabel>
 #include <QIcon>
 #include <QLoaderTree>
+#include <QTreeView>
 
 class HolonNewTasksWindowPrivate
 {
 public:
-    QWidget *widget{};
+    HolonNewTasksWindow *const q_ptr;
+    HolonDesktop *desktop;
+    QTreeView *view{};
+
+    HolonNewTasksWindowPrivate(HolonNewTasksWindow *q, HolonDesktop *desk)
+    :   q_ptr(q),
+        desktop(desk)
+    { }
+
+    QWidget *widget()
+    {
+        if (!view)
+            view = new QTreeView;
+
+        if (desktop->models(HolonDesktop::NewTasks).size())
+        {
+            view->setModel(desktop->models(HolonDesktop::NewTasks).at(0));
+            view->header()->hide();
+        }
+
+        return view;
+    }
 };
 
 HolonNewTasksWindow::HolonNewTasksWindow(QLoaderSettings *settings, HolonDesktop *parent)
@@ -21,7 +44,7 @@ HolonNewTasksWindow::HolonNewTasksWindow(QLoaderSettings *settings, HolonDesktop
 
 HolonNewTasksWindow::HolonNewTasksWindow(QLoaderSettings *settings, HolonSidebar *parent)
 :   HolonWindow(settings, parent),
-    d_ptr(new HolonNewTasksWindowPrivate)
+    d_ptr(new HolonNewTasksWindowPrivate(this, parent->desktop()))
 {
     parent->addWindow(this);
 }
@@ -70,16 +93,5 @@ QWidget *HolonNewTasksWindow::toolbar() const
 
 QWidget *HolonNewTasksWindow::widget() const
 {
-    if (!d_ptr->widget)
-    {
-        d_ptr->widget = new QWidget(d_ptr->widget);
-        {
-            d_ptr->widget->setLayout(new QVBoxLayout(d_ptr->widget));
-            {
-                d_ptr->widget->layout()->addWidget(new QLabel("New Tasks", d_ptr->widget));
-            }
-        }
-    }
-
-    return d_ptr->widget;
+    return d_ptr->widget();
 }
