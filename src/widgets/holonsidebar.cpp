@@ -18,6 +18,11 @@ HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop)
 HolonSidebar::~HolonSidebar()
 { }
 
+HolonDesktop *HolonSidebar::desktop() const
+{
+    return d_ptr->desktop;
+}
+
 QString HolonSidebar::group() const
 {
     return value("group").toString();
