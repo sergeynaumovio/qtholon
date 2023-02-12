@@ -4,22 +4,31 @@
 #include "holonnewtaskswindow.h"
 #include "holondesktop.h"
 #include "holonsidebar.h"
+#include "holontask.h"
+#include "holonopentasksdir.h"
 #include <QBoxLayout>
 #include <QHeaderView>
 #include <QLabel>
 #include <QIcon>
 #include <QLoaderTree>
 #include <QTreeView>
+#include <QUuid>
 
 class HolonNewTasksWindowPrivate
 {
 public:
     HolonNewTasksWindow *const q_ptr;
-    HolonDesktop *desktop;
+    QLoaderSettings *const settings;
+    QLoaderTree *const tree;
+    HolonDesktop *const desktop;
+    QAbstractItemModel *model{};
     QTreeView *view{};
 
-    HolonNewTasksWindowPrivate(HolonNewTasksWindow *q, HolonDesktop *desk)
+
+    HolonNewTasksWindowPrivate(HolonNewTasksWindow *q, QLoaderSettings *s, HolonDesktop *desk)
     :   q_ptr(q),
+        settings(s),
+        tree(s->tree()),
         desktop(desk)
     { }
 
@@ -30,8 +39,34 @@ public:
 
         if (desktop->models(Holon::NewTasks).size())
         {
-            view->setModel(desktop->models(Holon::NewTasks).at(0));
+            view->setModel(model = desktop->models(Holon::NewTasks).at(0));
             view->header()->hide();
+
+            QTreeView::connect(view, &QTreeView::doubleClicked, view, [this](QModelIndex index)
+            {
+                QObject *clickedObject = static_cast<QObject *>(index.internalPointer());
+                if (!qobject_cast<HolonTask *>(clickedObject))
+                    return;
+
+                QLoaderSettings *clickedObjectSettings = tree->settings(clickedObject);
+                if (!clickedObjectSettings)
+                    return;
+
+                QList<QAbstractItemModel *> models = desktop->models(Holon::OpenTasks);
+                QLoaderSettings *modelSettings = tree->settings(models.constFirst());
+                if (!modelSettings)
+                    return;
+
+                QList<HolonOpenTasksDir *>
+                dirs = models.constFirst()->findChildren<HolonOpenTasksDir *>(Qt::FindDirectChildrenOnly);
+
+                if (dirs.isEmpty())
+                    return;
+
+                QStringList to = dirs.constFirst()->section();
+                to.append(QUuid::createUuid().toString(QUuid::WithoutBraces));
+                tree->copy(clickedObjectSettings->section(), to);
+            });
         }
 
         return view;
@@ -44,7 +79,7 @@ HolonNewTasksWindow::HolonNewTasksWindow(QLoaderSettings *settings, HolonDesktop
 
 HolonNewTasksWindow::HolonNewTasksWindow(QLoaderSettings *settings, HolonSidebar *parent)
 :   HolonWindow(settings, parent),
-    d_ptr(new HolonNewTasksWindowPrivate(this, parent->desktop()))
+    d_ptr(new HolonNewTasksWindowPrivate(this, settings, parent->desktop()))
 {
     parent->addWindow(this);
 }
