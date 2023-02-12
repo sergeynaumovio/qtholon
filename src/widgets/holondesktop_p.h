@@ -4,7 +4,7 @@
 #ifndef HOLONDESKTOP_P_H
 #define HOLONDESKTOP_P_H
 
-#include <QMetaType>
+#include "holondesktop.h"
 
 class HolonDesktop;
 class HolonDesktopPrivateData;
@@ -24,10 +24,11 @@ class HolonDesktopPrivate
     friend class HolonDesktop;
     friend class HolonDesktopPrivateData;
     HolonDesktopPrivateData &d;
-    std::aligned_storage_t<360, sizeof (ptrdiff_t)> d_storage;
+    std::aligned_storage_t<408, sizeof (ptrdiff_t)> d_storage;
 
     HolonDesktopPrivate(HolonDesktop *q);
 
+    void addModel(QAbstractItemModel *model, HolonDesktop::Tasks tasks);
     void addSidebar(HolonSidebar *sidebar);
     void addWindow(HolonWindow *window);
     void resizeEvent(QResizeEvent *e);
@@ -53,6 +54,7 @@ public:
     int menuBorder() const;
     QString menuStyleSheet() const;
     int menuWidth() const;
+    QList<QAbstractItemModel *> models(HolonDesktop::Tasks tasks) const;
     const QSet<HolonSidebarDock *> &sidebarDocks() const;
     QString sidebarMoveShortcut() const;
     int sidebarSwitchButtonWidth() const;

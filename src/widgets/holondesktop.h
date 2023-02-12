@@ -9,12 +9,11 @@
 #include <QWidget>
 
 class HolonDesktopPrivate;
-class HolonNewTasksModel;
-class HolonOpenTasksModel;
 class HolonSidebar;
 class HolonTask;
 class HolonTaskbar;
 class HolonWindow;
+class QAbstractItemModel;
 
 class Q_HOLON_EXPORT HolonDesktop : public QWidget, public QLoaderSettings
 {
@@ -33,17 +32,26 @@ Q_SIGNALS:
     void sizeChanged(QSize);
 
 public:
+    enum Tasks
+    {
+        NewTasks,
+        OpenTasks
+    };
+    Q_ENUM(Tasks)
+
     HolonDesktop(QLoaderSettings *settings, QWidget *parent);
     ~HolonDesktop();
 
-    void addOpenTasksModel(HolonOpenTasksModel *openTasksModel);
     void addSidebar(HolonSidebar *sidebar);
+    void addModel(QAbstractItemModel *model, Tasks tasks);
     void addWindow(HolonWindow *window);
     QString buttonStyleSheet() const;
+    HolonTask *currentTask() const;
     int menuBorder() const;
     QString menuStyleSheet() const;
     int menuWidth() const;
-    void setNewTasksModel(HolonNewTasksModel *newTasksModel);
+    QList<QAbstractItemModel *> models(Tasks tasks) const;
+    void setCurrentTask(HolonTask *task);
     int titleBarHeight() const;
     QString titleBarStyleSheet() const;
     QList<HolonWindow *> windows() const;

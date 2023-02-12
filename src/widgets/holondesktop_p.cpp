@@ -51,6 +51,13 @@ public:
 
     struct
     {
+        QList<QAbstractItemModel *> newTasks;
+        QList<QAbstractItemModel *> openTasks;
+
+    } models;
+
+    struct
+    {
         QMap<HolonSidebarDock *, HolonMainWindow *> mainWindowByDock;
         QSet<HolonSidebarDock *> docks;
         QMap<HolonSidebar *, HolonSidebarDock *> dockBySidebar;
@@ -256,6 +263,14 @@ HolonDesktopPrivate::HolonDesktopPrivate(HolonDesktop *q)
     }
 }
 
+void HolonDesktopPrivate::addModel(QAbstractItemModel *model, HolonDesktop::Tasks tasks)
+{
+    if (tasks == HolonDesktop::NewTasks)
+        d.models.newTasks.append(model);
+    else
+        d.models.openTasks.append(model);
+}
+
 void HolonDesktopPrivate::addSidebar(HolonSidebar *sidebar)
 {
     d.addSidebar(sidebar);
@@ -309,6 +324,14 @@ QString HolonDesktopPrivate::menuStyleSheet() const
 int HolonDesktopPrivate::menuWidth() const
 {
     return d.menuWidth;
+}
+
+QList<QAbstractItemModel *> HolonDesktopPrivate::models(HolonDesktop::Tasks tasks) const
+{
+    if (tasks == HolonDesktop::NewTasks)
+        return d.models.newTasks;
+
+    return d.models.openTasks;
 }
 
 const QSet<HolonSidebarDock *> &HolonDesktopPrivate::sidebarDocks() const
