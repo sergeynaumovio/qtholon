@@ -18,8 +18,8 @@ class Q_HOLON_EXPORT HolonOpenTasksDir : public QObject, public QLoaderSettings
 public:
     HolonOpenTasksDir(QLoaderSettings *settings, HolonOpenTasksModel *openTasksModel);
 
-    void addTask(HolonTask *task);
     virtual QIcon icon() const;
+    virtual QString title() const;
 };
 
 #endif // HOLONOPENTASKSDIR_H

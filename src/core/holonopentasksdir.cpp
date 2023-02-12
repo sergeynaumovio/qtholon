@@ -8,16 +8,15 @@
 HolonOpenTasksDir::HolonOpenTasksDir(QLoaderSettings *settings, HolonOpenTasksModel *openTasksModel)
 :   QObject(openTasksModel),
     QLoaderSettings(settings)
-{
-    openTasksModel->addDir(this);
-}
+{ }
 
-void HolonOpenTasksDir::addTask(HolonTask *task)
-{
-    Q_UNUSED(task)
-}
 
 QIcon HolonOpenTasksDir::icon() const
 {
-    return {};
+    return QIcon(value("icon", ":/holon/holoniconlight.svg").toString());
+}
+
+QString HolonOpenTasksDir::title() const
+{
+    return value("title", section().constLast()).toString();
 }

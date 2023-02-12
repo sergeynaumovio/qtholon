@@ -19,9 +19,8 @@ public:
     HolonNewTasksDir(QLoaderSettings *settings, HolonNewTasksModel *newTasksModel);
     HolonNewTasksDir(QLoaderSettings *settings, HolonNewTasksDir *newTaskDir);
 
-    void addDir(HolonNewTasksDir *dir);
-    void addTask(HolonTask *task);
     virtual QIcon icon() const;
+    virtual QString title() const;
 };
 
 #endif // HOLONNEWTASKSDIR_H
