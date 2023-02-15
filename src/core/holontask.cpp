@@ -35,3 +35,8 @@ bool HolonTask::isCopyable(const QStringList &to) const
     return false;
 
 }
+
+QString HolonTask::title() const
+{
+    return value("title", section().constLast()).toString();
+}
