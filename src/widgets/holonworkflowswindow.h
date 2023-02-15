@@ -1,26 +1,26 @@
 // Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
-#ifndef HOLONWORKFLOWWINDOW_H
-#define HOLONWORKFLOWWINDOW_H
+#ifndef HOLONWORKFLOWSWINDOW_H
+#define HOLONWORKFLOWSWINDOW_H
 
 #include "holonwindow.h"
 #include <QWidget>
 
 class HolonDesktop;
 class HolonWindowArea;
-class HolonWorkflowWindowPrivate;
+class HolonWorkflowsWindowPrivate;
 
-class HolonWorkflowWindow : public HolonWindow
+class HolonWorkflowsWindow : public HolonWindow
 {
     Q_OBJECT
 
-    const QScopedPointer<HolonWorkflowWindowPrivate> d_ptr;
+    const QScopedPointer<HolonWorkflowsWindowPrivate> d_ptr;
 
 public:
-    HolonWorkflowWindow(QLoaderSettings *settings, HolonDesktop *parent);
-    HolonWorkflowWindow(QLoaderSettings *settings, HolonWindowArea *parent);
-    ~HolonWorkflowWindow();
+    HolonWorkflowsWindow(QLoaderSettings *settings, HolonDesktop *parent);
+    HolonWorkflowsWindow(QLoaderSettings *settings, HolonWindowArea *parent);
+    ~HolonWorkflowsWindow();
 
     HolonWindow::Areas areas() const override;
     HolonWindow::Attributes attributes() const override;
@@ -31,4 +31,4 @@ public:
     QWidget *widget() const override;
 };
 
-#endif // HOLONWORKFLOWWINDOW_H
+#endif // HOLONWORKFLOWSWINDOW_H

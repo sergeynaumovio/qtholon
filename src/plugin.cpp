@@ -12,7 +12,7 @@
 #include "holonopentaskswindow.h"
 #include "holonsidebar.h"
 #include "holonterminalwindow.h"
-#include "holonworkflowwindow.h"
+#include "holonworkflowswindow.h"
 #include <QApplication>
 #include <QLoaderPluginInterface>
 #include <QLoaderSettings>
@@ -166,16 +166,16 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "WorkflowWindow"))
+        if (!qstrcmp(shortName, "WorkflowsWindow"))
         {
             if (qobject_cast<HolonCore*>(parent))
                 return nullptr;
 
             if (HolonDesktop *desktop = qobject_cast<HolonDesktop*>(parent))
-                return new HolonWorkflowWindow(settings, desktop);
+                return new HolonWorkflowsWindow(settings, desktop);
 
             if (HolonWindowArea *windowArea = qobject_cast<HolonWindowArea*>(parent))
-                return new HolonWorkflowWindow(settings, windowArea);
+                return new HolonWorkflowsWindow(settings, windowArea);
 
             return parent;
         }

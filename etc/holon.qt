@@ -92,8 +92,8 @@ checked = false
 shortcut = Alt+9
 title = Workflows
 
-[holon/workflows/workflow-window]
-class = HolonWorkflowWindow
+[holon/workflows/workflows-window]
+class = HolonWorkflowsWindow
 
 [holon/messages]
 class = HolonSidebar
