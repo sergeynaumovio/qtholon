@@ -1,10 +1,10 @@
 #!/usr/bin/qtloader6
 
-[Holon]
+[holon]
 class = HolonDesktop
 buttonStyleSheet = QPushButton { border: 0px; } QPushButton:hover { background-color: rgb(74, 76, 78); color: white; }
-externalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAADIAAACuvwCAAAAAfwAAAAAAAACugAAAF0A///+/AEAAAAC+wAAAAoAVABhAHMAawBzAQAAAAAAAADIAAAAUgD////7AAAAFABQAGEAcgBhAG0AZQB0AGUAcgBzAQAAAMkAAACUAAAAAAAAAAAAAAABAAAAyAAAArr8AgAAAAH7AAAAEABTAGUAdAB0AGkAbgBnAHMBAAAAAAAAAroAAAA4AP///gAAARUAAAK6AAAABAAAAAQAAAAIAAAACPwAAAAA)
-internalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAAEVAAAAgfwBAAAAAfsAAAAQAE0AZQBzAHMAYQBnAGUAcwEAAAAAAAABFQAAAIIA////AAABFQAAAjgAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
+externalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAADIAAACuvwCAAAAAfwAAAAAAAACugAAAF0A///+/AEAAAAC+wAAAAoAdABhAHMAawBzAQAAAAAAAADIAAAAUgD////7AAAAFABwAGEAcgBhAG0AZQB0AGUAcgBzAQAAAMkAAADIAAAAAAAAAAAAAAABAAAAyAAAArr8AgAAAAH7AAAAEABzAGUAdAB0AGkAbgBnAHMBAAAAAAAAAroAAAA4AP///gAAAd4AAAK6AAAABAAAAAQAAAAIAAAACPwAAAAA)
+internalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAAEVAAAAc/wBAAAAAfsAAAAQAG0AZQBzAHMAYQBnAGUAcwEAAAAAAAABFQAAAAAAAAAAAAAB3gAAAroAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 menuStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); border: 1px solid rgb(34, 36, 38); }
 menuWidth = 180
 minimumHeight = 200
@@ -20,109 +20,117 @@ taskbarStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
 titleBarHeight = 24
 titleBarStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
 
-[Holon/NewTasksModel]
+[holon/new-tasks-model]
 class = HolonNewTasksModel
 
-[Holon/NewTasksModel/DirA]
+[holon/new-tasks-model/dir-a]
 class = HolonNewTasksDir
+title = Dir A
 
-[Holon/NewTasksModel/DirA/CustomTask1]
+[holon/new-tasks-model/dir-a/custom-task1]
 class = HolonCustomTask
 
-[Holon/NewTasksModel/DirB]
+[holon/new-tasks-model/dir-b]
 class = HolonNewTasksDir
+title = Dir B
 
-[Holon/NewTasksModel/DirB/CustomTask2]
+[holon/new-tasks-model/dir-b/custom-task2]
 class = HolonCustomTask
 
-[Holon/OpenTasksModel1]
+[holon/open-tasks-model1]
 class = HolonOpenTasksModel
 
-[Holon/OpenTasksModel1/Branch1]
+[holon/open-tasks-model1/branch1]
 class = HolonOpenTasksDir
 
-[Holon/OpenTasksModel1/Branch1/CustomTask]
-class = HolonCustomTask
-
-[Holon/NewTasksWindow]
+[holon/new-tasks-window]
 class = HolonNewTasksWindow
 
-[Holon/OpenTasksWindow]
+[holon/open-tasks-window]
 class = HolonOpenTasksWindow
 
-[Holon/TerminalWindow]
+[holon/terminal-window]
 class = HolonTerminalWindow
 
-[Holon/New Tasks]
+[holon/new-tasks]
 class = HolonSidebar
-checked = true
-group = Tasks
+checked = false
+group = tasks
 layout = external
 shortcut = Alt+1
 title = New Tasks
 
-[Holon/New Tasks/NewTasksWindow]
+[holon/new-tasks/new-tasks-window]
 class = HolonNewTasksWindow
 
-[Holon/Open Tasks]
+[holon/open-tasks]
 class = HolonSidebar
-checked = false
-group = Tasks
+checked = true
+group = tasks
 layout = external
 shortcut = Alt+2
 title = Open Tasks
 
-[Holon/Open Tasks/OpenTasksWindow]
+[holon/open-tasks/open-tasks-window]
 class = HolonOpenTasksWindow
 
-[Holon/Parameters]
+[holon/parameters]
 class = HolonSidebar
 checked = false
 layout = external
 shortcut = Alt+3
 title = Parameters
 
-[Holon/Parameters/OpenTasksWindow]
+[holon/parameters/open-tasks-window]
 class = HolonOpenTasksWindow
 
-[Holon/Messages]
+[holon/workflows]
+class = HolonWindowArea
+checked = false
+shortcut = Alt+9
+title = Workflows
+
+[holon/workflows/workflow-window]
+class = HolonWorkflowWindow
+
+[holon/messages]
 class = HolonSidebar
-checked = true
+checked = false
 layout = internal
-shortcut = Alt+4
+shortcut = Alt+0
 title = Messages
 
-[Holon/Messages/OpenTasksWindow]
+[holon/messages/open-tasks-window]
 class = HolonOpenTasksWindow
 
-[Holon/Settings]
+[holon/settings]
 class = HolonSidebar
 checked = true
 layout = external
-shortcut = Alt+0
+shortcut = Alt+-
 title = Settings
 
-[Holon/Settings/OpenTasksWindow]
+[holon/settings/open-tasks-window]
 class = HolonOpenTasksWindow
 
-[Holon/Shell]
+[holon/shell]
 class = QLoaderShell
 home = QStringList(Holon, Data)
 
-[Holon/Shell/Cd]
+[holon/shell/cd]
 class = QLoaderShellCd
 
-[Holon/Shell/Clear]
+[holon/shell/clear]
 class = QLoaderShellClear
 
-[Holon/Shell/Exit]
+[holon/shell/exit]
 class = QLoaderShellExit
 
-[Holon/Shell/Save]
+[holon/shell/save]
 class = QLoaderShellSave
 
-[Holon/Data]
+[holon/data]
 class = QLoaderData
 
-[Holon/Storage]
+[holon/storage]
 class = QLoaderStorage
