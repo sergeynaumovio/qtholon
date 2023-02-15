@@ -9,7 +9,7 @@
 #include <QLoaderIconInterface>
 
 class HolonDesktop;
-class HolonSidebar;
+class HolonWindowArea;
 class HolonWindowPrivate;
 
 class Q_HOLON_EXPORT HolonWindow : public QObject, public QLoaderSettings,
@@ -23,24 +23,24 @@ class Q_HOLON_EXPORT HolonWindow : public QObject, public QLoaderSettings,
 
 protected:
     HolonWindow(QLoaderSettings *settings, HolonDesktop *parent);
-    HolonWindow(QLoaderSettings *settings, HolonSidebar *parent);
+    HolonWindow(QLoaderSettings *settings, HolonWindowArea *parent);
 
 public:
     ~HolonWindow();
 
     enum Area
     {
-        Central = 0x00000001,
-        Sidebar = 0x00000002
+        Central = 0x0001,
+        Sidebar = 0x0002
     };
     Q_DECLARE_FLAGS(Areas, HolonWindow::Area)
 
     enum Attribute
     {
-        WindowMinimizeButtonHint = 0x00000001,
-        WindowMaximizeButtonHint = 0x00000002,
+        WindowMinimizeButtonHint = 0x0001,
+        WindowMaximizeButtonHint = 0x0002,
         WindowMinMaxButtonsHint = WindowMinimizeButtonHint | WindowMaximizeButtonHint,
-        WindowCloseButtonHint = 0x00000004
+        WindowCloseButtonHint = 0x0004
     };
     Q_DECLARE_FLAGS(Attributes, HolonWindow::Attribute)
 

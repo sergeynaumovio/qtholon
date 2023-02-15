@@ -7,7 +7,7 @@
 #include <QWidget>
 
 class HolonDesktopPrivate;
-class HolonSidebarSwitch;
+class HolonWindowAreaSwitch;
 class HolonTaskbarPrivate;
 class QBoxLayout;
 
@@ -28,7 +28,7 @@ public:
     ~HolonTaskbar();
 
     void addWidget(QWidget *widget);
-    HolonSidebarSwitch *sidebarSwitch() const;
+    HolonWindowAreaSwitch *sidebarSwitch() const;
 };
 
 #endif // HOLONTASKBAR_H

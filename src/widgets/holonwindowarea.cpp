@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holonwindowarea.h"
+#include "holondesktop.h"
 #include "holonwindowarea_p.h"
 #include <QBoxLayout>
 #include <QMainWindow>
 #include <QStackedWidget>
 
-HolonWindowArea::HolonWindowArea(HolonWindowAreaPrivate &d,
-                                 QLoaderSettings *settings)
+HolonWindowArea::HolonWindowArea(HolonWindowAreaPrivate &d, QLoaderSettings *settings)
 :   QLoaderSettings(settings),
     d_ptr(&d)
 {
@@ -20,12 +20,10 @@ HolonWindowArea::HolonWindowArea(HolonWindowAreaPrivate &d,
     }
 }
 
-HolonWindowArea::HolonWindowArea(HolonDesktop *desktop,
-                                 QLoaderSettings *settings,
-                                 QStackedWidget *parent)
+HolonWindowArea::HolonWindowArea(QLoaderSettings *settings, HolonDesktop *desktop)
 :   HolonWindowArea(*new HolonWindowAreaPrivate(desktop, this), settings)
 {
-    parent->addWidget(this);
+    desktop->addWindowArea(this);
 }
 
 HolonWindowArea::~HolonWindowArea()
@@ -39,4 +37,24 @@ void HolonWindowArea::addWindow(HolonWindow *window)
 void HolonWindowArea::closeWindow(HolonWindow *window)
 {
     d_ptr->closeWindow(window);
+}
+
+bool HolonWindowArea::isChecked() const
+{
+    return value("checked", false).toBool();
+}
+
+QIcon HolonWindowArea::icon() const
+{
+    return QIcon(value("icon", ":/holon/holoniconlight.svg").toString());
+}
+
+QString HolonWindowArea::shortcut() const
+{
+    return value("shortcut").toString();
+}
+
+QString HolonWindowArea::title() const
+{
+    return value("title", section().constLast()).toString();
 }

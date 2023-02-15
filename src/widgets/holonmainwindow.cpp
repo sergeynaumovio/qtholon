@@ -17,7 +17,9 @@ public:
     HolonDesktopPrivate &desktop_d;
 
     HolonMainWindow *const external;
-    QStackedWidget *const workspaces;
+
+    QStackedWidget *const centralWindowAreas;
+    QStackedWidget *const taskWorkspaces;
     bool visibleTitleBar{};
     QMap<QString, HolonSidebarDock *> groupDock;
 
@@ -25,8 +27,32 @@ public:
     :   q_ptr(q),
         desktop_d(desk_d),
         external(qobject_cast<HolonMainWindow *>(parent)),
-        workspaces(external ? new QStackedWidget(q) : nullptr)
-    { }
+        centralWindowAreas(external ? new QStackedWidget(q) : nullptr),
+        taskWorkspaces(centralWindowAreas ? new QStackedWidget(centralWindowAreas) : nullptr)
+    {
+        if (external)
+        {
+            q_ptr->setCentralWidget(centralWindowAreas);
+            centralWindowAreas->addWidget(taskWorkspaces);
+            taskWorkspaces->addWidget(new QLabel("Workspaces", taskWorkspaces));
+            external->setCentralWidget(q_ptr);
+
+            QShortcut *shortcut = new QShortcut(QKeySequence(desktop_d.sidebarMoveShortcut()), q_ptr);
+            QObject::connect(shortcut, &QShortcut::activated, q_ptr, [this]()
+            {
+                visibleTitleBar = !visibleTitleBar;
+                for (HolonSidebarDock *dock : desktop_d.sidebarDocks())
+                    dock->showTitleBarWidget(visibleTitleBar);
+            });
+        }
+        else
+            parent->layout()->addWidget(q_ptr);
+    }
+
+    void addWindowArea(HolonWindowArea *windowArea)
+    {
+        centralWindowAreas->addWidget(windowArea);
+    }
 };
 
 HolonMainWindow::HolonMainWindow(HolonDesktopPrivate &desktop_d, QWidget *parent)
@@ -36,25 +62,7 @@ HolonMainWindow::HolonMainWindow(HolonDesktopPrivate &desktop_d, QWidget *parent
     static_assert (sizeof (ptrdiff_t) == alignof (HolonMainWindowPrivate));
 
     setParent(parent);
-
     setDockOptions(QMainWindow::AnimatedDocks | QMainWindow::AllowNestedDocks);
-
-    if (d.external)
-    {
-        setCentralWidget(d.workspaces);
-        d.workspaces->addWidget(new QLabel("Workspaces", d.workspaces));
-        d.external->setCentralWidget(this);
-
-        QShortcut *shortcut = new QShortcut(QKeySequence(desktop_d.sidebarMoveShortcut()), this);
-        connect(shortcut, &QShortcut::activated, this, [this]()
-        {
-            d.visibleTitleBar = !d.visibleTitleBar;
-            for (HolonSidebarDock *dock : d.desktop_d.sidebarDocks())
-                dock->showTitleBarWidget(d.visibleTitleBar);
-        });
-    }
-    else
-        parent->layout()->addWidget(this);
 }
 
 HolonMainWindow::~HolonMainWindow()
@@ -84,4 +92,17 @@ HolonSidebarDock *HolonMainWindow::addSidebar(HolonSidebar *sidebar)
     sidebarDock->addSidebar(sidebar);
 
     return sidebarDock;
+}
+
+void HolonMainWindow::addWindowArea(HolonWindowArea *windowArea)
+{
+    d.addWindowArea(windowArea);
+}
+
+void HolonMainWindow::setCurrentWindowArea(HolonWindowArea *windowArea)
+{
+    if (windowArea)
+        d.centralWindowAreas->setCurrentWidget(windowArea);
+    else
+        d.centralWindowAreas->setCurrentIndex(0);
 }

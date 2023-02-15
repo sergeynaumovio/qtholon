@@ -1,11 +1,12 @@
 // Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
-#include "holonsidebarswitch.h"
+#include "holonwindowareaswitch.h"
 #include "holondesktop_p.h"
 #include "holonsidebar.h"
 #include "holonsidebardock.h"
 #include "holontaskbar.h"
+#include "holonwindowarea.h"
 #include <QAbstractButton>
 #include <QBoxLayout>
 #include <QButtonGroup>
@@ -14,21 +15,34 @@
 #include <QPainter>
 #include <QShortcut>
 
-class HolonSidebarSwitchPrivate
+class HolonWindowAreaSwitchPrivate
 {
 public:
     HolonDesktopPrivate &desktop_d;
-    QMap<QString, QButtonGroup *> buttonGroupByName;
-    QMap<QButtonGroup *, bool> toggledByButtonGroup;
 
-    HolonSidebarSwitchPrivate(HolonDesktopPrivate &desk_d)
+    struct
+    {
+        QMap<QString, QButtonGroup *> buttonGroupByName;
+        QMap<QButtonGroup *, bool> toggledByButtonGroup;
+
+    } sidebars;
+
+    struct
+    {
+        QButtonGroup *buttonGroup{};
+        bool toggled;
+
+    } windowArea;
+
+    HolonWindowAreaSwitchPrivate(HolonDesktopPrivate &desk_d)
     :   desktop_d(desk_d)
     { }
 };
 
-class HolonSidebarButton : public QAbstractButton
+class HolonSwitchButton : public QAbstractButton
 {
-    HolonSidebarSwitchPrivate &switch_d;
+protected:
+    HolonWindowAreaSwitchPrivate &switch_d;
     HolonDesktopPrivate &desktop_d;
     bool hovered{};
     const QString title;
@@ -36,7 +50,6 @@ class HolonSidebarButton : public QAbstractButton
 
     bool isHovered() const { return hovered; }
 
-protected:
     bool event(QEvent *e) override
     {
         switch(e->type()) {
@@ -84,14 +97,13 @@ protected:
         p.drawText(rectangle, Qt::AlignLeft | Qt::AlignVCenter, title);
     }
 
-public:
-    HolonSidebarButton(HolonSidebarSwitchPrivate &swtch_d,
-                       HolonSidebar *sidebar,
-                       HolonSidebarSwitch *parent)
+    HolonSwitchButton(HolonWindowAreaSwitchPrivate &swtch_d,
+                      HolonWindowArea *windowArea,
+                      HolonWindowAreaSwitch *parent)
     :   QAbstractButton(parent),
         switch_d(swtch_d),
         desktop_d(switch_d.desktop_d),
-        title(sidebar->title())
+        title(windowArea->title())
     {
         if (desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Top ||
             desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Bottom)
@@ -107,26 +119,36 @@ public:
 
         setAttribute(Qt::WA_Hover);
         setCheckable(true);
-        setChecked(sidebar->isChecked());
+        setChecked(windowArea->isChecked());
 
-        QShortcut *shortcut = new QShortcut(QKeySequence(sidebar->value("shortcut").toString()), this);
+        QShortcut *shortcut = new QShortcut(QKeySequence(windowArea->shortcut()), this);
         connect(shortcut, &QShortcut::activated, this, [this]() { setChecked(!isChecked()); });
+    }
+};
 
+class HolonSidebarButton : public HolonSwitchButton
+{
+public:
+    HolonSidebarButton(HolonWindowAreaSwitchPrivate &swtch_d,
+                       HolonSidebar *sidebar,
+                       HolonWindowAreaSwitch *parent)
+    :   HolonSwitchButton(swtch_d, sidebar, parent)
+    {
         HolonSidebarDock *dock = desktop_d.sidebarDock(sidebar);
 
         if (sidebar->group().size())
         {
             QButtonGroup *buttonGroup;
-            if (switch_d.buttonGroupByName.contains(sidebar->group()))
+            if (switch_d.sidebars.buttonGroupByName.contains(sidebar->group()))
             {
-                buttonGroup = switch_d.buttonGroupByName.value(sidebar->group());
-                switch_d.toggledByButtonGroup.insert(buttonGroup, isChecked());
+                buttonGroup = switch_d.sidebars.buttonGroupByName.value(sidebar->group());
+                switch_d.sidebars.toggledByButtonGroup.insert(buttonGroup, isChecked());
             }
             else
             {
                 buttonGroup = new QButtonGroup(this);
                 buttonGroup->setExclusive(false);
-                switch_d.buttonGroupByName.insert(sidebar->group(), buttonGroup);
+                switch_d.sidebars.buttonGroupByName.insert(sidebar->group(), buttonGroup);
             }
             buttonGroup->addButton(this);
 
@@ -140,16 +162,14 @@ public:
                     {
                         if (button != this && button->isChecked())
                         {
-                            switch_d.toggledByButtonGroup[buttonGroup] = true;
+                            switch_d.sidebars.toggledByButtonGroup[buttonGroup] = true;
                             button->setChecked(false);
                         }
                     }
                 }
                 else
                 {
-                    if (switch_d.toggledByButtonGroup.value(buttonGroup))
-                        switch_d.toggledByButtonGroup[buttonGroup] = false;
-
+                    switch_d.sidebars.toggledByButtonGroup[buttonGroup] = false;
                     desktop_d.removeSidebar(sidebar);
                 }
             });
@@ -167,12 +187,51 @@ public:
     }
 };
 
-HolonSidebarSwitch::HolonSidebarSwitch(HolonDesktopPrivate &desktop_d, HolonTaskbar *taskbar)
-:   QWidget(taskbar),
-    d(*new (&d_storage) HolonSidebarSwitchPrivate(desktop_d))
+class HolonWindowAreaButton : public HolonSwitchButton
 {
-    static_assert (sizeof (d_storage) == sizeof (HolonSidebarSwitchPrivate));
-    static_assert (sizeof (ptrdiff_t) == alignof (HolonSidebarSwitchPrivate));
+public:
+    HolonWindowAreaButton(HolonWindowAreaSwitchPrivate &swtch_d,
+                          HolonWindowArea *windowArea,
+                          HolonWindowAreaSwitch *parent)
+    :   HolonSwitchButton(swtch_d, windowArea, parent)
+    {
+        if (!switch_d.windowArea.buttonGroup)
+        {
+            switch_d.windowArea.buttonGroup = new QButtonGroup(this);
+            switch_d.windowArea.buttonGroup->setExclusive(false);
+        }
+        switch_d.windowArea.buttonGroup->addButton(this);
+
+        connect(this, &QAbstractButton::toggled, windowArea, [=, this](bool checked)
+        {
+            if (checked)
+            {
+                desktop_d.setWindowAreaState(windowArea, Qt::Checked);
+
+                for (QAbstractButton *button : switch_d.windowArea.buttonGroup->buttons())
+                {
+                    if (button != this && button->isChecked())
+                    {
+                        switch_d.windowArea.toggled = true;
+                        button->setChecked(false);
+                    }
+                }
+            }
+            else
+            {
+                switch_d.windowArea.toggled = false;
+                desktop_d.setWindowAreaState(windowArea, Qt::Unchecked);
+            }
+        });
+    }
+};
+
+HolonWindowAreaSwitch::HolonWindowAreaSwitch(HolonDesktopPrivate &desktop_d, HolonTaskbar *taskbar)
+:   QWidget(taskbar),
+    d(*new (&d_storage) HolonWindowAreaSwitchPrivate(desktop_d))
+{
+    static_assert (sizeof (d_storage) == sizeof (HolonWindowAreaSwitchPrivate));
+    static_assert (sizeof (ptrdiff_t) == alignof (HolonWindowAreaSwitchPrivate));
 
     if (desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Top ||
         desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Bottom)
@@ -194,12 +253,17 @@ HolonSidebarSwitch::HolonSidebarSwitch(HolonDesktopPrivate &desktop_d, HolonTask
     }
 }
 
-HolonSidebarSwitch::~HolonSidebarSwitch()
+HolonWindowAreaSwitch::~HolonWindowAreaSwitch()
 {
-    d.~HolonSidebarSwitchPrivate();
+    d.~HolonWindowAreaSwitchPrivate();
 }
 
-void HolonSidebarSwitch::addSidebar(HolonSidebar *sidebar)
+void HolonWindowAreaSwitch::addSidebar(HolonSidebar *sidebar)
 {
     layout()->addWidget(new HolonSidebarButton(d, sidebar, this));
+}
+
+void HolonWindowAreaSwitch::addWindowArea(HolonWindowArea *windowArea)
+{
+    layout()->addWidget(new HolonWindowAreaButton(d, windowArea, this));
 }

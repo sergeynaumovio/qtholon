@@ -176,3 +176,8 @@ void HolonWindowAreaPrivate::closeWindow(HolonWindow *window)
         maximized = false;
     }
 }
+
+void HolonWindowAreaPrivate::setChecked(bool checked)
+{
+    q_ptr->setValue("checked", checked);
+}

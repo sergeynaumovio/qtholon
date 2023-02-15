@@ -13,6 +13,7 @@ class HolonSidebar;
 class HolonSidebarDock;
 class HolonTaskbar;
 class HolonWindow;
+class HolonWindowArea;
 class QAbstractItemModel;
 template<typename> class QList;
 class QResizeEvent;
@@ -33,6 +34,7 @@ class HolonDesktopPrivate
     void addModel(QAbstractItemModel *model, Holon::Tasks tasks);
     void addSidebar(HolonSidebar *sidebar);
     void addWindow(HolonWindow *window);
+    void addWindowArea(HolonWindowArea *window);
     void resizeEvent(QResizeEvent *e);
     void saveMainWindowState();
     void setLayout();
@@ -73,6 +75,7 @@ public:
     void resizeDocks();
     void restoreSidebar(HolonSidebar *sidebar);
     void saveDockWidgetWidth(HolonSidebarDock *dock, int width);
+    void setWindowAreaState(HolonWindowArea *windowArea, Qt::CheckState checkState);
     HolonSidebarDock *sidebarDock(HolonSidebar *sidebar) const;
 };
 

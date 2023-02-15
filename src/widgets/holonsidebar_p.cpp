@@ -7,8 +7,3 @@ HolonSidebarPrivate::HolonSidebarPrivate(HolonDesktop *desktop, HolonSidebar *q)
 :   HolonWindowAreaPrivate(desktop, q)
 { }
 
-void HolonSidebarPrivate::setChecked(bool checked)
-{
-    Q_Q(HolonSidebar);
-    q->setValue("checked", checked);
-}

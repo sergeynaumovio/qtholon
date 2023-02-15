@@ -4,7 +4,7 @@
 #include "holontaskbar.h"
 #include "holondesktop.h"
 #include "holondesktop_p.h"
-#include "holonsidebarswitch.h"
+#include "holonwindowareaswitch.h"
 #include <QBoxLayout>
 #include <QPainter>
 #include <QStyleOption>
@@ -13,7 +13,7 @@ class HolonTaskbarPrivate
 {
 public:
     HolonDesktopPrivate &desktop_d;
-    HolonSidebarSwitch *sidebarSwitch;
+    HolonWindowAreaSwitch *windowAreaSwitch;
 
     HolonTaskbarPrivate(HolonDesktopPrivate &desk_d)
     :   desktop_d(desk_d)
@@ -55,7 +55,7 @@ HolonTaskbar::HolonTaskbar(HolonDesktopPrivate &desktop_d)
     }
     layout()->setSpacing(0);
     //layout()->addWidget(new HolonTaskMenu(desktop_d, this));
-    layout()->addWidget(d.sidebarSwitch = new HolonSidebarSwitch(desktop_d, this));
+    layout()->addWidget(d.windowAreaSwitch = new HolonWindowAreaSwitch(desktop_d, this));
     layout()->addStretch();
 
     setStyleSheet(desktop_d.taskbarStyleSheet());
@@ -74,7 +74,7 @@ QBoxLayout *HolonTaskbar::layout() const
     return static_cast<QBoxLayout*>(QWidget::layout());
 }
 
-HolonSidebarSwitch *HolonTaskbar::sidebarSwitch() const
+HolonWindowAreaSwitch *HolonTaskbar::sidebarSwitch() const
 {
-    return d.sidebarSwitch;
+    return d.windowAreaSwitch;
 }

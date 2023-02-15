@@ -73,6 +73,11 @@ void HolonDesktop::addWindow(HolonWindow *window)
     d_ptr->addWindow(window);
 }
 
+void HolonDesktop::addWindowArea(HolonWindowArea *windowArea)
+{
+    d_ptr->addWindowArea(windowArea);
+}
+
 QString HolonDesktop::buttonStyleSheet() const
 {
     return d_ptr->buttonStyleSheet();

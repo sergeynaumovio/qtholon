@@ -14,6 +14,7 @@ class HolonSidebar;
 class HolonTask;
 class HolonTaskbar;
 class HolonWindow;
+class HolonWindowArea;
 class QAbstractItemModel;
 
 class Q_HOLON_EXPORT HolonDesktop : public QWidget, public QLoaderSettings
@@ -39,6 +40,7 @@ public:
     void addSidebar(HolonSidebar *sidebar);
     void addModel(QAbstractItemModel *model, Holon::Tasks tasks);
     void addWindow(HolonWindow *window);
+    void addWindowArea(HolonWindowArea *windowArea);
     QString buttonStyleSheet() const;
     HolonTask *currentTask() const;
     int menuBorder() const;

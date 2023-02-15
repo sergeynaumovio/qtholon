@@ -24,9 +24,6 @@ public:
 
     HolonDesktop *desktop() const;
     QString group() const;
-    bool isChecked() const;
-    virtual QIcon icon() const;
-    virtual QString title() const;
 };
 
 #endif // HOLONSIDEBAR_H

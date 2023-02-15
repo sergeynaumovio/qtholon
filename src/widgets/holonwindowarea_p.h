@@ -30,6 +30,7 @@ public:
     void addWindow(HolonWindow *window);
     void closeWindow(HolonWindow *window);
     void maximizeWindow(QDockWidget *dock);
+    void setChecked(bool checked);
 };
 
 #endif // HOLONWINDOWAREA_P_H

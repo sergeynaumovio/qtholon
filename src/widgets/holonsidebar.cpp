@@ -27,18 +27,3 @@ QString HolonSidebar::group() const
 {
     return value("group").toString();
 }
-
-bool HolonSidebar::isChecked() const
-{
-    return value("checked", false).toBool();
-}
-
-QIcon HolonSidebar::icon() const
-{
-    return QIcon(value("icon", ":/holon/holoniconlight.svg").toString());
-}
-
-QString HolonSidebar::title() const
-{
-    return value("title", section().constLast()).toString();
-}

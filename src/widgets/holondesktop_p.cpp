@@ -6,11 +6,11 @@
 #include "holondesktop.h"
 #include "holonmainwindow.h"
 #include "holonsidebar.h"
-#include "holonsidebar_p.h"
 #include "holonsidebardock.h"
 #include "holonsidebardock_p.h"
 #include "holontaskbar.h"
-#include "holonsidebarswitch.h"
+#include "holonwindowarea_p.h"
+#include "holonwindowareaswitch.h"
 #include <QLayout>
 #include <QLoaderTree>
 #include <QShortcut>
@@ -71,6 +71,7 @@ public:
 
     void addSidebar(HolonSidebar *sidebar);
     void addWidget(QWidget *widget, QWidget *parent);
+    void addWindowArea(HolonWindowArea *windowArea);
     void removeUncheckedDocks(HolonMainWindow *mainWindow);
     void setHBoxLayout(QWidget *&widget, const char *name, QWidget *parent);
     void setLayout();
@@ -149,6 +150,15 @@ void HolonDesktopPrivateData::addSidebar(HolonSidebar *sidebar)
 void HolonDesktopPrivateData::addWidget(QWidget *widget, QWidget *parent)
 {
     parent->layout()->addWidget(widget);
+}
+
+void HolonDesktopPrivateData::addWindowArea(HolonWindowArea *windowArea)
+{
+    internalMainWindow->addWindowArea(windowArea);
+    taskbar->sidebarSwitch()->addWindowArea(windowArea);
+
+    if (windowArea->isChecked())
+        internalMainWindow->setCurrentWindowArea(windowArea);
 }
 
 void HolonDesktopPrivateData::removeUncheckedDocks(HolonMainWindow *mainWindow)
@@ -275,6 +285,11 @@ void HolonDesktopPrivate::addWindow(HolonWindow *window)
     d.windowList.append(window);
 }
 
+void HolonDesktopPrivate::addWindowArea(HolonWindowArea *windowArea)
+{
+    d.addWindowArea(windowArea);
+}
+
 void HolonDesktopPrivate::resizeEvent(QResizeEvent *)
 {
     if (d.skipExternalMainWindowSaveState)
@@ -393,7 +408,7 @@ void HolonDesktopPrivate::removeSidebar(HolonSidebar *sidebar)
         resizeDocks();
     }
 
-    sidebar->d_func()->setChecked(false);
+    sidebar->d_ptr->setChecked(false);
 }
 
 void HolonDesktopPrivate::resizeDocks()
@@ -425,7 +440,7 @@ void HolonDesktopPrivate::restoreSidebar(HolonSidebar *sidebar)
     HolonSidebarDock *dock = d.sidebars.dockBySidebar.value(sidebar);
     dock->d.setSidebar(sidebar);
     d.sidebars.mainWindowByDock.value(dock)->restoreDockWidget(dock);
-    sidebar->d_func()->setChecked(true);
+    sidebar->d_ptr->setChecked(true);
     resizeDocks();
 }
 
@@ -434,6 +449,12 @@ void HolonDesktopPrivate::saveDockWidgetWidth(HolonSidebarDock *dock, int width)
     d.sidebars.dockWidth[dock] = width;
 
     saveMainWindowState();
+}
+
+void HolonDesktopPrivate::setWindowAreaState(HolonWindowArea *windowArea, Qt::CheckState checkState)
+{
+    windowArea->d_ptr->setChecked(checkState);
+    d.internalMainWindow->setCurrentWindowArea(checkState ? windowArea : nullptr);
 }
 
 HolonSidebarDock *HolonDesktopPrivate::sidebarDock(HolonSidebar *sidebar) const

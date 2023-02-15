@@ -5,8 +5,8 @@
 #include "holondesktop.h"
 #include "holonsidebar.h"
 #include <QBoxLayout>
-#include <QLabel>
 #include <QIcon>
+#include <QLabel>
 #include <QLoaderTerminal>
 #include <QLoaderTree>
 

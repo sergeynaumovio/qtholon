@@ -8,8 +8,8 @@
 #include "holonopentasksdir.h"
 #include <QBoxLayout>
 #include <QHeaderView>
-#include <QLabel>
 #include <QIcon>
+#include <QLabel>
 #include <QLoaderTree>
 #include <QTreeView>
 #include <QUuid>

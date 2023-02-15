@@ -15,8 +15,6 @@ class HolonSidebarPrivate : public HolonWindowAreaPrivate
 
 public:
     HolonSidebarPrivate(HolonDesktop *desktop, HolonSidebar *q);
-
-    void setChecked(bool checked);
 };
 
 #endif // HOLONSIDEBAR_P_H

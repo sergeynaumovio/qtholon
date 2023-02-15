@@ -3,13 +3,13 @@
 
 #include "holonwindow.h"
 #include "holondesktop.h"
-#include "holonsidebar.h"
+#include "holonwindowarea.h"
 #include <QIcon>
 
 class HolonWindowPrivate
 {
 public:
-    HolonSidebar *sidebar{};
+    HolonWindowArea *windowArea{};
 };
 
 HolonWindow::HolonWindow(QLoaderSettings *settings, HolonDesktop *parent)
@@ -19,7 +19,7 @@ HolonWindow::HolonWindow(QLoaderSettings *settings, HolonDesktop *parent)
     parent->addWindow(this);
 }
 
-HolonWindow::HolonWindow(QLoaderSettings *settings, HolonSidebar *parent)
+HolonWindow::HolonWindow(QLoaderSettings *settings, HolonWindowArea *parent)
 :   QObject(parent),
     QLoaderSettings(settings),
     d_ptr(new HolonWindowPrivate{parent})
@@ -40,8 +40,8 @@ HolonWindow::Attributes HolonWindow::attributes() const
 
 void HolonWindow::close()
 {
-    if (d_ptr && d_ptr->sidebar)
-        d_ptr->sidebar->closeWindow(this);
+    if (d_ptr && d_ptr->windowArea)
+        d_ptr->windowArea->closeWindow(this);
 }
 
 QIcon HolonWindow::icon() const
