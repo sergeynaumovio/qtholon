@@ -53,6 +53,9 @@ public:
                     return;
 
                 QList<QAbstractItemModel *> models = desktop->models(Holon::OpenTasks);
+                if (models.isEmpty())
+                    return;
+
                 QLoaderSettings *modelSettings = tree->settings(models.constFirst());
                 if (!modelSettings)
                     return;
