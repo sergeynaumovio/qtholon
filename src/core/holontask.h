@@ -40,6 +40,7 @@ public:
     virtual int exec() = 0;
     bool isCopyable(const QStringList &to) const override;
     void setControlWindow(HolonWindow *window) { d_ptr->control = window; }
+    virtual QString title() const = 0;
 };
 
 #endif // HOLONTASK_H

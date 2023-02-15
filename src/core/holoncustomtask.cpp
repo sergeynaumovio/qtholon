@@ -25,5 +25,10 @@ int HolonCustomTask::exec()
     return 0;
 }
 
+QString HolonCustomTask::title() const
+{
+    return "Custom Task";
+}
+
 HolonCustomTask::~HolonCustomTask()
 { }

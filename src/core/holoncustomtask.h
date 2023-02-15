@@ -22,6 +22,7 @@ public:
     HolonCustomTask(QLoaderSettings *settings, HolonOpenTasksDir *openTasksDir);
 
     int exec() override;
+    QString title() const override;
 
     ~HolonCustomTask();
 };

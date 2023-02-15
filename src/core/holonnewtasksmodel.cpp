@@ -3,6 +3,8 @@
 
 #include "holonnewtasksmodel.h"
 #include "holondesktop.h"
+#include "holonnewtasksdir.h"
+#include "holontask.h"
 
 class HolonNewTasksModelPrivate
 {
@@ -42,7 +44,17 @@ int HolonNewTasksModel::columnCount(const QModelIndex &) const
 QVariant HolonNewTasksModel::data(const QModelIndex &index, int role) const
 {
     if (index.isValid() && (role == Qt::DisplayRole || role == Qt::EditRole))
+    {
+        QObject *object = d_ptr->object(index);
+
+        if (HolonNewTasksDir *dir = qobject_cast<HolonNewTasksDir *>(object))
+            return dir->title();
+
+        if (HolonTask *task = qobject_cast<HolonTask *>(object))
+            return task->title();
+
         return d_ptr->object(index)->objectName();
+    }
 
     return QVariant();
 }
