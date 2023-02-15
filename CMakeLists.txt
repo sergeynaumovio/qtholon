@@ -68,8 +68,6 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonsidebardock.h
             src/widgets/holonsidebardock_p.cpp
             src/widgets/holonsidebardock_p.h
-            src/widgets/holonsidebarswitch.cpp
-            src/widgets/holonsidebarswitch.h
             src/widgets/holontaskbar.cpp
             src/widgets/holontaskbar.h
             src/widgets/holontaskmenu.cpp
@@ -80,8 +78,12 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonwindowarea.h
             src/widgets/holonwindowarea_p.cpp
             src/widgets/holonwindowarea_p.h
+            src/widgets/holonwindowareaswitch.cpp
+            src/widgets/holonwindowareaswitch.h
             src/widgets/holonwindowmenu.cpp
             src/widgets/holonwindowmenu.h
+            src/widgets/holonworkflowwindow.cpp
+            src/widgets/holonworkflowwindow.h
             src/plugin.cpp
 )
 
