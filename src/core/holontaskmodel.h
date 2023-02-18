@@ -5,11 +5,12 @@
 #define HOLONTASKMODEL_H
 
 #include "holonabstractitemmodel.h"
+#include "qtholonglobal.h"
 
 class HolonTaskModelBranch;
 class HolonTaskModelPrivate;
 
-class HolonTaskModel : public HolonAbstractItemModel
+class Q_HOLON_EXPORT HolonTaskModel : public HolonAbstractItemModel
 {
     Q_OBJECT
 

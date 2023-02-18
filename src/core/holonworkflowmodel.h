@@ -5,11 +5,12 @@
 #define HOLONWORKFLOWMODEL_H
 
 #include "holonabstractitemmodel.h"
+#include "qtholonglobal.h"
 
 class HolonWorkflowModelBranch;
 class HolonOpenTasksModelPrivate;
 
-class HolonWorkflowModel : public HolonAbstractItemModel
+class Q_HOLON_EXPORT HolonWorkflowModel : public HolonAbstractItemModel
 {
     Q_OBJECT
 
