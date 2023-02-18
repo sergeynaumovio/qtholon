@@ -31,22 +31,24 @@ set(QT_HOLON_LIBRARY Qt${QT_VERSION_MAJOR}Holon)
 add_library(${QT_HOLON_LIBRARY} SHARED)
 
 target_sources(${QT_HOLON_LIBRARY}
-    PRIVATE src/core/holoncore.cpp
+    PRIVATE src/core/holonabstractitemmodel.cpp
+            src/core/holonabstractitemmodel.h
+            src/core/holoncore.cpp
             src/core/holoncore.h
             src/core/holoncore_p.h
             src/core/holoncustomtask.cpp
             src/core/holoncustomtask.h
             src/core/holonnamespace.h
-            src/core/holonnewtasksdir.cpp
-            src/core/holonnewtasksdir.h
-            src/core/holonnewtasksmodel.cpp
-            src/core/holonnewtasksmodel.h
-            src/core/holonopentasksdir.cpp
-            src/core/holonopentasksdir.h
-            src/core/holonopentasksmodel.cpp
-            src/core/holonopentasksmodel.h
             src/core/holontask.cpp
             src/core/holontask.h
+            src/core/holontaskmodel.cpp
+            src/core/holontaskmodel.h
+            src/core/holontaskmodelbranch.cpp
+            src/core/holontaskmodelbranch.h
+            src/core/holonworkflowmodel.cpp
+            src/core/holonworkflowmodel.h
+            src/core/holonworkflowmodelbranch.cpp
+            src/core/holonworkflowmodelbranch.h
             src/core/qtholonglobal.h
             src/widgets/holondesktop.cpp
             src/widgets/holondesktop.h
@@ -54,12 +56,6 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holondesktop_p.h
             src/widgets/holonmainwindow.cpp
             src/widgets/holonmainwindow.h
-            src/widgets/holonterminalwindow.cpp
-            src/widgets/holonterminalwindow.h
-            src/widgets/holonnewtaskswindow.cpp
-            src/widgets/holonnewtaskswindow.h
-            src/widgets/holonopentaskswindow.cpp
-            src/widgets/holonopentaskswindow.h
             src/widgets/holonsidebar.cpp
             src/widgets/holonsidebar.h
             src/widgets/holonsidebar_p.cpp
@@ -70,8 +66,14 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonsidebardock_p.h
             src/widgets/holontaskbar.cpp
             src/widgets/holontaskbar.h
+            src/widgets/holontasklistwindow.cpp
+            src/widgets/holontasklistwindow.h
             src/widgets/holontaskmenu.cpp
             src/widgets/holontaskmenu.h
+            src/widgets/holontasktreewindow.cpp
+            src/widgets/holontasktreewindow.h
+            src/widgets/holonterminalwindow.cpp
+            src/widgets/holonterminalwindow.h
             src/widgets/holonwindow.cpp
             src/widgets/holonwindow.h
             src/widgets/holonwindowarea.cpp
@@ -82,8 +84,8 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonwindowareaswitch.h
             src/widgets/holonwindowmenu.cpp
             src/widgets/holonwindowmenu.h
-            src/widgets/holonworkflowswindow.cpp
-            src/widgets/holonworkflowswindow.h
+            src/widgets/holonworkflowwindow.cpp
+            src/widgets/holonworkflowwindow.h
             src/plugin.cpp
 )
 
@@ -93,11 +95,17 @@ target_include_directories(${QT_HOLON_LIBRARY}
 )
 
 set(QT_HOLON_PUBLIC_HEADERS
+    src/core/HolonAbstractItemModel
     src/core/HolonCore
     src/core/HolonTask
+    src/core/HolonTaskModel
+    src/core/HolonWorkflowModel
+    src/core/holonabstractitemmodel.h
     src/core/holoncore.h
     src/core/holonnamespace.h
     src/core/holontask.h
+    src/core/holontaskmodel.h
+    src/core/holonworkflowmodel.h
     src/core/qtholonglobal.h
     src/widgets/HolonDesktop
     src/widgets/HolonSidebar
