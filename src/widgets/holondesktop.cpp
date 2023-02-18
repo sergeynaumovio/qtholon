@@ -88,9 +88,9 @@ QString HolonDesktop::buttonStyleSheet() const
     return d_ptr->buttonStyleSheet();
 }
 
-int HolonDesktop::menuBorder() const
+int HolonDesktop::menuBorderWidth() const
 {
-    return d_ptr->menuBorder();
+    return d_ptr->menuBorderWidth();
 }
 
 QString HolonDesktop::menuStyleSheet() const

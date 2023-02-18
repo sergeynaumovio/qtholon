@@ -36,7 +36,7 @@ void HolonWindowMenu::paintEvent(QPaintEvent *)
 HolonWindowMenu::HolonWindowMenu(HolonDesktop *desktop, QWidget *parent)
 :   QWidget(parent)
 {
-    int px = desktop->menuBorder();
+    int px = desktop->menuBorderWidth();
     using Layout = QVBoxLayout;
     Layout *l = new Layout(this);
     setLayout(l);

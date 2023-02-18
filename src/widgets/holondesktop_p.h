@@ -58,7 +58,7 @@ public:
     ~HolonDesktopPrivate();
 
     QString buttonStyleSheet() const;
-    int menuBorder() const;
+    int menuBorderWidth() const;
     QString menuStyleSheet() const;
     int menuWidth() const;
     const QSet<HolonSidebarDock *> &sidebarDocks() const;

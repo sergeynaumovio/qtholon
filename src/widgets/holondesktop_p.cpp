@@ -28,7 +28,7 @@ public:
     const QString buttonStyleSheet;
     const QString menuStyleSheet;
     const QRegularExpression borderWidth{"^QWidget\\s*{[^}]*border:[^};]*(?<px>\\d+)px[^}]*}$"};
-    const int menuBorder;
+    const int menuBorderWidth;
     const int menuWidth;
     const QString sidebarMoveShortcut;
     const int sidebarSwitchButtonWidth;
@@ -88,7 +88,7 @@ HolonDesktopPrivateData::HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDe
     q_ptr(q),
     buttonStyleSheet(q_ptr->value("buttonStyleSheet").toString()),
     menuStyleSheet(q_ptr->value("menuStyleSheet").toString()),
-    menuBorder([this]()
+    menuBorderWidth([this]()
     {
         QRegularExpressionMatch match = borderWidth.match(menuStyleSheet);
         if (match.hasMatch())
@@ -341,9 +341,9 @@ QString HolonDesktopPrivate::buttonStyleSheet() const
     return d.buttonStyleSheet;
 }
 
-int HolonDesktopPrivate::menuBorder() const
+int HolonDesktopPrivate::menuBorderWidth() const
 {
-    return d.menuBorder;
+    return d.menuBorderWidth;
 }
 
 QString HolonDesktopPrivate::menuStyleSheet() const
