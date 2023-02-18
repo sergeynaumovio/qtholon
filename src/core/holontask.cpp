@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holontask.h"
-#include "holonnewtasksdir.h"
-#include "holonopentasksdir.h"
+#include "holontaskmodelbranch.h"
+#include "holonworkflowmodelbranch.h"
 #include <QLoaderTree>
 
-HolonTask::HolonTask(QLoaderSettings *settings, HolonNewTasksDir *newTasksDir)
+HolonTask::HolonTask(QLoaderSettings *settings, HolonTaskModelBranch *newTasksDir)
 :   QObject(newTasksDir),
     QLoaderSettings(settings),
     d_ptr(new HolonTaskData)
 { }
 
-HolonTask::HolonTask(QLoaderSettings *settings, HolonOpenTasksDir *openTasksDir)
+HolonTask::HolonTask(QLoaderSettings *settings, HolonWorkflowModelBranch *openTasksDir)
 :   QObject(openTasksDir),
     QLoaderSettings(settings),
     d_ptr(new HolonTaskData)
@@ -28,7 +28,7 @@ bool HolonTask::isCopyable(const QStringList &to) const
     {
         parentSection.removeLast();
         QObject *parent = tree()->object(parentSection);
-        if (qobject_cast<HolonOpenTasksDir *>(parent))
+        if (qobject_cast<HolonWorkflowModelBranch *>(parent))
             return true;
     }
 

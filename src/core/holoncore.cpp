@@ -13,10 +13,12 @@ HolonCore::HolonCore(QLoaderSettings *settings, QObject *parent)
 HolonCore::~HolonCore()
 { }
 
-void HolonCore::addModel(QAbstractItemModel *model, Holon::Tasks tasks)
+void HolonCore::addModel(HolonTaskModel *model)
 {
-    if (tasks == Holon::NewTasks)
-        d_ptr->models.newTasks.append(model);
-    else
-        d_ptr->models.openTasks.append(model);
+    d_ptr->models.tasks.append(model);
+}
+
+void HolonCore::addModel(HolonWorkflowModel *model)
+{
+    d_ptr->models.workflows.append(model);
 }

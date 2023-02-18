@@ -6,15 +6,23 @@
 
 #include <QList>
 
-class QAbstractItemModel;
+class HolonTaskModel;
+class HolonWorkflowModel;
 
 class HolonCorePrivate
 {
 public:
     struct
     {
-        QList<QAbstractItemModel *> newTasks;
-        QList<QAbstractItemModel *> openTasks;
+        QList<HolonTaskModel *> tasks;
+        QList<HolonWorkflowModel *> workflows;
+
+        struct
+        {
+            HolonTaskModel *task{};
+            HolonWorkflowModel *workflow{};
+
+        } current;
 
     } models;
 };

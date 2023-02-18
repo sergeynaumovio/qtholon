@@ -2,21 +2,21 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holoncustomtask.h"
-#include "holonnewtasksdir.h"
-#include "holonopentasksdir.h"
+#include "holontaskmodelbranch.h"
+#include "holonworkflowmodelbranch.h"
 
 class HolonCustomTaskPrivate
 {
 
 };
 
-HolonCustomTask::HolonCustomTask(QLoaderSettings *settings, HolonNewTasksDir *newTasksDir)
-:   HolonTask(settings, newTasksDir),
+HolonCustomTask::HolonCustomTask(QLoaderSettings *settings, HolonTaskModelBranch *taskModelBranch)
+:   HolonTask(settings, taskModelBranch),
     d_ptr(new HolonCustomTaskPrivate)
 { }
 
-HolonCustomTask::HolonCustomTask(QLoaderSettings *settings, HolonOpenTasksDir *openTasksDir)
-:   HolonTask(settings, openTasksDir),
+HolonCustomTask::HolonCustomTask(QLoaderSettings *settings, HolonWorkflowModelBranch *workflowModelBranch)
+:   HolonTask(settings, workflowModelBranch),
     d_ptr(new HolonCustomTaskPrivate)
 { }
 

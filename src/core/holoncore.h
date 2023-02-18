@@ -4,13 +4,12 @@
 #ifndef HOLONCORE_H
 #define HOLONCORE_H
 
-#include "holonnamespace.h"
 #include "qtholonglobal.h"
 #include <QLoaderSettings>
 
 class HolonCorePrivate;
-class HolonOpenTasksModel;
-class QAbstractItemModel;
+class HolonTaskModel;
+class HolonWorkflowModel;
 
 class Q_HOLON_EXPORT HolonCore : public QObject, public QLoaderSettings
 {
@@ -22,7 +21,8 @@ public:
     HolonCore(QLoaderSettings *settings, QObject *parent);
     ~HolonCore();
 
-    void addModel(QAbstractItemModel *model, Holon::Tasks tasks);
+    void addModel(HolonTaskModel *model);
+    void addModel(HolonWorkflowModel *model);
 };
 
 #endif // HOLONCORE_H

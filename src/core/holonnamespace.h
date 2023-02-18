@@ -12,13 +12,6 @@ struct QMetaObject;
 namespace Holon
 {
     Q_NAMESPACE_EXPORT(Q_HOLON_EXPORT)
-
-    enum Tasks
-    {
-        NewTasks,
-        OpenTasks
-    };
-    Q_ENUM_NS(Tasks)
 };
 
 #endif // HOLONNAMESPACE_H

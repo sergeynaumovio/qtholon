@@ -7,8 +7,8 @@
 #include "qtholonglobal.h"
 #include <QLoaderSettings>
 
-class HolonNewTasksDir;
-class HolonOpenTasksDir;
+class HolonTaskModelBranch;
+class HolonWorkflowModelBranch;
 class HolonWindow;
 
 class HolonTaskData
@@ -26,8 +26,8 @@ class Q_HOLON_EXPORT HolonTask : public QObject, public QLoaderSettings
     const QScopedPointer<HolonTaskData> d_ptr;
 
 protected:
-    HolonTask(QLoaderSettings *settings, HolonNewTasksDir *newTasksDir);
-    HolonTask(QLoaderSettings *settings, HolonOpenTasksDir *openTasksDir);
+    HolonTask(QLoaderSettings *settings, HolonTaskModelBranch *newTasksDir);
+    HolonTask(QLoaderSettings *settings, HolonWorkflowModelBranch *openTasksDir);
 
 public:
     ~HolonTask();

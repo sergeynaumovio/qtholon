@@ -1,17 +1,17 @@
 // Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
-#include "holonnewtasksmodel.h"
+#include "holontaskmodel.h"
 #include "holondesktop.h"
-#include "holonnewtasksdir.h"
 #include "holontask.h"
+#include "holontaskmodelbranch.h"
 
-class HolonNewTasksModelPrivate
+class HolonTaskModelPrivate
 {
 public:
-    HolonNewTasksModel *const q_ptr;
+    HolonTaskModel *const q_ptr;
 
-    HolonNewTasksModelPrivate(HolonNewTasksModel *q)
+    HolonTaskModelPrivate(HolonTaskModel *q)
     :   q_ptr(q)
     { }
 
@@ -25,29 +25,28 @@ public:
     }
 };
 
-HolonNewTasksModel::HolonNewTasksModel(QLoaderSettings *settings, HolonDesktop *desktop)
-:   QAbstractItemModel(desktop),
-    QLoaderSettings(settings),
-    d_ptr(new HolonNewTasksModelPrivate(this))
+HolonTaskModel::HolonTaskModel(QLoaderSettings *settings, HolonDesktop *desktop)
+:   HolonAbstractItemModel(settings, desktop),
+    d_ptr(new HolonTaskModelPrivate(this))
 {
-    desktop->addModel(this, Holon::NewTasks);
+    desktop->addModel(this);
 }
 
-HolonNewTasksModel::~HolonNewTasksModel()
+HolonTaskModel::~HolonTaskModel()
 { }
 
-int HolonNewTasksModel::columnCount(const QModelIndex &) const
+int HolonTaskModel::columnCount(const QModelIndex &) const
 {
     return 1;
 }
 
-QVariant HolonNewTasksModel::data(const QModelIndex &index, int role) const
+QVariant HolonTaskModel::data(const QModelIndex &index, int role) const
 {
     if (index.isValid() && (role == Qt::DisplayRole || role == Qt::EditRole))
     {
         QObject *object = d_ptr->object(index);
 
-        if (HolonNewTasksDir *dir = qobject_cast<HolonNewTasksDir *>(object))
+        if (HolonTaskModelBranch *dir = qobject_cast<HolonTaskModelBranch *>(object))
             return dir->title();
 
         if (HolonTask *task = qobject_cast<HolonTask *>(object))
@@ -59,7 +58,7 @@ QVariant HolonNewTasksModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-QModelIndex HolonNewTasksModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex HolonTaskModel::index(int row, int column, const QModelIndex &parent) const
 {
     if (parent.isValid() && parent.column() != 0)
         return QModelIndex();
@@ -71,7 +70,7 @@ QModelIndex HolonNewTasksModel::index(int row, int column, const QModelIndex &pa
     return QModelIndex();
 }
 
-QModelIndex HolonNewTasksModel::parent(const QModelIndex &child) const
+QModelIndex HolonTaskModel::parent(const QModelIndex &child) const
 {
     if (!child.isValid())
         return QModelIndex();
@@ -85,7 +84,7 @@ QModelIndex HolonNewTasksModel::parent(const QModelIndex &child) const
     return createIndex(parentObject->children().count(), 0, parentObject);
 }
 
-int HolonNewTasksModel::rowCount(const QModelIndex &parent) const
+int HolonTaskModel::rowCount(const QModelIndex &parent) const
 {
     return d_ptr->object(parent)->children().count();
 }

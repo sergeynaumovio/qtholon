@@ -8,8 +8,8 @@
 #include <QLoaderSettings>
 
 class HolonCustomTaskPrivate;
-class HolonNewTasksDir;
-class HolonOpenTasksDir;
+class HolonTaskModelBranch;
+class HolonWorkflowModelBranch;
 
 class HolonCustomTask : public HolonTask
 {
@@ -18,8 +18,8 @@ class HolonCustomTask : public HolonTask
     const QScopedPointer<HolonCustomTaskPrivate> d_ptr;
 
 public:
-    HolonCustomTask(QLoaderSettings *settings, HolonNewTasksDir *newTasksDir);
-    HolonCustomTask(QLoaderSettings *settings, HolonOpenTasksDir *openTasksDir);
+    HolonCustomTask(QLoaderSettings *settings, HolonTaskModelBranch *taskModelBranch);
+    HolonCustomTask(QLoaderSettings *settings, HolonWorkflowModelBranch *workflowModelBranch);
 
     int exec() override;
 

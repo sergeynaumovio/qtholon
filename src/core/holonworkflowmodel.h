@@ -1,34 +1,33 @@
 // Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
-#ifndef HOLONOPENTASKSMODEL_H
-#define HOLONOPENTASKSMODEL_H
+#ifndef HOLONWORKFLOWMODEL_H
+#define HOLONWORKFLOWMODEL_H
 
-#include <QAbstractItemModel>
-#include <QLoaderSettings>
+#include "holonabstractitemmodel.h"
 
-class HolonCore;
-class HolonDesktop;
-class HolonOpenTasksDir;
+class HolonWorkflowModelBranch;
 class HolonOpenTasksModelPrivate;
 
-class HolonOpenTasksModel : public QAbstractItemModel, public QLoaderSettings
+class HolonWorkflowModel : public HolonAbstractItemModel
 {
     Q_OBJECT
 
     const QScopedPointer<HolonOpenTasksModelPrivate> d_ptr;
 
 public:
-    HolonOpenTasksModel(QLoaderSettings *settings, HolonCore *core);
-    HolonOpenTasksModel(QLoaderSettings *settings, HolonDesktop *desktop);
+    HolonWorkflowModel(QLoaderSettings *settings, HolonCore *core);
+    HolonWorkflowModel(QLoaderSettings *settings, HolonDesktop *desktop);
 
-    ~HolonOpenTasksModel();
+    ~HolonWorkflowModel();
 
+    void addBranch(HolonWorkflowModelBranch *branch);
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
+    bool insertRows(int position, int rows, const QModelIndex &parent = QModelIndex()) override;
     QModelIndex parent(const QModelIndex &child) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 };
 
-#endif // HOLONOPENTASKSMODEL_H
+#endif // HOLONWORKFLOWMODEL_H

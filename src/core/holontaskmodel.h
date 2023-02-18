@@ -1,25 +1,23 @@
 // Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
-#ifndef HOLONNEWTASKSMODEL_H
-#define HOLONNEWTASKSMODEL_H
+#ifndef HOLONTASKMODEL_H
+#define HOLONTASKMODEL_H
 
-#include <QAbstractItemModel>
-#include <QLoaderSettings>
+#include "holonabstractitemmodel.h"
 
-class HolonDesktop;
-class HolonNewTasksDir;
-class HolonNewTasksModelPrivate;
+class HolonTaskModelBranch;
+class HolonTaskModelPrivate;
 
-class HolonNewTasksModel : public QAbstractItemModel, public QLoaderSettings
+class HolonTaskModel : public HolonAbstractItemModel
 {
     Q_OBJECT
 
-    const QScopedPointer<HolonNewTasksModelPrivate> d_ptr;
+    const QScopedPointer<HolonTaskModelPrivate> d_ptr;
 
 public:
-    HolonNewTasksModel(QLoaderSettings *settings, HolonDesktop *desktop);
-    ~HolonNewTasksModel();
+    HolonTaskModel(QLoaderSettings *settings, HolonDesktop *desktop);
+    ~HolonTaskModel();
 
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
@@ -28,4 +26,4 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 };
 
-#endif // HOLONNEWTASKSMODEL_H
+#endif // HOLONTASKMODEL_H
