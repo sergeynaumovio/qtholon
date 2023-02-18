@@ -4,7 +4,6 @@
 #ifndef HOLONDESKTOP_H
 #define HOLONDESKTOP_H
 
-#include "holonnamespace.h"
 #include "qtholonglobal.h"
 #include <QLoaderSettings>
 #include <QWidget>
@@ -12,10 +11,10 @@
 class HolonDesktopPrivate;
 class HolonSidebar;
 class HolonTask;
-class HolonTaskbar;
+class HolonTaskModel;
 class HolonWindow;
 class HolonWindowArea;
-class QAbstractItemModel;
+class HolonWorkflowModel;
 
 class Q_HOLON_EXPORT HolonDesktop : public QWidget, public QLoaderSettings
 {
@@ -37,8 +36,9 @@ public:
     HolonDesktop(QLoaderSettings *settings, QWidget *parent);
     ~HolonDesktop();
 
+    void addModel(HolonTaskModel *model);
+    void addModel(HolonWorkflowModel *model);
     void addSidebar(HolonSidebar *sidebar);
-    void addModel(QAbstractItemModel *model, Holon::Tasks tasks);
     void addWindow(HolonWindow *window);
     void addWindowArea(HolonWindowArea *windowArea);
     QString buttonStyleSheet() const;
@@ -46,11 +46,12 @@ public:
     int menuBorder() const;
     QString menuStyleSheet() const;
     int menuWidth() const;
-    QList<QAbstractItemModel *> models(Holon::Tasks tasks) const;
     void setCurrentTask(HolonTask *task);
+    HolonTaskModel *taskModel() const;
     int titleBarHeight() const;
     QString titleBarStyleSheet() const;
     QList<HolonWindow *> windows() const;
+    HolonWorkflowModel *workflowModel() const;
 };
 
 #endif // HOLONDESKTOP_H

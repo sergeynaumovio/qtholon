@@ -1,11 +1,13 @@
 // Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
-#include "holonnewtaskswindow.h"
+#include "holontasktreewindow.h"
 #include "holondesktop.h"
 #include "holonsidebar.h"
 #include "holontask.h"
-#include "holonopentasksdir.h"
+#include "holontaskmodel.h"
+#include "holonworkflowmodelbranch.h"
+#include "holonworkflowmodel.h"
 #include <QBoxLayout>
 #include <QHeaderView>
 #include <QIcon>
@@ -14,18 +16,18 @@
 #include <QTreeView>
 #include <QUuid>
 
-class HolonNewTasksWindowPrivate
+class HolonTaskTreeWindowPrivate
 {
 public:
-    HolonNewTasksWindow *const q_ptr;
+    HolonTaskTreeWindow *const q_ptr;
     QLoaderSettings *const settings;
     QLoaderTree *const tree;
     HolonDesktop *const desktop;
-    QAbstractItemModel *model{};
+    HolonTaskModel *taskTreeModel{};
     QTreeView *view{};
 
 
-    HolonNewTasksWindowPrivate(HolonNewTasksWindow *q, QLoaderSettings *s, HolonDesktop *desk)
+    HolonTaskTreeWindowPrivate(HolonTaskTreeWindow *q, QLoaderSettings *s, HolonDesktop *desk)
     :   q_ptr(q),
         settings(s),
         tree(s->tree()),
@@ -37,9 +39,9 @@ public:
         if (!view)
             view = new QTreeView;
 
-        if (desktop->models(Holon::NewTasks).size())
+        if ((taskTreeModel = desktop->taskModel()))
         {
-            view->setModel(model = desktop->models(Holon::NewTasks).at(0));
+            view->setModel(taskTreeModel);
             view->header()->hide();
 
             QTreeView::connect(view, &QTreeView::doubleClicked, view, [this](QModelIndex index)
@@ -52,16 +54,16 @@ public:
                 if (!clickedObjectSettings)
                     return;
 
-                QList<QAbstractItemModel *> models = desktop->models(Holon::OpenTasks);
-                if (models.isEmpty())
+                HolonWorkflowModel *workflowModel = desktop->workflowModel();
+                if (!workflowModel)
                     return;
 
-                QLoaderSettings *modelSettings = tree->settings(models.constFirst());
-                if (!modelSettings)
+                QLoaderSettings *workflowModelSettings = tree->settings(workflowModel);
+                if (!workflowModelSettings)
                     return;
 
-                QList<HolonOpenTasksDir *>
-                dirs = models.constFirst()->findChildren<HolonOpenTasksDir *>(Qt::FindDirectChildrenOnly);
+                QList<HolonWorkflowModelBranch *>
+                dirs = workflowModel->findChildren<HolonWorkflowModelBranch *>(Qt::FindDirectChildrenOnly);
 
                 if (dirs.isEmpty())
                     return;
@@ -69,6 +71,8 @@ public:
                 QStringList to = dirs.constFirst()->section();
                 to.append(QUuid::createUuid().toString(QUuid::WithoutBraces));
                 tree->copy(clickedObjectSettings->section(), to);
+
+                workflowModel->insertRow(workflowModel->rowCount());
             });
         }
 
@@ -76,36 +80,36 @@ public:
     }
 };
 
-HolonNewTasksWindow::HolonNewTasksWindow(QLoaderSettings *settings, HolonDesktop *parent)
+HolonTaskTreeWindow::HolonTaskTreeWindow(QLoaderSettings *settings, HolonDesktop *parent)
 :   HolonWindow(settings, parent)
 { }
 
-HolonNewTasksWindow::HolonNewTasksWindow(QLoaderSettings *settings, HolonSidebar *parent)
+HolonTaskTreeWindow::HolonTaskTreeWindow(QLoaderSettings *settings, HolonSidebar *parent)
 :   HolonWindow(settings, parent),
-    d_ptr(new HolonNewTasksWindowPrivate(this, settings, parent->desktop()))
+    d_ptr(new HolonTaskTreeWindowPrivate(this, settings, parent->desktop()))
 {
     parent->addWindow(this);
 }
 
-HolonNewTasksWindow::~HolonNewTasksWindow()
+HolonTaskTreeWindow::~HolonTaskTreeWindow()
 { }
 
-HolonWindow::Areas HolonNewTasksWindow::areas() const
+HolonWindow::Areas HolonTaskTreeWindow::areas() const
 {
     return HolonWindow::Sidebar;
 }
 
-HolonWindow::Attributes HolonNewTasksWindow::attributes() const
+HolonWindow::Attributes HolonTaskTreeWindow::attributes() const
 {
     return {};
 }
 
-QIcon HolonNewTasksWindow::icon() const
+QIcon HolonTaskTreeWindow::icon() const
 {
     return {};
 }
 
-bool HolonNewTasksWindow::isCopyable(const QStringList &to) const
+bool HolonTaskTreeWindow::isCopyable(const QStringList &to) const
 {
     QStringList parentSection = to;
     if (to.size() > 1)
@@ -119,17 +123,17 @@ bool HolonNewTasksWindow::isCopyable(const QStringList &to) const
     return false;
 }
 
-QString HolonNewTasksWindow::title() const
+QString HolonTaskTreeWindow::title() const
 {
-    return "New Tasks";
+    return "Project Tasks";
 }
 
-QWidget *HolonNewTasksWindow::toolbar() const
+QWidget *HolonTaskTreeWindow::toolbar() const
 {
     return {};
 }
 
-QWidget *HolonNewTasksWindow::widget() const
+QWidget *HolonTaskTreeWindow::widget() const
 {
     return d_ptr->widget();
 }

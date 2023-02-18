@@ -1,7 +1,7 @@
 // Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
-#include "holonworkflowswindow.h"
+#include "holonworkflowwindow.h"
 #include "holondesktop.h"
 #include "holonwindowarea.h"
 #include <QBoxLayout>
@@ -9,42 +9,42 @@
 #include <QLabel>
 #include <QLoaderTree>
 
-class HolonWorkflowsWindowPrivate
+class HolonWorkflowWindowPrivate
 {
 public:
     QWidget *widget{};
 };
 
-HolonWorkflowsWindow::HolonWorkflowsWindow(QLoaderSettings *settings, HolonDesktop *parent)
+HolonWorkflowWindow::HolonWorkflowWindow(QLoaderSettings *settings, HolonDesktop *parent)
 :   HolonWindow(settings, parent)
 { }
 
-HolonWorkflowsWindow::HolonWorkflowsWindow(QLoaderSettings *settings, HolonWindowArea *parent)
+HolonWorkflowWindow::HolonWorkflowWindow(QLoaderSettings *settings, HolonWindowArea *parent)
 :   HolonWindow(settings, parent),
-    d_ptr(new HolonWorkflowsWindowPrivate)
+    d_ptr(new HolonWorkflowWindowPrivate)
 {
     parent->addWindow(this);
 }
 
-HolonWorkflowsWindow::~HolonWorkflowsWindow()
+HolonWorkflowWindow::~HolonWorkflowWindow()
 { }
 
-HolonWindow::Areas HolonWorkflowsWindow::areas() const
+HolonWindow::Areas HolonWorkflowWindow::areas() const
 {
     return HolonWindow::Sidebar;
 }
 
-HolonWindow::Attributes HolonWorkflowsWindow::attributes() const
+HolonWindow::Attributes HolonWorkflowWindow::attributes() const
 {
     return {};
 }
 
-QIcon HolonWorkflowsWindow::icon() const
+QIcon HolonWorkflowWindow::icon() const
 {
     return {};
 }
 
-bool HolonWorkflowsWindow::isCopyable(const QStringList &to) const
+bool HolonWorkflowWindow::isCopyable(const QStringList &to) const
 {
     QStringList parentSection = to;
     if (to.size() > 1)
@@ -58,17 +58,17 @@ bool HolonWorkflowsWindow::isCopyable(const QStringList &to) const
     return false;
 }
 
-QString HolonWorkflowsWindow::title() const
+QString HolonWorkflowWindow::title() const
 {
-    return "Workflows";
+    return "Workflow";
 }
 
-QWidget *HolonWorkflowsWindow::toolbar() const
+QWidget *HolonWorkflowWindow::toolbar() const
 {
     return {};
 }
 
-QWidget *HolonWorkflowsWindow::widget() const
+QWidget *HolonWorkflowWindow::widget() const
 {
     if (!d_ptr->widget)
     {

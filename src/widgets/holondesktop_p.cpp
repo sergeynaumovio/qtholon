@@ -9,8 +9,10 @@
 #include "holonsidebardock.h"
 #include "holonsidebardock_p.h"
 #include "holontaskbar.h"
+#include "holontaskmodel.h"
 #include "holonwindowarea_p.h"
 #include "holonwindowareaswitch.h"
+#include "holonworkflowmodel.h"
 #include <QLayout>
 #include <QLoaderTree>
 #include <QShortcut>
@@ -267,12 +269,21 @@ HolonDesktopPrivate::HolonDesktopPrivate(HolonDesktop *q)
     }
 }
 
-void HolonDesktopPrivate::addModel(QAbstractItemModel *model, Holon::Tasks tasks)
+void HolonDesktopPrivate::addModel(HolonTaskModel *model)
 {
-    if (tasks == Holon::NewTasks)
-        d.models.newTasks.append(model);
-    else
-        d.models.openTasks.append(model);
+    if (d.models.tasks.isEmpty() || model->isCurrent())
+        d.models.current.task = model;
+
+    d.models.tasks.append(model);
+
+}
+
+void HolonDesktopPrivate::addModel(HolonWorkflowModel *model)
+{
+    if (d.models.workflows.isEmpty() || model->isCurrent())
+        d.models.current.workflow = model;
+
+    d.models.workflows.append(model);
 }
 
 void HolonDesktopPrivate::addSidebar(HolonSidebar *sidebar)
@@ -310,6 +321,16 @@ void HolonDesktopPrivate::setLayout()
     d.setLayout();
 }
 
+HolonTaskModel *HolonDesktopPrivate::taskModel() const
+{
+    return d.models.current.task;
+}
+
+HolonWorkflowModel *HolonDesktopPrivate::workflowModel() const
+{
+    return d.models.current.workflow;
+}
+
 HolonDesktopPrivate::~HolonDesktopPrivate()
 {
     d.~HolonDesktopPrivateData();
@@ -333,14 +354,6 @@ QString HolonDesktopPrivate::menuStyleSheet() const
 int HolonDesktopPrivate::menuWidth() const
 {
     return d.menuWidth;
-}
-
-QList<QAbstractItemModel *> HolonDesktopPrivate::models(Holon::Tasks tasks) const
-{
-    if (tasks == Holon::NewTasks)
-        return d.models.newTasks;
-
-    return d.models.openTasks;
 }
 
 const QSet<HolonSidebarDock *> &HolonDesktopPrivate::sidebarDocks() const
