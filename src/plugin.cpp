@@ -4,15 +4,15 @@
 #include "holoncore.h"
 #include "holoncustomtask.h"
 #include "holondesktop.h"
-#include "holonnewtasksdir.h"
-#include "holonnewtasksmodel.h"
-#include "holonnewtaskswindow.h"
-#include "holonopentasksdir.h"
-#include "holonopentasksmodel.h"
-#include "holonopentaskswindow.h"
+#include "holontasklistwindow.h"
+#include "holontaskmodel.h"
+#include "holontaskmodelbranch.h"
+#include "holontasktreewindow.h"
 #include "holonsidebar.h"
 #include "holonterminalwindow.h"
-#include "holonworkflowswindow.h"
+#include "holonworkflowmodel.h"
+#include "holonworkflowmodelbranch.h"
+#include "holonworkflowwindow.h"
 #include <QApplication>
 #include <QLoaderPluginInterface>
 #include <QLoaderSettings>
@@ -33,10 +33,10 @@ public:
 
         if (!qstrcmp(shortName, "CustomTask"))
         {
-            if (HolonNewTasksDir *newTaskDir = qobject_cast<HolonNewTasksDir*>(parent))
+            if (HolonTaskModelBranch *newTaskDir = qobject_cast<HolonTaskModelBranch*>(parent))
                 return new HolonCustomTask(settings, newTaskDir);
 
-            if (HolonOpenTasksDir *openTasksDir = qobject_cast<HolonOpenTasksDir*>(parent))
+            if (HolonWorkflowModelBranch *openTasksDir = qobject_cast<HolonWorkflowModelBranch*>(parent))
                 return new HolonCustomTask(settings, openTasksDir);
 
             return parent;
@@ -54,78 +54,55 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "NewTasksDir"))
+        if (!qstrcmp(shortName, "TaskListWindow"))
         {
-            if (HolonNewTasksModel *model = qobject_cast<HolonNewTasksModel*>(parent))
+            if (qobject_cast<HolonCore*>(parent))
+                return nullptr;
+
+            if (HolonDesktop *desktop = qobject_cast<HolonDesktop*>(parent))
+                return new HolonTaskListWindow(settings, desktop);
+
+            if (HolonSidebar *sidebar = qobject_cast<HolonSidebar*>(parent))
+                return new HolonTaskListWindow(settings, sidebar);
+
+            return parent;
+        }
+
+        if (!qstrcmp(shortName, "TaskModel"))
+        {
+            if (qobject_cast<HolonCore*>(parent))
+                return nullptr;
+
+            if (HolonDesktop *desktop = qobject_cast<HolonDesktop*>(parent))
+                return new HolonTaskModel(settings, desktop);
+
+            return parent;
+        }
+
+        if (!qstrcmp(shortName, "TaskModelBranch"))
+        {
+            if (HolonTaskModel *model = qobject_cast<HolonTaskModel*>(parent))
             {
                 if (coreApp)
                     return nullptr;
 
-                return new HolonNewTasksDir(settings, model);
+                return new HolonTaskModelBranch(settings, model);
             }
 
             return parent;
         }
 
-        if (!qstrcmp(shortName, "NewTasksModel"))
+
+        if (!qstrcmp(shortName, "TaskTreeWindow"))
         {
             if (qobject_cast<HolonCore*>(parent))
                 return nullptr;
 
             if (HolonDesktop *desktop = qobject_cast<HolonDesktop*>(parent))
-                return new HolonNewTasksModel(settings, desktop);
-
-            return parent;
-        }
-
-        if (!qstrcmp(shortName, "NewTasksWindow"))
-        {
-            if (qobject_cast<HolonCore*>(parent))
-                return nullptr;
-
-            if (HolonDesktop *desktop = qobject_cast<HolonDesktop*>(parent))
-                return new HolonNewTasksWindow(settings, desktop);
+                return new HolonTaskTreeWindow(settings, desktop);
 
             if (HolonSidebar *sidebar = qobject_cast<HolonSidebar*>(parent))
-                return new HolonNewTasksWindow(settings, sidebar);
-
-            return parent;
-        }
-
-        if (!qstrcmp(shortName, "OpenTasksDir"))
-        {
-            if (HolonOpenTasksModel *model = qobject_cast<HolonOpenTasksModel*>(parent))
-            {
-                if (coreApp)
-                    return nullptr;
-
-                return new HolonOpenTasksDir(settings, model);
-            }
-
-            return parent;
-        }
-
-        if (!qstrcmp(shortName, "OpenTasksModel"))
-        {
-            if (HolonCore *core = qobject_cast<HolonCore*>(parent))
-                return new HolonOpenTasksModel(settings, core);
-
-            if (HolonDesktop *desktop = qobject_cast<HolonDesktop*>(parent))
-                return new HolonOpenTasksModel(settings, desktop);
-
-            return parent;
-        }
-
-        if (!qstrcmp(shortName, "OpenTasksWindow"))
-        {
-            if (qobject_cast<HolonCore*>(parent))
-                return nullptr;
-
-            if (HolonDesktop *desktop = qobject_cast<HolonDesktop*>(parent))
-                return new HolonOpenTasksWindow(settings, desktop);
-
-            if (HolonSidebar *sidebar = qobject_cast<HolonSidebar*>(parent))
-                return new HolonOpenTasksWindow(settings, sidebar);
+                return new HolonTaskTreeWindow(settings, sidebar);
 
             return parent;
         }
@@ -166,16 +143,40 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "WorkflowsWindow"))
+        if (!qstrcmp(shortName, "WorkflowModel"))
+        {
+            if (HolonCore *core = qobject_cast<HolonCore*>(parent))
+                return new HolonWorkflowModel(settings, core);
+
+            if (HolonDesktop *desktop = qobject_cast<HolonDesktop*>(parent))
+                return new HolonWorkflowModel(settings, desktop);
+
+            return parent;
+        }
+
+        if (!qstrcmp(shortName, "WorkflowModelBranch"))
+        {
+            if (HolonWorkflowModel *model = qobject_cast<HolonWorkflowModel*>(parent))
+            {
+                if (coreApp)
+                    return nullptr;
+
+                return new HolonWorkflowModelBranch(settings, model);
+            }
+
+            return parent;
+        }
+
+        if (!qstrcmp(shortName, "WorkflowWindow"))
         {
             if (qobject_cast<HolonCore*>(parent))
                 return nullptr;
 
             if (HolonDesktop *desktop = qobject_cast<HolonDesktop*>(parent))
-                return new HolonWorkflowsWindow(settings, desktop);
+                return new HolonWorkflowWindow(settings, desktop);
 
             if (HolonWindowArea *windowArea = qobject_cast<HolonWindowArea*>(parent))
-                return new HolonWorkflowsWindow(settings, windowArea);
+                return new HolonWorkflowWindow(settings, windowArea);
 
             return parent;
         }
