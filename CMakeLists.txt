@@ -116,9 +116,11 @@ set(QT_HOLON_PUBLIC_HEADERS
     src/core/qtholonglobal.h
     src/tasks/HolonAbstractTask
     src/tasks/holonabstracttask.h
+    src/widgets/HolonAbstractWidget
     src/widgets/HolonAbstractWindow
     src/widgets/HolonDesktop
     src/widgets/HolonSidebar
+    src/widgets/holonabstractwidget.h
     src/widgets/holonabstractwindow.h
     src/widgets/holondesktop.h
     src/widgets/holonsidebar.h
