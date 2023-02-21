@@ -20,11 +20,11 @@ class HolonCustomTask : public HolonAbstractTask
 public:
     HolonCustomTask(QLoaderSettings *settings, HolonTaskModelBranch *taskModelBranch);
     HolonCustomTask(QLoaderSettings *settings, HolonWorkflowModelBranch *workflowModelBranch);
+    ~HolonCustomTask();
 
     int exec() override;
     QWidget *widget(const QString &group) const override;
 
-    ~HolonCustomTask();
 };
 
 #endif // HOLONCUSTOMTASK_H
