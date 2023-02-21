@@ -30,28 +30,28 @@ title = Branch A
 
 [holon/task-model/branch-a/custom-task1]
 class = HolonCustomTask
-title = Custom Task A
 group = parameters
+title = Custom Task A
 
 [holon/task-model/branch-a/custom-task1/terminal]
 class = HolonTerminalWindow
-title = Terminal
 group = central
+title = Terminal
 
 [holon/task-model/branch-b]
 class = HolonTaskModelBranch
+group = parameters
 title = Branch B
-group= parameters
 
 [holon/task-model/branch-b/custom-task2]
 class = HolonCustomTask
-title = Custom Task B
 group = parameters
+title = Custom Task B
 
 [holon/task-model/branch-b/custom-task3]
 class = HolonCustomTask
-title = Custom Task C
 group = parameters
+title = Custom Task C
 
 [holon/workflow-model1]
 class = HolonWorkflowModel
@@ -59,35 +59,45 @@ class = HolonWorkflowModel
 [holon/workflow-model1/branch1]
 class = HolonWorkflowModelBranch
 
-[holon/workflow-model1/branch1/d1108b37-94c0-43ac-bc94-6a809912d0d2]
+[holon/workflow-model1/branch1/60b1ad66-d2cf-4c69-8242-c5ccc4f0760d]
 class = HolonCustomTask
+group = parameters
+title = Custom Task A
+
+[holon/workflow-model1/branch1/60b1ad66-d2cf-4c69-8242-c5ccc4f0760d/terminal]
+class = HolonTerminalWindow
+group = central
+title = Terminal
+
+[holon/workflow-model1/branch1/2c237449-e596-43a1-b231-765154d86c7f]
+class = HolonCustomTask
+group = parameters
 title = Custom Task B
 
-[holon/workflow-model1/branch1/11ecaf71-ba96-4e77-9113-0ccde7381fec]
+[holon/workflow-model1/branch1/e9dcabc5-383b-4b9c-bba3-c9a352e9db0e]
 class = HolonCustomTask
-title = Custom Task C
-
-[holon/workflow-model1/branch1/017fc3d2-6b5d-4f1a-9560-4b935832f424]
-class = HolonCustomTask
-title = Custom Task C
-
-[holon/workflow-model1/branch1/d127d179-b3b3-4ed4-8432-eefb851a0475]
-class = HolonCustomTask
-title = Custom Task A
-
-[holon/workflow-model1/branch1/d127d179-b3b3-4ed4-8432-eefb851a0475/terminal]
-class = HolonTerminalWindow
-title = Terminal
-group = central
-
-[holon/workflow-model1/branch1/ed409cd7-799f-43e0-8ac6-5c4f45b41e3b]
-class = HolonCustomTask
-title = Custom Task A
 group = parameters
+title = Custom Task C
 
-[holon/workflow-model1/branch1/ed409cd7-799f-43e0-8ac6-5c4f45b41e3b/terminal]
+[holon/workflow-model1/branch1/cae4d94b-266b-4abb-b255-c65907e7102a]
+class = HolonCustomTask
+group = parameters
+title = Custom Task A
+
+[holon/workflow-model1/branch1/cae4d94b-266b-4abb-b255-c65907e7102a/terminal]
 class = HolonTerminalWindow
+group = central
 title = Terminal
+
+[holon/workflow-model1/branch1/3e7f922a-4296-4246-b537-602863317c62]
+class = HolonCustomTask
+group = parameters
+title = Custom Task B
+
+[holon/workflow-model1/branch1/100dbc57-b893-45cb-9599-09e0087cd239]
+class = HolonCustomTask
+group = parameters
+title = Custom Task C
 
 [holon/data]
 class = QLoaderData

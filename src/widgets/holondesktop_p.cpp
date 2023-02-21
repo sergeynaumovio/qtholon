@@ -214,13 +214,8 @@ void HolonDesktopPrivateData::addWindow(HolonAbstractWindow *window)
 
     for (HolonAbstractTask *task : taskList)
     {
-        const QString taskGroup = task->group();
-        const QString windowGroup = window->group();
-        if (taskGroup == windowGroup)
-        {
-            stackedWidget->addTaskWidget(task, task->widget(taskGroup));
-            continue;
-        }
+        if (QWidget *widget = task->widget(window->group()))
+            stackedWidget->addTaskWidget(task, widget);
 
 #if HOLON_WINDOWS
         QList<HolonAbstractWindow *> windows = task->windows(windowGroup);
@@ -229,11 +224,6 @@ void HolonDesktopPrivateData::addWindow(HolonAbstractWindow *window)
         stackedWidget->addTaskWidget(task, windows.constFirst()->widget());
 #endif
 
-        QWidget *widget = task->widget(windowGroup);
-        if (!widget)
-            return;
-
-        stackedWidget->addTaskWidget(task, widget);
     }
 }
 

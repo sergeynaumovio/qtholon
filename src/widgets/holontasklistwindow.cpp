@@ -43,13 +43,11 @@ public:
         {
             view->setModel(workflowModel);
 
-            QListView::connect(view, &QListView::clicked, view, [](QModelIndex index)
+            QListView::connect(view, &QListView::clicked, view, [this](QModelIndex index)
             {
                 QObject *clickedObject = static_cast<QObject *>(index.internalPointer());
-                qDebug () << clickedObject;
-
-                if (!qobject_cast<HolonAbstractTask *>(clickedObject))
-                    return;
+                if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(clickedObject))
+                    desktop->setCurrentTask(task);
             });
         }
 
