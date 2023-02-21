@@ -97,7 +97,7 @@ HolonDesktop *HolonWorkflowModel::desktop() const
 
 QModelIndex HolonWorkflowModel::index(int row, int column, const QModelIndex &) const
 {
-    return createIndex(row, column);
+    return createIndex(row, column, d_ptr->taskList.at(row));
 }
 
 bool HolonWorkflowModel::insertRows(int position, int rows, const QModelIndex &parent)
