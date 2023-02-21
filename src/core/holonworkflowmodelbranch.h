@@ -21,6 +21,7 @@ public:
     bool isCurrent() const;
     void setCurrent(bool current);
     virtual QString title() const;
+    HolonWorkflowModel *workflowModel() const;
 };
 
 #endif // HOLONWORKFLOWMODELBRANCH_H

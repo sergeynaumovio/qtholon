@@ -4,14 +4,14 @@
 #ifndef HOLONCUSTOMTASK_H
 #define HOLONCUSTOMTASK_H
 
-#include "holontask.h"
+#include "holonabstracttask.h"
 #include <QLoaderSettings>
 
 class HolonCustomTaskPrivate;
 class HolonTaskModelBranch;
 class HolonWorkflowModelBranch;
 
-class HolonCustomTask : public HolonTask
+class HolonCustomTask : public HolonAbstractTask
 {
     Q_OBJECT
 
@@ -22,6 +22,7 @@ public:
     HolonCustomTask(QLoaderSettings *settings, HolonWorkflowModelBranch *workflowModelBranch);
 
     int exec() override;
+    QWidget *widget(const QString &group) const override;
 
     ~HolonCustomTask();
 };

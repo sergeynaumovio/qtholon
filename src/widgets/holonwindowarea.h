@@ -8,8 +8,8 @@
 #include <QLoaderSettings>
 #include <QWidget>
 
+class HolonAbstractWindow;
 class HolonDesktop;
-class HolonWindow;
 class HolonWindowAreaPrivate;
 class QStackedWidget;
 
@@ -29,8 +29,8 @@ public:
     HolonWindowArea(QLoaderSettings *settings, HolonDesktop *desktop);
     ~HolonWindowArea();
 
-    void addWindow(HolonWindow *window);
-    void closeWindow(HolonWindow *window);
+    void addWindow(HolonAbstractWindow *window);
+    void closeWindow(HolonAbstractWindow *window);
     bool isChecked() const;
     virtual QIcon icon() const;
     QString shortcut() const;

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holonterminalwindow.h"
+#include "holonabstracttask.h"
 #include "holondesktop.h"
 #include "holonsidebar.h"
 #include <QBoxLayout>
@@ -14,10 +15,10 @@ class HolonTerminalWindowPrivate
 {
 public:
     HolonTerminalWindow *const q_ptr;
-    QLoaderSettings *const settings{};
-    HolonSidebar *const sidebar{};
+    QLoaderSettings *const settings;
+    HolonSidebar *const sidebar;
     bool close{true};
-    QWidget *w{};
+    QWidget *terminal{};
 
     HolonTerminalWindowPrivate(HolonTerminalWindow *q, QLoaderSettings *s, HolonSidebar *sb = nullptr)
     :   q_ptr(q),
@@ -27,24 +28,32 @@ public:
 
     QWidget *widget()
     {
-        if (!w)
-        {
-            w = new QLoaderTerminal(settings);
-            QObject::connect(sidebar, &QObject::destroyed, q_ptr, [this] { close = false; });
-            QObject::connect(w, &QObject::destroyed, q_ptr, [this] { if (close) q_ptr->close(); });
-        }
+        if (terminal)
+            return terminal;
 
-        return w;
+        terminal = new QLoaderTerminal(settings);
+        QObject::connect(sidebar, &QObject::destroyed, q_ptr, [this] { close = false; });
+        QObject::connect(terminal, &QObject::destroyed, q_ptr, [this] { if (close) q_ptr->close(); });
+
+        return terminal;
     }
 };
 
+HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonAbstractTask *parent)
+:   HolonAbstractWindow(settings, parent)
+{
+    parent->addWindow(this);
+}
+
 HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonDesktop *parent)
-:   HolonWindow(settings, parent),
+:   HolonAbstractWindow(settings, parent),
     d_ptr(new HolonTerminalWindowPrivate(this, settings))
-{ }
+{
+    parent->addWindow(this);
+}
 
 HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonSidebar *parent)
-:   HolonWindow(settings, parent),
+:   HolonAbstractWindow(settings, parent),
     d_ptr(new HolonTerminalWindowPrivate(this, settings, parent))
 {
     parent->addWindow(this);
@@ -53,14 +62,14 @@ HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonSidebar
 HolonTerminalWindow::~HolonTerminalWindow()
 { }
 
-HolonWindow::Areas HolonTerminalWindow::areas() const
+HolonAbstractWindow::Areas HolonTerminalWindow::areas() const
 {
-    return HolonWindow::Sidebar;
+    return HolonAbstractWindow::Sidebar;
 }
 
-HolonWindow::Attributes HolonTerminalWindow::attributes() const
+HolonAbstractWindow::Attributes HolonTerminalWindow::attributes() const
 {
-    return HolonWindow::WindowCloseButtonHint;
+    return HolonAbstractWindow::WindowCloseButtonHint;
 }
 
 QIcon HolonTerminalWindow::icon() const

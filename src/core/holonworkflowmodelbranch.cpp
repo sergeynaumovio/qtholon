@@ -29,3 +29,8 @@ QString HolonWorkflowModelBranch::title() const
 {
     return value("title", section().constLast()).toString();
 }
+
+HolonWorkflowModel *HolonWorkflowModelBranch::workflowModel() const
+{
+    return qobject_cast<HolonWorkflowModel *>(parent());
+}

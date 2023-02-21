@@ -29,12 +29,12 @@ HolonWindowArea::HolonWindowArea(QLoaderSettings *settings, HolonDesktop *deskto
 HolonWindowArea::~HolonWindowArea()
 { }
 
-void HolonWindowArea::addWindow(HolonWindow *window)
+void HolonWindowArea::addWindow(HolonAbstractWindow *window)
 {
     d_ptr->addWindow(window);
 }
 
-void HolonWindowArea::closeWindow(HolonWindow *window)
+void HolonWindowArea::closeWindow(HolonAbstractWindow *window)
 {
     d_ptr->closeWindow(window);
 }

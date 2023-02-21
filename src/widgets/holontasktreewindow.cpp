@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holontasktreewindow.h"
+#include "holonabstracttask.h"
 #include "holondesktop.h"
 #include "holonsidebar.h"
-#include "holontask.h"
 #include "holontaskmodel.h"
 #include "holonworkflowmodelbranch.h"
 #include "holonworkflowmodel.h"
@@ -36,8 +36,10 @@ public:
 
     QWidget *widget()
     {
-        if (!view)
-            view = new QTreeView;
+        if (view)
+            return view;
+
+        view = new QTreeView;
 
         if ((taskTreeModel = desktop->taskModel()))
         {
@@ -47,7 +49,7 @@ public:
             QTreeView::connect(view, &QTreeView::doubleClicked, view, [this](QModelIndex index)
             {
                 QObject *clickedObject = static_cast<QObject *>(index.internalPointer());
-                if (!qobject_cast<HolonTask *>(clickedObject))
+                if (!qobject_cast<HolonAbstractTask *>(clickedObject))
                     return;
 
                 QLoaderSettings *clickedObjectSettings = tree->settings(clickedObject);
@@ -63,12 +65,12 @@ public:
                     return;
 
                 QList<HolonWorkflowModelBranch *>
-                dirs = workflowModel->findChildren<HolonWorkflowModelBranch *>(Qt::FindDirectChildrenOnly);
+                branchList = workflowModel->findChildren<HolonWorkflowModelBranch *>(Qt::FindDirectChildrenOnly);
 
-                if (dirs.isEmpty())
+                if (branchList.isEmpty())
                     return;
 
-                QStringList to = dirs.constFirst()->section();
+                QStringList to = branchList.constFirst()->section();
                 to.append(QUuid::createUuid().toString(QUuid::WithoutBraces));
                 tree->copy(clickedObjectSettings->section(), to);
 
@@ -81,11 +83,13 @@ public:
 };
 
 HolonTaskTreeWindow::HolonTaskTreeWindow(QLoaderSettings *settings, HolonDesktop *parent)
-:   HolonWindow(settings, parent)
-{ }
+:   HolonAbstractWindow(settings, parent)
+{
+    parent->addWindow(this);
+}
 
 HolonTaskTreeWindow::HolonTaskTreeWindow(QLoaderSettings *settings, HolonSidebar *parent)
-:   HolonWindow(settings, parent),
+:   HolonAbstractWindow(settings, parent),
     d_ptr(new HolonTaskTreeWindowPrivate(this, settings, parent->desktop()))
 {
     parent->addWindow(this);
@@ -94,12 +98,12 @@ HolonTaskTreeWindow::HolonTaskTreeWindow(QLoaderSettings *settings, HolonSidebar
 HolonTaskTreeWindow::~HolonTaskTreeWindow()
 { }
 
-HolonWindow::Areas HolonTaskTreeWindow::areas() const
+HolonAbstractWindow::Areas HolonTaskTreeWindow::areas() const
 {
-    return HolonWindow::Sidebar;
+    return HolonAbstractWindow::Sidebar;
 }
 
-HolonWindow::Attributes HolonTaskTreeWindow::attributes() const
+HolonAbstractWindow::Attributes HolonTaskTreeWindow::attributes() const
 {
     return {};
 }

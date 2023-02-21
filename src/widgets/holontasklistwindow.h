@@ -4,14 +4,14 @@
 #ifndef HOLONTASKLISTWINDOW_H
 #define HOLONTASKLISTWINDOW_H
 
-#include "holonwindow.h"
+#include "holonabstractwindow.h"
 #include <QWidget>
 
 class HolonDesktop;
 class HolonTaskListWindowPrivate;
 class HolonSidebar;
 
-class HolonTaskListWindow : public HolonWindow
+class HolonTaskListWindow : public HolonAbstractWindow
 {
     Q_OBJECT
 
@@ -22,8 +22,8 @@ public:
     HolonTaskListWindow(QLoaderSettings *settings, HolonSidebar *parent);
     ~HolonTaskListWindow();
 
-    HolonWindow::Areas areas() const override;
-    HolonWindow::Attributes attributes() const override;
+    HolonAbstractWindow::Areas areas() const override;
+    HolonAbstractWindow::Attributes attributes() const override;
     QIcon icon() const override;
     bool isCopyable(const QStringList &to) const override;
     QString title() const override;

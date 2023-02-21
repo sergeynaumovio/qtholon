@@ -73,7 +73,12 @@ void HolonDesktop::addSidebar(HolonSidebar *sidebar)
     d_ptr->addSidebar(sidebar);
 }
 
-void HolonDesktop::addWindow(HolonWindow *window)
+void HolonDesktop::addTask(HolonAbstractTask *task)
+{
+    d_ptr->addTask(task);
+}
+
+void HolonDesktop::addWindow(HolonAbstractWindow *window)
 {
     d_ptr->addWindow(window);
 }
@@ -86,6 +91,11 @@ void HolonDesktop::addWindowArea(HolonWindowArea *windowArea)
 QString HolonDesktop::buttonStyleSheet() const
 {
     return d_ptr->buttonStyleSheet();
+}
+
+QString HolonDesktop::group() const
+{
+    return d_ptr->group();
 }
 
 int HolonDesktop::menuBorderWidth() const
@@ -103,9 +113,9 @@ int HolonDesktop::menuWidth() const
     return d_ptr->menuWidth();
 }
 
-void HolonDesktop::setCurrentTask(HolonTask *task)
+void HolonDesktop::setCurrentTask(HolonAbstractTask *task)
 {
-    Q_UNUSED(task)
+    d_ptr->setCurrentTask(task);
 }
 
 HolonTaskModel *HolonDesktop::taskModel() const
@@ -123,9 +133,9 @@ QString HolonDesktop::titleBarStyleSheet() const
     return d_ptr->titleBarStyleSheet();
 }
 
-QList<HolonWindow *> HolonDesktop::windows() const
+QList<HolonAbstractWindow *> HolonDesktop::windows() const
 {
-    return d_ptr->windowList();
+    return d_ptr->windows();
 }
 
 HolonWorkflowModel *HolonDesktop::workflowModel() const

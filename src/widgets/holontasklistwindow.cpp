@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holontasklistwindow.h"
+#include "holonabstracttask.h"
 #include "holondesktop.h"
 #include "holonsidebar.h"
-#include "holontask.h"
 #include "holonworkflowmodel.h"
 #include <QBoxLayout>
 #include <QHeaderView>
@@ -34,8 +34,10 @@ public:
 
     QWidget *widget()
     {
-        if (!view)
-            view = new QListView;
+        if (view)
+            return view;
+
+        view = new QListView;
 
         if ((workflowModel = desktop->workflowModel()))
         {
@@ -46,7 +48,7 @@ public:
                 QObject *clickedObject = static_cast<QObject *>(index.internalPointer());
                 qDebug () << clickedObject;
 
-                if (!qobject_cast<HolonTask *>(clickedObject))
+                if (!qobject_cast<HolonAbstractTask *>(clickedObject))
                     return;
             });
         }
@@ -56,11 +58,13 @@ public:
 };
 
 HolonTaskListWindow::HolonTaskListWindow(QLoaderSettings *settings, HolonDesktop *parent)
-:   HolonWindow(settings, parent)
-{ }
+:   HolonAbstractWindow(settings, parent)
+{
+    parent->addWindow(this);
+}
 
 HolonTaskListWindow::HolonTaskListWindow(QLoaderSettings *settings, HolonSidebar *parent)
-:   HolonWindow(settings, parent),
+:   HolonAbstractWindow(settings, parent),
     d_ptr(new HolonTaskListWindowPrivate(this, settings, parent->desktop()))
 {
     parent->addWindow(this);
@@ -69,12 +73,12 @@ HolonTaskListWindow::HolonTaskListWindow(QLoaderSettings *settings, HolonSidebar
 HolonTaskListWindow::~HolonTaskListWindow()
 { }
 
-HolonWindow::Areas HolonTaskListWindow::areas() const
+HolonAbstractWindow::Areas HolonTaskListWindow::areas() const
 {
-    return HolonWindow::Sidebar;
+    return HolonAbstractWindow::Sidebar;
 }
 
-HolonWindow::Attributes HolonTaskListWindow::attributes() const
+HolonAbstractWindow::Attributes HolonTaskListWindow::attributes() const
 {
     return {};
 }

@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holontaskmodel.h"
+#include "holonabstracttask.h"
 #include "holondesktop.h"
-#include "holontask.h"
 #include "holontaskmodelbranch.h"
 
 class HolonTaskModelPrivate
@@ -49,7 +49,7 @@ QVariant HolonTaskModel::data(const QModelIndex &index, int role) const
         if (HolonTaskModelBranch *dir = qobject_cast<HolonTaskModelBranch *>(object))
             return dir->title();
 
-        if (HolonTask *task = qobject_cast<HolonTask *>(object))
+        if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(object))
             return task->title();
 
         return d_ptr->object(index)->objectName();
@@ -86,5 +86,8 @@ QModelIndex HolonTaskModel::parent(const QModelIndex &child) const
 
 int HolonTaskModel::rowCount(const QModelIndex &parent) const
 {
-    return d_ptr->object(parent)->children().count();
+    if (d_ptr->object(parent) == this || qobject_cast<HolonTaskModelBranch *>(d_ptr->object(parent)))
+        return d_ptr->object(parent)->children().count();
+
+    return 0;
 }

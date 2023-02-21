@@ -6,13 +6,14 @@
 
 #include <QMetaType>
 
+class HolonAbstractTask;
+class HolonAbstractWindow;
 class HolonDesktop;
 class HolonDesktopPrivateData;
 class HolonSidebar;
 class HolonSidebarDock;
 class HolonTaskbar;
 class HolonTaskModel;
-class HolonWindow;
 class HolonWindowArea;
 class HolonWorkflowModel;
 template<typename> class QList;
@@ -27,17 +28,19 @@ class HolonDesktopPrivate
     friend class HolonDesktop;
     friend class HolonDesktopPrivateData;
     HolonDesktopPrivateData &d;
-    std::aligned_storage_t<424, sizeof (ptrdiff_t)> d_storage;
+    std::aligned_storage_t<520, sizeof (ptrdiff_t)> d_storage;
 
     HolonDesktopPrivate(HolonDesktop *q);
 
     void addModel(HolonTaskModel *model);
     void addModel(HolonWorkflowModel *model);
     void addSidebar(HolonSidebar *sidebar);
-    void addWindow(HolonWindow *window);
+    void addTask(HolonAbstractTask *task);
+    void addWindow(HolonAbstractWindow *window);
     void addWindowArea(HolonWindowArea *window);
     void resizeEvent(QResizeEvent *e);
     void saveMainWindowState();
+    void setCurrentTask(HolonAbstractTask *task);
     void setLayout();
     HolonTaskModel *taskModel() const;
     HolonWorkflowModel *workflowModel() const;
@@ -58,6 +61,7 @@ public:
     ~HolonDesktopPrivate();
 
     QString buttonStyleSheet() const;
+    QString group() const;
     int menuBorderWidth() const;
     QString menuStyleSheet() const;
     int menuWidth() const;
@@ -71,7 +75,7 @@ public:
     QString taskbarStyleSheet() const;
     int titleBarHeight() const;
     QString titleBarStyleSheet() const;
-    QList<HolonWindow *> windowList() const;
+    QList<HolonAbstractWindow *> windows() const;
 
     void removeSidebar(HolonSidebar *sidebar);
     void resizeDocks();

@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holonwindowarea_p.h"
+#include "holonabstractwindow.h"
 #include "holonwindowarea.h"
 #include "holondesktop.h"
-#include "holonwindow.h"
 #include "holonwindowmenu.h"
 #include <QBoxLayout>
 #include <QDockWidget>
@@ -17,7 +17,7 @@ class TitleBar : public QWidget
 {
 public:
     TitleBar(HolonDesktop *desktop, QDockWidget *parent,
-             HolonWindow *window = nullptr,
+             HolonAbstractWindow *window = nullptr,
              HolonWindowAreaPrivate *d = nullptr)
     :   QWidget(parent)
     {
@@ -48,8 +48,8 @@ public:
                 return button;
             };
 
-            HolonWindow::Attributes attributes = window->attributes();
-            if (attributes.testFlag(HolonWindow::WindowMinMaxButtonsHint))
+            HolonAbstractWindow::Attributes attributes = window->attributes();
+            if (attributes.testFlag(HolonAbstractWindow::WindowMinMaxButtonsHint))
             {
                 QPushButton *maximize = addButton('M');
                 {
@@ -66,7 +66,7 @@ public:
                 }
             }
 
-            if (attributes.testAnyFlag(HolonWindow::WindowCloseButtonHint))
+            if (attributes.testAnyFlag(HolonAbstractWindow::WindowCloseButtonHint))
             {
                 QPushButton *close = addButton('X');
                 {
@@ -98,7 +98,7 @@ public:
                 widget->setLayout(l);
                 HolonWindowMenu *menu;
                 l->addWidget(menu = new HolonWindowMenu(desktop, widget), 0, Qt::AlignCenter);
-                connect(menu, &HolonWindowMenu::triggered, this, [area](HolonWindow *window)
+                connect(menu, &HolonWindowMenu::triggered, this, [area](HolonAbstractWindow *window)
                 {
                     QStringList to = area->section();
                     to.append(qAsConst(window)->section().last());
@@ -109,7 +109,7 @@ public:
         }
     }
 
-    DockWidget(HolonDesktop *desktop, QMainWindow *parent, HolonWindow *window, HolonWindowAreaPrivate *d)
+    DockWidget(HolonDesktop *desktop, QMainWindow *parent, HolonAbstractWindow *window, HolonWindowAreaPrivate *d)
     :   DockWidget(parent)
     {
         setTitleBarWidget(new TitleBar(desktop, this, window, d));
@@ -130,7 +130,7 @@ HolonWindowAreaPrivate::HolonWindowAreaPrivate(HolonDesktop *desk, HolonWindowAr
 HolonWindowAreaPrivate::~HolonWindowAreaPrivate()
 { }
 
-void HolonWindowAreaPrivate::addWindow(HolonWindow *window)
+void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
 {
     QDockWidget *dock = new DockWidget(desktop, mainWindow, window, this);
     dockList.append(dock);
@@ -139,6 +139,7 @@ void HolonWindowAreaPrivate::addWindow(HolonWindow *window)
         defaultDock->hide();
 
     dockByWindow.insert(window, dock);
+    desktop->addWindow(window);
 }
 
 void HolonWindowAreaPrivate::maximizeWindow(QDockWidget *dock)
@@ -157,9 +158,10 @@ void HolonWindowAreaPrivate::maximizeWindow(QDockWidget *dock)
     }
 }
 
-void HolonWindowAreaPrivate::closeWindow(HolonWindow *window)
+void HolonWindowAreaPrivate::closeWindow(HolonAbstractWindow *window)
 {
     QDockWidget *dock = dockByWindow.value(window);
+    dockByWindow.remove(window);
     mainWindow->removeDockWidget(dock);
     dock->deleteLater();
     window->deleteLater();

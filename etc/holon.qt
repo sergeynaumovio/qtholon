@@ -3,8 +3,9 @@
 [holon]
 class = HolonDesktop
 buttonStyleSheet = QPushButton { border: 0px; } QPushButton:hover { background-color: rgb(74, 76, 78); color: white; }
-externalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAADIAAACuvwCAAAAAfwAAAAAAAACugAAAHMA///+/AEAAAAC+wAAAAoAdABhAHMAawBzAQAAAAAAAADIAAAAyAD////7AAAAFABwAGEAcgBhAG0AZQB0AGUAcgBzAQAAAMkAAADIAAAAAAAAAAAAAAABAAAAyAAAArr8AgAAAAH7AAAAEABzAGUAdAB0AGkAbgBnAHMBAAAAAAAAAroAAABzAP///gAAARUAAAK6AAAABAAAAAQAAAAIAAAACPwAAAAA)
-internalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAAEVAAAAc/wBAAAAAfsAAAAQAG0AZQBzAHMAYQBnAGUAcwEAAAAAAAABFQAAAAAAAAAAAAABFQAAAroAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
+externalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAAGRAAACuvwCAAAAAfwAAAAAAAACugAAALwA///+/AEAAAAC+wAAAAoAdABhAHMAawBzAQAAAAAAAADIAAAAUAD////7AAAAFABwAGEAcgBhAG0AZQB0AGUAcgBzAQAAAMkAAADIAAAAkgD///8AAAABAAAAyAAAArr8AgAAAAH7AAAAEABzAGUAdAB0AGkAbgBnAHMBAAAAAAAAAroAAAAAAAAAAAAAARUAAAK6AAAABAAAAAQAAAAIAAAACPwAAAAA)
+group = central
+internalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAAEVAAAAc/wBAAAAAfsAAAAQAG0AZQBzAHMAYQBnAGUAcwEAAAAAAAABFQAAAAAAAAAAAAAB3gAAAroAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 menuStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); border: 1px solid rgb(34, 36, 38); }
 menuWidth = 180
 minimumHeight = 200
@@ -30,14 +31,27 @@ title = Branch A
 [holon/task-model/branch-a/custom-task1]
 class = HolonCustomTask
 title = Custom Task A
+group = parameters
+
+[holon/task-model/branch-a/custom-task1/terminal]
+class = HolonTerminalWindow
+title = Terminal
+group = central
 
 [holon/task-model/branch-b]
 class = HolonTaskModelBranch
 title = Branch B
+group= parameters
 
 [holon/task-model/branch-b/custom-task2]
 class = HolonCustomTask
 title = Custom Task B
+group = parameters
+
+[holon/task-model/branch-b/custom-task3]
+class = HolonCustomTask
+title = Custom Task C
+group = parameters
 
 [holon/workflow-model1]
 class = HolonWorkflowModel
@@ -45,43 +59,90 @@ class = HolonWorkflowModel
 [holon/workflow-model1/branch1]
 class = HolonWorkflowModelBranch
 
+[holon/workflow-model1/branch1/d1108b37-94c0-43ac-bc94-6a809912d0d2]
+class = HolonCustomTask
+title = Custom Task B
+
+[holon/workflow-model1/branch1/11ecaf71-ba96-4e77-9113-0ccde7381fec]
+class = HolonCustomTask
+title = Custom Task C
+
+[holon/workflow-model1/branch1/017fc3d2-6b5d-4f1a-9560-4b935832f424]
+class = HolonCustomTask
+title = Custom Task C
+
+[holon/workflow-model1/branch1/d127d179-b3b3-4ed4-8432-eefb851a0475]
+class = HolonCustomTask
+title = Custom Task A
+
+[holon/workflow-model1/branch1/d127d179-b3b3-4ed4-8432-eefb851a0475/terminal]
+class = HolonTerminalWindow
+title = Terminal
+group = central
+
+[holon/workflow-model1/branch1/ed409cd7-799f-43e0-8ac6-5c4f45b41e3b]
+class = HolonCustomTask
+title = Custom Task A
+group = parameters
+
+[holon/workflow-model1/branch1/ed409cd7-799f-43e0-8ac6-5c4f45b41e3b/terminal]
+class = HolonTerminalWindow
+title = Terminal
+
+[holon/data]
+class = QLoaderData
+
+[holon/shell]
+class = QLoaderShell
+home = holon/data
+
+[holon/shell/cd]
+class = QLoaderShellCd
+
+[holon/shell/clear]
+class = QLoaderShellClear
+
+[holon/shell/exit]
+class = QLoaderShellExit
+
+[holon/shell/save]
+class = QLoaderShellSave
+
 [holon/task-tree-window]
 class = HolonTaskTreeWindow
 
 [holon/task-list-window]
 class = HolonTaskListWindow
 
+[holon/parameters-window]
+class = HolonParametersWindow
+
 [holon/terminal-window]
 class = HolonTerminalWindow
 
-[holon/task-tree]
+[holon/tasks]
 class = HolonSidebar
 checked = true
-group = tasks
 layout = external
 shortcut = Alt+1
-title = Project Tasks
+title = Tasks
 
-[holon/task-tree/task-tree-window]
+[holon/tasks/task-tree-window]
 class = HolonTaskTreeWindow
 
-[holon/task-list]
-class = HolonSidebar
-checked = false
-group = tasks
-layout = external
-shortcut = Alt+2
-title = Open Tasks
-
-[holon/task-list/task-list-window]
+[holon/tasks/task-list-window]
 class = HolonTaskListWindow
 
 [holon/parameters]
 class = HolonSidebar
-checked = false
+checked = true
 layout = external
-shortcut = Alt+3
+shortcut = Alt+2
 title = Parameters
+
+[holon/parameters/parameters-window]
+class = HolonParametersWindow
+group = parameters
 
 [holon/workflows]
 class = HolonWindowArea
@@ -101,29 +162,10 @@ title = Messages
 
 [holon/settings]
 class = HolonSidebar
-checked = true
+checked = false
 layout = external
 shortcut = Alt+-
 title = Settings
-
-[holon/shell]
-class = QLoaderShell
-home = holon/data
-
-[holon/shell/cd]
-class = QLoaderShellCd
-
-[holon/shell/clear]
-class = QLoaderShellClear
-
-[holon/shell/exit]
-class = QLoaderShellExit
-
-[holon/shell/save]
-class = QLoaderShellSave
-
-[holon/data]
-class = QLoaderData
 
 [holon/storage]
 class = QLoaderStorage

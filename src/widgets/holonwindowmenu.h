@@ -6,8 +6,8 @@
 
 #include <QWidget>
 
+class HolonAbstractWindow;
 class HolonDesktop;
-class HolonWindow;
 
 class HolonWindowMenu : public QWidget
 {
@@ -17,7 +17,7 @@ protected:
     void paintEvent(QPaintEvent *) override;
 
 Q_SIGNALS:
-    void triggered(HolonWindow *window);
+    void triggered(HolonAbstractWindow *window);
 
 public:
     HolonWindowMenu(HolonDesktop *desktop, QWidget *parent);

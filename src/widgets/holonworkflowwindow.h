@@ -4,14 +4,14 @@
 #ifndef HOLONWORKFLOWWINDOW_H
 #define HOLONWORKFLOWWINDOW_H
 
-#include "holonwindow.h"
+#include "holonabstractwindow.h"
 #include <QWidget>
 
 class HolonDesktop;
 class HolonWindowArea;
 class HolonWorkflowWindowPrivate;
 
-class HolonWorkflowWindow : public HolonWindow
+class HolonWorkflowWindow : public HolonAbstractWindow
 {
     Q_OBJECT
 
@@ -22,8 +22,8 @@ public:
     HolonWorkflowWindow(QLoaderSettings *settings, HolonWindowArea *parent);
     ~HolonWorkflowWindow();
 
-    HolonWindow::Areas areas() const override;
-    HolonWindow::Attributes attributes() const override;
+    HolonAbstractWindow::Areas areas() const override;
+    HolonAbstractWindow::Attributes attributes() const override;
     QIcon icon() const override;
     bool isCopyable(const QStringList &to) const override;
     QString title() const override;

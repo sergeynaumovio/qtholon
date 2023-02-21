@@ -8,11 +8,11 @@
 #include <QLoaderSettings>
 #include <QWidget>
 
+class HolonAbstractTask;
+class HolonAbstractWindow;
 class HolonDesktopPrivate;
 class HolonSidebar;
-class HolonTask;
 class HolonTaskModel;
-class HolonWindow;
 class HolonWindowArea;
 class HolonWorkflowModel;
 
@@ -39,18 +39,20 @@ public:
     void addModel(HolonTaskModel *model);
     void addModel(HolonWorkflowModel *model);
     void addSidebar(HolonSidebar *sidebar);
-    void addWindow(HolonWindow *window);
+    void addTask(HolonAbstractTask *task);
+    void addWindow(HolonAbstractWindow *window);
     void addWindowArea(HolonWindowArea *windowArea);
     QString buttonStyleSheet() const;
-    HolonTask *currentTask() const;
+    HolonAbstractTask *currentTask() const;
+    QString group() const;
     int menuBorderWidth() const;
     QString menuStyleSheet() const;
     int menuWidth() const;
-    void setCurrentTask(HolonTask *task);
+    void setCurrentTask(HolonAbstractTask *task);
     HolonTaskModel *taskModel() const;
     int titleBarHeight() const;
     QString titleBarStyleSheet() const;
-    QList<HolonWindow *> windows() const;
+    QList<HolonAbstractWindow *> windows() const;
     HolonWorkflowModel *workflowModel() const;
 };
 

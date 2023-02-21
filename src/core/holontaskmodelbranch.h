@@ -8,8 +8,8 @@
 #include <QLoaderSettings>
 #include <QObject>
 
+class HolonAbstractTask;
 class HolonTaskModel;
-class HolonTask;
 
 class Q_HOLON_EXPORT HolonTaskModelBranch : public QObject, public QLoaderSettings
 {

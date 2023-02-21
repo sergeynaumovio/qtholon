@@ -7,8 +7,8 @@
 #include <QList>
 #include <QMap>
 
+class HolonAbstractWindow;
 class HolonDesktop;
-class HolonWindow;
 class HolonWindowArea;
 class QDockWidget;
 class QMainWindow;
@@ -21,14 +21,14 @@ public:
     QMainWindow *const mainWindow;
     QDockWidget *const defaultDock;
     QList<QDockWidget *> dockList;
-    QMap<HolonWindow *, QDockWidget *> dockByWindow;
+    QMap<HolonAbstractWindow *, QDockWidget *> dockByWindow;
     bool maximized{};
 
     HolonWindowAreaPrivate(HolonDesktop *desktop, HolonWindowArea *q);
     virtual ~HolonWindowAreaPrivate();
 
-    void addWindow(HolonWindow *window);
-    void closeWindow(HolonWindow *window);
+    void addWindow(HolonAbstractWindow *window);
+    void closeWindow(HolonAbstractWindow *window);
     void maximizeWindow(QDockWidget *dock);
     void setChecked(bool checked);
 };

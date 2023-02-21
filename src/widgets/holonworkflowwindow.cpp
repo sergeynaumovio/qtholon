@@ -16,11 +16,13 @@ public:
 };
 
 HolonWorkflowWindow::HolonWorkflowWindow(QLoaderSettings *settings, HolonDesktop *parent)
-:   HolonWindow(settings, parent)
-{ }
+:   HolonAbstractWindow(settings, parent)
+{
+    parent->addWindow(this);
+}
 
 HolonWorkflowWindow::HolonWorkflowWindow(QLoaderSettings *settings, HolonWindowArea *parent)
-:   HolonWindow(settings, parent),
+:   HolonAbstractWindow(settings, parent),
     d_ptr(new HolonWorkflowWindowPrivate)
 {
     parent->addWindow(this);
@@ -29,12 +31,12 @@ HolonWorkflowWindow::HolonWorkflowWindow(QLoaderSettings *settings, HolonWindowA
 HolonWorkflowWindow::~HolonWorkflowWindow()
 { }
 
-HolonWindow::Areas HolonWorkflowWindow::areas() const
+HolonAbstractWindow::Areas HolonWorkflowWindow::areas() const
 {
-    return HolonWindow::Sidebar;
+    return HolonAbstractWindow::Sidebar;
 }
 
-HolonWindow::Attributes HolonWorkflowWindow::attributes() const
+HolonAbstractWindow::Attributes HolonWorkflowWindow::attributes() const
 {
     return {};
 }

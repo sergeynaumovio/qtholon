@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holonwindowmenu.h"
+#include "holonabstractwindow.h"
 #include "holondesktop.h"
-#include "holonwindow.h"
 #include <QBoxLayout>
 #include <QPainter>
 #include <QPushButton>
@@ -12,7 +12,7 @@
 class WindowButton : public QPushButton
 {
 public:
-    WindowButton(HolonDesktop *desktop, HolonWindow *window, HolonWindowMenu *parent)
+    WindowButton(HolonDesktop *desktop, HolonAbstractWindow *window, HolonWindowMenu *parent)
     :   QPushButton(parent)
     {
         setIcon(window->icon());
@@ -44,9 +44,9 @@ HolonWindowMenu::HolonWindowMenu(HolonDesktop *desktop, QWidget *parent)
         layout()->setContentsMargins({px, px, px, px});
         layout()->setSpacing(0);
 
-        for (HolonWindow *window : desktop->windows())
+        for (HolonAbstractWindow *window : desktop->windows())
         {
-            if (window->areas().testFlag(HolonWindow::Sidebar))
+            if (window->areas().testFlag(HolonAbstractWindow::Sidebar))
                 l->addWidget(new WindowButton(desktop, window, this), 0, Qt::AlignHCenter);
         }
     }
