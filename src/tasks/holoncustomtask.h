@@ -24,7 +24,6 @@ public:
 
     int exec() override;
     QWidget *widget(const QString &group) const override;
-
 };
 
 #endif // HOLONCUSTOMTASK_H
