@@ -4,12 +4,13 @@
 #ifndef HOLONSTACKEDWIDGET_H
 #define HOLONSTACKEDWIDGET_H
 
+#include "qtholonglobal.h"
 #include <QStackedWidget>
 
 class HolonStackedWidgetPrivate;
 class HolonAbstractTask;
 
-class HolonStackedWidget : public QStackedWidget
+class Q_HOLON_EXPORT HolonStackedWidget : public QStackedWidget
 {
     Q_OBJECT
 

@@ -120,10 +120,12 @@ set(QT_HOLON_PUBLIC_HEADERS
     src/widgets/HolonAbstractWindow
     src/widgets/HolonDesktop
     src/widgets/HolonSidebar
+    src/widgets/HolonStackedWidget
     src/widgets/holonabstractwidget.h
     src/widgets/holonabstractwindow.h
     src/widgets/holondesktop.h
     src/widgets/holonsidebar.h
+    src/widgets/holonstackedwidget.h
 )
 
 set_target_properties(${QT_HOLON_LIBRARY} PROPERTIES
