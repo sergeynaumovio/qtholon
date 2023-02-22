@@ -5,6 +5,7 @@
 #include "holonabstracttask.h"
 #include "holondesktop.h"
 #include "holonwindowarea.h"
+#include <QIcon>
 
 class HolonAbstractWindowPrivate
 {
