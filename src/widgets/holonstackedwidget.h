@@ -22,7 +22,7 @@ public:
 
     void addTaskWidget(HolonAbstractTask *task, QWidget *widget);
     QString group() const;
-    void setCurrentWidget(HolonAbstractTask *task);
+    void setCurrentTask(HolonAbstractTask *task);
 };
 
 #endif // HOLONSTACKEDWIDGET_H

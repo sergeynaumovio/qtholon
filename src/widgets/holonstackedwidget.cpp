@@ -27,10 +27,10 @@ public:
         return widgetGroup;
     }
 
-    void setCurrentWidget(HolonAbstractTask *task)
+    void setCurrentTask(HolonAbstractTask *task)
     {
         if (taskWidget.contains(task))
-            q_ptr->QStackedWidget::setCurrentWidget(taskWidget.value(task));
+            q_ptr->setCurrentWidget(taskWidget.value(task));
     }
 };
 
@@ -52,7 +52,7 @@ QString HolonStackedWidget::group() const
     return d_ptr->group();
 }
 
-void HolonStackedWidget::setCurrentWidget(HolonAbstractTask *task)
+void HolonStackedWidget::setCurrentTask(HolonAbstractTask *task)
 {
-    d_ptr->setCurrentWidget(task);
+    d_ptr->setCurrentTask(task);
 }

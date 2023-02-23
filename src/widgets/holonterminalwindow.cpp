@@ -32,7 +32,10 @@ public:
             return terminal;
 
         terminal = new QLoaderTerminal(settings);
-        QObject::connect(sidebar, &QObject::destroyed, q_ptr, [this] { close = false; });
+
+        if (sidebar)
+            QObject::connect(sidebar, &QObject::destroyed, q_ptr, [this] { close = false; });
+
         QObject::connect(terminal, &QObject::destroyed, q_ptr, [this] { if (close) q_ptr->close(); });
 
         return terminal;
@@ -40,7 +43,8 @@ public:
 };
 
 HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonAbstractTask *parent)
-:   HolonAbstractWindow(settings, parent)
+:   HolonAbstractWindow(settings, parent),
+    d_ptr(new HolonTerminalWindowPrivate(this, settings))
 {
     parent->addWindow(this);
 }

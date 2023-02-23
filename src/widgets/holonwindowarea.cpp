@@ -2,9 +2,11 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holonwindowarea.h"
+#include "holonabstracttask.h"
 #include "holondesktop.h"
 #include "holonwindowarea_p.h"
 #include <QBoxLayout>
+#include <QLoaderTree>
 #include <QMainWindow>
 #include <QStackedWidget>
 
@@ -23,6 +25,10 @@ HolonWindowArea::HolonWindowArea(HolonWindowAreaPrivate &d, QLoaderSettings *set
 HolonWindowArea::HolonWindowArea(QLoaderSettings *settings, HolonDesktop *desktop)
 :   HolonWindowArea(*new HolonWindowAreaPrivate(desktop, this), settings)
 {
+    if (QObject *object = settings->tree()->object(settings->section()))
+        if (qobject_cast<HolonAbstractTask *>(object))
+            return;
+
     desktop->addWindowArea(this);
 }
 

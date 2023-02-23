@@ -4,7 +4,9 @@
 #include "holonabstracttask.h"
 #include "holonabstractwidget.h"
 #include "holonabstractwindow.h"
+#include "holondesktop.h"
 #include "holontaskmodelbranch.h"
+#include "holonworkflowmodel.h"
 #include "holonworkflowmodelbranch.h"
 #include <QLoaderTree>
 
@@ -13,6 +15,11 @@ class HolonAbstractTaskPrivate
 public:
     QMap<QString, QList<HolonAbstractWindow *>> windowList;
     QMap<QString, HolonAbstractWidget *> widgetList;
+    HolonWorkflowModelBranch *const workflowModelBranch;
+
+    HolonAbstractTaskPrivate(HolonWorkflowModelBranch *branch = nullptr)
+    :   workflowModelBranch(branch)
+    { }
 };
 
 HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonTaskModelBranch *taskModelBranch)
@@ -24,7 +31,7 @@ HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonTaskModelBr
 HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonWorkflowModelBranch *workflowModelBranch)
 :   QObject(workflowModelBranch),
     QLoaderSettings(settings),
-    d_ptr(new HolonAbstractTaskPrivate)
+    d_ptr(new HolonAbstractTaskPrivate(workflowModelBranch))
 { }
 
 HolonAbstractTask::~HolonAbstractTask()
@@ -44,6 +51,11 @@ void HolonAbstractTask::addWindow(HolonAbstractWindow *window)
         return;
 
     d_ptr->windowList[window->group()].append(window);
+
+    if (d_ptr->workflowModelBranch)
+        if (HolonWorkflowModel *workflowModel = d_ptr->workflowModelBranch->workflowModel())
+            if (HolonDesktop *desktop = workflowModel->desktop())
+                desktop->addWindow(window);
 }
 
 QString HolonAbstractTask::group() const

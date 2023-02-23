@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holonwindowarea_p.h"
+#include "holonabstracttask.h"
 #include "holonabstractwindow.h"
 #include "holonwindowarea.h"
 #include "holondesktop.h"
@@ -139,7 +140,9 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
         defaultDock->hide();
 
     dockByWindow.insert(window, dock);
-    desktop->addWindow(window);
+
+    if (!qobject_cast<HolonAbstractTask *>(window->parent()))
+        desktop->addWindow(window);
 }
 
 void HolonWindowAreaPrivate::maximizeWindow(QDockWidget *dock)

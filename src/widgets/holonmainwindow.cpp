@@ -1,12 +1,14 @@
 // Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
-#include "holondesktop_p.h"
 #include "holonmainwindow.h"
+#include "holonabstracttask.h"
+#include "holondesktop_p.h"
 #include "holonsidebar.h"
 #include "holonsidebardock.h"
 #include <QLabel>
 #include <QLayout>
+#include <QLoaderTree>
 #include <QShortcut>
 #include <QStackedWidget>
 
@@ -20,6 +22,7 @@ public:
 
     QStackedWidget *const centralWindowAreas;
     QStackedWidget *const taskWorkspaces;
+    QHash<HolonAbstractTask *, HolonWindowArea*> taskWorkspacesWindowAreas;
     bool visibleTitleBar{};
     QMap<QString, HolonSidebarDock *> groupDock;
 
@@ -49,9 +52,45 @@ public:
             parent->layout()->addWidget(q_ptr);
     }
 
+    HolonWindowArea *addWindowArea(HolonAbstractTask *task)
+    {
+        if (QLoaderSettings *settings = task->tree()->settings(task))
+        {
+            HolonWindowArea *windowArea = new HolonWindowArea(settings, desktop_d.q_ptr);
+            taskWorkspaces->addWidget(windowArea);
+            taskWorkspacesWindowAreas.insert(task, windowArea);
+
+            return windowArea;
+        }
+
+        return {};
+    }
+
     void addWindowArea(HolonWindowArea *windowArea)
     {
         centralWindowAreas->addWidget(windowArea);
+    }
+
+    void setCurrentTask(HolonAbstractTask *task)
+    {
+        if (taskWorkspacesWindowAreas.contains(task))
+            taskWorkspaces->setCurrentWidget(taskWorkspacesWindowAreas.value(task));
+    }
+
+    void setCurrentWindowArea(HolonWindowArea *windowArea)
+    {
+        if (windowArea)
+            centralWindowAreas->setCurrentWidget(windowArea);
+        else
+            centralWindowAreas->setCurrentWidget(taskWorkspaces);
+    }
+
+    HolonWindowArea *windowArea(HolonAbstractTask *task)
+    {
+        if (taskWorkspacesWindowAreas.contains(task))
+            return taskWorkspacesWindowAreas.value(task);
+
+        return {};
     }
 };
 
@@ -94,15 +133,27 @@ HolonSidebarDock *HolonMainWindow::addSidebar(HolonSidebar *sidebar)
     return sidebarDock;
 }
 
+HolonWindowArea *HolonMainWindow::addWindowArea(HolonAbstractTask *task)
+{
+    return d.addWindowArea(task);
+}
+
 void HolonMainWindow::addWindowArea(HolonWindowArea *windowArea)
 {
     d.addWindowArea(windowArea);
 }
 
+void HolonMainWindow::setCurrentTask(HolonAbstractTask *task)
+{
+    d.setCurrentTask(task);
+}
+
 void HolonMainWindow::setCurrentWindowArea(HolonWindowArea *windowArea)
 {
-    if (windowArea)
-        d.centralWindowAreas->setCurrentWidget(windowArea);
-    else
-        d.centralWindowAreas->setCurrentIndex(0);
+    d.setCurrentWindowArea(windowArea);
+}
+
+HolonWindowArea *HolonMainWindow::windowArea(HolonAbstractTask *task)
+{
+    return d.windowArea(task);
 }
