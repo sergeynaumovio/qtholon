@@ -66,9 +66,9 @@ HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonSidebar
 HolonTerminalWindow::~HolonTerminalWindow()
 { }
 
-HolonAbstractWindow::Areas HolonTerminalWindow::areas() const
+HolonAbstractWindow::Area HolonTerminalWindow::area() const
 {
-    return HolonAbstractWindow::Sidebar;
+    return HolonAbstractWindow::Central;
 }
 
 HolonAbstractWindow::Attributes HolonTerminalWindow::attributes() const
@@ -105,7 +105,10 @@ QWidget *HolonTerminalWindow::toolbar() const
     return {};
 }
 
-QWidget *HolonTerminalWindow::widget() const
+QWidget *HolonTerminalWindow::widget(Area area) const
 {
-    return d_ptr->widget();
+    if (area == Central)
+        return d_ptr->widget();
+
+    return {};
 }

@@ -114,7 +114,14 @@ public:
     :   DockWidget(parent)
     {
         setTitleBarWidget(new TitleBar(desktop, this, window, d));
-        setWidget(window->widget());
+
+        if (window->area() == HolonAbstractWindow::Central)
+            setWidget(window->widget(HolonAbstractWindow::Central));
+        else if (window->area() == HolonAbstractWindow::Sidebar)
+            setWidget(window->widget(HolonAbstractWindow::Sidebar));
+        else
+            return;
+
         widget()->setFocus();
     }
 };

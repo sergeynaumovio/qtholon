@@ -71,7 +71,7 @@ HolonTaskListWindow::HolonTaskListWindow(QLoaderSettings *settings, HolonSidebar
 HolonTaskListWindow::~HolonTaskListWindow()
 { }
 
-HolonAbstractWindow::Areas HolonTaskListWindow::areas() const
+HolonAbstractWindow::Area HolonTaskListWindow::area() const
 {
     return HolonAbstractWindow::Sidebar;
 }
@@ -110,7 +110,10 @@ QWidget *HolonTaskListWindow::toolbar() const
     return {};
 }
 
-QWidget *HolonTaskListWindow::widget() const
+QWidget *HolonTaskListWindow::widget(Area area) const
 {
-    return d_ptr->widget();
+    if (area == Sidebar)
+        return d_ptr->widget();
+
+    return {};
 }

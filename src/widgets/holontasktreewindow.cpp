@@ -98,7 +98,7 @@ HolonTaskTreeWindow::HolonTaskTreeWindow(QLoaderSettings *settings, HolonSidebar
 HolonTaskTreeWindow::~HolonTaskTreeWindow()
 { }
 
-HolonAbstractWindow::Areas HolonTaskTreeWindow::areas() const
+HolonAbstractWindow::Area HolonTaskTreeWindow::area() const
 {
     return HolonAbstractWindow::Sidebar;
 }
@@ -137,7 +137,10 @@ QWidget *HolonTaskTreeWindow::toolbar() const
     return {};
 }
 
-QWidget *HolonTaskTreeWindow::widget() const
+QWidget *HolonTaskTreeWindow::widget(Area area) const
 {
-    return d_ptr->widget();
+    if (area == Sidebar)
+        return d_ptr->widget();
+
+    return {};
 }

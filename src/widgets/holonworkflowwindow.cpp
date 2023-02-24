@@ -12,7 +12,19 @@
 class HolonWorkflowWindowPrivate
 {
 public:
-    QWidget *widget{};
+    QWidget *central{};
+
+    QWidget *widget()
+    {
+        if (central)
+            return central;
+
+        central = new QWidget;
+        central->setLayout(new QVBoxLayout(central));
+        central->layout()->addWidget(new QLabel("Workflows", central));
+
+        return central;
+    }
 };
 
 HolonWorkflowWindow::HolonWorkflowWindow(QLoaderSettings *settings, HolonDesktop *parent)
@@ -31,9 +43,9 @@ HolonWorkflowWindow::HolonWorkflowWindow(QLoaderSettings *settings, HolonWindowA
 HolonWorkflowWindow::~HolonWorkflowWindow()
 { }
 
-HolonAbstractWindow::Areas HolonWorkflowWindow::areas() const
+HolonAbstractWindow::Area HolonWorkflowWindow::area() const
 {
-    return HolonAbstractWindow::Sidebar;
+    return HolonAbstractWindow::Central;
 }
 
 HolonAbstractWindow::Attributes HolonWorkflowWindow::attributes() const
@@ -70,18 +82,10 @@ QWidget *HolonWorkflowWindow::toolbar() const
     return {};
 }
 
-QWidget *HolonWorkflowWindow::widget() const
+QWidget *HolonWorkflowWindow::widget(Area area) const
 {
-    if (!d_ptr->widget)
-    {
-        d_ptr->widget = new QWidget(d_ptr->widget);
-        {
-            d_ptr->widget->setLayout(new QVBoxLayout(d_ptr->widget));
-            {
-                d_ptr->widget->layout()->addWidget(new QLabel("Workflows", d_ptr->widget));
-            }
-        }
-    }
+    if (area == Central)
+        return d_ptr->widget();
 
-    return d_ptr->widget;
+    return {};
 }

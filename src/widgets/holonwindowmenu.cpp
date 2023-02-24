@@ -46,7 +46,7 @@ HolonWindowMenu::HolonWindowMenu(HolonDesktop *desktop, QWidget *parent)
 
         for (HolonAbstractWindow *window : desktop->windows())
         {
-            if (window->areas().testFlag(HolonAbstractWindow::Sidebar))
+            if (window->area() == HolonAbstractWindow::Sidebar)
                 l->addWidget(new WindowButton(desktop, window, this), 0, Qt::AlignHCenter);
         }
     }

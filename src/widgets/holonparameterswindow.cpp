@@ -59,7 +59,7 @@ HolonParametersWindow::HolonParametersWindow(QLoaderSettings *settings, HolonSid
 HolonParametersWindow::~HolonParametersWindow()
 { }
 
-HolonAbstractWindow::Areas HolonParametersWindow::areas() const
+HolonAbstractWindow::Area HolonParametersWindow::area() const
 {
     return HolonAbstractWindow::Sidebar;
 }
@@ -98,7 +98,10 @@ QWidget *HolonParametersWindow::toolbar() const
     return {};
 }
 
-QWidget *HolonParametersWindow::widget() const
+QWidget *HolonParametersWindow::widget(Area area) const
 {
-    return d_ptr->widget();
+    if (area == Sidebar)
+        return d_ptr->widget();
+
+    return {};
 }

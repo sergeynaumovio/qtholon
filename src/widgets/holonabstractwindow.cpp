@@ -33,11 +33,6 @@ HolonAbstractWindow::HolonAbstractWindow(QLoaderSettings *settings, HolonWindowA
 HolonAbstractWindow::~HolonAbstractWindow()
 { }
 
-HolonAbstractWindow::Areas HolonAbstractWindow::areas() const
-{
-    return Central | Sidebar;
-}
-
 HolonAbstractWindow::Attributes HolonAbstractWindow::attributes() const
 {
     return WindowMinMaxButtonsHint | WindowCloseButtonHint;

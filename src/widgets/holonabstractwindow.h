@@ -29,10 +29,10 @@ public:
 
     enum Area
     {
-        Central = 0x0001,
-        Sidebar = 0x0002
+        Central,
+        Settings,
+        Sidebar
     };
-    Q_DECLARE_FLAGS(Areas, HolonAbstractWindow::Area)
 
     enum Attribute
     {
@@ -43,17 +43,15 @@ public:
     };
     Q_DECLARE_FLAGS(Attributes, HolonAbstractWindow::Attribute)
 
-    virtual HolonAbstractWindow::Areas areas() const;
+    virtual HolonAbstractWindow::Area area() const = 0;
     virtual HolonAbstractWindow::Attributes attributes() const;
     void close();
     QString group() const;
     virtual QIcon icon() const;
     virtual QString title() const;
     virtual QWidget *toolbar() const;
-    virtual QWidget *widget() const {return 0;};
+    virtual QWidget *widget(HolonAbstractWindow::Area area) const = 0;
 };
-
-Q_DECLARE_OPERATORS_FOR_FLAGS(HolonAbstractWindow::Areas)
 Q_DECLARE_OPERATORS_FOR_FLAGS(HolonAbstractWindow::Attributes)
 
 

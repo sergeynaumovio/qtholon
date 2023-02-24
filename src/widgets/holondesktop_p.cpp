@@ -208,7 +208,8 @@ void HolonDesktopPrivateData::addWindow(HolonAbstractWindow *window)
 
     if (qobject_cast<HolonWindowArea *>(window->parent()) && !stackedWidgetWindowList.contains(window))
     {
-        HolonStackedWidget *stackedWidget = qobject_cast<HolonStackedWidget *>(window->widget());
+        QWidget *sidebarWidget = window->widget(HolonAbstractWindow::Sidebar);
+        HolonStackedWidget *stackedWidget = qobject_cast<HolonStackedWidget *>(sidebarWidget);
         if (!stackedWidget || stackedWidgetList.contains(stackedWidget))
             return;
 

@@ -23,13 +23,13 @@ public:
     HolonTerminalWindow(QLoaderSettings *settings, HolonSidebar *parent);
     ~HolonTerminalWindow();
 
-    HolonAbstractWindow::Areas areas() const override;
+    Area area() const override;
     HolonAbstractWindow::Attributes attributes() const override;
     QIcon icon() const override;
     bool isCopyable(const QStringList &to) const override;
     QString title() const override;
     QWidget *toolbar() const override;
-    QWidget *widget() const override;
+    QWidget *widget(HolonAbstractWindow::Area area) const override;
 };
 
 #endif // HOLONTERMINALWINDOW_H
