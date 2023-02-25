@@ -28,7 +28,7 @@ class HolonDesktopPrivate
     friend class HolonDesktop;
     friend class HolonDesktopPrivateData;
     HolonDesktopPrivateData &d;
-    std::aligned_storage_t<520, sizeof (ptrdiff_t)> d_storage;
+    std::aligned_storage_t<552, sizeof (ptrdiff_t)> d_storage;
 
     HolonDesktopPrivate(HolonDesktop *q);
 
@@ -41,6 +41,8 @@ class HolonDesktopPrivate
     void resizeEvent(QResizeEvent *e);
     void saveMainWindowState();
     void setCurrentTask(HolonAbstractTask *task);
+    void setCurrentWindow(HolonAbstractWindow *window);
+    void setCurrentWindowArea(HolonWindowArea *windowArea);
     void setLayout();
     HolonTaskModel *taskModel() const;
     HolonWorkflowModel *workflowModel() const;
@@ -61,7 +63,6 @@ public:
     ~HolonDesktopPrivate();
 
     QString buttonStyleSheet() const;
-    QString group() const;
     int menuBorderWidth() const;
     QString menuStyleSheet() const;
     int menuWidth() const;
@@ -81,7 +82,6 @@ public:
     void resizeDocks();
     void restoreSidebar(HolonSidebar *sidebar);
     void saveDockWidgetWidth(HolonSidebarDock *dock, int width);
-    void setWindowAreaState(HolonWindowArea *windowArea, Qt::CheckState checkState);
     HolonSidebarDock *sidebarDock(HolonSidebar *sidebar) const;
 };
 

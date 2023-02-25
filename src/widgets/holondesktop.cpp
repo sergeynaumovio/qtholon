@@ -3,6 +3,8 @@
 
 #include "holondesktop.h"
 #include "holondesktop_p.h"
+#include "holondockwidget.h"
+#include <QApplication>
 #include <QLoaderTree>
 
 void HolonDesktop::closeEvent(QCloseEvent *)
@@ -31,6 +33,17 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
     QLoaderSettings(settings),
     d_ptr(new HolonDesktopPrivate(this))
 {
+    if (QApplication *app = qobject_cast<QApplication *>(QCoreApplication::instance()))
+    {
+        connect(app, &QApplication::focusObjectChanged, this, [this](QObject *object)
+        {
+            if (object)
+                if (HolonDockWidget *dockWidget = qobject_cast<HolonDockWidget *>(object->parent()))
+                    if (HolonAbstractWindow *window = dockWidget->window())
+                        setCurrentWindow(window);
+        });
+    }
+
     connect(tree(), &QLoaderTree::errorChanged, this, [](QObject *sender, QString message)
     {
         qDebug().noquote().nospace() << "QLoaderTree::errorChanged("
@@ -93,11 +106,6 @@ QString HolonDesktop::buttonStyleSheet() const
     return d_ptr->buttonStyleSheet();
 }
 
-QString HolonDesktop::group() const
-{
-    return d_ptr->group();
-}
-
 int HolonDesktop::menuBorderWidth() const
 {
     return d_ptr->menuBorderWidth();
@@ -116,6 +124,16 @@ int HolonDesktop::menuWidth() const
 void HolonDesktop::setCurrentTask(HolonAbstractTask *task)
 {
     d_ptr->setCurrentTask(task);
+}
+
+void HolonDesktop::setCurrentWindow(HolonAbstractWindow *window)
+{
+    d_ptr->setCurrentWindow(window);
+}
+
+void HolonDesktop::setCurrentWindowArea(HolonWindowArea *windowArea)
+{
+    d_ptr->setCurrentWindowArea(windowArea);
 }
 
 HolonTaskModel *HolonDesktop::taskModel() const
