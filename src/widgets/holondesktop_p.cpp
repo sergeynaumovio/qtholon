@@ -265,9 +265,9 @@ void HolonDesktopPrivateData::addWindow(HolonAbstractWindow *window)
                     HolonWindowStackedWidget *windowStackedWidget = new HolonWindowStackedWidget;
                     taskStackedWidget->addTaskWidget(task, windowStackedWidget);
 
-                    for (HolonAbstractWindow *window : taskWindowList)
-                        if (QWidget *widget = window->widget(taskStackedWidget->group()))
-                            windowStackedWidget->addWindowWidget(window, widget);
+                    for (HolonAbstractWindow *taskWindow : taskWindowList)
+                        if (QWidget *widget = taskWindow->widget(taskStackedWidget->group()))
+                            windowStackedWidget->addWindowWidget(taskWindow, widget);
                 }
 
             }
