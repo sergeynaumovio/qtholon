@@ -22,7 +22,7 @@ public:
     QLoaderTree *const tree;
     HolonDesktop *const desktop;
     HolonWorkflowModel *workflowModel{};
-    HolonStackedWidget *stackedWidget{};
+    HolonTaskStackedWidget *stackedWidget{};
 
 
     HolonParametersWindowPrivate(HolonParametersWindow *q, QLoaderSettings *s, HolonDesktop *desk)
@@ -37,7 +37,7 @@ public:
         if (stackedWidget)
             return stackedWidget;
 
-        stackedWidget = new HolonStackedWidget(q_ptr->group());
+        stackedWidget = new HolonTaskStackedWidget(q_ptr->group());
 
         return stackedWidget;
     }
@@ -98,9 +98,9 @@ QWidget *HolonParametersWindow::toolbar() const
     return {};
 }
 
-QWidget *HolonParametersWindow::widget(Area area) const
+QWidget *HolonParametersWindow::widget(const QString &group) const
 {
-    if (area == Sidebar)
+    if (group == QString())
         return d_ptr->widget();
 
     return {};

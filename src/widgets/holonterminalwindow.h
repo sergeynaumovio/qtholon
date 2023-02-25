@@ -29,7 +29,7 @@ public:
     bool isCopyable(const QStringList &to) const override;
     QString title() const override;
     QWidget *toolbar() const override;
-    QWidget *widget(HolonAbstractWindow::Area area) const override;
+    QWidget *widget(const QString &group = QString()) const override;
 };
 
 #endif // HOLONTERMINALWINDOW_H

@@ -137,9 +137,9 @@ QWidget *HolonTaskTreeWindow::toolbar() const
     return {};
 }
 
-QWidget *HolonTaskTreeWindow::widget(Area area) const
+QWidget *HolonTaskTreeWindow::widget(const QString &group) const
 {
-    if (area == Sidebar)
+    if (group == QString())
         return d_ptr->widget();
 
     return {};

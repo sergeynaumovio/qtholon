@@ -82,10 +82,13 @@ QWidget *HolonWorkflowWindow::toolbar() const
     return {};
 }
 
-QWidget *HolonWorkflowWindow::widget(Area area) const
+QWidget *HolonWorkflowWindow::widget(const QString &group) const
 {
-    if (area == Central)
+    if (group == QString())
         return d_ptr->widget();
+
+    if (group == HolonAbstractWindow::group())
+        return new QLabel("Workflow Settings");
 
     return {};
 }

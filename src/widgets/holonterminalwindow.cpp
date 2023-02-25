@@ -105,10 +105,13 @@ QWidget *HolonTerminalWindow::toolbar() const
     return {};
 }
 
-QWidget *HolonTerminalWindow::widget(Area area) const
+QWidget *HolonTerminalWindow::widget(const QString &group) const
 {
-    if (area == Central)
+    if (group == QString())
         return d_ptr->widget();
+
+    if (group == HolonAbstractWindow::group())
+        return new QLabel(section().constLast());
 
     return {};
 }

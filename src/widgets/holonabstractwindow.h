@@ -30,7 +30,6 @@ public:
     enum Area
     {
         Central,
-        Settings,
         Sidebar
     };
 
@@ -50,7 +49,7 @@ public:
     virtual QIcon icon() const;
     virtual QString title() const;
     virtual QWidget *toolbar() const;
-    virtual QWidget *widget(HolonAbstractWindow::Area area) const = 0;
+    virtual QWidget *widget(const QString &group = QString()) const = 0;
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(HolonAbstractWindow::Attributes)
 
