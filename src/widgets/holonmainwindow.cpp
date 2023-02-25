@@ -87,10 +87,7 @@ public:
 
     HolonWindowArea *windowArea(HolonAbstractTask *task)
     {
-        if (taskWorkspacesWindowAreas.contains(task))
-            return taskWorkspacesWindowAreas.value(task);
-
-        return {};
+        return taskWorkspacesWindowAreas.value(task);
     }
 };
 

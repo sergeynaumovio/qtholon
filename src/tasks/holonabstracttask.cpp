@@ -94,9 +94,6 @@ QWidget *HolonAbstractTask::widget(const QString &group) const
 
 QList<HolonAbstractWindow *> HolonAbstractTask::windows(const QString &group) const
 {
-    if (d_ptr->windowList.contains(group))
-        return d_ptr->windowList.value(group);
-
-    return {};
+    return d_ptr->windowList.value(group);
 }
 
