@@ -317,10 +317,16 @@ void HolonDesktopPrivateData::addWindowArea(HolonWindowArea *windowArea)
 void HolonDesktopPrivateData::closeWindow(HolonAbstractWindow *window)
 {
     if (HolonWindowArea *windowArea = windowAreaByWindow.value(window))
+    {
         windowArea->closeWindow(window);
+        windowAreaByWindow.remove(window);
+    }
 
     if (HolonWindowStackedWidget *stackedWidget = stackedWidgetByWindow.value(window))
+    {
         stackedWidget->removeWindowWidget(window);
+        stackedWidgetByWindow.remove(window);
+    }
 }
 
 void HolonDesktopPrivateData::removeUncheckedDocks(HolonMainWindow *mainWindow)
