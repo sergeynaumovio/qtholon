@@ -45,6 +45,11 @@ void HolonWindowArea::closeWindow(HolonAbstractWindow *window)
     d_ptr->closeWindow(window);
 }
 
+HolonDesktop *HolonWindowArea::desktop() const
+{
+    return d_ptr->desktop;
+}
+
 bool HolonWindowArea::isChecked() const
 {
     return value("checked", false).toBool();

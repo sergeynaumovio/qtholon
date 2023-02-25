@@ -31,6 +31,7 @@ public:
 
     void addWindow(HolonAbstractWindow *window);
     void closeWindow(HolonAbstractWindow *window);
+    HolonDesktop *desktop() const;
     bool isChecked() const;
     virtual QIcon icon() const;
     QString shortcut() const;
