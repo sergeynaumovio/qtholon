@@ -8,10 +8,11 @@
 #include <QLoaderSettings>
 
 class HolonAbstractTaskPrivate;
-class HolonTaskModelBranch;
-class HolonWorkflowModelBranch;
 class HolonAbstractWidget;
 class HolonAbstractWindow;
+class HolonDesktop;
+class HolonTaskModelBranch;
+class HolonWorkflowModelBranch;
 
 class Q_HOLON_EXPORT HolonAbstractTask : public QObject, public QLoaderSettings
 {
@@ -28,6 +29,7 @@ public:
 
     void addWidget(HolonAbstractWidget *widget);
     void addWindow(HolonAbstractWindow *window);
+    HolonDesktop *desktop() const;
     virtual int exec() = 0;
     QString group() const;
     bool isCopyable(const QStringList &to) const override;

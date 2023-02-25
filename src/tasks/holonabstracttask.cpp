@@ -16,9 +16,18 @@ public:
     QMap<QString, QList<HolonAbstractWindow *>> windowList;
     QMap<QString, HolonAbstractWidget *> widgetList;
     HolonWorkflowModelBranch *const workflowModelBranch;
+    HolonDesktop *const desktop;
 
     HolonAbstractTaskPrivate(HolonWorkflowModelBranch *branch = nullptr)
-    :   workflowModelBranch(branch)
+    :   workflowModelBranch(branch),
+        desktop([this]() -> HolonDesktop *
+        {
+            if (workflowModelBranch)
+                if (HolonWorkflowModel *workflowModel = workflowModelBranch->workflowModel())
+                    return workflowModel->desktop();
+
+            return {};
+        }())
     { }
 };
 
@@ -56,6 +65,14 @@ void HolonAbstractTask::addWindow(HolonAbstractWindow *window)
         if (HolonWorkflowModel *workflowModel = d_ptr->workflowModelBranch->workflowModel())
             if (HolonDesktop *desktop = workflowModel->desktop())
                 desktop->addWindow(window);
+}
+
+HolonDesktop *HolonAbstractTask::desktop() const
+{
+    if (d_ptr)
+        return d_ptr->desktop;
+
+    return {};
 }
 
 QString HolonAbstractTask::group() const
