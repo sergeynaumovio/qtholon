@@ -31,7 +31,7 @@ public:
     {
         QByteArray className = settings->className();
         const char *shortName = className.data() + qstrlen("Holon");
-        bool coreApp = !qobject_cast<QApplication*>(QCoreApplication::instance());
+        bool coreApp = !qobject_cast<QApplication *>(QCoreApplication::instance());
 
         if (!qstrcmp(shortName, "CustomTask"))
         {
