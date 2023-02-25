@@ -10,24 +10,30 @@
 class HolonAbstractWindowPrivate
 {
 public:
-    HolonWindowArea *windowArea{};
+    HolonDesktop *const desktop;
+
+    HolonAbstractWindowPrivate(HolonDesktop *desk)
+    :   desktop(desk)
+    { }
 };
 
 HolonAbstractWindow::HolonAbstractWindow(QLoaderSettings *settings, HolonAbstractTask *parent)
 :   QObject(parent),
-    QLoaderSettings(settings)
+    QLoaderSettings(settings),
+    d_ptr(new HolonAbstractWindowPrivate(parent->desktop()))
 { }
 
 HolonAbstractWindow::HolonAbstractWindow(QLoaderSettings *settings, HolonDesktop *parent)
 :   QObject(parent),
-    QLoaderSettings(settings)
+    QLoaderSettings(settings),
+    d_ptr(new HolonAbstractWindowPrivate(parent))
 { }
 
 
 HolonAbstractWindow::HolonAbstractWindow(QLoaderSettings *settings, HolonWindowArea *parent)
 :   QObject(parent),
     QLoaderSettings(settings),
-    d_ptr(new HolonAbstractWindowPrivate{parent})
+    d_ptr(new HolonAbstractWindowPrivate(parent->desktop()))
 { }
 
 HolonAbstractWindow::~HolonAbstractWindow()
@@ -38,10 +44,9 @@ HolonAbstractWindow::Attributes HolonAbstractWindow::attributes() const
     return WindowMinMaxButtonsHint | WindowCloseButtonHint;
 }
 
-void HolonAbstractWindow::close()
+HolonDesktop *HolonAbstractWindow::desktop() const
 {
-    if (d_ptr && d_ptr->windowArea)
-        d_ptr->windowArea->closeWindow(this);
+    return d_ptr->desktop;
 }
 
 QString HolonAbstractWindow::group() const

@@ -44,7 +44,7 @@ public:
 
     virtual HolonAbstractWindow::Area area() const = 0;
     virtual HolonAbstractWindow::Attributes attributes() const;
-    void close();
+    HolonDesktop *desktop() const;
     QString group() const;
     virtual QIcon icon() const;
     virtual QString title() const;
