@@ -16,14 +16,12 @@ class HolonTerminalWindowPrivate
 public:
     HolonTerminalWindow *const q_ptr;
     QLoaderSettings *const settings;
-    HolonSidebar *const sidebar;
     bool close{true};
     QWidget *terminal{};
 
-    HolonTerminalWindowPrivate(HolonTerminalWindow *q, QLoaderSettings *s, HolonSidebar *sb = nullptr)
+    HolonTerminalWindowPrivate(HolonTerminalWindow *q, QLoaderSettings *s)
     :   q_ptr(q),
-        settings(s),
-        sidebar(sb)
+        settings(s)
     { }
 
     QWidget *widget()
@@ -33,10 +31,12 @@ public:
 
         terminal = new QLoaderTerminal(settings);
 
-        if (sidebar)
-            QObject::connect(sidebar, &QObject::destroyed, q_ptr, [this] { close = false; });
-
-        QObject::connect(terminal, &QObject::destroyed, q_ptr, [this] { if (close) q_ptr->close(); });
+        QObject::connect(q_ptr->desktop(), &QObject::destroyed, q_ptr, [this] { close = false; });
+        QObject::connect(terminal, &QWidget::destroyed, q_ptr, [this]
+        {
+            if (close)
+                q_ptr->desktop()->closeWindow(q_ptr);
+        });
 
         return terminal;
     }
@@ -52,13 +52,6 @@ HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonAbstrac
 HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonDesktop *parent)
 :   HolonAbstractWindow(settings, parent),
     d_ptr(new HolonTerminalWindowPrivate(this, settings))
-{
-    parent->addWindow(this);
-}
-
-HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonSidebar *parent)
-:   HolonAbstractWindow(settings, parent),
-    d_ptr(new HolonTerminalWindowPrivate(this, settings, parent))
 {
     parent->addWindow(this);
 }

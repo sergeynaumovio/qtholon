@@ -20,7 +20,6 @@ class HolonTerminalWindow : public HolonAbstractWindow
 public:
     HolonTerminalWindow(QLoaderSettings *settings, HolonAbstractTask *parent);
     HolonTerminalWindow(QLoaderSettings *settings, HolonDesktop *parent);
-    HolonTerminalWindow(QLoaderSettings *settings, HolonSidebar *parent);
     ~HolonTerminalWindow();
 
     Area area() const override;

@@ -155,9 +155,6 @@ public:
             if (HolonDesktop *desktop = qobject_cast<HolonDesktop*>(parent))
                 return new HolonTerminalWindow(settings, desktop);
 
-            if (HolonSidebar *sidebar = qobject_cast<HolonSidebar*>(parent))
-                return new HolonTerminalWindow(settings, sidebar);
-
             if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask*>(parent))
                 return new HolonTerminalWindow(settings, task);
 
