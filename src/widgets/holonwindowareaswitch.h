@@ -17,7 +17,7 @@ class HolonWindowAreaSwitch : public QWidget
     Q_OBJECT
 
     HolonWindowAreaSwitchPrivate &d;
-    std::aligned_storage_t<40, sizeof (ptrdiff_t)> d_storage;
+    std::aligned_storage_t<24, sizeof (ptrdiff_t)> d_storage;
 
 public:
     HolonWindowAreaSwitch(HolonDesktopPrivate &desktop_d, HolonTaskbar *parent);

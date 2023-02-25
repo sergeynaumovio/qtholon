@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holonwindowareaswitch.h"
+#include "holondesktop.h"
 #include "holondesktop_p.h"
 #include "holonsidebar.h"
 #include "holonsidebardock.h"
@@ -20,19 +21,8 @@ class HolonWindowAreaSwitchPrivate
 public:
     HolonDesktopPrivate &desktop_d;
 
-    struct
-    {
-        QMap<QString, QButtonGroup *> buttonGroupByName;
-        QMap<QButtonGroup *, bool> toggledByButtonGroup;
-
-    } sidebars;
-
-    struct
-    {
-        QButtonGroup *buttonGroup{};
-        bool toggled;
-
-    } windowArea;
+    QMap<QString, QButtonGroup *> sidebarButtonGroupByName;
+    QButtonGroup *windowAreaButtonGroup{};
 
     HolonWindowAreaSwitchPrivate(HolonDesktopPrivate &desk_d)
     :   desktop_d(desk_d)
@@ -139,16 +129,13 @@ public:
         if (sidebar->group().size())
         {
             QButtonGroup *buttonGroup;
-            if (switch_d.sidebars.buttonGroupByName.contains(sidebar->group()))
-            {
-                buttonGroup = switch_d.sidebars.buttonGroupByName.value(sidebar->group());
-                switch_d.sidebars.toggledByButtonGroup.insert(buttonGroup, isChecked());
-            }
+            if (switch_d.sidebarButtonGroupByName.contains(sidebar->group()))
+                buttonGroup = switch_d.sidebarButtonGroupByName.value(sidebar->group());
             else
             {
                 buttonGroup = new QButtonGroup(this);
                 buttonGroup->setExclusive(false);
-                switch_d.sidebars.buttonGroupByName.insert(sidebar->group(), buttonGroup);
+                switch_d.sidebarButtonGroupByName.insert(sidebar->group(), buttonGroup);
             }
             buttonGroup->addButton(this);
 
@@ -161,17 +148,11 @@ public:
                     for (QAbstractButton *button : buttonGroup->buttons())
                     {
                         if (button != this && button->isChecked())
-                        {
-                            switch_d.sidebars.toggledByButtonGroup[buttonGroup] = true;
                             button->setChecked(false);
-                        }
                     }
                 }
                 else
-                {
-                    switch_d.sidebars.toggledByButtonGroup[buttonGroup] = false;
                     desktop_d.removeSidebar(sidebar);
-                }
             });
         }
         else
@@ -195,33 +176,27 @@ public:
                           HolonWindowAreaSwitch *parent)
     :   HolonSwitchButton(swtch_d, windowArea, parent)
     {
-        if (!switch_d.windowArea.buttonGroup)
+        if (!switch_d.windowAreaButtonGroup)
         {
-            switch_d.windowArea.buttonGroup = new QButtonGroup(this);
-            switch_d.windowArea.buttonGroup->setExclusive(false);
+            switch_d.windowAreaButtonGroup = new QButtonGroup(this);
+            switch_d.windowAreaButtonGroup->setExclusive(false);
         }
-        switch_d.windowArea.buttonGroup->addButton(this);
+        switch_d.windowAreaButtonGroup->addButton(this);
 
         connect(this, &QAbstractButton::toggled, windowArea, [=, this](bool checked)
         {
             if (checked)
             {
-                desktop_d.setWindowAreaState(windowArea, Qt::Checked);
+                desktop_d.q_ptr->setCurrentWindowArea(windowArea);
 
-                for (QAbstractButton *button : switch_d.windowArea.buttonGroup->buttons())
+                for (QAbstractButton *button : switch_d.windowAreaButtonGroup->buttons())
                 {
                     if (button != this && button->isChecked())
-                    {
-                        switch_d.windowArea.toggled = true;
                         button->setChecked(false);
-                    }
                 }
             }
-            else
-            {
-                switch_d.windowArea.toggled = false;
-                desktop_d.setWindowAreaState(windowArea, Qt::Unchecked);
-            }
+            else if (!switch_d.windowAreaButtonGroup->checkedButton())
+                desktop_d.q_ptr->setCurrentWindowArea(nullptr);
         });
     }
 };
