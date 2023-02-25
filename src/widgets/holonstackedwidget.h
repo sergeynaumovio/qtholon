@@ -56,6 +56,7 @@ public:
     ~HolonWindowStackedWidget();
 
     void addWindowWidget(HolonAbstractWindow *window, QWidget *widget);
+    void removeWindowWidget(HolonAbstractWindow *window);
     void setCurrentWindow(HolonAbstractWindow *window);
 };
 

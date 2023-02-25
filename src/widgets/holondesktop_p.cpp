@@ -73,10 +73,13 @@ public:
 
     } sidebars;
 
-    QList<HolonAbstractWindow *> stackedWidgetWindowList;
+    QList<HolonAbstractWindow *> sidebarWindowList;
     QList<HolonTaskStackedWidget *> taskStackedWidgetList;
     QList<HolonWindowStackedWidget *> windowStackedWidgetList;
     QList<HolonWindowAreaStackedWidget *> windowAreaStackedWidgetList;
+
+    QHash<HolonAbstractWindow *, HolonWindowArea *> windowAreaByWindow;
+    QHash<HolonAbstractWindow *, HolonWindowStackedWidget *> stackedWidgetByWindow;
 
     HolonWindowArea *currentWindowArea{};
 
@@ -88,6 +91,7 @@ public:
     void addWidget(QWidget *widget, QWidget *parent);
     void addWindow(HolonAbstractWindow *window);
     void addWindowArea(HolonWindowArea *windowArea);
+    void closeWindow(HolonAbstractWindow *window);
     void removeUncheckedDocks(HolonMainWindow *mainWindow);
     void setCurrentTask(HolonAbstractTask *task);
     void setCurrentWindow(HolonAbstractWindow *window);
@@ -198,10 +202,25 @@ void HolonDesktopPrivateData::addWindow(HolonAbstractWindow *window)
 
     if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(window->parent()))
     {
-        if (HolonWindowArea *windowArea = internalMainWindow->windowArea(task))
+        if (stackedWidgetByWindow.contains(window))
+            return;
+
+        HolonWindowArea *windowArea = [task, this]()
+        {
+            HolonWindowArea *wa = internalMainWindow->windowArea(task);
+            if (!wa)
+                wa = internalMainWindow->addWindowArea(task);
+
+            return wa;
+        }();
+
+        if (windowArea)
+        {
             windowArea->addWindow(window);
-        else if ((windowArea = internalMainWindow->addWindowArea(task)))
-            windowArea->addWindow(window);
+            windowAreaByWindow.insert(window, windowArea);
+        }
+        else
+            return;
 
         for (HolonTaskStackedWidget *taskStackedWidget : taskStackedWidgetList)
         {
@@ -220,21 +239,27 @@ void HolonDesktopPrivateData::addWindow(HolonAbstractWindow *window)
                 }
 
                 if ((widget = window->widget(taskStackedWidget->group())))
+                {
                     windowStackedWidget->addWindowWidget(window, widget);
+                    stackedWidgetByWindow.insert(window, windowStackedWidget);
+                }
             }
         }
 
         return;
     }
 
-    if (qobject_cast<HolonWindowArea *>(window->parent()) && !stackedWidgetWindowList.contains(window))
+    if (qobject_cast<HolonWindowArea *>(window->parent()))
     {
+        if (sidebarWindowList.contains(window))
+            return;
+
         QWidget *sidebarWidget = window->widget();
         HolonStackedWidget *stackedWidget = qobject_cast<HolonStackedWidget *>(sidebarWidget);
         if (!stackedWidget || taskStackedWidgetList.contains(stackedWidget))
             return;
 
-        stackedWidgetWindowList.append(window);
+        sidebarWindowList.append(window);
 
         if (HolonTaskStackedWidget *taskStackedWidget = qobject_cast<HolonTaskStackedWidget *>(stackedWidget))
         {
@@ -267,9 +292,11 @@ void HolonDesktopPrivateData::addWindow(HolonAbstractWindow *window)
 
                     for (HolonAbstractWindow *taskWindow : taskWindowList)
                         if (QWidget *widget = taskWindow->widget(taskStackedWidget->group()))
+                        {
                             windowStackedWidget->addWindowWidget(taskWindow, widget);
+                            stackedWidgetByWindow.insert(taskWindow, windowStackedWidget);
+                        }
                 }
-
             }
         }
     }
@@ -285,6 +312,15 @@ void HolonDesktopPrivateData::addWindowArea(HolonWindowArea *windowArea)
         internalMainWindow->setCurrentWindowArea(windowArea);
         currentWindowArea = windowArea;
     }
+}
+
+void HolonDesktopPrivateData::closeWindow(HolonAbstractWindow *window)
+{
+    if (HolonWindowArea *windowArea = windowAreaByWindow.value(window))
+        windowArea->closeWindow(window);
+
+    if (HolonWindowStackedWidget *stackedWidget = stackedWidgetByWindow.value(window))
+        stackedWidget->removeWindowWidget(window);
 }
 
 void HolonDesktopPrivateData::removeUncheckedDocks(HolonMainWindow *mainWindow)
@@ -448,6 +484,12 @@ void HolonDesktopPrivate::addWindow(HolonAbstractWindow *window)
 void HolonDesktopPrivate::addWindowArea(HolonWindowArea *windowArea)
 {
     d.addWindowArea(windowArea);
+}
+
+
+void HolonDesktopPrivate::closeWindow(HolonAbstractWindow *window)
+{
+    d.closeWindow(window);
 }
 
 void HolonDesktopPrivate::resizeEvent(QResizeEvent *)

@@ -76,7 +76,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
         {
             QPushButton *close = addButton('X');
             {
-                connect(close, &QPushButton::clicked, this, [=](){ d->closeWindow(window); });
+                connect(close, &QPushButton::clicked, this, [=](){ desktop->closeWindow(window); });
             }
         }
     }

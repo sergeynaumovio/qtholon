@@ -106,6 +106,11 @@ QString HolonDesktop::buttonStyleSheet() const
     return d_ptr->buttonStyleSheet();
 }
 
+void HolonDesktop::closeWindow(HolonAbstractWindow *window)
+{
+    d_ptr->closeWindow(window);
+}
+
 int HolonDesktop::menuBorderWidth() const
 {
     return d_ptr->menuBorderWidth();

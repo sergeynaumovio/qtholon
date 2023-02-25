@@ -37,7 +37,6 @@ public:
         {
             q_ptr->setCentralWidget(centralWindowAreas);
             centralWindowAreas->addWidget(taskWorkspaces);
-            taskWorkspaces->addWidget(new QLabel("Workspaces", taskWorkspaces));
             external->setCentralWidget(q_ptr);
 
             QShortcut *shortcut = new QShortcut(QKeySequence(desktop_d.sidebarMoveShortcut()), q_ptr);

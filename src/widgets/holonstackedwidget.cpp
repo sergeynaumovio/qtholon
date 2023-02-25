@@ -64,6 +64,16 @@ public:
         q_ptr->addWidget(widget);
     }
 
+    void removeWindowWidget(HolonAbstractWindow *window)
+    {
+        if (QWidget *widget = windowWidget.value(window))
+        {
+            windowWidget.remove(window);
+            q_ptr->removeWidget(widget);
+            widget->deleteLater();
+        }
+    }
+
     void setCurrentWindow(HolonAbstractWindow *window)
     {
         if (windowWidget.contains(window))
@@ -145,6 +155,12 @@ void HolonWindowStackedWidget::addWindowWidget(HolonAbstractWindow *window, QWid
 {
     Q_D(HolonWindowStackedWidget);
     d->addWindowWidget(window, widget);
+}
+
+void HolonWindowStackedWidget::removeWindowWidget(HolonAbstractWindow *window)
+{
+    Q_D(HolonWindowStackedWidget);
+    d->removeWindowWidget(window);
 }
 
 void HolonWindowStackedWidget::setCurrentWindow(HolonAbstractWindow *window)
