@@ -637,5 +637,5 @@ void HolonDesktopPrivate::saveDockWidgetWidth(HolonSidebarDock *dock, int width)
 
 HolonSidebarDock *HolonDesktopPrivate::sidebarDock(HolonSidebar *sidebar) const
 {
-    return d.sidebars.dockBySidebar.value(sidebar, nullptr);
+    return d.sidebars.dockBySidebar.value(sidebar);
 }

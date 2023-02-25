@@ -45,7 +45,7 @@ public:
 
     QWidget *widget(HolonAbstractTask *task) const
     {
-        return taskWidget.value(task, nullptr);
+        return taskWidget.value(task);
     }
 };
 
