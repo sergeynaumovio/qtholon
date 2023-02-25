@@ -4,13 +4,12 @@
 #ifndef HOLONWINDOWAREA_P_H
 #define HOLONWINDOWAREA_P_H
 
-#include <QList>
 #include <QMap>
 
 class HolonAbstractWindow;
 class HolonDesktop;
 class HolonWindowArea;
-class QDockWidget;
+class HolonDockWidget;
 class QMainWindow;
 
 class HolonWindowAreaPrivate
@@ -19,9 +18,9 @@ public:
     HolonDesktop *const desktop;
     HolonWindowArea *const q_ptr;
     QMainWindow *const mainWindow;
-    QDockWidget *const defaultDock;
-    QList<QDockWidget *> dockList;
-    QMap<HolonAbstractWindow *, QDockWidget *> dockByWindow;
+    HolonDockWidget *const defaultDock;
+    QList<HolonDockWidget *> dockList;
+    QMap<HolonAbstractWindow *, HolonDockWidget *> dockByWindow;
     bool maximized{};
 
     HolonWindowAreaPrivate(HolonDesktop *desktop, HolonWindowArea *q);
@@ -29,7 +28,7 @@ public:
 
     void addWindow(HolonAbstractWindow *window);
     void closeWindow(HolonAbstractWindow *window);
-    void maximizeWindow(QDockWidget *dock);
+    void maximizeWindow(HolonDockWidget *dock);
     void setChecked(bool checked);
 };
 
