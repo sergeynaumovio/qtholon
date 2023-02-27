@@ -14,6 +14,7 @@ public:
     HolonDesktop *const desktop;
     bool once{true};
     QList<HolonAbstractTask *> taskList;
+    QModelIndex currentIndex;
 
     HolonOpenTasksModelPrivate(HolonWorkflowModel *q, HolonCore *c, HolonDesktop *desk)
     :   q_ptr(q),
@@ -75,6 +76,11 @@ HolonCore *HolonWorkflowModel::core() const
     return d_ptr->core;
 }
 
+QModelIndex HolonWorkflowModel::restoreCurrentIndex() const
+{
+    return d_ptr->currentIndex;
+}
+
 QVariant HolonWorkflowModel::data(const QModelIndex &index, int role) const
 {
     if (index.isValid() && (role == Qt::DisplayRole || role == Qt::EditRole))
@@ -97,7 +103,13 @@ HolonDesktop *HolonWorkflowModel::desktop() const
 
 QModelIndex HolonWorkflowModel::index(int row, int column, const QModelIndex &) const
 {
-    return createIndex(row, column, d_ptr->taskList.at(row));
+    QModelIndex index = createIndex(row, column, d_ptr->taskList.at(row));
+
+    HolonAbstractTask *task = d_ptr->taskList.at(row);
+    if (task->isCurrent())
+        d_ptr->currentIndex = index;
+
+    return index;
 }
 
 bool HolonWorkflowModel::insertRows(int position, int rows, const QModelIndex &parent)
