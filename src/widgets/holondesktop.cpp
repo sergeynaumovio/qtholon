@@ -111,6 +111,11 @@ void HolonDesktop::closeWindow(HolonAbstractWindow *window)
     d_ptr->closeWindow(window);
 }
 
+HolonAbstractTask *HolonDesktop::currentTask() const
+{
+    return d_ptr->currentTask();
+}
+
 int HolonDesktop::menuBorderWidth() const
 {
     return d_ptr->menuBorderWidth();

@@ -80,6 +80,8 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonstackedwidget.h
             src/widgets/holontaskbar.cpp
             src/widgets/holontaskbar.h
+            src/widgets/holontasklistview.cpp
+            src/widgets/holontasklistview.h
             src/widgets/holontasklistwindow.cpp
             src/widgets/holontasklistwindow.h
             src/widgets/holontaskmenu.cpp

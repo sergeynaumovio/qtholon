@@ -3,6 +3,7 @@
 
 #include "holondesktop_p.h"
 #include "holonabstracttask.h"
+#include "holonabstracttask_p.h"
 #include "holonabstractwindow.h"
 #include "holoncore_p.h"
 #include "holondesktop.h"
@@ -82,6 +83,7 @@ public:
     QHash<HolonAbstractWindow *, HolonWindowStackedWidget *> stackedWidgetByWindow;
 
     HolonWindowArea *currentWindowArea{};
+    HolonAbstractTask *currentTask{};
 
     HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDesktop *q);
     ~HolonDesktopPrivateData() { }
@@ -221,6 +223,9 @@ void HolonDesktopPrivateData::addWindow(HolonAbstractWindow *window)
         }
         else
             return;
+
+        if (task->isCurrent())
+            desktop_d.q_ptr->setCurrentTask(task);
 
         for (HolonTaskStackedWidget *taskStackedWidget : taskStackedWidgetList)
         {
@@ -498,6 +503,11 @@ void HolonDesktopPrivate::closeWindow(HolonAbstractWindow *window)
     d.closeWindow(window);
 }
 
+HolonAbstractTask *HolonDesktopPrivate::currentTask()
+{
+    return d.currentTask;
+}
+
 void HolonDesktopPrivate::resizeEvent(QResizeEvent *)
 {
     if (d.skipExternalMainWindowSaveState)
@@ -515,7 +525,15 @@ void HolonDesktopPrivate::saveMainWindowState()
 
 void HolonDesktopPrivate::setCurrentTask(HolonAbstractTask *task)
 {
+    if (d.currentTask)
+        d.currentTask->d_ptr->setCurrent(false);
+
+    d.currentTask = task;
+
     d.setCurrentTask(task);
+
+    if (task)
+        task->d_ptr->setCurrent(true);
 }
 
 void HolonDesktopPrivate::setCurrentWindow(HolonAbstractWindow *window)

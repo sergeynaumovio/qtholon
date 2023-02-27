@@ -5,6 +5,7 @@
 #include "holonabstracttask.h"
 #include "holondesktop.h"
 #include "holonsidebar.h"
+#include "holontasklistview.h"
 #include "holonworkflowmodel.h"
 #include <QBoxLayout>
 #include <QHeaderView>
@@ -37,21 +38,7 @@ public:
         if (view)
             return view;
 
-        view = new QListView;
-
-        if ((workflowModel = desktop->workflowModel()))
-        {
-            view->setModel(workflowModel);
-
-            QListView::connect(view, &QListView::clicked, view, [this](QModelIndex index)
-            {
-                QObject *clickedObject = static_cast<QObject *>(index.internalPointer());
-                if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(clickedObject))
-                    desktop->setCurrentTask(task);
-            });
-        }
-
-        return view;
+        return view = new HolonTaskListView(desktop);
     }
 };
 

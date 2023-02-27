@@ -85,6 +85,7 @@ class = HolonWorkflowModelBranch
 
 [holon/workflow-model1/branch1/85f69e0b-e525-429d-b63f-8bd2833a2ff0]
 class = HolonCustomTask
+current = false
 group = parameters
 title = Custom Task A
 
@@ -95,6 +96,7 @@ title = Terminal
 
 [holon/workflow-model1/branch1/28245495-e838-4056-8fc2-d3545c0d312c]
 class = HolonCustomTask
+current = false
 group = parameters
 title = Custom Task B
 
@@ -110,6 +112,7 @@ title = Terminal
 
 [holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560]
 class = HolonCustomTask
+current = true
 group = parameters
 title = Custom Task C
 

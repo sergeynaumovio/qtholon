@@ -28,7 +28,7 @@ class HolonDesktopPrivate
     friend class HolonDesktop;
     friend class HolonDesktopPrivateData;
     HolonDesktopPrivateData &d;
-    std::aligned_storage_t<568, sizeof (ptrdiff_t)> d_storage;
+    std::aligned_storage_t<576, sizeof (ptrdiff_t)> d_storage;
 
     HolonDesktopPrivate(HolonDesktop *q);
 
@@ -39,6 +39,7 @@ class HolonDesktopPrivate
     void addWindow(HolonAbstractWindow *window);
     void addWindowArea(HolonWindowArea *window);
     void closeWindow(HolonAbstractWindow *window);
+    HolonAbstractTask *currentTask();
     void resizeEvent(QResizeEvent *e);
     void saveMainWindowState();
     void setCurrentTask(HolonAbstractTask *task);
