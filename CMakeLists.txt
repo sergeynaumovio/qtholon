@@ -48,6 +48,8 @@ target_sources(${QT_HOLON_LIBRARY}
             src/core/qtholonglobal.h
             src/tasks/holonabstracttask.cpp
             src/tasks/holonabstracttask.h
+            src/tasks/holonabstracttask_p.cpp
+            src/tasks/holonabstracttask_p.h
             src/tasks/holoncustomtask.cpp
             src/tasks/holoncustomtask.h
             src/widgets/holonabstractwidget.cpp

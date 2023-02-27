@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holonabstracttask.h"
+#include "holonabstracttask_p.h"
 #include "holonabstractwidget.h"
 #include "holonabstractwindow.h"
 #include "holondesktop.h"
@@ -9,27 +10,6 @@
 #include "holonworkflowmodel.h"
 #include "holonworkflowmodelbranch.h"
 #include <QLoaderTree>
-
-class HolonAbstractTaskPrivate
-{
-public:
-    QMap<QString, QList<HolonAbstractWindow *>> windowList;
-    QMap<QString, HolonAbstractWidget *> widgetList;
-    HolonWorkflowModelBranch *const workflowModelBranch;
-    HolonDesktop *const desktop;
-
-    HolonAbstractTaskPrivate(HolonWorkflowModelBranch *branch = nullptr)
-    :   workflowModelBranch(branch),
-        desktop([this]() -> HolonDesktop *
-        {
-            if (workflowModelBranch)
-                if (HolonWorkflowModel *workflowModel = workflowModelBranch->workflowModel())
-                    return workflowModel->desktop();
-
-            return {};
-        }())
-    { }
-};
 
 HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonTaskModelBranch *taskModelBranch)
 :   QObject(taskModelBranch),
@@ -40,7 +20,7 @@ HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonTaskModelBr
 HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonWorkflowModelBranch *workflowModelBranch)
 :   QObject(workflowModelBranch),
     QLoaderSettings(settings),
-    d_ptr(new HolonAbstractTaskPrivate(workflowModelBranch))
+    d_ptr(new HolonAbstractTaskPrivate(this, workflowModelBranch))
 { }
 
 HolonAbstractTask::~HolonAbstractTask()
@@ -92,6 +72,11 @@ bool HolonAbstractTask::isCopyable(const QStringList &to) const
     }
 
     return false;
+}
+
+bool HolonAbstractTask::isCurrent() const
+{
+    return value("current").toBool();
 }
 
 QString HolonAbstractTask::title() const
