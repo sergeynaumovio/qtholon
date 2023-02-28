@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holondesktop.h"
+#include "holonabstracttask.h"
+#include "holonabstractwindow.h"
 #include "holondesktop_p.h"
 #include "holondockwidget.h"
 #include <QApplication>
@@ -40,7 +42,8 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
             if (object)
                 if (HolonDockWidget *dockWidget = qobject_cast<HolonDockWidget *>(object->parent()))
                     if (HolonAbstractWindow *window = dockWidget->window())
-                        setCurrentWindow(window);
+                        if (qobject_cast<HolonAbstractTask *>(window->parent()))
+                            setCurrentWindow(window);
         });
     }
 

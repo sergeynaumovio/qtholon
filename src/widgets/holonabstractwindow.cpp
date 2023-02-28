@@ -2,38 +2,29 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holonabstractwindow.h"
+#include "holonabstractwindow_p.h"
 #include "holonabstracttask.h"
 #include "holondesktop.h"
 #include "holonwindowarea.h"
 #include <QIcon>
 
-class HolonAbstractWindowPrivate
-{
-public:
-    HolonDesktop *const desktop;
-
-    HolonAbstractWindowPrivate(HolonDesktop *desk)
-    :   desktop(desk)
-    { }
-};
-
 HolonAbstractWindow::HolonAbstractWindow(QLoaderSettings *settings, HolonAbstractTask *parent)
 :   QObject(parent),
     QLoaderSettings(settings),
-    d_ptr(new HolonAbstractWindowPrivate(parent->desktop()))
+    d_ptr(new HolonAbstractWindowPrivate(this, parent->desktop()))
 { }
 
 HolonAbstractWindow::HolonAbstractWindow(QLoaderSettings *settings, HolonDesktop *parent)
 :   QObject(parent),
     QLoaderSettings(settings),
-    d_ptr(new HolonAbstractWindowPrivate(parent))
+    d_ptr(new HolonAbstractWindowPrivate(this, parent))
 { }
 
 
 HolonAbstractWindow::HolonAbstractWindow(QLoaderSettings *settings, HolonWindowArea *parent)
 :   QObject(parent),
     QLoaderSettings(settings),
-    d_ptr(new HolonAbstractWindowPrivate(parent->desktop()))
+    d_ptr(new HolonAbstractWindowPrivate(this, parent->desktop()))
 { }
 
 HolonAbstractWindow::~HolonAbstractWindow()
@@ -57,6 +48,11 @@ QString HolonAbstractWindow::group() const
 QIcon HolonAbstractWindow::icon() const
 {
     return {};
+}
+
+bool HolonAbstractWindow::isCurrent() const
+{
+    return value("current").toBool();
 }
 
 QString HolonAbstractWindow::title() const

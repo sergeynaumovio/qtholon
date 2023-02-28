@@ -59,6 +59,9 @@ public:
             taskWorkspaces->addWidget(windowArea);
             taskWorkspacesWindowAreas.insert(task, windowArea);
 
+            if (task->isCurrent())
+                taskWorkspaces->setCurrentWidget(taskWorkspacesWindowAreas.value(task));
+
             return windowArea;
         }
 

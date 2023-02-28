@@ -5,6 +5,7 @@
 #include "holonabstracttask.h"
 #include "holonabstracttask_p.h"
 #include "holonabstractwindow.h"
+#include "holonabstractwindow_p.h"
 #include "holoncore_p.h"
 #include "holondesktop.h"
 #include "holonmainwindow.h"
@@ -87,8 +88,9 @@ public:
     QHash<HolonAbstractWindow *, HolonWindowArea *> windowAreaByTaskWindow;
     QHash<HolonAbstractWindow *, HolonWindowStackedWidget *> stackedWidgetByTaskWindow;
 
-    HolonWindowArea *currentWindowArea{};
     HolonAbstractTask *currentTask{};
+    HolonAbstractWindow *currentWindow{};
+    HolonWindowArea *currentWindowArea{};
 
     HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDesktop *q);
     ~HolonDesktopPrivateData() { }
@@ -102,6 +104,7 @@ public:
     void removeUncheckedDocks(HolonMainWindow *mainWindow);
     void setCurrentTask(HolonAbstractTask *task);
     void setCurrentWindow(HolonAbstractWindow *window);
+    void setCurrentWindowArea(HolonWindowArea *windowArea);
     void setHBoxLayout(QWidget *&widget, const char *name, QWidget *parent);
     void setLayout();
     void setMainWindow(HolonMainWindow *&widget, const char *name, QWidget *parent);
@@ -168,8 +171,8 @@ void HolonDesktopPrivateData::addTaskWindow(HolonAbstractTask *task, HolonAbstra
     else
         return;
 
-    if (task->isCurrent())
-        desktop_d.q_ptr->setCurrentTask(task);
+    if (task->isCurrent() && window->isCurrent())
+        currentWindow = window;
 
     for (HolonTaskStackedWidget *taskStackedWidget : taskStackedWidgetList)
     {
@@ -303,6 +306,9 @@ void HolonDesktopPrivateData::addTask(HolonAbstractTask *task)
         if (QWidget *widget = task->widget(taskStackedWidget->group()))
             taskStackedWidget->addTaskWidget(task, widget);
     }
+
+    if (task->isCurrent())
+        currentTask = task;
 }
 
 void HolonDesktopPrivateData::addWidget(QWidget *widget, QWidget *parent)
@@ -384,6 +390,7 @@ void HolonDesktopPrivateData::setCurrentTask(HolonAbstractTask *task)
         taskStackedWidget->setCurrentTask(task);
 
     internalMainWindow->setCurrentTask(task);
+    currentTask = task;
 }
 
 void HolonDesktopPrivateData::setCurrentWindow(HolonAbstractWindow *window)
@@ -396,6 +403,13 @@ void HolonDesktopPrivateData::setCurrentWindow(HolonAbstractWindow *window)
             windowStackedWidget->setCurrentWindow(window);
         }
     }
+    currentWindow = window;
+}
+
+void HolonDesktopPrivateData::setCurrentWindowArea(HolonWindowArea *windowArea)
+{
+    internalMainWindow->setCurrentWindowArea(windowArea);
+    currentWindowArea = windowArea;
 }
 
 void HolonDesktopPrivateData::setHBoxLayout(QWidget *&widget, const char *name, QWidget *parent)
@@ -519,7 +533,6 @@ void HolonDesktopPrivate::addWindowArea(HolonWindowArea *windowArea)
     d.addWindowArea(windowArea);
 }
 
-
 void HolonDesktopPrivate::closeWindow(HolonAbstractWindow *window)
 {
     d.closeWindow(window);
@@ -547,10 +560,11 @@ void HolonDesktopPrivate::saveMainWindowState()
 
 void HolonDesktopPrivate::setCurrentTask(HolonAbstractTask *task)
 {
+    if (task == d.currentTask)
+        return;
+
     if (d.currentTask)
         d.currentTask->d_ptr->setCurrent(false);
-
-    d.currentTask = task;
 
     d.setCurrentTask(task);
 
@@ -560,19 +574,30 @@ void HolonDesktopPrivate::setCurrentTask(HolonAbstractTask *task)
 
 void HolonDesktopPrivate::setCurrentWindow(HolonAbstractWindow *window)
 {
+    if (window == d.currentWindow)
+        return;
+
+    if (d.currentWindow)
+        d.currentWindow->d_ptr->setCurrent(false);
+
     d.setCurrentWindow(window);
+
+    if (window)
+        window->d_ptr->setCurrent(true);
 }
 
 void HolonDesktopPrivate::setCurrentWindowArea(HolonWindowArea *windowArea)
 {
-    if (d.currentWindowArea && d.currentWindowArea != windowArea)
+    if (windowArea == d.currentWindowArea)
+        return;
+
+    if (d.currentWindowArea)
         d.currentWindowArea->d_ptr->setChecked(false);
+
+    d.setCurrentWindowArea(windowArea);
 
     if (windowArea)
         windowArea->d_ptr->setChecked(true);
-
-    d.internalMainWindow->setCurrentWindowArea(windowArea);
-    d.currentWindowArea = windowArea;
 }
 
 void HolonDesktopPrivate::setLayout()

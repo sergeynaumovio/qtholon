@@ -17,6 +17,8 @@ class Q_HOLON_EXPORT HolonAbstractWindow : public QObject, public QLoaderSetting
 {
     Q_OBJECT
 
+    friend class HolonAbstractWindowPrivate;
+    friend class HolonDesktopPrivate;
     const QScopedPointer<HolonAbstractWindowPrivate> d_ptr;
 
 protected:
@@ -47,6 +49,7 @@ public:
     HolonDesktop *desktop() const;
     QString group() const;
     virtual QIcon icon() const;
+    bool isCurrent() const;
     virtual QString title() const;
     virtual QWidget *toolbar() const;
     virtual QWidget *widget(const QString &group = QString()) const = 0;

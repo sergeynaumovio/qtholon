@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holonstackedwidget.h"
+#include "holonabstracttask.h"
+#include "holonabstractwindow.h"
 #include <QHash>
 
 class HolonStackedWidgetPrivate
@@ -35,6 +37,9 @@ public:
     {
         taskWidget.insert(task, widget);
         q_ptr->addWidget(widget);
+
+        if (task->isCurrent())
+            q_ptr->setCurrentWidget(taskWidget.value(task));
     }
 
     void setCurrentTask(HolonAbstractTask *task)
@@ -62,6 +67,9 @@ public:
     {
         windowWidget.insert(window, widget);
         q_ptr->addWidget(widget);
+
+        if (window->isCurrent())
+            q_ptr->setCurrentWidget(windowWidget.value(window));
     }
 
     void removeWindowWidget(HolonAbstractWindow *window)

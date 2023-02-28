@@ -118,16 +118,19 @@ title = Custom Task C
 
 [holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560/terminal30]
 class = HolonTerminalWindow
+current = false
 group = settings
 title = Terminal
 
 [holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560/terminal31]
 class = HolonTerminalWindow
+current = true
 group = settings
 title = Terminal
 
 [holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560/terminal32]
 class = HolonTerminalWindow
+current = false
 group = settings
 title = Terminal
 

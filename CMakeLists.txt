@@ -56,6 +56,8 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonabstractwidget.h
             src/widgets/holonabstractwindow.cpp
             src/widgets/holonabstractwindow.h
+            src/widgets/holonabstractwindow_p.cpp
+            src/widgets/holonabstractwindow_p.h
             src/widgets/holondesktop.cpp
             src/widgets/holondesktop.h
             src/widgets/holondesktop_p.cpp
