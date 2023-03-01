@@ -57,7 +57,9 @@ HolonDockWidget::HolonDockWidget(HolonDesktop *desktop,
 {
     setTitleBarWidget(new HolonTitleBar(desktop, this, window, d));
     setWidget(window->widget());
-    widget()->setFocus();
+
+    if (window->isCurrent())
+        widget()->setFocus();
 }
 
 HolonAbstractWindow *HolonDockWidget::window() const

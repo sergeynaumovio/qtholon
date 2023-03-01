@@ -89,6 +89,7 @@ public:
     QHash<HolonAbstractWindow *, HolonWindowStackedWidget *> stackedWidgetByTaskWindow;
 
     HolonAbstractTask *currentTask{};
+    QHash<HolonAbstractTask *, HolonAbstractWindow *> currentTaskWindow;
     HolonAbstractWindow *currentWindow{};
     HolonWindowArea *currentWindowArea{};
 
@@ -171,8 +172,13 @@ void HolonDesktopPrivateData::addTaskWindow(HolonAbstractTask *task, HolonAbstra
     else
         return;
 
-    if (task->isCurrent() && window->isCurrent())
-        currentWindow = window;
+    if (window->isCurrent())
+    {
+        currentTaskWindow[task] = window;
+
+        if (task->isCurrent())
+            currentWindow = window;
+    }
 
     for (HolonTaskStackedWidget *taskStackedWidget : taskStackedWidgetList)
     {
@@ -194,6 +200,9 @@ void HolonDesktopPrivateData::addTaskWindow(HolonAbstractTask *task, HolonAbstra
             {
                 windowStackedWidget->addWindowWidget(window, widget);
                 stackedWidgetByTaskWindow.insert(window, windowStackedWidget);
+
+                if (window->isCurrent())
+                    currentTaskWindow[task] = window;
             }
         }
     }
@@ -387,7 +396,15 @@ void HolonDesktopPrivateData::removeUncheckedDocks(HolonMainWindow *mainWindow)
 void HolonDesktopPrivateData::setCurrentTask(HolonAbstractTask *task)
 {
     for (HolonTaskStackedWidget *taskStackedWidget : taskStackedWidgetList)
+    {
         taskStackedWidget->setCurrentTask(task);
+
+        if (HolonWindowStackedWidget *windowStackedWidget =
+                qobject_cast<HolonWindowStackedWidget *>(taskStackedWidget->currentWidget()))
+        {
+            windowStackedWidget->setCurrentWindow(currentTaskWindow.value(task));
+        }
+    }
 
     internalMainWindow->setCurrentTask(task);
     currentTask = task;
@@ -404,6 +421,7 @@ void HolonDesktopPrivateData::setCurrentWindow(HolonAbstractWindow *window)
         }
     }
     currentWindow = window;
+    currentTaskWindow[currentTask] = window;
 }
 
 void HolonDesktopPrivateData::setCurrentWindowArea(HolonWindowArea *windowArea)
@@ -577,7 +595,7 @@ void HolonDesktopPrivate::setCurrentWindow(HolonAbstractWindow *window)
     if (window == d.currentWindow)
         return;
 
-    if (d.currentWindow)
+    if (d.currentTaskWindow.value(d.currentTask) == d.currentWindow)
         d.currentWindow->d_ptr->setCurrent(false);
 
     d.setCurrentWindow(window);

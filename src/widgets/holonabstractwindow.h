@@ -56,5 +56,4 @@ public:
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(HolonAbstractWindow::Attributes)
 
-
 #endif // HOLONABSTRACTWINDOW_H

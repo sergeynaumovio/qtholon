@@ -3,8 +3,8 @@
 [holon]
 class = HolonDesktop
 buttonStyleSheet = QPushButton { border: 0px; } QPushButton:hover { background-color: rgb(74, 76, 78); color: white; }
-externalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAADIAAACuvwCAAAAAfwAAAAAAAACugAAALwA///+/AEAAAAC+wAAAAoAdABhAHMAawBzAQAAAAAAAADIAAAAUAD////7AAAAFABwAGEAcgBhAG0AZQB0AGUAcgBzAQAAAMkAAADIAAAAAAAAAAAAAAABAAAAyAAAArr8AgAAAAH7AAAAEABzAGUAdAB0AGkAbgBnAHMBAAAAAAAAAroAAAAmAP///gAAARUAAAK6AAAABAAAAAQAAAAIAAAACPwAAAAA)
-internalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAAEVAAAAc/wBAAAAAfsAAAAQAG0AZQBzAHMAYQBnAGUAcwEAAAAAAAABFQAAAAAAAAAAAAAB3gAAAroAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
+externalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAAFTAAACuvwCAAAAAfwAAAAAAAACugAAALwA///+/AEAAAAC+wAAAAoAdABhAHMAawBzAQAAAAAAAACKAAAAUAD////7AAAAFABwAGEAcgBhAG0AZQB0AGUAcgBzAQAAAIsAAADIAAAAkgD///8AAAABAAAAigAAArr8AgAAAAH7AAAAEABzAGUAdAB0AGkAbgBnAHMBAAAAAAAAAroAAAAmAP///gAAAZEAAAK6AAAABAAAAAQAAAAIAAAACPwAAAAA)
+internalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAAEVAAAAc/wBAAAAAfsAAAAQAG0AZQBzAHMAYQBnAGUAcwEAAAAAAAABFQAAAAAAAAAAAAABkQAAAroAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 menuStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); border: 1px solid rgb(34, 36, 38); }
 menuWidth = 180
 minimumHeight = 200
@@ -54,6 +54,7 @@ title = Terminal
 
 [holon/task-model/branch-b/custom-task2/terminal21]
 class = HolonTerminalWindow
+current = true
 group = settings
 title = Terminal
 
@@ -91,6 +92,7 @@ title = Custom Task A
 
 [holon/workflow-model1/branch1/85f69e0b-e525-429d-b63f-8bd2833a2ff0/terminal10]
 class = HolonTerminalWindow
+current = false
 group = settings
 title = Terminal
 
@@ -102,11 +104,13 @@ title = Custom Task B
 
 [holon/workflow-model1/branch1/28245495-e838-4056-8fc2-d3545c0d312c/terminal20]
 class = HolonTerminalWindow
+current = false
 group = settings
 title = Terminal
 
 [holon/workflow-model1/branch1/28245495-e838-4056-8fc2-d3545c0d312c/terminal21]
 class = HolonTerminalWindow
+current = true
 group = settings
 title = Terminal
 
@@ -183,7 +187,7 @@ class = HolonTaskListWindow
 
 [holon/parameters]
 class = HolonSidebar
-checked = false
+checked = true
 layout = external
 shortcut = Alt+2
 title = Parameters

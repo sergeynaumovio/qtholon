@@ -28,7 +28,7 @@ class HolonDesktopPrivate
     friend class HolonDesktop;
     friend class HolonDesktopPrivateData;
     HolonDesktopPrivateData &d;
-    std::aligned_storage_t<584, sizeof (ptrdiff_t)> d_storage;
+    std::aligned_storage_t<592, sizeof (ptrdiff_t)> d_storage;
 
     HolonDesktopPrivate(HolonDesktop *q);
 
