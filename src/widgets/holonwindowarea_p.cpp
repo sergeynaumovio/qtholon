@@ -12,8 +12,7 @@
 HolonWindowAreaPrivate::HolonWindowAreaPrivate(HolonDesktop *desk, HolonWindowArea *q)
 :   desktop(desk),
     q_ptr(q),
-    mainWindow(new QMainWindow),
-    defaultDock(new HolonDockWidget(desktop, q, mainWindow))
+    mainWindow(new QMainWindow)
 {
     mainWindow->setDockOptions(QMainWindow::AnimatedDocks | QMainWindow::AllowNestedDocks);
 }
@@ -76,4 +75,10 @@ void HolonWindowAreaPrivate::closeWindow(HolonAbstractWindow *window)
 void HolonWindowAreaPrivate::setChecked(bool checked)
 {
     q_ptr->setValue("checked", checked);
+}
+
+void HolonWindowAreaPrivate::setDefaultDockWidget()
+{
+    mainWindow->setParent(q_ptr);
+    defaultDock = new HolonDockWidget(desktop, q_ptr, mainWindow);
 }

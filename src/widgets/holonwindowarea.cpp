@@ -14,7 +14,6 @@ HolonWindowArea::HolonWindowArea(HolonWindowAreaPrivate &d, QLoaderSettings *set
 :   QLoaderSettings(settings),
     d_ptr(&d)
 {
-    d_ptr->mainWindow->setParent(this);
     setLayout(new QHBoxLayout(this));
     {
         layout()->addWidget(d_ptr->mainWindow);
@@ -25,6 +24,8 @@ HolonWindowArea::HolonWindowArea(HolonWindowAreaPrivate &d, QLoaderSettings *set
 HolonWindowArea::HolonWindowArea(QLoaderSettings *settings, HolonDesktop *desktop)
 :   HolonWindowArea(*new HolonWindowAreaPrivate(desktop, this), settings)
 {
+    d_ptr->setDefaultDockWidget();
+
     if (QObject *object = settings->tree()->object(settings->section()))
         if (qobject_cast<HolonAbstractTask *>(object))
             return;

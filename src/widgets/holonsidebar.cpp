@@ -12,6 +12,7 @@
 HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop)
 :   HolonWindowArea(*new HolonSidebarPrivate(desktop, this), settings)
 {
+    d_ptr->setDefaultDockWidget();
     desktop->addSidebar(this);
 }
 

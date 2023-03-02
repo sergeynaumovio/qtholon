@@ -18,7 +18,7 @@ public:
     HolonDesktop *const desktop;
     HolonWindowArea *const q_ptr;
     QMainWindow *const mainWindow;
-    HolonDockWidget *const defaultDock;
+    HolonDockWidget *defaultDock{};
     QList<HolonDockWidget *> dockList;
     QMap<HolonAbstractWindow *, HolonDockWidget *> dockByWindow;
     bool maximized{};
@@ -30,6 +30,7 @@ public:
     void closeWindow(HolonAbstractWindow *window);
     void maximizeWindow(HolonDockWidget *dock);
     void setChecked(bool checked);
+    void setDefaultDockWidget();
 };
 
 #endif // HOLONWINDOWAREA_P_H
