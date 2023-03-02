@@ -372,6 +372,12 @@ void HolonDesktopPrivateData::closeWindow(HolonAbstractWindow *window)
         stackedWidget->removeWindowWidget(window);
         stackedWidgetByTaskWindow.remove(window);
     }
+
+    if (window == currentWindow)
+    {
+        currentWindow = nullptr;
+        currentTaskWindow.remove(currentTask);
+    }
 }
 
 void HolonDesktopPrivateData::removeUncheckedDocks(HolonMainWindow *mainWindow)
@@ -602,7 +608,7 @@ void HolonDesktopPrivate::setCurrentWindow(HolonAbstractWindow *window)
     if (window == d.currentWindow)
         return;
 
-    if (d.currentTaskWindow.value(d.currentTask) == d.currentWindow)
+    if (d.currentWindow && d.currentTaskWindow.value(d.currentTask) == d.currentWindow)
         d.currentWindow->d_ptr->setCurrent(false);
 
     d.setCurrentWindow(window);
