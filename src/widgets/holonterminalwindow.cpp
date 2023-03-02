@@ -4,7 +4,6 @@
 #include "holonterminalwindow.h"
 #include "holonabstracttask.h"
 #include "holondesktop.h"
-#include "holonsidebar.h"
 #include <QBoxLayout>
 #include <QIcon>
 #include <QLabel>
@@ -77,11 +76,12 @@ QIcon HolonTerminalWindow::icon() const
 bool HolonTerminalWindow::isCopyable(const QStringList &to) const
 {
     QStringList parentSection = to;
+
     if (to.size() > 1)
     {
         parentSection.removeLast();
         QObject *parent = tree()->object(parentSection);
-        if (qobject_cast<HolonSidebar*>(parent))
+        if (qobject_cast<HolonAbstractTask *>(parent))
             return true;
     }
 
