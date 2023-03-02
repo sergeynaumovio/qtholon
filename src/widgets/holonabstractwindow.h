@@ -34,6 +34,7 @@ public:
         Central,
         Sidebar
     };
+    Q_ENUM(Area)
 
     enum Attribute
     {
