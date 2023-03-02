@@ -20,6 +20,22 @@ taskbarStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
 titleBarHeight = 24
 titleBarStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
 
+[holon/task-tree-window]
+class = HolonTaskTreeWindow
+
+[holon/task-list-window]
+class = HolonTaskListWindow
+
+[holon/parameters-window]
+class = HolonParametersWindow
+
+[holon/settings-window]
+class = HolonSettingsWindow
+
+[holon/terminal-window]
+class = HolonTerminalWindow
+current = true
+
 [holon/task-model]
 class = HolonTaskModel
 
@@ -158,22 +174,6 @@ class = QLoaderShellExit
 
 [holon/shell/save]
 class = QLoaderShellSave
-
-[holon/task-tree-window]
-class = HolonTaskTreeWindow
-
-[holon/task-list-window]
-class = HolonTaskListWindow
-
-[holon/parameters-window]
-class = HolonParametersWindow
-
-[holon/settings-window]
-class = HolonSettingsWindow
-
-[holon/terminal-window]
-class = HolonTerminalWindow
-current = true
 
 [holon/tasks]
 class = HolonSidebar
