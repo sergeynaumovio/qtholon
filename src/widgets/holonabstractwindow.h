@@ -50,6 +50,7 @@ public:
     QString group() const;
     virtual QIcon icon() const;
     bool isCurrent() const;
+    HolonAbstractTask *task() const;
     virtual QString title() const;
     virtual QWidget *toolbar() const;
     virtual QWidget *widget(const QString &group = QString()) const = 0;

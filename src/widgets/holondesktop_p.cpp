@@ -177,7 +177,10 @@ void HolonDesktopPrivateData::addTaskWindow(HolonAbstractTask *task, HolonAbstra
         currentTaskWindow[task] = window;
 
         if (task->isCurrent())
+        {
             currentWindow = window;
+            window->widget()->setFocus();
+        }
     }
 
     for (HolonTaskStackedWidget *taskStackedWidget : taskStackedWidgetList)
@@ -408,6 +411,10 @@ void HolonDesktopPrivateData::setCurrentTask(HolonAbstractTask *task)
 
     internalMainWindow->setCurrentTask(task);
     currentTask = task;
+
+    if (HolonAbstractWindow *window = currentTaskWindow.value(task))
+        if (QWidget *widget = window->widget())
+            widget->setFocus();
 }
 
 void HolonDesktopPrivateData::setCurrentWindow(HolonAbstractWindow *window)

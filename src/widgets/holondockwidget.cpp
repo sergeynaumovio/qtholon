@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holondockwidget.h"
+#include "holonabstracttask.h"
 #include "holonabstractwindow.h"
 #include "holontitlebar.h"
 #include "holonwindowarea.h"
@@ -58,8 +59,9 @@ HolonDockWidget::HolonDockWidget(HolonDesktop *desktop,
     setTitleBarWidget(new HolonTitleBar(desktop, this, window, d));
     setWidget(window->widget());
 
-    if (window->isCurrent())
-        widget()->setFocus();
+    if (HolonAbstractTask *task = window->task())
+        if (task->isCurrent() && window->isCurrent())
+            widget()->setFocus();
 }
 
 HolonAbstractWindow *HolonDockWidget::window() const

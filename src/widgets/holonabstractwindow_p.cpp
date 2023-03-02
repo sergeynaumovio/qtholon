@@ -4,9 +4,12 @@
 #include "holonabstractwindow_p.h"
 #include "holonabstractwindow.h"
 
-HolonAbstractWindowPrivate::HolonAbstractWindowPrivate(HolonAbstractWindow *q, HolonDesktop *desk)
+HolonAbstractWindowPrivate::HolonAbstractWindowPrivate(HolonAbstractWindow *q,
+                                                       HolonDesktop *desk,
+                                                       HolonAbstractTask *t)
 :   q_ptr(q),
-    desktop(desk)
+    desktop(desk),
+    task(t)
 { }
 
 void HolonAbstractWindowPrivate::setCurrent(bool current)

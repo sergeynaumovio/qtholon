@@ -11,7 +11,7 @@
 HolonAbstractWindow::HolonAbstractWindow(QLoaderSettings *settings, HolonAbstractTask *parent)
 :   QObject(parent),
     QLoaderSettings(settings),
-    d_ptr(new HolonAbstractWindowPrivate(this, parent->desktop()))
+    d_ptr(new HolonAbstractWindowPrivate(this, parent->desktop(), parent))
 { }
 
 HolonAbstractWindow::HolonAbstractWindow(QLoaderSettings *settings, HolonDesktop *parent)
@@ -53,6 +53,11 @@ QIcon HolonAbstractWindow::icon() const
 bool HolonAbstractWindow::isCurrent() const
 {
     return value("current").toBool();
+}
+
+HolonAbstractTask *HolonAbstractWindow::task() const
+{
+    return d_ptr->task;
 }
 
 QString HolonAbstractWindow::title() const
