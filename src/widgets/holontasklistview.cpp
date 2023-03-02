@@ -22,6 +22,17 @@ HolonTaskListView::HolonTaskListView(HolonDesktop *desktop)
     {
         setModel(workflowModel);
 
+        connect(workflowModel, &QAbstractItemModel::rowsInserted, this, [=, this](const QModelIndex &, int row)
+        {
+            QModelIndex index = workflowModel->index(row);
+            QObject *addedObject = static_cast<QObject *>(index.internalPointer());
+            if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(addedObject))
+            {
+                desktop->setCurrentTask(task);
+                setCurrentIndex(index);
+            }
+        });
+
         connect(this, &QListView::clicked, this, [=](QModelIndex index)
         {
             QObject *clickedObject = static_cast<QObject *>(index.internalPointer());
