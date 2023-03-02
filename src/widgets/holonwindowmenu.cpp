@@ -4,6 +4,8 @@
 #include "holonwindowmenu.h"
 #include "holonabstractwindow.h"
 #include "holondesktop.h"
+#include "holonsidebar.h"
+#include "holonwindowarea.h"
 #include <QBoxLayout>
 #include <QPainter>
 #include <QPushButton>
@@ -25,6 +27,15 @@ public:
     }
 };
 
+template<typename T>
+T HolonWindowMenu::findParent()
+{
+    T t{};
+    for (QObject *o = parent(); o && !(t = qobject_cast<T>(o)); o = o->parent());
+
+    return t;
+}
+
 void HolonWindowMenu::paintEvent(QPaintEvent *)
 {
     QStyleOption opt;
@@ -37,17 +48,23 @@ HolonWindowMenu::HolonWindowMenu(HolonDesktop *desktop, QWidget *parent)
 :   QWidget(parent)
 {
     int px = desktop->menuBorderWidth();
-    using Layout = QVBoxLayout;
-    Layout *l = new Layout(this);
-    setLayout(l);
+
+    QVBoxLayout *l = new QVBoxLayout(this);
     {
+        setLayout(l);
         layout()->setContentsMargins({px, px, px, px});
         layout()->setSpacing(0);
 
-        for (HolonAbstractWindow *window : desktop->windows())
+        if (HolonWindowArea *windowArea = findParent<HolonWindowArea *>())
         {
-            if (window->area() == HolonAbstractWindow::Sidebar)
-                l->addWidget(new WindowButton(desktop, window, this), 0, Qt::AlignHCenter);
+            HolonAbstractWindow::Area menuWindowArea = HolonAbstractWindow::Central;
+
+            if (qobject_cast<HolonSidebar *>(windowArea))
+                menuWindowArea = HolonAbstractWindow::Sidebar;
+
+            for (HolonAbstractWindow *window : desktop->windows())
+                if (window->area() == menuWindowArea)
+                    l->addWidget(new WindowButton(desktop, window, this), 0, Qt::AlignHCenter);
         }
     }
     setFixedWidth(desktop->menuWidth() + px * 2);

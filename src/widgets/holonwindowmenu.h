@@ -13,6 +13,9 @@ class HolonWindowMenu : public QWidget
 {
     Q_OBJECT
 
+    template<typename T>
+    T findParent();
+
 protected:
     void paintEvent(QPaintEvent *) override;
 
