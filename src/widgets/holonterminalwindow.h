@@ -23,7 +23,6 @@ public:
     ~HolonTerminalWindow();
 
     Area area() const override;
-    HolonAbstractWindow::Attributes attributes() const override;
     QIcon icon() const override;
     bool isCopyable(const QStringList &to) const override;
     QString title() const override;

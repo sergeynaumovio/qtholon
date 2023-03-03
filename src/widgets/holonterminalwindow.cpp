@@ -63,11 +63,6 @@ HolonAbstractWindow::Area HolonTerminalWindow::area() const
     return HolonAbstractWindow::Central;
 }
 
-HolonAbstractWindow::Attributes HolonTerminalWindow::attributes() const
-{
-    return HolonAbstractWindow::WindowCloseButtonHint;
-}
-
 QIcon HolonTerminalWindow::icon() const
 {
     return {};
