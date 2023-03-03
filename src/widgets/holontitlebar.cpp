@@ -12,6 +12,13 @@
 #include <QPushButton>
 #include <QStyleOption>
 
+class HolonTitleBarPrivate
+{
+public:
+    QPushButton *maximizeButton{};
+    QPushButton *closeButton{};
+};
+
 void HolonTitleBar::paintEvent(QPaintEvent *)
 {
     QStyleOption opt;
@@ -23,9 +30,13 @@ void HolonTitleBar::paintEvent(QPaintEvent *)
 HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
                              HolonDockWidget *parent,
                              HolonAbstractWindow *window,
-                             HolonWindowAreaPrivate *d)
-:   QWidget(parent)
+                             HolonWindowAreaPrivate *windowarea_d)
+:   QWidget(parent),
+    d(*new (&d_storage) HolonTitleBarPrivate)
 {
+    static_assert (sizeof (d_storage) == sizeof (HolonTitleBarPrivate));
+    static_assert (sizeof (ptrdiff_t) == alignof (HolonTitleBarPrivate));
+
     setStyleSheet(desktop->titleBarStyleSheet());
 
     setLayout(new QHBoxLayout(this));
@@ -45,6 +56,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
         {
             QPushButton *button = new QPushButton(chr, this);
             {
+                button->hide();
                 button->setFixedHeight(desktop->titleBarHeight());
                 button->setFixedWidth(button->height() * 2);
                 button->setFlat(true);
@@ -57,27 +69,45 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
         HolonAbstractWindow::Attributes attributes = window->attributes();
         if (attributes.testFlag(HolonAbstractWindow::WindowMinMaxButtonsHint))
         {
-            QPushButton *maximize = addButton('M');
+            d.maximizeButton = addButton('M');
             {
-                connect(maximize, &QPushButton::clicked, this, [=]()
+                connect(d.maximizeButton, &QPushButton::clicked, this, [=, this]()
                 {
-                    d->maximized = !d->maximized;
-                    if (d->maximized)
-                        maximize->setText("m");
+                    windowarea_d->maximized = !windowarea_d->maximized;
+                    if (windowarea_d->maximized)
+                        d.maximizeButton->setText("m");
                     else
-                        maximize->setText("M");
+                        d.maximizeButton->setText("M");
 
-                    d->maximizeWindow(parent);
+                    windowarea_d->maximizeWindow(parent);
                 });
             }
         }
 
         if (attributes.testAnyFlag(HolonAbstractWindow::WindowCloseButtonHint))
         {
-            QPushButton *close = addButton('X');
+            d.closeButton = addButton('X');
             {
-                connect(close, &QPushButton::clicked, this, [=](){ desktop->closeWindow(window); });
+                connect(d.closeButton, &QPushButton::clicked, this, [=](){ desktop->closeWindow(window); });
             }
         }
     }
+}
+
+void HolonTitleBar::hideControlButtons()
+{
+    if (d.maximizeButton)
+        d.maximizeButton->hide();
+
+    if (d.closeButton)
+        d.closeButton->hide();
+}
+
+void HolonTitleBar::showControlButtons()
+{
+    if (d.maximizeButton)
+        d.maximizeButton->show();
+
+    if (d.closeButton)
+        d.closeButton->show();
 }
