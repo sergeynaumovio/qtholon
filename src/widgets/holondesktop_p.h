@@ -40,6 +40,7 @@ class HolonDesktopPrivate
     void addWindowArea(HolonWindowArea *window);
     void closeWindow(HolonAbstractWindow *window);
     HolonAbstractTask *currentTask();
+    void emitWarning(const QString &warning) const;
     void resizeEvent(QResizeEvent *e);
     void saveMainWindowState();
     void setCurrentTask(HolonAbstractTask *task);

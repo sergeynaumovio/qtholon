@@ -185,29 +185,29 @@ void HolonDesktopPrivateData::addTaskWindow(HolonAbstractTask *task, HolonAbstra
 
     for (HolonTaskStackedWidget *taskStackedWidget : taskStackedWidgetList)
     {
-        if (taskStackedWidget->group() == window->group())
+        if (taskStackedWidget->group() != window->group())
+            continue;
+
+        QWidget *widget = taskStackedWidget->taskWidget(task);
+        HolonWindowStackedWidget *windowStackedWidget = qobject_cast<HolonWindowStackedWidget *>(widget);
+
+        if (widget && !windowStackedWidget)
+            continue;
+
+        if (!widget)
         {
-            QWidget *widget = taskStackedWidget->taskWidget(task);
-            HolonWindowStackedWidget *windowStackedWidget = qobject_cast<HolonWindowStackedWidget *>(widget);
-
-            if (widget && !windowStackedWidget)
-                continue;
-
-            if (!widget)
-            {
-                windowStackedWidget = new HolonWindowStackedWidget;
-                taskStackedWidget->addTaskWidget(task, windowStackedWidget);
-            }
-
-            if ((widget = window->widget(taskStackedWidget->group())))
-            {
-                windowStackedWidget->addWindowWidget(window, widget);
-                stackedWidgetByTaskWindow.insert(window, windowStackedWidget);
-
-                if (window->isCurrent())
-                    currentTaskWindow[task] = window;
-            }
+            windowStackedWidget = new HolonWindowStackedWidget;
+            taskStackedWidget->addTaskWidget(task, windowStackedWidget);
         }
+
+        if (!(widget = window->widget(taskStackedWidget->group())))
+            continue;
+
+        windowStackedWidget->addWindowWidget(window, widget);
+        stackedWidgetByTaskWindow.insert(window, windowStackedWidget);
+
+        if (window->isCurrent())
+            currentTaskWindow[task] = window;
     }
 }
 
@@ -341,7 +341,12 @@ void HolonDesktopPrivateData::addWindow(HolonAbstractWindow *window)
     }
 
     if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(window->parent()))
+    {
+        if (window->group().isEmpty())
+            return desktop_d.emitWarning("window group is not set");
+
         return addTaskWindow(task, window);
+    }
 
     if (qobject_cast<HolonSidebar *>(window->parent()))
         return addSidebarWindow(window);
@@ -572,6 +577,11 @@ void HolonDesktopPrivate::closeWindow(HolonAbstractWindow *window)
 HolonAbstractTask *HolonDesktopPrivate::currentTask()
 {
     return d.currentTask;
+}
+
+void HolonDesktopPrivate::emitWarning(const QString &warning) const
+{
+    q_ptr->emitWarning(warning);
 }
 
 void HolonDesktopPrivate::resizeEvent(QResizeEvent *)

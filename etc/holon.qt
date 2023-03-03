@@ -28,13 +28,16 @@ class = HolonTaskListWindow
 
 [holon/parameters-window]
 class = HolonParametersWindow
+group = parameters
 
 [holon/settings-window]
 class = HolonSettingsWindow
+group = settings
 
 [holon/terminal-window]
 class = HolonTerminalWindow
 current = true
+group = settings
 
 [holon/task-model]
 class = HolonTaskModel
