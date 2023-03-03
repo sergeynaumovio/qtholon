@@ -164,13 +164,11 @@ void HolonDesktopPrivateData::addTaskWindow(HolonAbstractTask *task, HolonAbstra
         return wa;
     }();
 
-    if (windowArea)
-    {
-        windowArea->addWindow(window);
-        windowAreaByTaskWindow.insert(window, windowArea);
-    }
-    else
+    if (!windowArea)
         return;
+
+    windowArea->addWindow(window);
+    windowAreaByTaskWindow.insert(window, windowArea);
 
     if (window->isCurrent())
     {
