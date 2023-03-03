@@ -5,6 +5,7 @@
 #include "holonabstracttask.h"
 #include "holonabstractwindow.h"
 #include "holondockwidget.h"
+#include "holontitlebar.h"
 #include "holonwindowarea.h"
 #include "holondesktop.h"
 #include <QMainWindow>
@@ -33,6 +34,10 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
 
     if (!qobject_cast<HolonAbstractTask *>(window->parent()))
         desktop->addWindow(window);
+
+    if (dockByWindow.count() > 1)
+        for (HolonDockWidget *dockWidget: dockByWindow)
+            dockWidget->titleBar()->showControlButtons();
 }
 
 void HolonWindowAreaPrivate::maximizeWindow(HolonDockWidget *dock)
@@ -70,6 +75,9 @@ void HolonWindowAreaPrivate::closeWindow(HolonAbstractWindow *window)
 
         maximized = false;
     }
+
+    if (dockByWindow.count() == 1)
+        dockByWindow.first()->titleBar()->hideControlButtons();
 }
 
 void HolonWindowAreaPrivate::setChecked(bool checked)
@@ -80,5 +88,5 @@ void HolonWindowAreaPrivate::setChecked(bool checked)
 void HolonWindowAreaPrivate::setDefaultDockWidget()
 {
     mainWindow->setParent(q_ptr);
-    defaultDock = new HolonDockWidget(desktop, q_ptr, mainWindow);
+    defaultDock = new HolonDockWidget(desktop, mainWindow, q_ptr);
 }

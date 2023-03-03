@@ -9,6 +9,7 @@
 class HolonAbstractWindow;
 class HolonDesktop;
 class HolonDockWidgetPrivate;
+class HolonTitleBar;
 class HolonWindowArea;
 class HolonWindowAreaPrivate;
 
@@ -17,21 +18,19 @@ class HolonDockWidget : public QDockWidget
     Q_OBJECT
 
     HolonDockWidgetPrivate &d;
-    std::aligned_storage_t<8, sizeof (ptrdiff_t)> d_storage;
-
-    HolonDockWidget(QMainWindow *parent,
-                    HolonAbstractWindow *window = nullptr);
+    std::aligned_storage_t<24, sizeof (ptrdiff_t)> d_storage;
 
 public:
     HolonDockWidget(HolonDesktop *desktop,
-                    HolonWindowArea *area,
-                    QMainWindow *parent);
+                    QMainWindow *parent,
+                    HolonWindowArea *area);
 
     HolonDockWidget(HolonDesktop *desktop,
                     QMainWindow *parent,
                     HolonAbstractWindow *window,
                     HolonWindowAreaPrivate *d);
 
+    HolonTitleBar *titleBar() const;
     HolonAbstractWindow *window() const;
 };
 

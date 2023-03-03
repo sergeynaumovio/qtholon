@@ -6,6 +6,7 @@
 #include "holonabstractwindow.h"
 #include "holontitlebar.h"
 #include "holonwindowarea.h"
+#include "holonwindowarea_p.h"
 #include "holonwindowmenu.h"
 #include <QBoxLayout>
 #include <QLoaderTree>
@@ -14,24 +15,34 @@
 class HolonDockWidgetPrivate
 {
 public:
+    HolonDockWidget *const q_ptr;
     HolonAbstractWindow *const window;
+    HolonTitleBar *const titleBar;
+
+    HolonDockWidgetPrivate(HolonDockWidget *q,
+                           HolonDesktop *desktop,
+                           QMainWindow *parent,
+                           HolonAbstractWindow *w = nullptr,
+                           HolonWindowAreaPrivate *d = nullptr)
+    :   q_ptr(q),
+        window(w),
+        titleBar(new HolonTitleBar(desktop, q, w, d))
+    {
+        q_ptr->setTitleBarWidget(titleBar);
+        q_ptr->setFeatures(QDockWidget::NoDockWidgetFeatures);
+        parent->addDockWidget(Qt::LeftDockWidgetArea, q_ptr);
+    }
 };
 
-HolonDockWidget::HolonDockWidget(QMainWindow *parent, HolonAbstractWindow *window)
+HolonDockWidget::HolonDockWidget(HolonDesktop *desktop,
+                                 QMainWindow *parent,
+                                 HolonWindowArea *area)
 :   QDockWidget(parent),
-    d(*new (&d_storage) HolonDockWidgetPrivate{window})
+    d(*new (&d_storage) HolonDockWidgetPrivate(this, desktop, parent))
 {
     static_assert (sizeof (d_storage) == sizeof (HolonDockWidgetPrivate));
     static_assert (sizeof (ptrdiff_t) == alignof (HolonDockWidgetPrivate));
 
-    parent->addDockWidget(Qt::LeftDockWidgetArea, this);
-    setFeatures(QDockWidget::NoDockWidgetFeatures);
-}
-
-HolonDockWidget::HolonDockWidget(HolonDesktop *desktop, HolonWindowArea *area, QMainWindow *parent)
-:   HolonDockWidget(parent)
-{
-    setTitleBarWidget(new HolonTitleBar(desktop, this));
     QWidget *widget = new QWidget(this);
     {
         QVBoxLayout *l = new QVBoxLayout(widget);
@@ -54,14 +65,19 @@ HolonDockWidget::HolonDockWidget(HolonDesktop *desktop,
                                  QMainWindow *parent,
                                  HolonAbstractWindow *window,
                                  HolonWindowAreaPrivate *d)
-:   HolonDockWidget(parent, window)
+:   QDockWidget(parent),
+    d(*new (&d_storage) HolonDockWidgetPrivate(this, desktop, parent, window, d))
 {
-    setTitleBarWidget(new HolonTitleBar(desktop, this, window, d));
     setWidget(window->widget());
 
     if (HolonAbstractTask *task = window->task())
         if (task->isCurrent() && window->isCurrent())
             widget()->setFocus();
+}
+
+HolonTitleBar *HolonDockWidget::titleBar() const
+{
+    return d.titleBar;
 }
 
 HolonAbstractWindow *HolonDockWidget::window() const
