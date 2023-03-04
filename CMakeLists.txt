@@ -67,6 +67,10 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holondockwidget.h
             src/widgets/holonmainwindow.cpp
             src/widgets/holonmainwindow.h
+            src/widgets/holonmessageswidget.cpp
+            src/widgets/holonmessageswidget.h
+            src/widgets/holonmessageswindow.cpp
+            src/widgets/holonmessageswindow.h
             src/widgets/holonparameterswindow.cpp
             src/widgets/holonparameterswindow.h
             src/widgets/holonsettingswindow.cpp
