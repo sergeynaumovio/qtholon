@@ -4,8 +4,7 @@
 #ifndef HOLONSIDEBARDOCK_P_H
 #define HOLONSIDEBARDOCK_P_H
 
-#include <stddef.h>
-#include <type_traits>
+#include "holonalignedstorage.h"
 
 class HolonDesktopPrivate;
 class HolonMainWindow;
@@ -18,14 +17,15 @@ class QString;
 
 class HolonSidebarDockPrivate
 {
-    HolonSidebarDockPrivateData &d;
-    std::aligned_storage_t<88, sizeof (ptrdiff_t)> d_storage;
+    const HolonAlignedStorage<HolonSidebarDockPrivateData, 88> d_ptr;
 
 public:
     HolonSidebarDockPrivate(HolonDesktopPrivate &desktop_d,
                             HolonSidebarDock *q,
                             const QString &name,
                             HolonMainWindow *parent);
+
+    ~HolonSidebarDockPrivate();
 
     void addSidebar(HolonSidebar *sidebar);
     HolonSidebar *currentSidebar() const;

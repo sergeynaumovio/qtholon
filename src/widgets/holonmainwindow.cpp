@@ -94,38 +94,33 @@ public:
 };
 
 HolonMainWindow::HolonMainWindow(HolonDesktopPrivate &desktop_d, QWidget *parent)
-:   d(*new (&d_storage) HolonMainWindowPrivate(this, desktop_d, parent))
+:   d_ptr(this, desktop_d, parent)
 {
-    static_assert (sizeof (d_storage) == sizeof (HolonMainWindowPrivate));
-    static_assert (sizeof (ptrdiff_t) == alignof (HolonMainWindowPrivate));
-
     setParent(parent);
     setDockOptions(QMainWindow::AnimatedDocks | QMainWindow::AllowNestedDocks);
 }
 
 HolonMainWindow::~HolonMainWindow()
-{
-    d.~HolonMainWindowPrivate();
-}
+{ }
 
 HolonSidebarDock *HolonMainWindow::addSidebar(HolonSidebar *sidebar)
 {
     QString dockName = sidebar->value("group").toString();
     HolonSidebarDock *sidebarDock;
 
-    if (dockName.isEmpty() || !d.groupDock.contains(dockName))
+    if (dockName.isEmpty() || !d_ptr->groupDock.contains(dockName))
     {
         if (dockName.isEmpty())
             dockName = sidebar->section().constLast();
 
-        sidebarDock = new HolonSidebarDock(d.desktop_d, dockName, this);
+        sidebarDock = new HolonSidebarDock(d_ptr->desktop_d, dockName, this);
         addDockWidget(Qt::LeftDockWidgetArea, sidebarDock);
 
         if (!dockName.isEmpty())
-            d.groupDock.insert(dockName, sidebarDock);
+            d_ptr->groupDock.insert(dockName, sidebarDock);
     }
     else
-        sidebarDock = d.groupDock.value(dockName);
+        sidebarDock = d_ptr->groupDock.value(dockName);
 
     sidebarDock->addSidebar(sidebar);
 
@@ -134,25 +129,25 @@ HolonSidebarDock *HolonMainWindow::addSidebar(HolonSidebar *sidebar)
 
 HolonWindowArea *HolonMainWindow::addWindowArea(HolonAbstractTask *task)
 {
-    return d.addWindowArea(task);
+    return d_ptr->addWindowArea(task);
 }
 
 void HolonMainWindow::addWindowArea(HolonWindowArea *windowArea)
 {
-    d.addWindowArea(windowArea);
+    d_ptr->addWindowArea(windowArea);
 }
 
 void HolonMainWindow::setCurrentTask(HolonAbstractTask *task)
 {
-    d.setCurrentTask(task);
+    d_ptr->setCurrentTask(task);
 }
 
 void HolonMainWindow::setCurrentWindowArea(HolonWindowArea *windowArea)
 {
-    d.setCurrentWindowArea(windowArea);
+    d_ptr->setCurrentWindowArea(windowArea);
 }
 
 HolonWindowArea *HolonMainWindow::windowArea(HolonAbstractTask *task)
 {
-    return d.windowArea(task);
+    return d_ptr->windowArea(task);
 }

@@ -203,11 +203,8 @@ public:
 
 HolonWindowAreaSwitch::HolonWindowAreaSwitch(HolonDesktopPrivate &desktop_d, HolonTaskbar *taskbar)
 :   QWidget(taskbar),
-    d(*new (&d_storage) HolonWindowAreaSwitchPrivate(desktop_d))
+    d_ptr(desktop_d)
 {
-    static_assert (sizeof (d_storage) == sizeof (HolonWindowAreaSwitchPrivate));
-    static_assert (sizeof (ptrdiff_t) == alignof (HolonWindowAreaSwitchPrivate));
-
     if (desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Top ||
         desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Bottom)
     {
@@ -229,16 +226,14 @@ HolonWindowAreaSwitch::HolonWindowAreaSwitch(HolonDesktopPrivate &desktop_d, Hol
 }
 
 HolonWindowAreaSwitch::~HolonWindowAreaSwitch()
-{
-    d.~HolonWindowAreaSwitchPrivate();
-}
+{ }
 
 void HolonWindowAreaSwitch::addSidebar(HolonSidebar *sidebar)
 {
-    layout()->addWidget(new HolonSidebarButton(d, sidebar, this));
+    layout()->addWidget(new HolonSidebarButton(*d_ptr, sidebar, this));
 }
 
 void HolonWindowAreaSwitch::addWindowArea(HolonWindowArea *windowArea)
 {
-    layout()->addWidget(new HolonWindowAreaButton(d, windowArea, this));
+    layout()->addWidget(new HolonWindowAreaButton(*d_ptr, windowArea, this));
 }

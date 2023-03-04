@@ -31,11 +31,8 @@ void HolonTaskbar::paintEvent(QPaintEvent *)
 
 HolonTaskbar::HolonTaskbar(HolonDesktopPrivate &desktop_d)
 :   QWidget(desktop_d.q_ptr),
-    d(*new (&d_storage) HolonTaskbarPrivate(desktop_d))
+    d_ptr(desktop_d)
 {
-    static_assert (sizeof (d_storage) == sizeof (HolonTaskbarPrivate));
-    static_assert (sizeof (ptrdiff_t) == alignof (HolonTaskbarPrivate));
-
     if (desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Left ||
         desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Right)
     {
@@ -55,7 +52,7 @@ HolonTaskbar::HolonTaskbar(HolonDesktopPrivate &desktop_d)
     }
     layout()->setSpacing(0);
     //layout()->addWidget(new HolonTaskMenu(desktop_d, this));
-    layout()->addWidget(d.windowAreaSwitch = new HolonWindowAreaSwitch(desktop_d, this));
+    layout()->addWidget(d_ptr->windowAreaSwitch = new HolonWindowAreaSwitch(desktop_d, this));
     layout()->addStretch();
 
     setStyleSheet(desktop_d.taskbarStyleSheet());
@@ -76,5 +73,5 @@ QBoxLayout *HolonTaskbar::layout() const
 
 HolonWindowAreaSwitch *HolonTaskbar::sidebarSwitch() const
 {
-    return d.windowAreaSwitch;
+    return d_ptr->windowAreaSwitch;
 }

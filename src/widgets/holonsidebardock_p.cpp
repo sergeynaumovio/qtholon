@@ -122,54 +122,54 @@ HolonSidebarDockPrivate::HolonSidebarDockPrivate(HolonDesktopPrivate &desktop_d,
                                                  HolonSidebarDock *q,
                                                  const QString &name,
                                                  HolonMainWindow *parent)
-:   d(*new (&d_storage) HolonSidebarDockPrivateData(desktop_d, q, name, parent))
+:   d_ptr(desktop_d, q, name, parent)
 {
-    static_assert (sizeof (d_storage) == sizeof (HolonSidebarDockPrivateData));
-    static_assert (sizeof (ptrdiff_t) == alignof (HolonSidebarDockPrivateData));
-
     q->setFeatures(QDockWidget::DockWidgetMovable);
-    q->setTitleBarWidget(d.titlebar.hidden);
-    q->setWidget(d.stackedWidget.root);
+    q->setTitleBarWidget(d_ptr->titlebar.hidden);
+    q->setWidget(d_ptr->stackedWidget.root);
     q->setObjectName(name);
 }
 
+HolonSidebarDockPrivate::~HolonSidebarDockPrivate()
+{ }
+
 void HolonSidebarDockPrivate::addSidebar(HolonSidebar *sidebar)
 {
-    d.stackedWidget.addSidebar(sidebar);
+    d_ptr->stackedWidget.addSidebar(sidebar);
 }
 
 HolonSidebar *HolonSidebarDockPrivate::currentSidebar() const
 {
-    return static_cast<HolonSidebar *>(d.stackedWidget.sidebars.stacked->currentWidget());
+    return static_cast<HolonSidebar *>(d_ptr->stackedWidget.sidebars.stacked->currentWidget());
 }
 
 HolonDesktopPrivate &HolonSidebarDockPrivate::desktop_d() const
 {
-    return d.desktop_d;
+    return d_ptr->desktop_d;
 }
 
 void HolonSidebarDockPrivate::setSidebar(HolonSidebar *sidebar)
 {
-    d.stackedWidget.setSidebar(sidebar);
+    d_ptr->stackedWidget.setSidebar(sidebar);
 }
 
 const QList<HolonSidebar *> &HolonSidebarDockPrivate::sidebars() const
 {
-    return d.stackedWidget.sidebars.list;
+    return d_ptr->stackedWidget.sidebars.list;
 }
 
 void HolonSidebarDockPrivate::showTitleBarWidget(bool show) const
 {
     if (show)
     {
-        d.stackedWidget.setLabel();
-        d.q_ptr->setTitleBarWidget(d.titlebar.visible = new HolonSidebarDockTitleBar(d.desktop_d, d.q_ptr));
-        d.titlebar.hidden->deleteLater();
+        d_ptr->stackedWidget.setLabel();
+        d_ptr->q_ptr->setTitleBarWidget(d_ptr->titlebar.visible = new HolonSidebarDockTitleBar(d_ptr->desktop_d, d_ptr->q_ptr));
+        d_ptr->titlebar.hidden->deleteLater();
     }
     else
     {
-        d.stackedWidget.setSidebars();
-        d.q_ptr->setTitleBarWidget(d.titlebar.hidden = new QWidget(d.q_ptr));
-        d.titlebar.visible->deleteLater();
+        d_ptr->stackedWidget.setSidebars();
+        d_ptr->q_ptr->setTitleBarWidget(d_ptr->titlebar.hidden = new QWidget(d_ptr->q_ptr));
+        d_ptr->titlebar.visible->deleteLater();
     }
 }

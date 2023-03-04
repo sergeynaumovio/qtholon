@@ -4,6 +4,7 @@
 #ifndef HOLONMAINWINDOW_H
 #define HOLONMAINWINDOW_H
 
+#include "holonalignedstorage.h"
 #include <QMainWindow>
 
 class HolonAbstractTask;
@@ -17,8 +18,7 @@ class HolonMainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    HolonMainWindowPrivate &d;
-    std::aligned_storage_t<64, sizeof (ptrdiff_t)> d_storage;
+    const HolonAlignedStorage<HolonMainWindowPrivate, 64> d_ptr;
 
 public:
     HolonMainWindow(HolonDesktopPrivate &desktop_d, QWidget *parent);

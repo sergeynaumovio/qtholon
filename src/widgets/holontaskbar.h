@@ -4,6 +4,7 @@
 #ifndef HOLONTASKBAR_H
 #define HOLONTASKBAR_H
 
+#include "holonalignedstorage.h"
 #include <QWidget>
 
 class HolonDesktopPrivate;
@@ -15,8 +16,7 @@ class HolonTaskbar : public QWidget
 {
     Q_OBJECT
 
-    HolonTaskbarPrivate &d;
-    std::aligned_storage_t<16, sizeof (ptrdiff_t)> d_storage;
+    const HolonAlignedStorage<HolonTaskbarPrivate, 16> d_ptr;
 
     QBoxLayout *layout() const;
 

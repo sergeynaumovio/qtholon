@@ -15,33 +15,30 @@
 
 void HolonSidebarDock::resizeEvent(QResizeEvent *e)
 {
-    d.desktop_d().saveDockWidgetWidth(this, e->size().width());
+    d_ptr->desktop_d().saveDockWidgetWidth(this, e->size().width());
 }
 
 HolonSidebarDock::HolonSidebarDock(HolonDesktopPrivate &desktop_d,
                                    const QString &name,
                                    HolonMainWindow *parent)
 :   QDockWidget(parent),
-    d(*new (&d_storage) HolonSidebarDockPrivate(desktop_d, this, name, parent))
-{
-    static_assert (sizeof (d_storage) == sizeof (HolonSidebarDockPrivate));
-    static_assert (sizeof (ptrdiff_t) == alignof (HolonSidebarDockPrivate));
-}
+    d_ptr(desktop_d, this, name, parent)
+{ }
 
 HolonSidebarDock::~HolonSidebarDock()
 { }
 
 void HolonSidebarDock::addSidebar(HolonSidebar *sidebar)
 {
-    d.addSidebar(sidebar);
+    d_ptr->addSidebar(sidebar);
 }
 
 QList<HolonSidebar *> HolonSidebarDock::sidebars() const
 {
-    return d.sidebars();
+    return d_ptr->sidebars();
 }
 
 void HolonSidebarDock::showTitleBarWidget(bool show)
 {
-    d.showTitleBarWidget(show);
+    d_ptr->showTitleBarWidget(show);
 }

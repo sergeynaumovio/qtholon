@@ -4,6 +4,7 @@
 #ifndef HOLONDESKTOP_P_H
 #define HOLONDESKTOP_P_H
 
+#include "holonalignedstorage.h"
 #include <QMetaType>
 
 class HolonAbstractTask;
@@ -27,8 +28,7 @@ class HolonDesktopPrivate
 
     friend class HolonDesktop;
     friend class HolonDesktopPrivateData;
-    HolonDesktopPrivateData &d;
-    std::aligned_storage_t<592, sizeof (ptrdiff_t)> d_storage;
+    const HolonAlignedStorage<HolonDesktopPrivateData, 592> d_ptr;
 
     HolonDesktopPrivate(HolonDesktop *q);
 

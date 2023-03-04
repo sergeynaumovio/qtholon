@@ -4,6 +4,7 @@
 #ifndef HOLONTITLEBAR_H
 #define HOLONTITLEBAR_H
 
+#include "holonalignedstorage.h"
 #include <QWidget>
 
 class HolonAbstractWindow;
@@ -16,8 +17,7 @@ class HolonTitleBar : public QWidget
 {
     Q_OBJECT
 
-    HolonTitleBarPrivate &d;
-    std::aligned_storage_t<16, sizeof (ptrdiff_t)> d_storage;
+    const HolonAlignedStorage<HolonTitleBarPrivate, 16> d_ptr;
 
 protected:
     void paintEvent(QPaintEvent *) override;
@@ -27,6 +27,8 @@ public:
                   HolonDockWidget *parent,
                   HolonAbstractWindow *window = nullptr,
                   HolonWindowAreaPrivate *d = nullptr);
+
+    ~HolonTitleBar();
 
     void hideControlButtons();
     void showControlButtons();

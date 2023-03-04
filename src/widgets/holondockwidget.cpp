@@ -38,11 +38,8 @@ HolonDockWidget::HolonDockWidget(HolonDesktop *desktop,
                                  QMainWindow *parent,
                                  HolonWindowArea *area)
 :   QDockWidget(parent),
-    d(*new (&d_storage) HolonDockWidgetPrivate(this, desktop, parent))
+    d_ptr(this, desktop, parent)
 {
-    static_assert (sizeof (d_storage) == sizeof (HolonDockWidgetPrivate));
-    static_assert (sizeof (ptrdiff_t) == alignof (HolonDockWidgetPrivate));
-
     QWidget *widget = new QWidget(this);
     {
         QVBoxLayout *l = new QVBoxLayout(widget);
@@ -66,7 +63,7 @@ HolonDockWidget::HolonDockWidget(HolonDesktop *desktop,
                                  HolonAbstractWindow *window,
                                  HolonWindowAreaPrivate *d)
 :   QDockWidget(parent),
-    d(*new (&d_storage) HolonDockWidgetPrivate(this, desktop, parent, window, d))
+    d_ptr(this, desktop, parent, window, d)
 {
     setWidget(window->widget());
 
@@ -75,12 +72,15 @@ HolonDockWidget::HolonDockWidget(HolonDesktop *desktop,
             widget()->setFocus();
 }
 
+HolonDockWidget::~HolonDockWidget()
+{ }
+
 HolonTitleBar *HolonDockWidget::titleBar() const
 {
-    return d.titleBar;
+    return d_ptr->titleBar;
 }
 
 HolonAbstractWindow *HolonDockWidget::window() const
 {
-    return d.window;
+    return d_ptr->window;
 }

@@ -31,12 +31,8 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
                              HolonDockWidget *parent,
                              HolonAbstractWindow *window,
                              HolonWindowAreaPrivate *windowarea_d)
-:   QWidget(parent),
-    d(*new (&d_storage) HolonTitleBarPrivate)
+:   QWidget(parent)
 {
-    static_assert (sizeof (d_storage) == sizeof (HolonTitleBarPrivate));
-    static_assert (sizeof (ptrdiff_t) == alignof (HolonTitleBarPrivate));
-
     setStyleSheet(desktop->titleBarStyleSheet());
 
     setLayout(new QHBoxLayout(this));
@@ -69,15 +65,15 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
         HolonAbstractWindow::Attributes attributes = window->attributes();
         if (attributes.testFlag(HolonAbstractWindow::WindowMinMaxButtonsHint))
         {
-            d.maximizeButton = addButton('M');
+            d_ptr->maximizeButton = addButton('M');
             {
-                connect(d.maximizeButton, &QPushButton::clicked, this, [=, this]()
+                connect(d_ptr->maximizeButton, &QPushButton::clicked, this, [=, this]()
                 {
                     windowarea_d->maximized = !windowarea_d->maximized;
                     if (windowarea_d->maximized)
-                        d.maximizeButton->setText("m");
+                        d_ptr->maximizeButton->setText("m");
                     else
-                        d.maximizeButton->setText("M");
+                        d_ptr->maximizeButton->setText("M");
 
                     windowarea_d->maximizeWindow(parent);
                 });
@@ -86,28 +82,31 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
 
         if (attributes.testAnyFlag(HolonAbstractWindow::WindowCloseButtonHint))
         {
-            d.closeButton = addButton('X');
+            d_ptr->closeButton = addButton('X');
             {
-                connect(d.closeButton, &QPushButton::clicked, this, [=](){ desktop->closeWindow(window); });
+                connect(d_ptr->closeButton, &QPushButton::clicked, this, [=](){ desktop->closeWindow(window); });
             }
         }
     }
 }
 
+HolonTitleBar::~HolonTitleBar()
+{ }
+
 void HolonTitleBar::hideControlButtons()
 {
-    if (d.maximizeButton)
-        d.maximizeButton->hide();
+    if (d_ptr->maximizeButton)
+        d_ptr->maximizeButton->hide();
 
-    if (d.closeButton)
-        d.closeButton->hide();
+    if (d_ptr->closeButton)
+        d_ptr->closeButton->hide();
 }
 
 void HolonTitleBar::showControlButtons()
 {
-    if (d.maximizeButton)
-        d.maximizeButton->show();
+    if (d_ptr->maximizeButton)
+        d_ptr->maximizeButton->show();
 
-    if (d.closeButton)
-        d.closeButton->show();
+    if (d_ptr->closeButton)
+        d_ptr->closeButton->show();
 }

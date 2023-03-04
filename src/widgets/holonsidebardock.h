@@ -4,6 +4,7 @@
 #ifndef HOLONSIDEBARDOCK_H
 #define HOLONSIDEBARDOCK_H
 
+#include "holonalignedstorage.h"
 #include <QDockWidget>
 
 class HolonDesktop;
@@ -17,8 +18,7 @@ class HolonSidebarDock : public QDockWidget
     Q_OBJECT
 
     friend class HolonDesktopPrivate;
-    HolonSidebarDockPrivate &d;
-    std::aligned_storage_t<96, sizeof (ptrdiff_t)> d_storage;
+    const HolonAlignedStorage<HolonSidebarDockPrivate, 88> d_ptr;
 
 protected:
     void resizeEvent(QResizeEvent *e) override;

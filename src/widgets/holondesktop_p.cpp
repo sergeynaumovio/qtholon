@@ -514,12 +514,9 @@ void HolonDesktopPrivateData::setVBoxLayout(QWidget *&widget, const char *name, 
 }
 
 HolonDesktopPrivate::HolonDesktopPrivate(HolonDesktop *q)
-:   d(*new (&d_storage) HolonDesktopPrivateData(*this, q)),
+:   d_ptr(*this, q),
     q_ptr(q)
 {
-    static_assert (sizeof (d_storage) == sizeof (HolonDesktopPrivateData));
-    static_assert (sizeof (ptrdiff_t) == alignof (HolonDesktopPrivateData));
-
     if (q->contains("saveShortcut") == QLoaderSettings::Value)
     {
         QShortcut *shortcut = new QShortcut(q);
@@ -532,49 +529,49 @@ HolonDesktopPrivate::HolonDesktopPrivate(HolonDesktop *q)
 
 void HolonDesktopPrivate::addModel(HolonTaskModel *model)
 {
-    if (d.models.tasks.isEmpty() || model->isCurrent())
-        d.models.current.task = model;
+    if (d_ptr->models.tasks.isEmpty() || model->isCurrent())
+        d_ptr->models.current.task = model;
 
-    d.models.tasks.append(model);
+    d_ptr->models.tasks.append(model);
 
 }
 
 void HolonDesktopPrivate::addModel(HolonWorkflowModel *model)
 {
-    if (d.models.workflows.isEmpty() || model->isCurrent())
-        d.models.current.workflow = model;
+    if (d_ptr->models.workflows.isEmpty() || model->isCurrent())
+        d_ptr->models.current.workflow = model;
 
-    d.models.workflows.append(model);
+    d_ptr->models.workflows.append(model);
 }
 
 void HolonDesktopPrivate::addSidebar(HolonSidebar *sidebar)
 {
-    d.addSidebar(sidebar);
+    d_ptr->addSidebar(sidebar);
 }
 
 void HolonDesktopPrivate::addTask(HolonAbstractTask *task)
 {
-    d.addTask(task);
+    d_ptr->addTask(task);
 }
 
 void HolonDesktopPrivate::addWindow(HolonAbstractWindow *window)
 {
-    d.addWindow(window);
+    d_ptr->addWindow(window);
 }
 
 void HolonDesktopPrivate::addWindowArea(HolonWindowArea *windowArea)
 {
-    d.addWindowArea(windowArea);
+    d_ptr->addWindowArea(windowArea);
 }
 
 void HolonDesktopPrivate::closeWindow(HolonAbstractWindow *window)
 {
-    d.closeWindow(window);
+    d_ptr->closeWindow(window);
 }
 
 HolonAbstractTask *HolonDesktopPrivate::currentTask()
 {
-    return d.currentTask;
+    return d_ptr->currentTask;
 }
 
 void HolonDesktopPrivate::emitWarning(const QString &warning) const
@@ -584,28 +581,28 @@ void HolonDesktopPrivate::emitWarning(const QString &warning) const
 
 void HolonDesktopPrivate::resizeEvent(QResizeEvent *)
 {
-    if (d.skipExternalMainWindowSaveState)
-        d.skipExternalMainWindowSaveState--;
+    if (d_ptr->skipExternalMainWindowSaveState)
+        d_ptr->skipExternalMainWindowSaveState--;
 }
 
 void HolonDesktopPrivate::saveMainWindowState()
 {
-    if (!d.skipExternalMainWindowSaveState)
+    if (!d_ptr->skipExternalMainWindowSaveState)
     {
-        q_ptr->setValue("externalMainWindowState", d.externalMainWindow->saveState());
-        q_ptr->setValue("internalMainWindowState", d.internalMainWindow->saveState());
+        q_ptr->setValue("externalMainWindowState", d_ptr->externalMainWindow->saveState());
+        q_ptr->setValue("internalMainWindowState", d_ptr->internalMainWindow->saveState());
     }
 }
 
 void HolonDesktopPrivate::setCurrentTask(HolonAbstractTask *task)
 {
-    if (task == d.currentTask)
+    if (task == d_ptr->currentTask)
         return;
 
-    if (d.currentTask)
-        d.currentTask->d_ptr->setCurrent(false);
+    if (d_ptr->currentTask)
+        d_ptr->currentTask->d_ptr->setCurrent(false);
 
-    d.setCurrentTask(task);
+    d_ptr->setCurrentTask(task);
 
     if (task)
         task->d_ptr->setCurrent(true);
@@ -613,13 +610,13 @@ void HolonDesktopPrivate::setCurrentTask(HolonAbstractTask *task)
 
 void HolonDesktopPrivate::setCurrentWindow(HolonAbstractWindow *window)
 {
-    if (window == d.currentWindow)
+    if (window == d_ptr->currentWindow)
         return;
 
-    if (d.currentWindow && d.currentTaskWindow.value(d.currentTask) == d.currentWindow)
-        d.currentWindow->d_ptr->setCurrent(false);
+    if (d_ptr->currentWindow && d_ptr->currentTaskWindow.value(d_ptr->currentTask) == d_ptr->currentWindow)
+        d_ptr->currentWindow->d_ptr->setCurrent(false);
 
-    d.setCurrentWindow(window);
+    d_ptr->setCurrentWindow(window);
 
     if (window)
         window->d_ptr->setCurrent(true);
@@ -627,13 +624,13 @@ void HolonDesktopPrivate::setCurrentWindow(HolonAbstractWindow *window)
 
 void HolonDesktopPrivate::setCurrentWindowArea(HolonWindowArea *windowArea)
 {
-    if (windowArea == d.currentWindowArea)
+    if (windowArea == d_ptr->currentWindowArea)
         return;
 
-    if (d.currentWindowArea)
-        d.currentWindowArea->d_ptr->setChecked(false);
+    if (d_ptr->currentWindowArea)
+        d_ptr->currentWindowArea->d_ptr->setChecked(false);
 
-    d.setCurrentWindowArea(windowArea);
+    d_ptr->setCurrentWindowArea(windowArea);
 
     if (windowArea)
         windowArea->d_ptr->setChecked(true);
@@ -641,106 +638,103 @@ void HolonDesktopPrivate::setCurrentWindowArea(HolonWindowArea *windowArea)
 
 void HolonDesktopPrivate::setLayout()
 {
-    d.setLayout();
+    d_ptr->setLayout();
 }
 
 HolonTaskModel *HolonDesktopPrivate::taskModel() const
 {
-    return d.models.current.task;
+    return d_ptr->models.current.task;
 }
 
 HolonWorkflowModel *HolonDesktopPrivate::workflowModel() const
 {
-    return d.models.current.workflow;
+    return d_ptr->models.current.workflow;
 }
 
-HolonDesktopPrivate::~HolonDesktopPrivate()
-{
-    d.~HolonDesktopPrivateData();
-}
+HolonDesktopPrivate::~HolonDesktopPrivate() = default;
 
 QString HolonDesktopPrivate::buttonStyleSheet() const
 {
-    return d.buttonStyleSheet;
+    return d_ptr->buttonStyleSheet;
 }
 
 int HolonDesktopPrivate::menuBorderWidth() const
 {
-    return d.menuBorderWidth;
+    return d_ptr->menuBorderWidth;
 }
 
 QString HolonDesktopPrivate::menuStyleSheet() const
 {
-    return d.menuStyleSheet;
+    return d_ptr->menuStyleSheet;
 }
 
 int HolonDesktopPrivate::menuWidth() const
 {
-    return d.menuWidth;
+    return d_ptr->menuWidth;
 }
 
 const QSet<HolonSidebarDock *> &HolonDesktopPrivate::sidebarDocks() const
 {
-    return d.sidebars.docks;
+    return d_ptr->sidebars.docks;
 }
 
 int HolonDesktopPrivate::titleBarHeight() const
 {
-    return d.titleBarHeight;
+    return d_ptr->titleBarHeight;
 }
 
 QString HolonDesktopPrivate::titleBarStyleSheet() const
 {
-    return d.titleBarStyleSheet;
+    return d_ptr->titleBarStyleSheet;
 }
 
 QString HolonDesktopPrivate::sidebarMoveShortcut() const
 {
-    return d.sidebarMoveShortcut;
+    return d_ptr->sidebarMoveShortcut;
 }
 
 int HolonDesktopPrivate::sidebarSwitchButtonWidth() const
 {
-    return d.sidebarSwitchButtonWidth;
+    return d_ptr->sidebarSwitchButtonWidth;
 }
 
 HolonTaskbar *HolonDesktopPrivate::taskbar() const
 {
-    return d.taskbar;
+    return d_ptr->taskbar;
 }
 
 HolonDesktopPrivate::TaskbarArea HolonDesktopPrivate::taskbarArea() const
 {
-    return d.taskbarArea;
+    return d_ptr->taskbarArea;
 }
 
 int HolonDesktopPrivate::taskbarPreferedHeight() const
 {
-    return d.taskbarPreferedHeight;
+    return d_ptr->taskbarPreferedHeight;
 }
 
 int HolonDesktopPrivate::taskbarPreferedWidth() const
 {
-    return d.taskbarPreferedWidth;
+    return d_ptr->taskbarPreferedWidth;
 }
 
 QString HolonDesktopPrivate::taskbarStyleSheet() const
 {
-    return d.taskbarStyleSheet;
+    return d_ptr->taskbarStyleSheet;
 }
 
 QList<HolonAbstractWindow *> HolonDesktopPrivate::windows() const
 {
-    return d.windowList;
+    return d_ptr->windowList;
 }
 
 void HolonDesktopPrivate::removeSidebar(HolonSidebar *sidebar)
 {
-    HolonSidebarDock *dock = d.sidebars.dockBySidebar.value(sidebar);
+    HolonSidebarDock *dock = d_ptr->sidebars.dockBySidebar.value(sidebar);
 
-    if (sidebar == dock->d.currentSidebar())
+    if (sidebar == dock->d_ptr->currentSidebar())
     {
-        d.sidebars.mainWindowByDock.value(dock)->removeDockWidget(dock);
+        d_ptr->sidebars.mainWindowByDock.value(dock)->removeDockWidget(dock);
         resizeDocks();
     }
 
@@ -749,45 +743,45 @@ void HolonDesktopPrivate::removeSidebar(HolonSidebar *sidebar)
 
 void HolonDesktopPrivate::resizeDocks()
 {
-    QMapIterator it(d.sidebars.dockWidth);
+    QMapIterator it(d_ptr->sidebars.dockWidth);
     while(it.hasNext())
     {
         it.next();
-        if (d.sidebars.mainWindowByDock.value(it.key()) == d.externalMainWindow &&
+        if (d_ptr->sidebars.mainWindowByDock.value(it.key()) == d_ptr->externalMainWindow &&
             it.key()->isVisible())
         {
-            d.sidebars.visible.dockList.append(it.key());
-            d.sidebars.visible.widthList.append(it.value());
+            d_ptr->sidebars.visible.dockList.append(it.key());
+            d_ptr->sidebars.visible.widthList.append(it.value());
         }
     }
 
-    d.externalMainWindow->resizeDocks(d.sidebars.visible.dockList,
-                                      d.sidebars.visible.widthList,
-                                      Qt::Horizontal);
+    d_ptr->externalMainWindow->resizeDocks(d_ptr->sidebars.visible.dockList,
+                                           d_ptr->sidebars.visible.widthList,
+                                           Qt::Horizontal);
 
-    d.sidebars.visible.dockList.clear();
-    d.sidebars.visible.widthList.clear();
+    d_ptr->sidebars.visible.dockList.clear();
+    d_ptr->sidebars.visible.widthList.clear();
 
     saveMainWindowState();
 }
 
 void HolonDesktopPrivate::restoreSidebar(HolonSidebar *sidebar)
 {
-    HolonSidebarDock *dock = d.sidebars.dockBySidebar.value(sidebar);
-    dock->d.setSidebar(sidebar);
-    d.sidebars.mainWindowByDock.value(dock)->restoreDockWidget(dock);
+    HolonSidebarDock *dock = d_ptr->sidebars.dockBySidebar.value(sidebar);
+    dock->d_ptr->setSidebar(sidebar);
+    d_ptr->sidebars.mainWindowByDock.value(dock)->restoreDockWidget(dock);
     sidebar->d_ptr->setChecked(true);
     resizeDocks();
 }
 
 void HolonDesktopPrivate::saveDockWidgetWidth(HolonSidebarDock *dock, int width)
 {
-    d.sidebars.dockWidth[dock] = width;
+    d_ptr->sidebars.dockWidth[dock] = width;
 
     saveMainWindowState();
 }
 
 HolonSidebarDock *HolonDesktopPrivate::sidebarDock(HolonSidebar *sidebar) const
 {
-    return d.sidebars.dockBySidebar.value(sidebar);
+    return d_ptr->sidebars.dockBySidebar.value(sidebar);
 }
