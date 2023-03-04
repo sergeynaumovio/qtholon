@@ -120,7 +120,7 @@ bool HolonTaskTreeWindow::isCopyable(const QStringList &to) const
     {
         parentSection.removeLast();
         QObject *parent = tree()->object(parentSection);
-        if (qobject_cast<HolonSidebar*>(parent))
+        if (qobject_cast<HolonSidebar *>(parent))
             return true;
     }
 
