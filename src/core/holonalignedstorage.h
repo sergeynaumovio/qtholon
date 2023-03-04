@@ -16,7 +16,7 @@ class HolonAlignedStorage
     T *d_func() const noexcept { return reinterpret_cast<T *>((void *)(&d_storage)); }
 
     template<int TSize, int TAlignment>
-    void checkSize() noexcept
+    static void checkSize() noexcept
     {
         static_assert(HolonAlignedStorageSize == TSize, "HolonAlignedStorageSize and sizeof(T) mismatch");
         static_assert(HolonAlignedStorageAlignment == TAlignment, "HolonAlignedStorageAlignment and alignof(T) mismatch");
