@@ -36,7 +36,7 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
         desktop->addWindow(window);
 
     if (dockByWindow.count() > 1)
-        for (HolonDockWidget *dockWidget: dockByWindow)
+        for (const HolonDockWidget *dockWidget: std::as_const(dockByWindow))
             dockWidget->titleBar()->showControlButtons();
 }
 
