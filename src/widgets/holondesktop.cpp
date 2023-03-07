@@ -149,6 +149,11 @@ void HolonDesktop::setCurrentWindowArea(HolonWindowArea *windowArea)
     d_ptr->setCurrentWindowArea(windowArea);
 }
 
+void HolonDesktop::splitWindow(HolonAbstractWindow *first, HolonAbstractWindow *second, Qt::Orientation orientation)
+{
+    d_ptr->splitWindow(first, second, orientation);
+}
+
 HolonTaskModel *HolonDesktop::taskModel() const
 {
     return d_ptr->taskModel();

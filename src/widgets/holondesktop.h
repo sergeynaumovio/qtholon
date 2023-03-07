@@ -51,6 +51,7 @@ public:
     void setCurrentTask(HolonAbstractTask *task);
     void setCurrentWindow(HolonAbstractWindow *window);
     void setCurrentWindowArea(HolonWindowArea *windowArea);
+    void splitWindow(HolonAbstractWindow *first, HolonAbstractWindow *second, Qt::Orientation orientation);
     HolonTaskModel *taskModel() const;
     int titleBarHeight() const;
     QString titleBarStyleSheet() const;

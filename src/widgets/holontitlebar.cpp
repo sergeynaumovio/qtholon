@@ -6,8 +6,11 @@
 #include "holondesktop.h"
 #include "holondockwidget.h"
 #include "holonwindowarea_p.h"
+#include <QActionGroup>
 #include <QBoxLayout>
+#include <QEvent>
 #include <QLabel>
+#include <QMenu>
 #include <QPainter>
 #include <QPushButton>
 #include <QStyleOption>
@@ -15,8 +18,29 @@
 class HolonTitleBarPrivate
 {
 public:
+    QPushButton *splitButton{};
     QPushButton *maximizeButton{};
     QPushButton *closeButton{};
+};
+
+class MenuEventFilter : public QObject
+{
+    bool eventFilter(QObject *watched, QEvent *event) override
+    {
+        if (event->type() == QEvent::MouseButtonRelease)
+            if (QMenu *menu = qobject_cast<QMenu *>(watched))
+                if (QAction *action = menu->activeAction())
+                    if (action->isCheckable())
+                    {
+                        action->trigger();
+                        return true;
+                    }
+
+        return QObject::eventFilter(watched, event);
+    }
+
+public:
+    MenuEventFilter(QObject *parent) : QObject(parent) { }
 };
 
 void HolonTitleBar::paintEvent(QPaintEvent *)
@@ -54,7 +78,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
             {
                 button->hide();
                 button->setFixedHeight(desktop->titleBarHeight());
-                button->setFixedWidth(button->height() * 2);
+                button->setFixedWidth(button->height() * 1.2);
                 button->setFlat(true);
                 button->setStyleSheet(desktop->buttonStyleSheet());
                 layout()->addWidget(button);
@@ -63,6 +87,54 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
         };
 
         HolonAbstractWindow::Attributes attributes = window->attributes();
+
+        if (attributes.testFlag(HolonAbstractWindow::WindowSplitButtonHint))
+        {
+            QMenu *menu = new QMenu(parent);
+
+            QAction *split = new QAction(menu);
+            split->setText("Split");
+            split->setCheckable(true);
+            split->setChecked(true);
+
+            QAction *splitSideBySide = new QAction(menu);
+            splitSideBySide->setText("Split Side By Side");
+            splitSideBySide->setCheckable(true);
+            splitSideBySide->setDisabled(true);
+
+            QAction *openNewWidnow = new QAction(menu);
+            openNewWidnow->setText("Open in New Window");
+            openNewWidnow->setCheckable(true);
+            openNewWidnow->setDisabled(true);
+
+            QActionGroup *group = new QActionGroup(menu);
+            group->addAction(split);
+            group->addAction(splitSideBySide);
+            group->addAction(openNewWidnow);
+
+            menu->addActions({split, splitSideBySide, openNewWidnow});
+            menu->installEventFilter(new MenuEventFilter(menu));
+
+            menu->addSeparator();
+
+            for (HolonAbstractWindow *second : desktop->windows())
+                if (window->area() == second->area())
+                {
+                    QAction *windowAction = new QAction(second->icon(), second->title(), menu);
+                    {
+                        menu->addAction(windowAction);
+                        connect(windowAction, &QAction::triggered, parent, [=]
+                        {
+                            desktop->splitWindow(window, second, Qt::Horizontal);
+                        });
+                    }
+                }
+
+            d_ptr->splitButton = addButton('S');
+            d_ptr->splitButton->show();
+            d_ptr->splitButton->setMenu(menu);
+        }
+
         if (attributes.testFlag(HolonAbstractWindow::WindowMinMaxButtonsHint))
         {
             d_ptr->maximizeButton = addButton('M');

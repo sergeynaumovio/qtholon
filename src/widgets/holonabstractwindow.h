@@ -38,10 +38,12 @@ public:
 
     enum Attribute
     {
-        WindowMinimizeButtonHint = 0x0001,
-        WindowMaximizeButtonHint = 0x0002,
-        WindowMinMaxButtonsHint = WindowMinimizeButtonHint | WindowMaximizeButtonHint,
-        WindowCloseButtonHint = 0x0004
+        WindowSplitButtonHint = 0x0001,
+        WindowMinMaxButtonsHint = 0x0002,
+        WindowCloseButtonHint = 0x0004,
+        WindowAllButtonsHint = WindowSplitButtonHint |
+                               WindowMinMaxButtonsHint |
+                               WindowCloseButtonHint
     };
     Q_DECLARE_FLAGS(Attributes, HolonAbstractWindow::Attribute)
 

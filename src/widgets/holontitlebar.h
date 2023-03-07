@@ -17,7 +17,7 @@ class HolonTitleBar : public QWidget
 {
     Q_OBJECT
 
-    const HolonAlignedStorage<HolonTitleBarPrivate, 16> d_ptr;
+    const HolonAlignedStorage<HolonTitleBarPrivate, 24> d_ptr;
 
 protected:
     void paintEvent(QPaintEvent *) override;

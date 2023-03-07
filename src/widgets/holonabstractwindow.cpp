@@ -32,7 +32,7 @@ HolonAbstractWindow::~HolonAbstractWindow()
 
 HolonAbstractWindow::Attributes HolonAbstractWindow::attributes() const
 {
-    return WindowMinMaxButtonsHint | WindowCloseButtonHint;
+    return WindowAllButtonsHint;
 }
 
 HolonDesktop *HolonAbstractWindow::desktop() const
