@@ -25,7 +25,7 @@ if(NOT APPLE)
 endif()
 
 # QT_HOLON_LIBRARY -------------------------------------------------------------
-include("cmake/QtHolonVersion.in")
+include("cmake/QtHolonConfigVersion.in")
 set(QT_HOLON_LIBRARY Qt${QT_VERSION_MAJOR}Holon)
 
 add_library(${QT_HOLON_LIBRARY} SHARED)
@@ -197,13 +197,13 @@ configure_package_config_file(
     PATH_VARS CMAKE_INSTALL_LIBDIR CMAKE_INSTALL_INCLUDEDIR
 )
 write_basic_package_version_file(
-    ${CMAKE_CURRENT_BINARY_DIR}/${QT_HOLON_LIBRARY}Version.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/${QT_HOLON_LIBRARY}ConfigVersion.cmake
     VERSION ${QT_HOLON_VERSION}
     COMPATIBILITY SameMajorVersion
 )
 
 install(
     FILES "${CMAKE_CURRENT_BINARY_DIR}/${QT_HOLON_LIBRARY}Config.cmake"
-          "${CMAKE_CURRENT_BINARY_DIR}/${QT_HOLON_LIBRARY}Version.cmake"
+          "${CMAKE_CURRENT_BINARY_DIR}/${QT_HOLON_LIBRARY}ConfigVersion.cmake"
           DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${QT_HOLON_LIBRARY}"
 )
