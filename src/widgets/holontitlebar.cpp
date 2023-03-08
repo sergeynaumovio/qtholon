@@ -100,7 +100,6 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
             QAction *splitSideBySide = new QAction(menu);
             splitSideBySide->setText("Split Side By Side");
             splitSideBySide->setCheckable(true);
-            splitSideBySide->setDisabled(true);
 
             QAction *openNewWidnow = new QAction(menu);
             openNewWidnow->setText("Open in New Window");
@@ -125,7 +124,8 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
                         menu->addAction(windowAction);
                         connect(windowAction, &QAction::triggered, parent, [=]
                         {
-                            desktop->splitWindow(window, second, Qt::Horizontal);
+                            Qt::Orientation orientation = (split->isChecked() ? Qt::Vertical : Qt::Horizontal);
+                            desktop->splitWindow(window, second, orientation);
                         });
                     }
                 }

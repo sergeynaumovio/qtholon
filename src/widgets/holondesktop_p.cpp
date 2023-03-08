@@ -514,10 +514,10 @@ void HolonDesktopPrivateData::setVBoxLayout(QWidget *&widget, const char *name, 
     parent->layout()->addWidget(widget);
 }
 
-void HolonDesktopPrivateData::splitWindow(HolonAbstractWindow *first, HolonAbstractWindow *second, Qt::Orientation orientation)
+void HolonDesktopPrivateData::splitWindow(HolonAbstractWindow *first,
+                                          HolonAbstractWindow *second,
+                                          Qt::Orientation orientation)
 {
-    Q_UNUSED(orientation);
-
     if (HolonAbstractTask *task = first->task())
     {
         QSet<int> windows;
@@ -531,8 +531,13 @@ void HolonDesktopPrivateData::splitWindow(HolonAbstractWindow *first, HolonAbstr
 
         QStringList to = task->section();
         to.append(QString::number(i));
-        second->tree()->copy(second->section(), to);
 
+        QLoaderTree *tree = second->tree();
+        tree->copy(second->section(), to);
+
+        if (HolonAbstractWindow *copy = qobject_cast<HolonAbstractWindow *>(tree->object(to)))
+            if (HolonWindowArea *windowArea = windowAreaByTaskWindow.value(first))
+                windowArea->splitWindow(first, copy, orientation);
     }
 }
 

@@ -66,6 +66,11 @@ QString HolonWindowArea::shortcut() const
     return value("shortcut").toString();
 }
 
+void HolonWindowArea::splitWindow(HolonAbstractWindow *first, HolonAbstractWindow *second, Qt::Orientation orientation)
+{
+    d_ptr->splitWindow(first, second, orientation);
+}
+
 QString HolonWindowArea::title() const
 {
     return value("title", section().constLast()).toString();

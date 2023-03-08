@@ -35,6 +35,7 @@ public:
     bool isChecked() const;
     virtual QIcon icon() const;
     QString shortcut() const;
+    void splitWindow(HolonAbstractWindow *first, HolonAbstractWindow *second, Qt::Orientation orientation);
     virtual QString title() const;
 };
 

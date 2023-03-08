@@ -90,3 +90,10 @@ void HolonWindowAreaPrivate::setDefaultDockWidget()
     mainWindow->setParent(q_ptr);
     defaultDock = new HolonDockWidget(desktop, mainWindow, q_ptr);
 }
+
+void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first, HolonAbstractWindow *second, Qt::Orientation orientation)
+{
+    if (HolonDockWidget *firstDock = dockByWindow.value(first))
+        if (HolonDockWidget *secondDock = dockByWindow.value(second))
+            mainWindow->splitDockWidget(firstDock, secondDock, orientation);
+}

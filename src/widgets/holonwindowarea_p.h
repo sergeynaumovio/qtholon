@@ -31,6 +31,7 @@ public:
     void maximizeWindow(HolonDockWidget *dock);
     void setChecked(bool checked);
     void setDefaultDockWidget();
+    void splitWindow(HolonAbstractWindow *first, HolonAbstractWindow *second, Qt::Orientation orientation);
 };
 
 #endif // HOLONWINDOWAREA_P_H
