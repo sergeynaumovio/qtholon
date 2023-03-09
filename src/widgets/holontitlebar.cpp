@@ -117,7 +117,12 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
             menu->addSeparator();
 
             for (HolonAbstractWindow *second : desktop->windows())
-                if (window->area() == second->area())
+            {
+                HolonAbstractWindow::Area central = HolonAbstractWindow::Central;
+                HolonAbstractWindow::Area sidebar = HolonAbstractWindow::Sidebar;
+
+                if ((window->areas().testAnyFlag(central) && second->areas().testAnyFlag(central)) ||
+                    (window->areas().testAnyFlag(sidebar) && second->areas().testAnyFlag(sidebar)))
                 {
                     QAction *windowAction = new QAction(second->icon(), second->title(), menu);
                     {
@@ -129,6 +134,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
                         });
                     }
                 }
+            }
 
             d_ptr->splitButton = addButton('S');
             d_ptr->splitButton->show();

@@ -43,9 +43,9 @@ HolonWorkflowWindow::HolonWorkflowWindow(QLoaderSettings *settings, HolonWindowA
 HolonWorkflowWindow::~HolonWorkflowWindow()
 { }
 
-HolonAbstractWindow::Area HolonWorkflowWindow::area() const
+HolonAbstractWindow::Areas HolonWorkflowWindow::areas() const
 {
-    return HolonAbstractWindow::Central;
+    return HolonAbstractWindow::Central | HolonAbstractWindow::areas();
 }
 
 HolonAbstractWindow::Attributes HolonWorkflowWindow::attributes() const

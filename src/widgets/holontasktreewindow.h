@@ -22,7 +22,7 @@ public:
     HolonTaskTreeWindow(QLoaderSettings *settings, HolonSidebar *parent);
     ~HolonTaskTreeWindow();
 
-    HolonAbstractWindow::Area area() const override;
+    HolonAbstractWindow::Areas areas() const override;
     HolonAbstractWindow::Attributes attributes() const override;
     QIcon icon() const override;
     bool isCopyable(const QStringList &to) const override;

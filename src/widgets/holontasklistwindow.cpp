@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holontasklistwindow.h"
-#include "holonabstracttask.h"
 #include "holondesktop.h"
 #include "holonsidebar.h"
 #include "holontasklistview.h"
@@ -58,9 +57,9 @@ HolonTaskListWindow::HolonTaskListWindow(QLoaderSettings *settings, HolonSidebar
 HolonTaskListWindow::~HolonTaskListWindow()
 { }
 
-HolonAbstractWindow::Area HolonTaskListWindow::area() const
+HolonAbstractWindow::Areas HolonTaskListWindow::areas() const
 {
-    return HolonAbstractWindow::Sidebar;
+    return HolonAbstractWindow::Sidebar | HolonAbstractWindow::areas();
 }
 
 HolonAbstractWindow::Attributes HolonTaskListWindow::attributes() const

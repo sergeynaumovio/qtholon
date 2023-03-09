@@ -27,14 +27,16 @@ protected:
     HolonAbstractWindow(QLoaderSettings *settings, HolonWindowArea *parent);
 
 public:
-    ~HolonAbstractWindow();
-
     enum Area
     {
-        Central,
-        Sidebar
+        Central = 0x0001,
+        Sidebar = 0x0002,
+        Left = 0x0004,
+        Right = 0x0008,
+        Top = 0x0010,
+        Bottom = 0x0020
     };
-    Q_ENUM(Area)
+    Q_DECLARE_FLAGS(Areas, HolonAbstractWindow::Area)
 
     enum Attribute
     {
@@ -47,7 +49,9 @@ public:
     };
     Q_DECLARE_FLAGS(Attributes, HolonAbstractWindow::Attribute)
 
-    virtual HolonAbstractWindow::Area area() const = 0;
+    ~HolonAbstractWindow();
+
+    virtual HolonAbstractWindow::Areas areas() const;
     virtual HolonAbstractWindow::Attributes attributes() const;
     HolonDesktop *desktop() const;
     QString group() const;
@@ -58,6 +62,7 @@ public:
     virtual QWidget *toolbar() const;
     virtual QWidget *widget(const QString &group = QString()) const = 0;
 };
+Q_DECLARE_OPERATORS_FOR_FLAGS(HolonAbstractWindow::Areas)
 Q_DECLARE_OPERATORS_FOR_FLAGS(HolonAbstractWindow::Attributes)
 
 #endif // HOLONABSTRACTWINDOW_H
