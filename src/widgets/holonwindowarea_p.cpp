@@ -96,7 +96,7 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first, HolonAbstra
     if (HolonDockWidget *firstDock = dockByWindow.value(first))
         if (HolonDockWidget *secondDock = dockByWindow.value(second))
         {
-            QList<QDockWidget *> dockList{firstDock, secondDock} ;
+            QList<QDockWidget *> dockPair{firstDock, secondDock} ;
             QList<int> dockSize(2);
             QSize halfSize = firstDock->size() / 2;
 
@@ -108,6 +108,6 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first, HolonAbstra
             dockSize[1] = dockSize[0];
 
             mainWindow->splitDockWidget(firstDock, secondDock, orientation);
-            mainWindow->resizeDocks(dockList, dockSize, orientation);
+            mainWindow->resizeDocks(dockPair, dockSize, orientation);
         }
 }
