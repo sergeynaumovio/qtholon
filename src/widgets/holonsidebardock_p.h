@@ -4,7 +4,7 @@
 #ifndef HOLONSIDEBARDOCK_P_H
 #define HOLONSIDEBARDOCK_P_H
 
-#include "holonalignedstorage.h"
+#include <QScopedStorage>
 
 class HolonDesktopPrivate;
 class HolonMainWindow;
@@ -17,7 +17,7 @@ class QString;
 
 class HolonSidebarDockPrivate
 {
-    const HolonAlignedStorage<HolonSidebarDockPrivateData, 88> d_ptr;
+    const QScopedStorage<HolonSidebarDockPrivateData, 88> d_ptr;
 
 public:
     HolonSidebarDockPrivate(HolonDesktopPrivate &desktop_d,

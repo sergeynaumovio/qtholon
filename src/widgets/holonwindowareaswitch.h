@@ -4,7 +4,7 @@
 #ifndef HOLONWINDOWAREASWITCH_H
 #define HOLONWINDOWAREASWITCH_H
 
-#include "holonalignedstorage.h"
+#include <QScopedStorage>
 #include <QWidget>
 
 class HolonDesktopPrivate;
@@ -17,7 +17,7 @@ class HolonWindowAreaSwitch : public QWidget
 {
     Q_OBJECT
 
-    const HolonAlignedStorage<HolonWindowAreaSwitchPrivate, 24> d_ptr;
+    const QScopedStorage<HolonWindowAreaSwitchPrivate, 24> d_ptr;
 
 public:
     HolonWindowAreaSwitch(HolonDesktopPrivate &desktop_d, HolonTaskbar *parent);

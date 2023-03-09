@@ -4,8 +4,8 @@
 #ifndef HOLONDESKTOP_P_H
 #define HOLONDESKTOP_P_H
 
-#include "holonalignedstorage.h"
 #include <QMetaType>
+#include <QScopedStorage>
 
 class HolonAbstractTask;
 class HolonAbstractWindow;
@@ -28,7 +28,7 @@ class HolonDesktopPrivate
 
     friend class HolonDesktop;
     friend class HolonDesktopPrivateData;
-    const HolonAlignedStorage<HolonDesktopPrivateData, 592> d_ptr;
+    const QScopedStorage<HolonDesktopPrivateData, 592> d_ptr;
 
     HolonDesktopPrivate(HolonDesktop *q);
 

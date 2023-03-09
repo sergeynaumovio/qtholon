@@ -4,8 +4,8 @@
 #ifndef HOLONDOCKWIDGET_H
 #define HOLONDOCKWIDGET_H
 
-#include "holonalignedstorage.h"
 #include <QDockWidget>
+#include <QScopedStorage>
 
 class HolonAbstractWindow;
 class HolonDesktop;
@@ -18,7 +18,7 @@ class HolonDockWidget : public QDockWidget
 {
     Q_OBJECT
 
-    const HolonAlignedStorage<HolonDockWidgetPrivate, 24> d_ptr;
+    const QScopedStorage<HolonDockWidgetPrivate, 24> d_ptr;
 
 public:
     HolonDockWidget(HolonDesktop *desktop,

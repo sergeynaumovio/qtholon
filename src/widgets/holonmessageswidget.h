@@ -5,8 +5,8 @@
 #define HOLONMESSAGESWIDGET_H
 
 #include "holonabstractwidget.h"
-#include "holonalignedstorage.h"
 #include <QLoaderSettings>
+#include <QScopedStorage>
 
 class HolonAbstractTask;
 class HolonMessagesWidgetPrivate;
@@ -15,7 +15,7 @@ class HolonMessagesWidget : public HolonAbstractWidget
 {
     Q_OBJECT
 
-    const HolonAlignedStorage<HolonMessagesWidgetPrivate, 8> d_ptr;
+    const QScopedStorage<HolonMessagesWidgetPrivate, 8> d_ptr;
 
 public:
     HolonMessagesWidget(QLoaderSettings *settings, HolonAbstractTask *parent);
