@@ -5,7 +5,6 @@
 #define HOLONMESSAGESWIDGET_H
 
 #include "holonabstractwidget.h"
-#include <QLoaderSettings>
 #include <QScopedStorage>
 
 class HolonAbstractTask;
