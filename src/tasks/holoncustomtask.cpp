@@ -8,19 +8,12 @@
 #include "holonworkflowmodelbranch.h"
 #include <QLabel>
 
-class HolonCustomTaskPrivate
-{
-
-};
-
 HolonCustomTask::HolonCustomTask(QLoaderSettings *settings, HolonTaskModelBranch *taskModelBranch)
-:   HolonAbstractTask(settings, taskModelBranch),
-    d_ptr(new HolonCustomTaskPrivate)
+:   HolonAbstractTask(settings, taskModelBranch)
 { }
 
 HolonCustomTask::HolonCustomTask(QLoaderSettings *settings, HolonWorkflowModelBranch *workflowModelBranch)
-:   HolonAbstractTask(settings, workflowModelBranch),
-    d_ptr(new HolonCustomTaskPrivate)
+:   HolonAbstractTask(settings, workflowModelBranch)
 {
     if (HolonWorkflowModel *workflowModel = workflowModelBranch->workflowModel())
     {

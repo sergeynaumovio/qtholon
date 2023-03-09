@@ -5,17 +5,13 @@
 #define HOLONCUSTOMTASK_H
 
 #include "holonabstracttask.h"
-#include <QLoaderSettings>
 
-class HolonCustomTaskPrivate;
 class HolonTaskModelBranch;
 class HolonWorkflowModelBranch;
 
 class HolonCustomTask : public HolonAbstractTask
 {
     Q_OBJECT
-
-    const QScopedPointer<HolonCustomTaskPrivate> d_ptr;
 
 public:
     HolonCustomTask(QLoaderSettings *settings, HolonTaskModelBranch *taskModelBranch);
