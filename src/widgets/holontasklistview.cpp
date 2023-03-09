@@ -6,25 +6,36 @@
 #include "holondesktop.h"
 #include "holonworkflowmodel.h"
 
+class HolonTaskListViewPrivate
+{
+public:
+    HolonWorkflowModel *const workflowModel;
+    bool once{true};
+
+    HolonTaskListViewPrivate(HolonWorkflowModel *model)
+    :   workflowModel(model)
+    { }
+};
+
 void HolonTaskListView::showEvent(QShowEvent *)
 {
-    if (once && workflowModel)
+    if (d_ptr->once && d_ptr->workflowModel)
     {
-        setCurrentIndex(workflowModel->restoreCurrentIndex());
-        once = false;
+        setCurrentIndex(d_ptr->workflowModel->restoreCurrentIndex());
+        d_ptr->once = false;
     }
 }
 
 HolonTaskListView::HolonTaskListView(HolonDesktop *desktop)
-:   workflowModel(desktop->workflowModel())
+:   d_ptr(desktop->workflowModel())
 {
-    if (workflowModel)
+    if (d_ptr->workflowModel)
     {
-        setModel(workflowModel);
+        setModel(d_ptr->workflowModel);
 
-        connect(workflowModel, &QAbstractItemModel::rowsInserted, this, [=, this](const QModelIndex &, int row)
+        connect(d_ptr->workflowModel, &QAbstractItemModel::rowsInserted, this, [=, this](const QModelIndex &, int row)
         {
-            QModelIndex index = workflowModel->index(row);
+            QModelIndex index = d_ptr->workflowModel->index(row);
             QObject *addedObject = static_cast<QObject *>(index.internalPointer());
             if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(addedObject))
             {
@@ -41,3 +52,6 @@ HolonTaskListView::HolonTaskListView(HolonDesktop *desktop)
         });
     }
 }
+
+HolonTaskListView::~HolonTaskListView()
+{ }

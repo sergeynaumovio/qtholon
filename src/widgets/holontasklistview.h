@@ -5,22 +5,24 @@
 #define HOLONTASKLISTVIEW_H
 
 #include <QListView>
+#include <QScopedStorage>
 
 class HolonDesktop;
+class HolonTaskListViewPrivate;
 class HolonWorkflowModel;
 
 class HolonTaskListView : public QListView
 {
     Q_OBJECT
 
-    HolonWorkflowModel *const workflowModel;
-    bool once{true};
+    const QScopedStorage<HolonTaskListViewPrivate, 16> d_ptr;
 
 protected:
     void showEvent(QShowEvent *) override;
 
 public:
     HolonTaskListView(HolonDesktop *desktop);
+    ~HolonTaskListView();
 };
 
 #endif // HOLONTASKLISTVIEW_H

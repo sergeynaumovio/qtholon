@@ -5,7 +5,7 @@
 #define HOLONTASKTREEWINDOW_H
 
 #include "holonabstractwindow.h"
-#include <QWidget>
+#include <QScopedStorage>
 
 class HolonDesktop;
 class HolonTaskTreeWindowPrivate;
@@ -15,7 +15,7 @@ class HolonTaskTreeWindow : public HolonAbstractWindow
 {
     Q_OBJECT
 
-    const QScopedPointer<HolonTaskTreeWindowPrivate> d_ptr;
+    const QScopedStorage<HolonTaskTreeWindowPrivate, 40> d_ptr;
 
 public:
     HolonTaskTreeWindow(QLoaderSettings *settings, HolonDesktop *parent);

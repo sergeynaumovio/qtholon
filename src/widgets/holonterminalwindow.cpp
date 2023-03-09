@@ -18,13 +18,17 @@ public:
     bool close{true};
     QWidget *terminal{};
 
-    HolonTerminalWindowPrivate(HolonTerminalWindow *q, QLoaderSettings *s)
+    HolonTerminalWindowPrivate(HolonTerminalWindow *q = nullptr,
+                               QLoaderSettings *s = nullptr)
     :   q_ptr(q),
         settings(s)
     { }
 
     QWidget *widget()
     {
+        if (!q_ptr)
+            return nullptr;
+
         if (terminal)
             return terminal;
 
@@ -43,14 +47,13 @@ public:
 
 HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonAbstractTask *parent)
 :   HolonAbstractWindow(settings, parent),
-    d_ptr(new HolonTerminalWindowPrivate(this, settings))
+    d_ptr(this, settings)
 {
     parent->addWindow(this);
 }
 
 HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonDesktop *parent)
-:   HolonAbstractWindow(settings, parent),
-    d_ptr(new HolonTerminalWindowPrivate(this, settings))
+:   HolonAbstractWindow(settings, parent)
 {
     parent->addWindow(this);
 }

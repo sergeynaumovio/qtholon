@@ -5,7 +5,7 @@
 #define HOLONSETTINGSWINDOW_H
 
 #include "holonabstractwindow.h"
-#include <QWidget>
+#include <QScopedStorage>
 
 class HolonDesktop;
 class HolonSettingsWindowPrivate;
@@ -15,7 +15,7 @@ class HolonSettingsWindow : public HolonAbstractWindow
 {
     Q_OBJECT
 
-    const QScopedPointer<HolonSettingsWindowPrivate> d_ptr;
+    const QScopedStorage<HolonSettingsWindowPrivate, 40> d_ptr;
 
 public:
     HolonSettingsWindow(QLoaderSettings *settings, HolonDesktop *parent);

@@ -21,21 +21,24 @@ class HolonTaskTreeWindowPrivate
 public:
     HolonTaskTreeWindow *const q_ptr;
     QLoaderSettings *const settings;
-    QLoaderTree *const tree;
     HolonDesktop *const desktop;
     HolonTaskModel *taskTreeModel{};
     QTreeView *view{};
 
 
-    HolonTaskTreeWindowPrivate(HolonTaskTreeWindow *q, QLoaderSettings *s, HolonDesktop *desk)
+    HolonTaskTreeWindowPrivate(HolonTaskTreeWindow *q = nullptr,
+                               QLoaderSettings *s = nullptr,
+                               HolonDesktop *desk = nullptr)
     :   q_ptr(q),
         settings(s),
-        tree(s->tree()),
         desktop(desk)
     { }
 
     QWidget *widget()
     {
+        if (!q_ptr)
+            return nullptr;
+
         if (view)
             return view;
 
@@ -46,7 +49,9 @@ public:
             view->setModel(taskTreeModel);
             view->header()->hide();
 
-            QTreeView::connect(view, &QTreeView::doubleClicked, view, [this](QModelIndex index)
+            QLoaderTree *const tree = settings->tree();
+
+            QTreeView::connect(view, &QTreeView::doubleClicked, view, [=, this](QModelIndex index)
             {
                 QObject *clickedObject = static_cast<QObject *>(index.internalPointer());
                 if (!qobject_cast<HolonAbstractTask *>(clickedObject))
@@ -90,7 +95,7 @@ HolonTaskTreeWindow::HolonTaskTreeWindow(QLoaderSettings *settings, HolonDesktop
 
 HolonTaskTreeWindow::HolonTaskTreeWindow(QLoaderSettings *settings, HolonSidebar *parent)
 :   HolonAbstractWindow(settings, parent),
-    d_ptr(new HolonTaskTreeWindowPrivate(this, settings, parent->desktop()))
+    d_ptr(this, settings, parent->desktop())
 {
     parent->addWindow(this);
 }

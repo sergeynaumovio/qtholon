@@ -5,7 +5,7 @@
 #define HOLONMESSAGESWINDOW_H
 
 #include "holonabstractwindow.h"
-#include <QWidget>
+#include <QScopedStorage>
 
 class HolonDesktop;
 class HolonMessagesWindowPrivate;
@@ -15,7 +15,7 @@ class HolonMessagesWindow : public HolonAbstractWindow
 {
     Q_OBJECT
 
-    const QScopedPointer<HolonMessagesWindowPrivate> d_ptr;
+    const QScopedStorage<HolonMessagesWindowPrivate, 40> d_ptr;
 
 public:
     HolonMessagesWindow(QLoaderSettings *settings, HolonDesktop *parent);

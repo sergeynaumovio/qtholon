@@ -12,10 +12,19 @@
 class HolonWorkflowWindowPrivate
 {
 public:
+    HolonWorkflowWindow *const q_ptr;
     QWidget *central{};
+
+    HolonWorkflowWindowPrivate(HolonWorkflowWindow *q = nullptr)
+    :   q_ptr(q)
+    { }
+
 
     QWidget *widget()
     {
+        if (!q_ptr)
+            return nullptr;
+
         if (central)
             return central;
 
@@ -35,7 +44,7 @@ HolonWorkflowWindow::HolonWorkflowWindow(QLoaderSettings *settings, HolonDesktop
 
 HolonWorkflowWindow::HolonWorkflowWindow(QLoaderSettings *settings, HolonWindowArea *parent)
 :   HolonAbstractWindow(settings, parent),
-    d_ptr(new HolonWorkflowWindowPrivate)
+    d_ptr(this)
 {
     parent->addWindow(this);
 }

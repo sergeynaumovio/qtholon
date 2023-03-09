@@ -5,7 +5,7 @@
 #define HOLONTERMINALWINDOW_H
 
 #include "holonabstractwindow.h"
-#include <QWidget>
+#include <QScopedStorage>
 
 class HolonDesktop;
 class HolonTerminalWindowPrivate;
@@ -15,7 +15,7 @@ class HolonTerminalWindow : public HolonAbstractWindow
 {
     Q_OBJECT
 
-    const QScopedPointer<HolonTerminalWindowPrivate> d_ptr;
+    const QScopedStorage<HolonTerminalWindowPrivate, 32> d_ptr;
 
 public:
     HolonTerminalWindow(QLoaderSettings *settings, HolonAbstractTask *parent);
