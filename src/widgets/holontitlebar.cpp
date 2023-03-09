@@ -150,13 +150,15 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
                     windowarea_d->maximized = !windowarea_d->maximized;
                     if (windowarea_d->maximized)
                     {
-                        d_ptr->splitButton->hide();
                         d_ptr->maximizeButton->setText("m");
+                        d_ptr->splitButton->hide();
+                        d_ptr->closeButton->hide();
                     }
                     else
                     {
-                        d_ptr->splitButton->show();
                         d_ptr->maximizeButton->setText("M");
+                        d_ptr->splitButton->show();
+                        d_ptr->closeButton->show();
                     }
 
                     windowarea_d->maximizeWindow(parent);
