@@ -18,7 +18,10 @@ class HolonDockWidget : public QDockWidget
 {
     Q_OBJECT
 
-    const QScopedStorage<HolonDockWidgetPrivate, 24> d_ptr;
+    const QScopedStorage<HolonDockWidgetPrivate, 32> d_ptr;
+
+protected:
+    void resizeEvent(QResizeEvent *) override;
 
 public:
     HolonDockWidget(HolonDesktop *desktop,
@@ -34,6 +37,7 @@ public:
 
     HolonTitleBar *titleBar() const;
     HolonAbstractWindow *window() const;
+
 };
 
 #endif // HOLONDOCKWIDGET_H

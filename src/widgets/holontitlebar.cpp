@@ -54,7 +54,7 @@ void HolonTitleBar::paintEvent(QPaintEvent *)
 HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
                              HolonDockWidget *parent,
                              HolonAbstractWindow *window,
-                             HolonWindowAreaPrivate *windowarea_d)
+                             HolonWindowAreaPrivate *windowarea_d_ptr)
 :   QWidget(parent)
 {
     setStyleSheet(desktop->titleBarStyleSheet());
@@ -130,7 +130,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
                         connect(windowAction, &QAction::triggered, parent, [=]
                         {
                             Qt::Orientation orientation = (split->isChecked() ? Qt::Vertical : Qt::Horizontal);
-                            desktop->splitWindow(window, second, orientation);
+                            windowarea_d_ptr->splitWindow(window, second, orientation);
                         });
                     }
                 }
@@ -147,8 +147,8 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
             {
                 connect(d_ptr->maximizeButton, &QPushButton::clicked, this, [=, this]()
                 {
-                    windowarea_d->maximized = !windowarea_d->maximized;
-                    if (windowarea_d->maximized)
+                    windowarea_d_ptr->maximized = !windowarea_d_ptr->maximized;
+                    if (windowarea_d_ptr->maximized)
                     {
                         d_ptr->maximizeButton->setText("m");
                         d_ptr->splitButton->hide();
@@ -161,7 +161,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
                         d_ptr->closeButton->show();
                     }
 
-                    windowarea_d->maximizeWindow(parent);
+                    windowarea_d_ptr->maximizeWindow(parent);
                 });
             }
         }

@@ -22,6 +22,7 @@ public:
     QList<HolonDockWidget *> dockList;
     QMap<HolonAbstractWindow *, HolonDockWidget *> dockByWindow;
     bool maximized{};
+    QByteArray mainWindowState;
 
     HolonWindowAreaPrivate(HolonDesktop *desktop, HolonWindowArea *q);
     virtual ~HolonWindowAreaPrivate();
@@ -29,9 +30,11 @@ public:
     void addWindow(HolonAbstractWindow *window);
     void closeWindow(HolonAbstractWindow *window);
     void maximizeWindow(HolonDockWidget *dock);
+    void saveState();
     void setChecked(bool checked);
     void setDefaultDockWidget();
     void splitWindow(HolonAbstractWindow *first, HolonAbstractWindow *second, Qt::Orientation orientation);
+    QByteArray state() const;
 };
 
 #endif // HOLONWINDOWAREA_P_H

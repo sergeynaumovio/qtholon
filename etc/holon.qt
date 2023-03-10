@@ -111,56 +111,69 @@ class = HolonWorkflowModelBranch
 
 [holon/workflow-model1/branch1/85f69e0b-e525-429d-b63f-8bd2833a2ff0]
 class = HolonCustomTask
-current = true
+current = false
 group = parameters
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAHPAAACLfwCAAAAAvsAAAAWAGQAYQBmAGEAdQBsAHQARABvAGMAawAAAAAA/////wAAAEQA/////AAAAAAAAAItAAAAuQD////8AQAAAAL8AAAAAAAAAOgAAACJAP////wCAAAAAvsAAAACADEBAAAAAAAAAKQAAABcAP////sAAAACADMBAAAApQAAAYgAAABcAP////wAAADpAAAA5gAAAIkA/////AIAAAAC+wAAAAIAMAEAAAAAAAABFgAAAFwA////+wAAAAIAMgEAAAEXAAABFgAAAFwA////AAAAAAAAATkAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 title = Custom Task A
 
 [holon/workflow-model1/branch1/85f69e0b-e525-429d-b63f-8bd2833a2ff0/1]
+class = HolonTerminalWindow
+current = false
+group = settings
+
+[holon/workflow-model1/branch1/85f69e0b-e525-429d-b63f-8bd2833a2ff0/0]
+class = HolonTerminalWindow
+current = false
+group = settings
+
+[holon/workflow-model1/branch1/85f69e0b-e525-429d-b63f-8bd2833a2ff0/2]
+class = HolonTerminalWindow
+current = false
+group = settings
+
+[holon/workflow-model1/branch1/85f69e0b-e525-429d-b63f-8bd2833a2ff0/3]
 class = HolonTerminalWindow
 current = true
 group = settings
 
 [holon/workflow-model1/branch1/28245495-e838-4056-8fc2-d3545c0d312c]
 class = HolonCustomTask
-current = false
+current = true
 group = parameters
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAHPAAACLfwCAAAABfsAAAAWAGQAYQBmAGEAdQBsAHQARABvAGMAawAAAAAA/////wAAAEQA////+wAAAAIAMgEAAAAAAAABFgAAAAAAAAAA+wAAAAIAMAEAAAAAAAABFgAAAFwA////+wAAAAIAMQEAAAEXAAABFgAAAFwA////+wAAAAIAMQAAAAAA/////wAAAAAAAAAAAAAAAAAAAi0AAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 title = Custom Task B
+
+[holon/workflow-model1/branch1/28245495-e838-4056-8fc2-d3545c0d312c/0]
+class = HolonTerminalWindow
+current = false
+group = settings
 
 [holon/workflow-model1/branch1/28245495-e838-4056-8fc2-d3545c0d312c/1]
 class = HolonTerminalWindow
-current = false
-group = settings
-title = Terminal
-
-[holon/workflow-model1/branch1/28245495-e838-4056-8fc2-d3545c0d312c/2]
-class = HolonTerminalWindow
 current = true
 group = settings
-title = Terminal
 
 [holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560]
 class = HolonCustomTask
 current = false
 group = parameters
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAHPAAACLfwCAAAABvsAAAAWAGQAYQBmAGEAdQBsAHQARABvAGMAawAAAAAA/////wAAAEQA////+wAAAAIAMwEAAAAAAAAAuQAAAAAAAAAA+wAAAAIANAEAAAAAAAABFgAAAAAAAAAA+wAAAAIANQEAAAAAAAABFgAAAAAAAAAA+wAAAAIAMAEAAAAAAAABFgAAAFwA/////AAAARcAAAEWAAAAXAD////8AQAAAAL7AAAAAgAxAQAAAAAAAAECAAAAiQD////7AAAAAgAyAQAAAQMAAADMAAAAiQD///8AAAAAAAACLQAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 title = Custom Task C
 
-[holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560/3]
+[holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560/0]
 class = HolonTerminalWindow
 current = false
 group = settings
-title = Terminal
 
-[holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560/4]
+[holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560/1]
+class = HolonTerminalWindow
+current = false
+group = settings
+
+[holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560/2]
 class = HolonTerminalWindow
 current = true
 group = settings
-title = Terminal
-
-[holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560/5]
-class = HolonTerminalWindow
-current = false
-group = settings
-title = Terminal
 
 [holon/data]
 class = QLoaderData
@@ -185,6 +198,7 @@ class = QLoaderShellSave
 class = HolonSidebar
 checked = true
 layout = external
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAADXAAACuvwCAAAAA/sAAAAWAGQAYQBmAGEAdQBsAHQARABvAGMAawAAAAAA/////wAAAIwA////+wAAACAAdABhAHMAawAtAHQAcgBlAGUALQB3AGkAbgBkAG8AdwEAAAAAAAAA+AAAAF4A////+wAAACAAdABhAHMAawAtAGwAaQBzAHQALQB3AGkAbgBkAG8AdwEAAAD5AAABwQAAAF4A////AAAAAAAAAcYAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 shortcut = Alt+1
 title = Tasks
 

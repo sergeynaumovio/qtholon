@@ -17,6 +17,7 @@ class HolonDockWidgetPrivate
 public:
     HolonDockWidget *const q_ptr;
     HolonAbstractWindow *const window;
+    HolonWindowAreaPrivate *const windowarea_d_ptr;
     HolonTitleBar *const titleBar;
 
     HolonDockWidgetPrivate(HolonDockWidget *q,
@@ -26,6 +27,7 @@ public:
                            HolonWindowAreaPrivate *d = nullptr)
     :   q_ptr(q),
         window(w),
+        windowarea_d_ptr(d),
         titleBar(new HolonTitleBar(desktop, q, w, d))
     {
         q_ptr->setTitleBarWidget(titleBar);
@@ -47,6 +49,11 @@ public:
         return Qt::BottomDockWidgetArea;
     }
 };
+
+void HolonDockWidget::resizeEvent(QResizeEvent *)
+{
+    d_ptr->windowarea_d_ptr->saveState();
+}
 
 HolonDockWidget::HolonDockWidget(HolonDesktop *desktop,
                                  QMainWindow *parent,
