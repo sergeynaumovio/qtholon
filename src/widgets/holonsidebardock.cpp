@@ -12,7 +12,6 @@
 #include <QResizeEvent>
 #include <QStackedWidget>
 
-
 void HolonSidebarDock::resizeEvent(QResizeEvent *e)
 {
     d_ptr->desktop_d().saveDockWidgetWidth(this, e->size().width());
