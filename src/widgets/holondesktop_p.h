@@ -72,7 +72,6 @@ public:
     const QSet<HolonSidebarDock *> &sidebarDocks() const;
     QString sidebarMoveShortcut() const;
     int sidebarSwitchButtonWidth() const;
-    void splitWindow(HolonAbstractWindow *first, HolonAbstractWindow *second, Qt::Orientation orientation);
     HolonTaskbar *taskbar() const;
     HolonDesktopPrivate::TaskbarArea taskbarArea() const;
     int taskbarPreferedHeight() const;
