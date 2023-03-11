@@ -19,6 +19,7 @@ public:
     HolonAbstractWindow *const window;
     HolonWindowAreaPrivate *const windowarea_d_ptr;
     HolonTitleBar *const titleBar;
+    Qt::Orientation orientation{};
 
     HolonDockWidgetPrivate(HolonDockWidget *q,
                            HolonDesktop *desktop,
@@ -95,6 +96,16 @@ HolonDockWidget::HolonDockWidget(HolonDesktop *desktop,
 
 HolonDockWidget::~HolonDockWidget()
 { }
+
+Qt::Orientation HolonDockWidget::orientation() const
+{
+    return d_ptr->orientation;
+}
+
+void HolonDockWidget::setOrientation(Qt::Orientation orientation)
+{
+    d_ptr->orientation = orientation;
+}
 
 HolonTitleBar *HolonDockWidget::titleBar() const
 {

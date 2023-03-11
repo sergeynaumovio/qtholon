@@ -18,7 +18,7 @@ class HolonDockWidget : public QDockWidget
 {
     Q_OBJECT
 
-    const QScopedStorage<HolonDockWidgetPrivate, 32> d_ptr;
+    const QScopedStorage<HolonDockWidgetPrivate, 40> d_ptr;
 
 protected:
     void resizeEvent(QResizeEvent *) override;
@@ -35,9 +35,10 @@ public:
 
     ~HolonDockWidget();
 
+    Qt::Orientation orientation() const;
+    void setOrientation(Qt::Orientation orientation);
     HolonTitleBar *titleBar() const;
     HolonAbstractWindow *window() const;
-
 };
 
 #endif // HOLONDOCKWIDGET_H
