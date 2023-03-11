@@ -112,8 +112,6 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first,
 {
     if (HolonDockWidget *firstDock = dockByWindow.value(first))
     {
-        QSize firstDockSize = firstDock->size();
-
         if (HolonAbstractTask *task = first->task())
         {
             QSet<int> windows;
@@ -135,28 +133,24 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first,
             {
                 if (HolonDockWidget *secondDock = dockByWindow.value(second))
                 {
-                    QList<QDockWidget *> dockPair{firstDock, secondDock};
-                    QList<int> width(2);
-                    QList<int> height(2);
-
-                    mainWindow->splitDockWidget(firstDock, secondDock, splitOrientation);
-
-                    if (splitOrientation == Qt::Horizontal)
+                    if (!firstDock->orientation() || firstDock->orientation() == splitOrientation)
                     {
-                        width[0] = firstDockSize.width() / 2;
-                        height[0] = firstDockSize.height();
+                        if (splitOrientation == Qt::Horizontal)
+                        {
+                            mainWindow->splitDockWidget(firstDock, secondDock, Qt::Vertical);
+                            mainWindow->splitDockWidget(firstDock, secondDock, Qt::Horizontal);
+                        }
+                        else
+                        {
+                            mainWindow->splitDockWidget(firstDock, secondDock, Qt::Horizontal);
+                            mainWindow->splitDockWidget(firstDock, secondDock, Qt::Vertical);
+                        }
                     }
                     else
-                    {
-                        width[0] = firstDockSize.width();
-                        height[0] = firstDockSize.height() / 2;
-                    }
+                        mainWindow->splitDockWidget(firstDock, secondDock, splitOrientation);
 
-                    width[1] = width[0];
-                    height[1] = height[0];
-
-                    mainWindow->resizeDocks(dockPair, width, Qt::Horizontal);
-                    mainWindow->resizeDocks(dockPair, height, Qt::Vertical);
+                    firstDock->setOrientation(splitOrientation);
+                    secondDock->setOrientation(splitOrientation);
                 }
             }
         }
