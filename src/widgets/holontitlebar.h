@@ -31,6 +31,7 @@ public:
     ~HolonTitleBar();
 
     void hideControlButtons();
+    void setDockWidgetArea(Qt::DockWidgetArea area);
     void showControlButtons();
 };
 

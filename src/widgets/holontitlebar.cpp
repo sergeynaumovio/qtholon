@@ -188,6 +188,21 @@ void HolonTitleBar::hideControlButtons()
         d_ptr->closeButton->hide();
 }
 
+void HolonTitleBar::setDockWidgetArea(Qt::DockWidgetArea area)
+{
+    if (area == Qt::LeftDockWidgetArea)
+        return d_ptr->closeButton->setText("L");
+
+    if (area == Qt::RightDockWidgetArea)
+        return d_ptr->closeButton->setText("R");
+
+    if (area == Qt::TopDockWidgetArea)
+        return d_ptr->closeButton->setText("T");
+
+    if (area == Qt::BottomDockWidgetArea)
+        return d_ptr->closeButton->setText("B");
+}
+
 void HolonTitleBar::showControlButtons()
 {
     if (d_ptr->maximizeButton)
