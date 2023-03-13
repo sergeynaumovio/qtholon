@@ -4,12 +4,105 @@
 #include "holonwindowarea_p.h"
 #include "holonabstracttask.h"
 #include "holonabstractwindow.h"
+#include "holondesktop.h"
 #include "holondockwidget.h"
+#include "holondockwidgetsplit.h"
 #include "holontitlebar.h"
 #include "holonwindowarea.h"
-#include "holondesktop.h"
 #include <QLoaderTree>
 #include <QMainWindow>
+
+struct HolonDockWidgetSplitArea
+{
+    Qt::DockWidgetArea first;
+    Qt::DockWidgetArea second;
+};
+
+void HolonWindowAreaPrivate::addSplit(HolonDockWidget *firstDock,
+                                      HolonDockWidget *secondDock,
+                                      Qt::Orientation orientation)
+{
+    HolonDockWidgetSplitArea splitArea = [orientation]() -> HolonDockWidgetSplitArea
+    {
+        if (orientation == Qt::Horizontal)
+            return {Qt::LeftDockWidgetArea, Qt::RightDockWidgetArea};
+
+        return {Qt::TopDockWidgetArea, Qt::BottomDockWidgetArea};
+    }();
+
+    if (HolonDockWidgetItem *firstItem = rootSplit->findChild<HolonDockWidgetItem *>(firstDock->objectName()))
+    {
+        if (HolonDockWidgetSplit *parentSplit = qobject_cast<HolonDockWidgetSplit *>(firstItem->parent()))
+        {
+            if (parentSplit == rootSplit && parentSplit->children().size() == 1)
+            {
+                firstItem->area = splitArea.first;
+                firstItem->dock->setArea(firstItem->area);
+
+                new HolonDockWidgetItem(secondDock, splitArea.second, parentSplit);
+            }
+            else
+            {
+                HolonDockWidgetSplit *split = new HolonDockWidgetSplit(firstItem->area, parentSplit);
+
+                firstItem->setParent(split);
+                firstItem->area = splitArea.first;
+                firstItem->dock->setArea(firstItem->area);
+
+                new HolonDockWidgetItem(secondDock, splitArea.second, split);
+            }
+        }
+    }
+    else
+    {
+        new HolonDockWidgetItem(firstDock, splitArea.first, rootSplit);
+        new HolonDockWidgetItem(secondDock, splitArea.second, rootSplit);
+    }
+}
+
+void HolonWindowAreaPrivate::removeSplit(HolonDockWidget *firstDock)
+{
+    if (HolonDockWidgetItem *firstItem = rootSplit->findChild<HolonDockWidgetItem *>(firstDock->objectName()))
+    {
+        if (HolonDockWidgetSplit *parentSplit = qobject_cast<HolonDockWidgetSplit *>(firstItem->parent()))
+        {
+            QList<HolonDockWidgetItem *> itemList = parentSplit->findChildren<HolonDockWidgetItem *>(Qt::FindDirectChildrenOnly);
+            itemList.removeOne(firstItem);
+
+            if (itemList.size())
+            {
+                HolonDockWidgetItem *secondItem = itemList.first();
+                secondItem->area = parentSplit->area;
+                secondItem->dock->setArea(secondItem->area);
+
+                if (parentSplit != rootSplit)
+                {
+                    secondItem->setParent(parentSplit->parent());
+                    secondItem->area = parentSplit->area;
+                    delete parentSplit;
+                }
+                else
+                    delete firstItem;
+
+                return;
+            }
+
+            QList<HolonDockWidgetSplit *> splitList = parentSplit->findChildren<HolonDockWidgetSplit *>(Qt::FindDirectChildrenOnly);
+
+            if (splitList.size())
+            {
+                HolonDockWidgetSplit *split = splitList.first();
+                QObjectList splitChildren = split->children();
+
+                for (QObject *object : splitChildren)
+                    object->setParent(parentSplit);
+
+                delete firstItem;
+                delete split;
+            }
+        }
+    }
+}
 
 HolonWindowAreaPrivate::HolonWindowAreaPrivate(HolonDesktop *desk, HolonWindowArea *q)
 :   desktop(desk),
@@ -27,6 +120,9 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
     HolonDockWidget *dock = new HolonDockWidget(desktop, mainWindow, window, this);
     dock->setObjectName(std::as_const(window)->section().last());
     dockList.append(dock);
+
+    if (!rootSplit)
+        rootSplit = new HolonDockWidgetSplit(q_ptr);
 
     if (dockList.count())
         defaultDock->hide();
@@ -75,6 +171,7 @@ void HolonWindowAreaPrivate::closeWindow(HolonAbstractWindow *window)
     HolonDockWidget *dock = dockByWindow.value(window);
     dockByWindow.remove(window);
     mainWindow->removeDockWidget(dock);
+    removeSplit(dock);
     dock->deleteLater();
     window->deleteLater();
 
@@ -116,7 +213,10 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first,
         {
             QSet<int> windows;
             for (QObject *o : task->children())
-                windows.insert(o->objectName().toInt());
+            {
+                if (qobject_cast<HolonAbstractWindow *>(o))
+                    windows.insert(o->objectName().toInt());
+            }
 
             int i{};
             for (; i < windows.count(); ++i)
@@ -151,6 +251,8 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first,
 
                     firstDock->setOrientation(splitOrientation);
                     secondDock->setOrientation(splitOrientation);
+
+                    addSplit(firstDock, secondDock, splitOrientation);
                 }
             }
         }

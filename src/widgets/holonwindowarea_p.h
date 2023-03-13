@@ -8,12 +8,19 @@
 
 class HolonAbstractWindow;
 class HolonDesktop;
-class HolonWindowArea;
 class HolonDockWidget;
+class HolonDockWidgetSplit;
+class HolonWindowArea;
 class QMainWindow;
 
 class HolonWindowAreaPrivate
 {
+    HolonDockWidgetSplit *rootSplit{};
+    QByteArray mainWindowState;
+
+    void addSplit(HolonDockWidget *firstDock, HolonDockWidget *secondDock, Qt::Orientation orientation);
+    void removeSplit(HolonDockWidget *dock);
+
 public:
     HolonDesktop *const desktop;
     HolonWindowArea *const q_ptr;
@@ -22,7 +29,6 @@ public:
     QList<HolonDockWidget *> dockList;
     QMap<HolonAbstractWindow *, HolonDockWidget *> dockByWindow;
     bool maximized{};
-    QByteArray mainWindowState;
 
     HolonWindowAreaPrivate(HolonDesktop *desktop, HolonWindowArea *q);
     virtual ~HolonWindowAreaPrivate();
