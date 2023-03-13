@@ -102,6 +102,11 @@ Qt::Orientation HolonDockWidget::orientation() const
     return d_ptr->orientation;
 }
 
+void HolonDockWidget::setArea(Qt::DockWidgetArea area)
+{
+    titleBar()->setDockWidgetArea(area);
+}
+
 void HolonDockWidget::setOrientation(Qt::Orientation orientation)
 {
     d_ptr->orientation = orientation;

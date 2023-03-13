@@ -36,6 +36,7 @@ public:
     ~HolonDockWidget();
 
     Qt::Orientation orientation() const;
+    void setArea(Qt::DockWidgetArea area);
     void setOrientation(Qt::Orientation orientation);
     HolonTitleBar *titleBar() const;
     HolonAbstractWindow *window() const;
