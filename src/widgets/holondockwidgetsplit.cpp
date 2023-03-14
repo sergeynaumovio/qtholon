@@ -49,4 +49,6 @@ QString toString(Qt::DockWidgetArea area)
     case Qt::DockWidgetArea_Mask:
     case Qt::NoDockWidgetArea: return QString();
     }
+
+    return QString();
 }
