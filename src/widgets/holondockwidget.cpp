@@ -53,7 +53,7 @@ public:
 
 void HolonDockWidget::resizeEvent(QResizeEvent *)
 {
-    d_ptr->windowarea_d_ptr->saveState();
+    d_ptr->windowarea_d_ptr->saveMainWindowState();
 }
 
 HolonDockWidget::HolonDockWidget(HolonDesktop *desktop,
@@ -87,6 +87,7 @@ HolonDockWidget::HolonDockWidget(HolonDesktop *desktop,
 :   QDockWidget(parent),
     d_ptr(this, desktop, parent, window, d)
 {
+    setObjectName(std::as_const(window)->section().last());
     setWidget(window->widget());
 
     if (HolonAbstractTask *task = window->task())

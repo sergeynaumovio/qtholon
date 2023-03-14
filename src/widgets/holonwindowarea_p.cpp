@@ -58,6 +58,8 @@ void HolonWindowAreaPrivate::addSplit(HolonDockWidget *firstDock,
         new HolonDockWidgetItem(firstDock, splitArea.first, rootSplit);
         new HolonDockWidgetItem(secondDock, splitArea.second, rootSplit);
     }
+
+    saveSplitState();
 }
 
 void HolonWindowAreaPrivate::removeSplit(HolonDockWidget *firstDock)
@@ -71,18 +73,18 @@ void HolonWindowAreaPrivate::removeSplit(HolonDockWidget *firstDock)
 
             if (itemList.size())
             {
-                HolonDockWidgetItem *secondItem = itemList.first();
-                secondItem->area = parentSplit->area;
-                secondItem->dock->setArea(secondItem->area);
-
-                if (parentSplit != rootSplit)
+                if (parentSplit == rootSplit)
+                    delete firstItem;
+                else
                 {
+                    HolonDockWidgetItem *secondItem = itemList.first();
                     secondItem->setParent(parentSplit->parent());
                     secondItem->area = parentSplit->area;
+                    secondItem->dock->setArea(secondItem->area);
                     delete parentSplit;
                 }
-                else
-                    delete firstItem;
+
+                saveSplitState();
 
                 return;
             }
@@ -99,8 +101,103 @@ void HolonWindowAreaPrivate::removeSplit(HolonDockWidget *firstDock)
 
                 delete firstItem;
                 delete split;
+
+                saveSplitState();
             }
         }
+    }
+}
+
+void HolonWindowAreaPrivate::restoreSplitPath(const QStringList &path, QObject *parent)
+{
+    auto area = [this](const QString &element) -> Qt::DockWidgetArea
+    {
+        if (element == "l")
+            return Qt::LeftDockWidgetArea;
+
+        if (element == "r")
+            return Qt::RightDockWidgetArea;
+
+        if (element == "t")
+            return Qt::TopDockWidgetArea;
+
+        if (element == "b")
+            return Qt::BottomDockWidgetArea;
+
+        q_ptr->emitWarning("dockWidgetSplitState is not valid");
+
+        return {};
+    };
+
+    for (const QString &element : path)
+    {
+        if (HolonDockWidgetSplit *split = qobject_cast<HolonDockWidgetSplit *>(parent))
+        {
+            bool isNumber;
+            if ((element.toInt(&isNumber), isNumber))
+            {
+                if ((parent = parent->findChild<HolonDockWidgetItem *>(element, Qt::FindDirectChildrenOnly)))
+                    continue;
+                else
+                    parent = new HolonDockWidgetItem(element, {}, split);
+            }
+            else if ((parent = parent->findChild<HolonDockWidgetSplit *>(element, Qt::FindDirectChildrenOnly)))
+                continue;
+            else
+                parent = new HolonDockWidgetSplit(area(element), split);
+        }
+        else if (HolonDockWidgetItem *item = qobject_cast<HolonDockWidgetItem *>(parent))
+            item->area = area(element);
+    }
+}
+
+void HolonWindowAreaPrivate::restoreSplitState()
+{
+    QStringList state = q_ptr->value("dockWidgetSplitState").toStringList();
+    for (const QString &path : state)
+    {
+        QStringList list = path.split('/');
+
+        if (list.first() == "")
+            list.removeFirst();
+
+        restoreSplitPath(list, rootSplit);
+    }
+}
+
+void HolonWindowAreaPrivate::saveSplitState()
+{
+    QStringList splitState;
+    saveSplitStateRecursive(splitState, "", rootSplit);
+    q_ptr->setValue("dockWidgetSplitState", splitState);
+}
+
+void HolonWindowAreaPrivate::saveSplitStateRecursive(QStringList &splitState, const QString &section, QObject *parent)
+{
+    QObjectList children = parent->children();
+
+    for (QObject *child : children)
+    {
+        QString childSection = section;
+
+        if (HolonDockWidgetSplit *split = qobject_cast<HolonDockWidgetSplit *>(child))
+            childSection += '/' + toString(split->area);
+        else if (HolonDockWidgetItem *item = qobject_cast<HolonDockWidgetItem *>(child))
+        {
+           childSection += '/' + item->objectName() + '/' + toString(item->area);
+           splitState.append(childSection);
+        }
+
+        saveSplitStateRecursive(splitState, childSection, child);
+    }
+}
+
+void HolonWindowAreaPrivate::setSplitItemDock(HolonDockWidget *dock)
+{
+    if (HolonDockWidgetItem *item = rootSplit->findChild<HolonDockWidgetItem *>(dock->objectName()))
+    {
+        item->dock = dock;
+        dock->setArea(item->area);
     }
 }
 
@@ -118,11 +215,15 @@ HolonWindowAreaPrivate::~HolonWindowAreaPrivate()
 void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
 {
     HolonDockWidget *dock = new HolonDockWidget(desktop, mainWindow, window, this);
-    dock->setObjectName(std::as_const(window)->section().last());
     dockList.append(dock);
 
     if (!rootSplit)
+    {
         rootSplit = new HolonDockWidgetSplit(q_ptr);
+
+        if (q_ptr->contains("dockWidgetSplitState"))
+            restoreSplitState();
+    }
 
     if (dockList.count())
         defaultDock->hide();
@@ -137,33 +238,9 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
             dockWidget->titleBar()->showControlButtons();
 
     if (!window->tree()->isLoaded())
-        mainWindow->restoreState(state());
-}
+        mainWindow->restoreState(mainWindowState());
 
-void HolonWindowAreaPrivate::maximizeWindow(HolonDockWidget *dock)
-{
-    if (maximized)
-    {
-        mainWindowState = mainWindow->saveState();
-
-        for (HolonDockWidget *w : dockList)
-            w->hide();
-
-        dock->show();
-    }
-    else
-    {
-        for (HolonDockWidget *w : dockList)
-            w->show();
-
-        mainWindow->restoreState(mainWindowState);
-    }
-}
-
-void HolonWindowAreaPrivate::saveState()
-{
-    if (dockList.size() > 1)
-        q_ptr->setValue("mainWindowState", mainWindow->saveState());
+    setSplitItemDock(dock);
 }
 
 void HolonWindowAreaPrivate::closeWindow(HolonAbstractWindow *window)
@@ -189,6 +266,37 @@ void HolonWindowAreaPrivate::closeWindow(HolonAbstractWindow *window)
 
     if (dockByWindow.count() == 1)
         dockByWindow.first()->titleBar()->hideControlButtons();
+}
+
+QByteArray HolonWindowAreaPrivate::mainWindowState() const
+{
+    return q_ptr->value("mainWindowState").toByteArray();
+}
+
+void HolonWindowAreaPrivate::maximizeWindow(HolonDockWidget *dock)
+{
+    if (maximized)
+    {
+        mainWindowStateBeforeMaximized = mainWindow->saveState();
+
+        for (HolonDockWidget *w : dockList)
+            w->hide();
+
+        dock->show();
+    }
+    else
+    {
+        for (HolonDockWidget *w : dockList)
+            w->show();
+
+        mainWindow->restoreState(mainWindowStateBeforeMaximized);
+    }
+}
+
+void HolonWindowAreaPrivate::saveMainWindowState()
+{
+    if (dockList.size() > 1)
+        q_ptr->setValue("mainWindowState", mainWindow->saveState());
 }
 
 void HolonWindowAreaPrivate::setChecked(bool checked)
@@ -259,7 +367,3 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first,
     }
 }
 
-QByteArray HolonWindowAreaPrivate::state() const
-{
-    return q_ptr->value("mainWindowState").toByteArray();
-}

@@ -14,7 +14,7 @@ class HolonDockWidgetSplit : public QObject
     Q_OBJECT
 
 public:
-    const Qt::DockWidgetArea area;
+    Qt::DockWidgetArea area{};
 
     HolonDockWidgetSplit(HolonWindowArea *parent);
     HolonDockWidgetSplit(Qt::DockWidgetArea area, HolonDockWidgetSplit *parent);
@@ -26,9 +26,12 @@ class HolonDockWidgetItem : public QObject
 
 public:
     Qt::DockWidgetArea area{};
-    HolonDockWidget *const dock;
+    HolonDockWidget *dock{};
 
     HolonDockWidgetItem(HolonDockWidget *dock, Qt::DockWidgetArea area, HolonDockWidgetSplit *parent);
+    HolonDockWidgetItem(const QString &objectName, Qt::DockWidgetArea area, HolonDockWidgetSplit *parent);
 };
+
+QString toString(Qt::DockWidgetArea area);;
 
 #endif // HOLONDOCKWIDGETSPLIT_H

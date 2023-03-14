@@ -15,7 +15,9 @@ HolonDockWidgetSplit::HolonDockWidgetSplit(Qt::DockWidgetArea position,
                                            HolonDockWidgetSplit *parent)
 :   QObject(parent),
     area(position)
-{ }
+{
+    setObjectName(toString(area));
+}
 
 HolonDockWidgetItem::HolonDockWidgetItem(HolonDockWidget *widget,
                                          Qt::DockWidgetArea position,
@@ -26,4 +28,25 @@ HolonDockWidgetItem::HolonDockWidgetItem(HolonDockWidget *widget,
 {
     setObjectName(dock->objectName());
     dock->titleBar()->setDockWidgetArea(area);
+}
+
+HolonDockWidgetItem::HolonDockWidgetItem(const QString &objectName,
+                                         Qt::DockWidgetArea position,
+                                         HolonDockWidgetSplit *parent)
+:   QObject(parent),
+    area(position)
+{
+    setObjectName(objectName);
+}
+
+QString toString(Qt::DockWidgetArea area)
+{
+    switch (area) {
+    case Qt::LeftDockWidgetArea: return "l";
+    case Qt::RightDockWidgetArea: return "r";
+    case Qt::TopDockWidgetArea: return "t";
+    case Qt::BottomDockWidgetArea: return "b";
+    case Qt::DockWidgetArea_Mask:
+    case Qt::NoDockWidgetArea: return QString();
+    }
 }
