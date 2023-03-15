@@ -9,24 +9,14 @@
 class HolonAbstractWindow;
 class HolonDesktop;
 class HolonDockWidget;
-class HolonDockWidgetSplit;
+class HolonDockWidgetSplitState;
 class HolonWindowArea;
 class QMainWindow;
-class QObject;
 
 class HolonWindowAreaPrivate
 {
-    HolonDockWidgetSplit *rootSplit{};
+    HolonDockWidgetSplitState *dockWidgetSplitState{};
     QByteArray mainWindowStateBeforeMaximized;
-
-    void addSplit(HolonDockWidget *firstDock, HolonDockWidget *secondDock, Qt::Orientation orientation);
-    void parseSplitPath(const QStringList &path);
-    void removeSplit(HolonDockWidget *dock);
-    void restoreSplitPath(const QStringList &path, QObject *parent);
-    void restoreSplitState();
-    void saveSplitState();
-    void saveSplitStateRecursive(QStringList &splitState, const QString &section, QObject *parent);
-    void setSplitItemDock(HolonDockWidget *dock);
 
 public:
     HolonDesktop *const desktop;
@@ -42,11 +32,13 @@ public:
 
     void addWindow(HolonAbstractWindow *window);
     void closeWindow(HolonAbstractWindow *window);
+    void emitWarning(const QString &warning) const;
     QByteArray mainWindowState() const;
     void maximizeWindow(HolonDockWidget *dock);
     void saveMainWindowState();
     void setChecked(bool checked);
     void setDefaultDockWidget();
+    void setValue(const QString &key, const QVariant &value);
     void splitWindow(HolonAbstractWindow *first, HolonAbstractWindow *second, Qt::Orientation orientation);
 };
 

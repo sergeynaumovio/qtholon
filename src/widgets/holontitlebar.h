@@ -31,8 +31,10 @@ public:
     ~HolonTitleBar();
 
     void hideControlButtons();
+    void hideSplitButton();
     void setDockWidgetArea(Qt::DockWidgetArea area);
     void showControlButtons();
+    void showSplitButton();
 };
 
 #endif // HOLONTITLEBAR_H

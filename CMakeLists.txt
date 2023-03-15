@@ -64,8 +64,8 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holondesktop_p.h
             src/widgets/holondockwidget.cpp
             src/widgets/holondockwidget.h
-            src/widgets/holondockwidgetsplit.cpp
-            src/widgets/holondockwidgetsplit.h
+            src/widgets/holondockwidgetsplitstate.cpp
+            src/widgets/holondockwidgetsplitstate.h
             src/widgets/holonmainwindow.cpp
             src/widgets/holonmainwindow.h
             src/widgets/holonmessageswidget.cpp

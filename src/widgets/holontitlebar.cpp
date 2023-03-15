@@ -188,6 +188,12 @@ void HolonTitleBar::hideControlButtons()
         d_ptr->closeButton->hide();
 }
 
+void HolonTitleBar::hideSplitButton()
+{
+    if (d_ptr->splitButton)
+        d_ptr->splitButton->hide();
+}
+
 void HolonTitleBar::setDockWidgetArea(Qt::DockWidgetArea area)
 {
     if (area == Qt::LeftDockWidgetArea)
@@ -210,4 +216,10 @@ void HolonTitleBar::showControlButtons()
 
     if (d_ptr->closeButton)
         d_ptr->closeButton->show();
+}
+
+void HolonTitleBar::showSplitButton()
+{
+    if (d_ptr->splitButton)
+        d_ptr->splitButton->show();
 }
