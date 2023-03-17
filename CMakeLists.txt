@@ -106,8 +106,6 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonwindowarea_p.h
             src/widgets/holonwindowareaswitch.cpp
             src/widgets/holonwindowareaswitch.h
-            src/widgets/holonwindowmenu.cpp
-            src/widgets/holonwindowmenu.h
             src/widgets/holonworkflowwindow.cpp
             src/widgets/holonworkflowwindow.h
             src/plugin.cpp

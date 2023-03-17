@@ -36,9 +36,6 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
             dockWidgetSplitState->restoreSplitState();
     }
 
-    if (dockList.count())
-        defaultDock->hide();
-
     dockByWindow.insert(window, dock);
 
     if (!qobject_cast<HolonAbstractTask *>(window->parent()))
@@ -65,9 +62,7 @@ void HolonWindowAreaPrivate::closeWindow(HolonAbstractWindow *window)
 
     dockList.removeOne(dock);
 
-    if (!dockList.count())
-        defaultDock->show();
-    else if(maximized)
+    if(maximized)
     {
         for (HolonDockWidget *w : dockList)
             w->show();
@@ -121,13 +116,6 @@ void HolonWindowAreaPrivate::saveMainWindowState()
 void HolonWindowAreaPrivate::setChecked(bool checked)
 {
     q_ptr->setValue("checked", checked);
-}
-
-void HolonWindowAreaPrivate::setDefaultDockWidget()
-{
-    mainWindow->setParent(q_ptr);
-    defaultDock = new HolonDockWidget(desktop, mainWindow, q_ptr);
-    defaultDock->setObjectName("dafaultDock");
 }
 
 void HolonWindowAreaPrivate::setValue(const QString &key, const QVariant &value)

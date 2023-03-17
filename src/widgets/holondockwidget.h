@@ -26,10 +26,6 @@ protected:
 public:
     HolonDockWidget(HolonDesktop *desktop,
                     QMainWindow *parent,
-                    HolonWindowArea *area);
-
-    HolonDockWidget(HolonDesktop *desktop,
-                    QMainWindow *parent,
                     HolonAbstractWindow *window,
                     HolonWindowAreaPrivate *d);
 

@@ -7,9 +7,6 @@
 #include "holontitlebar.h"
 #include "holonwindowarea.h"
 #include "holonwindowarea_p.h"
-#include "holonwindowmenu.h"
-#include <QBoxLayout>
-#include <QLoaderTree>
 #include <QMainWindow>
 
 class HolonDockWidgetPrivate
@@ -40,30 +37,6 @@ public:
 void HolonDockWidget::resizeEvent(QResizeEvent *)
 {
     d_ptr->windowarea_d_ptr->saveMainWindowState();
-}
-
-HolonDockWidget::HolonDockWidget(HolonDesktop *desktop,
-                                 QMainWindow *parent,
-                                 HolonWindowArea *area)
-:   QDockWidget(parent),
-    d_ptr(this, desktop, parent)
-{
-    QWidget *widget = new QWidget(this);
-    {
-        QVBoxLayout *l = new QVBoxLayout(widget);
-        {
-            widget->setLayout(l);
-            HolonWindowMenu *menu;
-            l->addWidget(menu = new HolonWindowMenu(desktop, widget), 0, Qt::AlignCenter);
-            connect(menu, &HolonWindowMenu::triggered, this, [area](HolonAbstractWindow *window)
-            {
-                QStringList to = area->section();
-                to.append(qAsConst(window)->section().last());
-                area->tree()->copy(window->section(), to);
-            });
-        }
-        setWidget(widget);
-    }
 }
 
 HolonDockWidget::HolonDockWidget(HolonDesktop *desktop,

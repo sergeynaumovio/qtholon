@@ -22,7 +22,6 @@ public:
     HolonDesktop *const desktop;
     HolonWindowArea *const q_ptr;
     QMainWindow *const mainWindow;
-    HolonDockWidget *defaultDock{};
     QList<HolonDockWidget *> dockList;
     QMap<HolonAbstractWindow *, HolonDockWidget *> dockByWindow;
     bool maximized{};
@@ -37,7 +36,6 @@ public:
     void maximizeWindow(HolonDockWidget *dock);
     void saveMainWindowState();
     void setChecked(bool checked);
-    void setDefaultDockWidget();
     void setValue(const QString &key, const QVariant &value);
     void splitWindow(HolonAbstractWindow *first, HolonAbstractWindow *second, Qt::Orientation orientation);
 };
