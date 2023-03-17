@@ -120,14 +120,8 @@ void HolonDesktopPrivateData::addSidebarWindow(HolonAbstractWindow *window, Holo
         return;
 
     QWidget *sidebarWidget = window->widget();
-    if (!sidebarWidget)
-    {
-        sidebarByWindow.insert(window, sidebar);
-        return;
-    }
-
     HolonStackedWidget *stackedWidget = qobject_cast<HolonStackedWidget *>(sidebarWidget);
-    if (!stackedWidget || taskStackedWidgetList.contains(stackedWidget))
+    if (!sidebarWidget || taskStackedWidgetList.contains(stackedWidget))
         return;
 
     sidebarByWindow.insert(window, sidebar);
