@@ -61,9 +61,9 @@ HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonDesktop
 HolonTerminalWindow::~HolonTerminalWindow()
 { }
 
-HolonAbstractWindow::Areas HolonTerminalWindow::areas() const
+Holon::WindowFlags HolonTerminalWindow::flags() const
 {
-    return HolonAbstractWindow::Central | HolonAbstractWindow::areas();
+    return Holon::TaskWindow | Holon::WindowAllButtonsHint;
 }
 
 QIcon HolonTerminalWindow::icon() const

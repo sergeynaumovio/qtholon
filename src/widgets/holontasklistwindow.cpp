@@ -60,14 +60,9 @@ HolonTaskListWindow::HolonTaskListWindow(QLoaderSettings *settings, HolonSidebar
 HolonTaskListWindow::~HolonTaskListWindow()
 { }
 
-HolonAbstractWindow::Areas HolonTaskListWindow::areas() const
+Holon::WindowFlags HolonTaskListWindow::flags() const
 {
-    return HolonAbstractWindow::Sidebar | HolonAbstractWindow::areas();
-}
-
-HolonAbstractWindow::Attributes HolonTaskListWindow::attributes() const
-{
-    return {};
+    return Holon::SidebarWindow | Holon::WindowAllButtonsHint;
 }
 
 QIcon HolonTaskListWindow::icon() const

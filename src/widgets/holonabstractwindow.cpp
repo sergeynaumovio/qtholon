@@ -29,27 +29,6 @@ HolonAbstractWindow::HolonAbstractWindow(QLoaderSettings *settings, HolonWindowA
 HolonAbstractWindow::~HolonAbstractWindow()
 { }
 
-HolonAbstractWindow::Areas HolonAbstractWindow::areas() const
-{
-    QString dockArea = value("area", "left").toString();
-
-    if (dockArea == "left")
-        return HolonAbstractWindow::Left;
-
-    if (dockArea == "bottom")
-        return HolonAbstractWindow::Bottom;
-
-    if (dockArea == "right")
-        return HolonAbstractWindow::Right;
-
-    return HolonAbstractWindow::Top;
-}
-
-HolonAbstractWindow::Attributes HolonAbstractWindow::attributes() const
-{
-    return WindowAllButtonsHint;
-}
-
 HolonDesktop *HolonAbstractWindow::desktop() const
 {
     return d_ptr->desktop;

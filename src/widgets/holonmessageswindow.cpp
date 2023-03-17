@@ -55,14 +55,9 @@ HolonMessagesWindow::HolonMessagesWindow(QLoaderSettings *settings, HolonSidebar
 HolonMessagesWindow::~HolonMessagesWindow()
 { }
 
-HolonAbstractWindow::Areas HolonMessagesWindow::areas() const
+Holon::WindowFlags HolonMessagesWindow::flags() const
 {
-    return HolonAbstractWindow::Sidebar | HolonAbstractWindow::areas();
-}
-
-HolonAbstractWindow::Attributes HolonMessagesWindow::attributes() const
-{
-    return {};
+    return Holon::SidebarWindow;
 }
 
 QIcon HolonMessagesWindow::icon() const

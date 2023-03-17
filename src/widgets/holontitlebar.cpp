@@ -86,9 +86,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
             return button;
         };
 
-        HolonAbstractWindow::Attributes attributes = window->attributes();
-
-        if (attributes.testFlag(HolonAbstractWindow::WindowSplitButtonHint))
+        if (window->flags().testFlag(Holon::WindowSplitButtonHint))
         {
             QMenu *menu = new QMenu(parent);
 
@@ -118,11 +116,11 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
 
             for (HolonAbstractWindow *second : desktop->windows())
             {
-                HolonAbstractWindow::Area central = HolonAbstractWindow::Central;
-                HolonAbstractWindow::Area sidebar = HolonAbstractWindow::Sidebar;
+                Holon::WindowFlags taskWindow = Holon::TaskWindow | Holon::WindowSplitButtonHint;
+                Holon::WindowFlags sidebarWindow = Holon::SidebarWindow | Holon::WindowSplitButtonHint;
 
-                if ((window->areas().testAnyFlag(central) && second->areas().testAnyFlag(central)) ||
-                    (window->areas().testAnyFlag(sidebar) && second->areas().testAnyFlag(sidebar)))
+                if ((window->flags().testFlags(taskWindow) && second->flags().testFlags(taskWindow)) ||
+                    (window->flags().testFlags(sidebarWindow) && second->flags().testFlags(sidebarWindow)))
                 {
                     QAction *windowAction = new QAction(second->icon(), second->title(), menu);
                     {
@@ -141,7 +139,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
             d_ptr->splitButton->setMenu(menu);
         }
 
-        if (attributes.testFlag(HolonAbstractWindow::WindowMinMaxButtonsHint))
+        if (window->flags().testFlag(Holon::WindowMinMaxButtonsHint))
         {
             d_ptr->maximizeButton = addButton('M');
             {
@@ -166,7 +164,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
             }
         }
 
-        if (attributes.testAnyFlag(HolonAbstractWindow::WindowCloseButtonHint))
+        if (window->flags().testAnyFlag(Holon::WindowCloseButtonHint))
         {
             d_ptr->closeButton = addButton('X');
             {
@@ -196,6 +194,9 @@ void HolonTitleBar::hideSplitButton()
 
 void HolonTitleBar::setDockWidgetArea(Qt::DockWidgetArea area)
 {
+    if (!d_ptr->closeButton)
+        return;
+
     if (area == Qt::LeftDockWidgetArea)
         return d_ptr->closeButton->setText("L");
 

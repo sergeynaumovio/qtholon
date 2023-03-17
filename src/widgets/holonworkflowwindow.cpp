@@ -52,14 +52,9 @@ HolonWorkflowWindow::HolonWorkflowWindow(QLoaderSettings *settings, HolonWindowA
 HolonWorkflowWindow::~HolonWorkflowWindow()
 { }
 
-HolonAbstractWindow::Areas HolonWorkflowWindow::areas() const
+Holon::WindowFlags HolonWorkflowWindow::flags() const
 {
-    return HolonAbstractWindow::Central | HolonAbstractWindow::areas();
-}
-
-HolonAbstractWindow::Attributes HolonWorkflowWindow::attributes() const
-{
-    return {};
+    return Holon::TaskWindow;
 }
 
 QIcon HolonWorkflowWindow::icon() const

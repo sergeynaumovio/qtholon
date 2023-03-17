@@ -33,21 +33,7 @@ public:
     {
         q_ptr->setTitleBarWidget(titleBar);
         q_ptr->setFeatures(QDockWidget::NoDockWidgetFeatures);
-        parent->addDockWidget(w ? dockWidgetArea(w->areas()) : Qt::LeftDockWidgetArea, q_ptr);
-    }
-
-    Qt::DockWidgetArea dockWidgetArea(HolonAbstractWindow::Areas areas)
-    {
-        if (areas.testAnyFlag(HolonAbstractWindow::Left))
-            return Qt::LeftDockWidgetArea;
-
-        if (areas.testAnyFlag(HolonAbstractWindow::Right))
-            return Qt::RightDockWidgetArea;
-
-        if (areas.testAnyFlag(HolonAbstractWindow::Top))
-            return Qt::TopDockWidgetArea;
-
-        return Qt::BottomDockWidgetArea;
+        parent->addDockWidget(Qt::LeftDockWidgetArea, q_ptr);
     }
 };
 

@@ -22,7 +22,7 @@ public:
     HolonTerminalWindow(QLoaderSettings *settings, HolonDesktop *parent);
     ~HolonTerminalWindow();
 
-    HolonAbstractWindow::Areas areas() const override;
+    Holon::WindowFlags flags() const override;
     QIcon icon() const override;
     bool isCopyable(const QStringList &to) const override;
     QString title() const override;

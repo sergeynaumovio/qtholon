@@ -62,14 +62,9 @@ HolonParametersWindow::HolonParametersWindow(QLoaderSettings *settings, HolonSid
 HolonParametersWindow::~HolonParametersWindow()
 { }
 
-HolonAbstractWindow::Areas HolonParametersWindow::areas() const
+Holon::WindowFlags HolonParametersWindow::flags() const
 {
-    return HolonAbstractWindow::Sidebar | HolonAbstractWindow::areas();
-}
-
-HolonAbstractWindow::Attributes HolonParametersWindow::attributes() const
-{
-    return {};
+    return Holon::SidebarWindow;
 }
 
 QIcon HolonParametersWindow::icon() const

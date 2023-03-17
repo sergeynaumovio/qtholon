@@ -57,13 +57,13 @@ HolonWindowMenu::HolonWindowMenu(HolonDesktop *desktop, QWidget *parent)
 
         if (HolonWindowArea *windowArea = findParent<HolonWindowArea *>())
         {
-            HolonAbstractWindow::Area menuWindowArea = HolonAbstractWindow::Central;
+            Holon::WindowFlags menuWindowType = Holon::TaskWindow | Holon::WindowSplitButtonHint;
 
             if (qobject_cast<HolonSidebar *>(windowArea))
-                menuWindowArea = HolonAbstractWindow::Sidebar;
+                menuWindowType = Holon::SidebarWindow | Holon::WindowSplitButtonHint;
 
             for (HolonAbstractWindow *window : desktop->windows())
-                if (window->areas().testAnyFlag(menuWindowArea))
+                if (window->flags().testFlags(menuWindowType | Holon::WindowSplitButtonHint))
                     l->addWidget(new WindowButton(desktop, window, this), 0, Qt::AlignHCenter);
         }
     }

@@ -103,14 +103,9 @@ HolonTaskTreeWindow::HolonTaskTreeWindow(QLoaderSettings *settings, HolonSidebar
 HolonTaskTreeWindow::~HolonTaskTreeWindow()
 { }
 
-HolonAbstractWindow::Areas HolonTaskTreeWindow::areas() const
+Holon::WindowFlags HolonTaskTreeWindow::flags() const
 {
-    return HolonAbstractWindow::Sidebar | HolonAbstractWindow::areas();
-}
-
-HolonAbstractWindow::Attributes HolonTaskTreeWindow::attributes() const
-{
-    return {};
+    return Holon::SidebarWindow | Holon::WindowAllButtonsHint;
 }
 
 QIcon HolonTaskTreeWindow::icon() const
