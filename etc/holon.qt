@@ -34,6 +34,10 @@ group = parameters
 class = HolonSettingsWindow
 group = settings
 
+[holon/messages-window]
+class = HolonMessagesWindow
+group = messages
+
 [holon/terminal-window]
 class = HolonTerminalWindow
 current = true
@@ -104,7 +108,7 @@ title = Custom Task A
 
 [holon/workflow-model1/branch1/85f69e0b-e525-429d-b63f-8bd2833a2ff0/0]
 class = HolonTerminalWindow
-current = false
+current = true
 group = settings
 
 [holon/workflow-model1/branch1/28245495-e838-4056-8fc2-d3545c0d312c]
