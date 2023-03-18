@@ -21,6 +21,7 @@ public:
     QPushButton *splitButton{};
     QPushButton *maximizeButton{};
     QPushButton *closeButton{};
+    QPushButton *sidebarButton{};
 };
 
 class MenuEventFilter : public QObject
@@ -171,6 +172,18 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
                 connect(d_ptr->closeButton, &QPushButton::clicked, this, [=](){ desktop->closeWindow(window); });
             }
         }
+
+        if (window->flags().testAnyFlag(Holon::SidebarWindow))
+        {
+            d_ptr->sidebarButton = addButton('X');
+            d_ptr->sidebarButton->show();
+            {
+                connect(d_ptr->sidebarButton, &QPushButton::clicked, this, [=]()
+                {
+                    desktop->hideWindowArea(windowarea_d_ptr->q_ptr);
+                });
+            }
+        }
     }
 }
 
@@ -184,6 +197,12 @@ void HolonTitleBar::hideControlButtons()
 
     if (d_ptr->closeButton)
         d_ptr->closeButton->hide();
+}
+
+void HolonTitleBar::hideSidebarButton()
+{
+    if (d_ptr->sidebarButton)
+        d_ptr->sidebarButton->hide();
 }
 
 void HolonTitleBar::hideSplitButton()
@@ -217,6 +236,12 @@ void HolonTitleBar::showControlButtons()
 
     if (d_ptr->closeButton)
         d_ptr->closeButton->show();
+}
+
+void HolonTitleBar::showSidebarButton()
+{
+    if (d_ptr->sidebarButton)
+        d_ptr->sidebarButton->show();
 }
 
 void HolonTitleBar::showSplitButton()

@@ -23,10 +23,23 @@ public:
 
     QMap<QString, QButtonGroup *> sidebarButtonGroupByName;
     QButtonGroup *windowAreaButtonGroup{};
+    QMap<HolonWindowArea *, QAbstractButton *> buttonByWindowArea;
 
     HolonWindowAreaSwitchPrivate(HolonDesktopPrivate &desk_d)
     :   desktop_d(desk_d)
     { }
+
+    void hideWindowArea(HolonWindowArea *windowArea)
+    {
+        if (QAbstractButton *button = buttonByWindowArea.value(windowArea))
+            button->setChecked(false);
+    }
+
+    void showWindowArea(HolonWindowArea *windowArea)
+    {
+        if (QAbstractButton *button = buttonByWindowArea.value(windowArea))
+            button->setChecked(true);
+    }
 };
 
 class HolonSwitchButton : public QAbstractButton
@@ -124,6 +137,8 @@ public:
                        HolonWindowAreaSwitch *parent)
     :   HolonSwitchButton(swtch_d, sidebar, parent)
     {
+        swtch_d.buttonByWindowArea.insert(sidebar, this);
+
         HolonSidebarDock *dock = desktop_d.sidebarDock(sidebar);
 
         if (sidebar->group().size())
@@ -176,6 +191,8 @@ public:
                           HolonWindowAreaSwitch *parent)
     :   HolonSwitchButton(swtch_d, windowArea, parent)
     {
+        swtch_d.buttonByWindowArea.insert(windowArea, this);
+
         if (!switch_d.windowAreaButtonGroup)
         {
             switch_d.windowAreaButtonGroup = new QButtonGroup(this);
@@ -236,4 +253,14 @@ void HolonWindowAreaSwitch::addSidebar(HolonSidebar *sidebar)
 void HolonWindowAreaSwitch::addWindowArea(HolonWindowArea *windowArea)
 {
     layout()->addWidget(new HolonWindowAreaButton(*d_ptr, windowArea, this));
+}
+
+void HolonWindowAreaSwitch::hideWindowArea(HolonWindowArea *windowArea)
+{
+    d_ptr->hideWindowArea(windowArea);
+}
+
+void HolonWindowAreaSwitch::showWindowArea(HolonWindowArea *windowArea)
+{
+    d_ptr->showWindowArea(windowArea);
 }

@@ -173,6 +173,7 @@ class = QLoaderShellSave
 
 [holon/tasks]
 class = HolonSidebar
+area = left
 checked = true
 layout = external
 mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAC1AAACuvwCAAAAA/sAAAAWAGQAYQBmAGEAdQBsAHQARABvAGMAawAAAAAA/////wAAAIwA////+wAAACAAdABhAHMAawAtAHQAcgBlAGUALQB3AGkAbgBkAG8AdwEAAAAAAAABXQAAAF4A////+wAAACAAdABhAHMAawAtAGwAaQBzAHQALQB3AGkAbgBkAG8AdwEAAAFeAAABXAAAAF4A////AAAAAAAAAcYAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
@@ -187,6 +188,7 @@ class = HolonTaskListWindow
 
 [holon/parameters]
 class = HolonSidebar
+area = left
 checked = false
 layout = external
 shortcut = Alt+2

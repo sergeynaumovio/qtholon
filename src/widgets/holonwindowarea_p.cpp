@@ -43,7 +43,10 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
 
     if (dockByWindow.count() > 1)
         for (const HolonDockWidget *dockWidget: std::as_const(dockByWindow))
+        {
             dockWidget->titleBar()->showControlButtons();
+            dockWidget->titleBar()->hideSidebarButton();
+        }
 
     if (!window->tree()->isLoaded())
         mainWindow->restoreState(mainWindowState());
@@ -72,8 +75,12 @@ void HolonWindowAreaPrivate::closeWindow(HolonAbstractWindow *window)
 
     if (dockByWindow.count() == 1)
     {
-        dockByWindow.first()->titleBar()->hideControlButtons();
-        dockByWindow.first()->titleBar()->showSplitButton();
+        HolonDockWidget *dock = dockByWindow.first();
+        dock->titleBar()->hideControlButtons();
+        dock->titleBar()->showSplitButton();
+
+        if (qobject_cast<HolonWindowArea *>(q_ptr))
+            dock->titleBar()->showSidebarButton();
     }
 }
 

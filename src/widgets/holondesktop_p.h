@@ -66,6 +66,7 @@ public:
     ~HolonDesktopPrivate();
 
     QString buttonStyleSheet() const;
+    void hideWindowArea(HolonWindowArea *windowArea);
     int menuBorderWidth() const;
     QString menuStyleSheet() const;
     int menuWidth() const;
@@ -75,10 +76,11 @@ public:
     HolonTaskbar *taskbar() const;
     HolonDesktopPrivate::TaskbarArea taskbarArea() const;
     int taskbarPreferedHeight() const;
-    int taskbarPreferedWidth() const ;
+    int taskbarPreferedWidth() const;
     QString taskbarStyleSheet() const;
     int titleBarHeight() const;
     QString titleBarStyleSheet() const;
+    void showWindowArea(HolonWindowArea *windowArea);
     QList<HolonAbstractWindow *> windows() const;
 
     void removeSidebar(HolonSidebar *sidebar);

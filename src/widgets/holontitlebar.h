@@ -17,7 +17,7 @@ class HolonTitleBar : public QWidget
 {
     Q_OBJECT
 
-    const QScopedStorage<HolonTitleBarPrivate, 24> d_ptr;
+    const QScopedStorage<HolonTitleBarPrivate, 32> d_ptr;
 
 protected:
     void paintEvent(QPaintEvent *) override;
@@ -31,9 +31,11 @@ public:
     ~HolonTitleBar();
 
     void hideControlButtons();
+    void hideSidebarButton();
     void hideSplitButton();
     void setDockWidgetArea(Qt::DockWidgetArea area);
     void showControlButtons();
+    void showSidebarButton();
     void showSplitButton();
 };
 

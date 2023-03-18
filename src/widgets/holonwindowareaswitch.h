@@ -17,7 +17,7 @@ class HolonWindowAreaSwitch : public QWidget
 {
     Q_OBJECT
 
-    const QScopedStorage<HolonWindowAreaSwitchPrivate, 24> d_ptr;
+    const QScopedStorage<HolonWindowAreaSwitchPrivate, 32> d_ptr;
 
 public:
     HolonWindowAreaSwitch(HolonDesktopPrivate &desktop_d, HolonTaskbar *parent);
@@ -25,6 +25,8 @@ public:
 
     void addSidebar(HolonSidebar *sidebar);
     void addWindowArea(HolonWindowArea *windowArea);
+    void hideWindowArea(HolonWindowArea *windowArea);
+    void showWindowArea(HolonWindowArea *windowArea);
 };
 
 #endif // HOLONWINDOWAREASWITCH_H

@@ -119,6 +119,11 @@ HolonAbstractTask *HolonDesktop::currentTask() const
     return d_ptr->currentTask();
 }
 
+void HolonDesktop::hideWindowArea(HolonWindowArea *windowArea)
+{
+    d_ptr->hideWindowArea(windowArea);
+}
+
 int HolonDesktop::menuBorderWidth() const
 {
     return d_ptr->menuBorderWidth();
@@ -147,6 +152,11 @@ void HolonDesktop::setCurrentWindow(HolonAbstractWindow *window)
 void HolonDesktop::setCurrentWindowArea(HolonWindowArea *windowArea)
 {
     d_ptr->setCurrentWindowArea(windowArea);
+}
+
+void HolonDesktop::showWindowArea(HolonWindowArea *windowArea)
+{
+    d_ptr->showWindowArea(windowArea);
 }
 
 HolonTaskModel *HolonDesktop::taskModel() const

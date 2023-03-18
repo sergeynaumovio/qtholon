@@ -45,12 +45,14 @@ public:
     QString buttonStyleSheet() const;
     void closeWindow(HolonAbstractWindow *window);
     HolonAbstractTask *currentTask() const;
+    void hideWindowArea(HolonWindowArea *windowArea);
     int menuBorderWidth() const;
     QString menuStyleSheet() const;
     int menuWidth() const;
     void setCurrentTask(HolonAbstractTask *task);
     void setCurrentWindow(HolonAbstractWindow *window);
     void setCurrentWindowArea(HolonWindowArea *windowArea);
+    void showWindowArea(HolonWindowArea *windowArea);
     HolonTaskModel *taskModel() const;
     int titleBarHeight() const;
     QString titleBarStyleSheet() const;
