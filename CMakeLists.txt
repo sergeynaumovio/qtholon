@@ -92,8 +92,6 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holontasklistview.h
             src/widgets/holontasklistwindow.cpp
             src/widgets/holontasklistwindow.h
-            src/widgets/holontaskmenu.cpp
-            src/widgets/holontaskmenu.h
             src/widgets/holontasktreewindow.cpp
             src/widgets/holontasktreewindow.h
             src/widgets/holonterminalwindow.cpp
