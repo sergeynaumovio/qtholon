@@ -176,14 +176,14 @@ class = HolonSidebar
 area = left
 checked = true
 layout = external
-mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAC1AAACuvwCAAAAA/sAAAAWAGQAYQBmAGEAdQBsAHQARABvAGMAawAAAAAA/////wAAAIwA////+wAAACAAdABhAHMAawAtAHQAcgBlAGUALQB3AGkAbgBkAG8AdwEAAAAAAAABXQAAAF4A////+wAAACAAdABhAHMAawAtAGwAaQBzAHQALQB3AGkAbgBkAG8AdwEAAAFeAAABXAAAAF4A////AAAAAAAAAcYAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAC1AAACuvwCAAAAAvsAAAACADABAAAAAAAAAV0AAABeAP////sAAAACADEBAAABXgAAAVwAAABeAP///wAAAAAAAAGxAAAABAAAAAQAAAAIAAAACPwAAAAA)
 shortcut = Alt+1
 title = Tasks
 
-[holon/tasks/task-tree-window]
+[holon/tasks/0]
 class = HolonTaskTreeWindow
 
-[holon/tasks/task-list-window]
+[holon/tasks/1]
 class = HolonTaskListWindow
 
 [holon/parameters]
@@ -200,6 +200,7 @@ group = parameters
 
 [holon/workflows]
 class = HolonWindowArea
+area = bottom
 checked = false
 shortcut = Alt+9
 title = Workflows
@@ -209,6 +210,7 @@ class = HolonWorkflowWindow
 
 [holon/messages]
 class = HolonSidebar
+area = bottom
 checked = true
 layout = internal
 shortcut = Alt+0
@@ -220,6 +222,7 @@ group = messages
 
 [holon/settings]
 class = HolonSidebar
+area = right
 checked = true
 layout = external
 shortcut = Alt+-

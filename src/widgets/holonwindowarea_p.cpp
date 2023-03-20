@@ -54,6 +54,22 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
     dockWidgetSplitState->setSplitItemDock(dock);
 }
 
+Qt::DockWidgetArea HolonWindowAreaPrivate::area() const
+{
+    QString str = q_ptr->value("area", "left").toString();
+
+    if (str == "left")
+        return Qt::LeftDockWidgetArea;
+
+    if (str == "right")
+        return Qt::RightDockWidgetArea;
+
+    if (str == "top")
+        return Qt::TopDockWidgetArea;
+
+    return Qt::BottomDockWidgetArea;
+}
+
 void HolonWindowAreaPrivate::closeWindow(HolonAbstractWindow *window)
 {
     HolonDockWidget *dock = dockByWindow.value(window);
@@ -136,10 +152,10 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first,
 {
     if (HolonDockWidget *firstDock = dockByWindow.value(first))
     {
-        if (HolonAbstractTask *task = first->task())
+        auto to = [](auto *object) -> QStringList
         {
             QSet<int> windows;
-            for (QObject *o : task->children())
+            for (QObject *o : object->children())
             {
                 if (qobject_cast<HolonAbstractWindow *>(o))
                     windows.insert(o->objectName().toInt());
@@ -150,37 +166,48 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first,
                 if (!windows.contains(i))
                     break;
 
-            QStringList to = task->section();
-            to.append(QString::number(i));
+            QStringList section = object->section();
+            section.append(QString::number(i));
 
-            QLoaderTree *tree = second->tree();
-            tree->copy(second->section(), to);
+            return section;
+        };
 
-            if ((second = qobject_cast<HolonAbstractWindow *>(tree->object(to))))
+        QStringList toSection;
+        if (HolonAbstractTask *task = first->task())
+            toSection = to(task);
+        else if (HolonWindowArea *windowarea = qobject_cast<HolonWindowArea *>(first->parent()))
+            toSection = to(windowarea);
+        else
+            return;
+
+        QLoaderTree *tree = second->tree();
+        QStringList fromSection = second->section();
+        tree->copy(fromSection, toSection);
+
+        if ((second = qobject_cast<HolonAbstractWindow *>(tree->object(toSection))))
+        {
+            if (HolonDockWidget *secondDock = dockByWindow.value(second))
             {
-                if (HolonDockWidget *secondDock = dockByWindow.value(second))
+                if (!firstDock->orientation() || firstDock->orientation() == splitOrientation)
                 {
-                    if (!firstDock->orientation() || firstDock->orientation() == splitOrientation)
+                    if (splitOrientation == Qt::Horizontal)
                     {
-                        if (splitOrientation == Qt::Horizontal)
-                        {
-                            mainWindow->splitDockWidget(firstDock, secondDock, Qt::Vertical);
-                            mainWindow->splitDockWidget(firstDock, secondDock, Qt::Horizontal);
-                        }
-                        else
-                        {
-                            mainWindow->splitDockWidget(firstDock, secondDock, Qt::Horizontal);
-                            mainWindow->splitDockWidget(firstDock, secondDock, Qt::Vertical);
-                        }
+                        mainWindow->splitDockWidget(firstDock, secondDock, Qt::Vertical);
+                        mainWindow->splitDockWidget(firstDock, secondDock, Qt::Horizontal);
                     }
                     else
-                        mainWindow->splitDockWidget(firstDock, secondDock, splitOrientation);
-
-                    firstDock->setOrientation(splitOrientation);
-                    secondDock->setOrientation(splitOrientation);
-
-                    dockWidgetSplitState->addSplit(firstDock, secondDock, splitOrientation);
+                    {
+                        mainWindow->splitDockWidget(firstDock, secondDock, Qt::Horizontal);
+                        mainWindow->splitDockWidget(firstDock, secondDock, Qt::Vertical);
+                    }
                 }
+                else
+                    mainWindow->splitDockWidget(firstDock, secondDock, splitOrientation);
+
+                firstDock->setOrientation(splitOrientation);
+                secondDock->setOrientation(splitOrientation);
+
+                dockWidgetSplitState->addSplit(firstDock, secondDock, splitOrientation);
             }
         }
     }

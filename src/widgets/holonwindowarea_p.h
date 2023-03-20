@@ -30,6 +30,7 @@ public:
     virtual ~HolonWindowAreaPrivate();
 
     void addWindow(HolonAbstractWindow *window);
+    Qt::DockWidgetArea area() const;
     void closeWindow(HolonAbstractWindow *window);
     void emitWarning(const QString &warning) const;
     QByteArray mainWindowState() const;

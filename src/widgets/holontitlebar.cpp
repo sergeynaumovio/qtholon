@@ -175,9 +175,16 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
 
         if (window->flags().testAnyFlag(Holon::SidebarWindow))
         {
-            d_ptr->sidebarButton = addButton('X');
-            d_ptr->sidebarButton->show();
+            Qt::DockWidgetArea area = windowarea_d_ptr->area();
+
+            QChar ch = area == Qt::LeftDockWidgetArea ? 'L' :
+                       area == Qt::RightDockWidgetArea ? 'R' :
+                       area == Qt::TopDockWidgetArea ? 'T' : 'B';
+
+            d_ptr->sidebarButton = addButton(ch);
             {
+                d_ptr->sidebarButton->show();
+
                 connect(d_ptr->sidebarButton, &QPushButton::clicked, this, [=]()
                 {
                     desktop->hideWindowArea(windowarea_d_ptr->q_ptr);
