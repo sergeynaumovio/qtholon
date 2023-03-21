@@ -54,7 +54,7 @@ HolonWorkflowWindow::~HolonWorkflowWindow()
 
 Holon::WindowFlags HolonWorkflowWindow::flags() const
 {
-    return Holon::TaskWindow;
+    return {};
 }
 
 QIcon HolonWorkflowWindow::icon() const
