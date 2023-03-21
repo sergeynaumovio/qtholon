@@ -5,6 +5,7 @@
 #include "holonabstractwindow.h"
 #include "holondesktop.h"
 #include "holondockwidget.h"
+#include "holonwindowarea.h"
 #include "holonwindowarea_p.h"
 #include <QActionGroup>
 #include <QBoxLayout>
@@ -21,7 +22,7 @@ public:
     QPushButton *splitButton{};
     QPushButton *maximizeButton{};
     QPushButton *closeButton{};
-    QPushButton *sidebarButton{};
+    QPushButton *hideWindowAreaButton{};
 };
 
 class MenuEventFilter : public QObject
@@ -173,7 +174,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
             }
         }
 
-        if (window->flags().testAnyFlag(Holon::SidebarWindow))
+        if (qobject_cast<HolonWindowArea *>(window->parent()))
         {
             Qt::DockWidgetArea area = windowarea_d_ptr->area();
 
@@ -181,11 +182,11 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
                        area == Qt::RightDockWidgetArea ? 'R' :
                        area == Qt::TopDockWidgetArea ? 'T' : 'B';
 
-            d_ptr->sidebarButton = addButton(ch);
+            d_ptr->hideWindowAreaButton = addButton(ch);
             {
-                d_ptr->sidebarButton->show();
+                d_ptr->hideWindowAreaButton->show();
 
-                connect(d_ptr->sidebarButton, &QPushButton::clicked, this, [=]()
+                connect(d_ptr->hideWindowAreaButton, &QPushButton::clicked, this, [=]()
                 {
                     desktop->hideWindowArea(windowarea_d_ptr->q_ptr);
                 });
@@ -208,8 +209,8 @@ void HolonTitleBar::hideControlButtons()
 
 void HolonTitleBar::hideSidebarButton()
 {
-    if (d_ptr->sidebarButton)
-        d_ptr->sidebarButton->hide();
+    if (d_ptr->hideWindowAreaButton)
+        d_ptr->hideWindowAreaButton->hide();
 }
 
 void HolonTitleBar::hideSplitButton()
@@ -247,8 +248,8 @@ void HolonTitleBar::showControlButtons()
 
 void HolonTitleBar::showSidebarButton()
 {
-    if (d_ptr->sidebarButton)
-        d_ptr->sidebarButton->show();
+    if (d_ptr->hideWindowAreaButton)
+        d_ptr->hideWindowAreaButton->show();
 }
 
 void HolonTitleBar::showSplitButton()
