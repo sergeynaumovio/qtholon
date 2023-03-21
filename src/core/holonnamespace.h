@@ -17,9 +17,9 @@ namespace Holon
     {
         SidebarWindow = 0x0001,
         TaskWindow = 0x0002,
-        WindowSplitButtonHint = 0x0008,
-        WindowMinMaxButtonsHint = 0x0010,
-        WindowCloseButtonHint = 0x00020,
+        WindowSplitButtonHint = 0x0004,
+        WindowMinMaxButtonsHint = 0x0008,
+        WindowCloseButtonHint = 0x0010,
         WindowAllButtonsHint = WindowSplitButtonHint |
                                WindowMinMaxButtonsHint |
                                WindowCloseButtonHint
