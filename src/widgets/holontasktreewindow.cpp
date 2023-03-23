@@ -46,6 +46,7 @@ public:
 
         if ((taskTreeModel = desktop->taskModel()))
         {
+            view->setFrameStyle(QFrame::NoFrame);
             view->setModel(taskTreeModel);
             view->header()->hide();
 

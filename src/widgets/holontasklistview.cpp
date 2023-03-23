@@ -29,6 +29,8 @@ void HolonTaskListView::showEvent(QShowEvent *)
 HolonTaskListView::HolonTaskListView(HolonDesktop *desktop)
 :   d_ptr(desktop->workflowModel())
 {
+    setFrameStyle(QFrame::NoFrame);
+
     if (d_ptr->workflowModel)
     {
         setModel(d_ptr->workflowModel);
