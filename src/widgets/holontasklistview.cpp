@@ -5,15 +5,43 @@
 #include "holonabstracttask.h"
 #include "holondesktop.h"
 #include "holonworkflowmodel.h"
+#include <QPainter>
+#include <QStyledItemDelegate>
+
+class HolonTaskDelegate : public QStyledItemDelegate
+{
+public:
+    HolonTaskDelegate(QObject *parent);
+
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+};
+
+HolonTaskDelegate::HolonTaskDelegate(QObject *parent)
+:   QStyledItemDelegate(parent)
+{ }
+
+void HolonTaskDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    if (option.state.testFlag(QStyle::State_MouseOver))
+    {
+        QBrush brush = option.palette.alternateBase();
+        painter->fillRect(option.rect, brush);
+    }
+
+    QStyledItemDelegate::paint(painter, option, index);
+}
 
 class HolonTaskListViewPrivate
 {
 public:
     HolonWorkflowModel *const workflowModel;
+    HolonTaskDelegate *const itemDelegate;
     bool once{true};
 
-    HolonTaskListViewPrivate(HolonWorkflowModel *model)
-    :   workflowModel(model)
+    HolonTaskListViewPrivate(HolonWorkflowModel *model,
+                             HolonTaskDelegate *delegate)
+    :   workflowModel(model),
+        itemDelegate(delegate)
     { }
 };
 
@@ -27,9 +55,13 @@ void HolonTaskListView::showEvent(QShowEvent *)
 }
 
 HolonTaskListView::HolonTaskListView(HolonDesktop *desktop)
-:   d_ptr(desktop->workflowModel())
+:   d_ptr(desktop->workflowModel(), new HolonTaskDelegate(this))
 {
+    setItemDelegate(d_ptr->itemDelegate);
     setFrameStyle(QFrame::NoFrame);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+
+    viewport()->setAttribute(Qt::WA_Hover);
 
     if (d_ptr->workflowModel)
     {

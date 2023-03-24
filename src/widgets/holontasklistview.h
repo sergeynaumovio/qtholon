@@ -15,7 +15,7 @@ class HolonTaskListView : public QListView
 {
     Q_OBJECT
 
-    const QScopedStorage<HolonTaskListViewPrivate, 16> d_ptr;
+    const QScopedStorage<HolonTaskListViewPrivate, 24> d_ptr;
 
 protected:
     void showEvent(QShowEvent *) override;
