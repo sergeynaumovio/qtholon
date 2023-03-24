@@ -9,6 +9,7 @@
 #include "holonwindowarea_p.h"
 #include <QActionGroup>
 #include <QBoxLayout>
+#include <QComboBox>
 #include <QEvent>
 #include <QLabel>
 #include <QMenu>
@@ -45,6 +46,25 @@ public:
     MenuEventFilter(QObject *parent) : QObject(parent) { }
 };
 
+QList<HolonAbstractWindow *> HolonTitleBar::siblingWindows(HolonAbstractWindow *window)
+{
+    QList<HolonAbstractWindow *> windowList;
+
+    for (HolonAbstractWindow *second : window->desktop()->windows())
+    {
+        Holon::WindowFlags taskWindow = Holon::TaskWindow | Holon::WindowSplitButtonHint;
+        Holon::WindowFlags sidebarWindow = Holon::SidebarWindow | Holon::WindowSplitButtonHint;
+
+        if ((window->flags().testFlags(taskWindow) && second->flags().testFlags(taskWindow)) ||
+            (window->flags().testFlags(sidebarWindow) && second->flags().testFlags(sidebarWindow)))
+        {
+            windowList.append(second);
+        }
+    }
+
+    return windowList;
+}
+
 void HolonTitleBar::paintEvent(QPaintEvent *)
 {
     QStyleOption opt;
@@ -65,14 +85,29 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
     {
         layout()->setContentsMargins({7, 0, 0, 0});
         layout()->setSpacing(0);
-        QLabel *label = new QLabel(window ? window->title() : "Open New Window", this);
-        {
-            label->setFixedHeight(desktop->titleBarHeight());
-            layout()->addWidget(label);
-        }
 
-        if (!window)
-            return;
+        if (window->flags().testFlag(Holon::WindowSplitButtonHint))
+        {
+            QComboBox *combobox = new QComboBox(this);
+            {
+                combobox->setFixedHeight(desktop->titleBarHeight());
+
+                QList<HolonAbstractWindow *> siblingWindowList = siblingWindows(window);
+                for (const HolonAbstractWindow *siblingWindow : siblingWindowList)
+                    combobox->addItem(siblingWindow->icon(), siblingWindow->title());
+
+                layout()->addWidget(combobox);
+                combobox->setCurrentText(window->title());
+            }
+        }
+        else
+        {
+            QLabel *label = new QLabel(window->title(), this);
+            {
+                label->setFixedHeight(desktop->titleBarHeight());
+                layout()->addWidget(label);
+            }
+        }
 
         auto addButton = [=, this](const QChar &chr)
         {
@@ -116,24 +151,16 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
 
             menu->addSeparator();
 
-            for (HolonAbstractWindow *second : desktop->windows())
+            QList<HolonAbstractWindow *> siblingWindowList = siblingWindows(window);
+            for (HolonAbstractWindow *siblingWindow : siblingWindowList)
             {
-                Holon::WindowFlags taskWindow = Holon::TaskWindow | Holon::WindowSplitButtonHint;
-                Holon::WindowFlags sidebarWindow = Holon::SidebarWindow | Holon::WindowSplitButtonHint;
-
-                if ((window->flags().testFlags(taskWindow) && second->flags().testFlags(taskWindow)) ||
-                    (window->flags().testFlags(sidebarWindow) && second->flags().testFlags(sidebarWindow)))
+                QAction *action = new QAction(siblingWindow->icon(), siblingWindow->title(), menu);
+                menu->addAction(action);
+                connect(action, &QAction::triggered, parent, [=]
                 {
-                    QAction *windowAction = new QAction(second->icon(), second->title(), menu);
-                    {
-                        menu->addAction(windowAction);
-                        connect(windowAction, &QAction::triggered, parent, [=]
-                        {
-                            Qt::Orientation orientation = (split->isChecked() ? Qt::Vertical : Qt::Horizontal);
-                            windowarea_d_ptr->splitWindow(window, second, orientation);
-                        });
-                    }
-                }
+                    Qt::Orientation orientation = (split->isChecked() ? Qt::Vertical : Qt::Horizontal);
+                    windowarea_d_ptr->splitWindow(window, siblingWindow, orientation);
+                });
             }
 
             d_ptr->splitButton = addButton('S');

@@ -19,6 +19,8 @@ class HolonTitleBar : public QWidget
 
     const QScopedStorage<HolonTitleBarPrivate, 32> d_ptr;
 
+    QList<HolonAbstractWindow *> siblingWindows(HolonAbstractWindow *window);
+
 protected:
     void paintEvent(QPaintEvent *) override;
 
