@@ -93,7 +93,7 @@ void HolonWindowAreaPrivate::closeWindow(HolonAbstractWindow *window)
 
     if (dockByWindow.count() == 1)
     {
-        HolonDockWidget *dock = dockByWindow.first();
+        dock = dockByWindow.first();
         dock->titleBar()->hideControlButtons();
         dock->titleBar()->showSplitButton();
 
