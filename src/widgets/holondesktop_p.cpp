@@ -25,6 +25,8 @@
 #include <QStringList>
 #include <QRegularExpression>
 
+using namespace Qt::Literals::StringLiterals;
+
 class HolonDesktopPrivateData : public HolonCorePrivate
 {
     void addSidebarWindow(HolonAbstractWindow *window, HolonSidebar *sidebar);
@@ -37,7 +39,7 @@ public:
     HolonDesktop *const q_ptr;
     const QString buttonStyleSheet;
     const QString menuStyleSheet;
-    const QRegularExpression borderWidth{"^QWidget\\s*{[^}]*border:[^};]*(?<px>\\d+)px[^}]*}$"};
+    const QRegularExpression borderWidth{u"^QWidget\\s*{[^}]*border:[^};]*(?<px>\\d+)px[^}]*}$"_s};
     const int menuBorderWidth;
     const int menuWidth;
     const QString sidebarMoveShortcut;
@@ -106,12 +108,12 @@ public:
     void setCurrentTask(HolonAbstractTask *task);
     void setCurrentWindow(HolonAbstractWindow *window);
     void setCurrentWindowArea(HolonWindowArea *windowArea);
-    void setHBoxLayout(QWidget *&widget, const char *name, QWidget *parent);
+    void setHBoxLayout(QWidget *&widget, const QString &name, QWidget *parent);
     void setLayout();
-    void setMainWindow(HolonMainWindow *&widget, const char *name, QWidget *parent);
+    void setMainWindow(HolonMainWindow *&widget, const QString &name, QWidget *parent);
     void setTaskbar();
     void setVBoxLayout();
-    void setVBoxLayout(QWidget *&widget, const char *name, QWidget *parent);
+    void setVBoxLayout(QWidget *&widget, const QString &name, QWidget *parent);
 };
 
 void HolonDesktopPrivateData::addSidebarWindow(HolonAbstractWindow *window, HolonSidebar *sidebar)
@@ -241,55 +243,55 @@ void HolonDesktopPrivateData::addWindowAreaStackedWidget(HolonWindowAreaStackedW
 HolonDesktopPrivateData::HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDesktop *q)
 :   desktop_d(d),
     q_ptr(q),
-    buttonStyleSheet(q_ptr->value("buttonStyleSheet").toString()),
-    menuStyleSheet(q_ptr->value("menuStyleSheet").toString()),
+    buttonStyleSheet(q_ptr->value(u"buttonStyleSheet"_s).toString()),
+    menuStyleSheet(q_ptr->value(u"menuStyleSheet"_s).toString()),
     menuBorderWidth([this]()
     {
         QRegularExpressionMatch match = borderWidth.match(menuStyleSheet);
         if (match.hasMatch())
-            return match.captured("px").toInt();
+            return match.captured(u"px"_s).toInt();
 
         return 1;
     }()),
-    menuWidth(q_ptr->value("menuWidth", 200).toInt()),
-    sidebarMoveShortcut(q_ptr->value("sidebarMoveShortcut").toString()),
-    sidebarSwitchButtonWidth(q_ptr->value("sidebarSwitchButtonWidth", 80).toInt()),
+    menuWidth(q_ptr->value(u"menuWidth"_s, 200).toInt()),
+    sidebarMoveShortcut(q_ptr->value(u"sidebarMoveShortcut"_s).toString()),
+    sidebarSwitchButtonWidth(q_ptr->value(u"sidebarSwitchButtonWidth"_s, 80).toInt()),
     taskbarArea([this]()
     {
-        QString string = q_ptr->value("taskbarArea").toString();
-        if (string == "left")
+        QString string = q_ptr->value(u"taskbarArea"_s).toString();
+        if (string == "left"_L1)
             return HolonDesktopPrivate::TaskbarArea::Left;
 
-        if (string == "right")
+        if (string == "right"_L1)
             return HolonDesktopPrivate::TaskbarArea::Right;
 
-        if (string == "top")
+        if (string == "top"_L1)
             return HolonDesktopPrivate::TaskbarArea::Top;
 
         return HolonDesktopPrivate::TaskbarArea::Bottom;
     }()),
-    taskbarPreferedHeight(q_ptr->value("taskbarPreferedHeight", 40).toInt()),
-    taskbarPreferedWidth(q_ptr->value("taskbarPreferedWidth", 50).toInt()),
-    taskbarStyleSheet(q_ptr->value("taskbarStyleSheet").toString()),
-    titleBarHeight(q_ptr->value("titleBarHeight", 10).toInt()),
-    titleBarStyleSheet(q_ptr ->value("titleBarStyleSheet").toString())
+    taskbarPreferedHeight(q_ptr->value(u"taskbarPreferedHeight"_s, 40).toInt()),
+    taskbarPreferedWidth(q_ptr->value(u"taskbarPreferedWidth"_s, 50).toInt()),
+    taskbarStyleSheet(q_ptr->value(u"taskbarStyleSheet"_s).toString()),
+    titleBarHeight(q_ptr->value(u"titleBarHeight"_s, 10).toInt()),
+    titleBarStyleSheet(q_ptr ->value(u"titleBarStyleSheet"_s).toString())
 { }
 
 void HolonDesktopPrivateData::addSidebar(HolonSidebar *sidebar)
 {
     HolonSidebarDock *sidebarDock;
 
-    if (sidebar->value("layout", "external").toString() == "external")
+    if (sidebar->value(u"layout"_s, u"external"_s).toString() == "external"_L1)
     {
         sidebarDock = externalMainWindow->addSidebar(sidebar);
-        externalMainWindow->restoreState(q_ptr->value("externalMainWindowState").toByteArray());
+        externalMainWindow->restoreState(q_ptr->value(u"externalMainWindowState"_s).toByteArray());
         sidebars.mainWindowByDock.insert(sidebarDock, externalMainWindow);
         removeUncheckedDocks(externalMainWindow);
     }
     else
     {
         sidebarDock = internalMainWindow->addSidebar(sidebar);
-        internalMainWindow->restoreState(q_ptr->value("internalMainWindowState").toByteArray());
+        internalMainWindow->restoreState(q_ptr->value(u"internalMainWindowState"_s).toByteArray());
         sidebars.mainWindowByDock.insert(sidebarDock, internalMainWindow);
         removeUncheckedDocks(internalMainWindow);
     }
@@ -341,7 +343,7 @@ void HolonDesktopPrivateData::addWindow(HolonAbstractWindow *window)
     if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(window->parent()))
     {
         if (window->group().isEmpty())
-            return desktop_d.emitWarning("window group is not set");
+            return desktop_d.emitWarning(u"window group is not set"_s);
 
         return addTaskWindow(task, window);
     }
@@ -454,7 +456,7 @@ void HolonDesktopPrivateData::setCurrentWindowArea(HolonWindowArea *windowArea)
     currentWindowArea = windowArea;
 }
 
-void HolonDesktopPrivateData::setHBoxLayout(QWidget *&widget, const char *name, QWidget *parent)
+void HolonDesktopPrivateData::setHBoxLayout(QWidget *&widget, const QString &name, QWidget *parent)
 {
     widget = new QWidget(parent);
     widget->setObjectName(name);
@@ -467,22 +469,22 @@ void HolonDesktopPrivateData::setHBoxLayout(QWidget *&widget, const char *name, 
 void HolonDesktopPrivateData::setLayout()
 {
     setVBoxLayout();
-    setVBoxLayout(screen, "Screen", q_ptr);
+    setVBoxLayout(screen, u"Screen"_s, q_ptr);
     {
-        setVBoxLayout(top, "ScreenTop", screen);
-        setHBoxLayout(middle, "ScreenMiddle", screen);
+        setVBoxLayout(top, u"ScreenTop"_s, screen);
+        setHBoxLayout(middle, u"ScreenMiddle"_s, screen);
         {
-            setHBoxLayout(left, "ScreenLeft", middle);
-            setMainWindow(externalMainWindow, "ScreenCenterExternal", middle);
-            setMainWindow(internalMainWindow, "ScreenCenterInternal", externalMainWindow);
-            setHBoxLayout(right, "ScreenRight", middle);
+            setHBoxLayout(left, u"ScreenLeft"_s, middle);
+            setMainWindow(externalMainWindow, u"ScreenCenterExternal"_s, middle);
+            setMainWindow(internalMainWindow, u"ScreenCenterInternal"_s, externalMainWindow);
+            setHBoxLayout(right, u"ScreenRight"_s, middle);
         }
-        setVBoxLayout(bottom, "ScreenBottom", screen);
+        setVBoxLayout(bottom, u"ScreenBottom"_s, screen);
     }
     setTaskbar();
 }
 
-void HolonDesktopPrivateData::setMainWindow(HolonMainWindow *&widget, const char *name, QWidget *parent)
+void HolonDesktopPrivateData::setMainWindow(HolonMainWindow *&widget, const QString &name, QWidget *parent)
 {
     widget = new HolonMainWindow(desktop_d, parent);
     widget->setObjectName(name);
@@ -511,7 +513,7 @@ void HolonDesktopPrivateData::setVBoxLayout()
     q_ptr->layout()->setSpacing(0);
 }
 
-void HolonDesktopPrivateData::setVBoxLayout(QWidget *&widget, const char *name, QWidget *parent)
+void HolonDesktopPrivateData::setVBoxLayout(QWidget *&widget, const QString &name, QWidget *parent)
 {
     widget = new QWidget(parent);
     widget->setObjectName(name);
@@ -525,11 +527,11 @@ HolonDesktopPrivate::HolonDesktopPrivate(HolonDesktop *q)
 :   d_ptr(*this, q),
     q_ptr(q)
 {
-    if (q->contains("saveShortcut") == QLoaderSettings::Value)
+    if (q->contains(u"saveShortcut"_s) == QLoaderSettings::Value)
     {
         QShortcut *shortcut = new QShortcut(q);
         {
-            shortcut->setKey(QKeySequence(q->value("saveShortcut").toString()));
+            shortcut->setKey(QKeySequence(q->value(u"saveShortcut"_s).toString()));
             QObject::connect(shortcut, &QShortcut::activated, q, [q] { q->tree()->save(); });
         }
     }
@@ -597,8 +599,8 @@ void HolonDesktopPrivate::saveMainWindowState()
 {
     if (!d_ptr->skipExternalMainWindowSaveState)
     {
-        q_ptr->setValue("externalMainWindowState", d_ptr->externalMainWindow->saveState());
-        q_ptr->setValue("internalMainWindowState", d_ptr->internalMainWindow->saveState());
+        q_ptr->setValue(u"externalMainWindowState"_s, d_ptr->externalMainWindow->saveState());
+        q_ptr->setValue(u"internalMainWindowState"_s, d_ptr->internalMainWindow->saveState());
     }
 }
 

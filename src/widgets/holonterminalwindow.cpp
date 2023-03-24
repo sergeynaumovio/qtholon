@@ -10,6 +10,8 @@
 #include <QLoaderTerminal>
 #include <QLoaderTree>
 
+using namespace Qt::Literals::StringLiterals;
+
 class HolonTerminalWindowPrivate
 {
 public:
@@ -88,7 +90,7 @@ bool HolonTerminalWindow::isCopyable(const QStringList &to) const
 
 QString HolonTerminalWindow::title() const
 {
-    return "Terminal";
+    return u"Terminal"_s;
 }
 
 QWidget *HolonTerminalWindow::toolbar() const

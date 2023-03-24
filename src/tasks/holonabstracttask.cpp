@@ -11,6 +11,8 @@
 #include "holonworkflowmodelbranch.h"
 #include <QLoaderTree>
 
+using namespace Qt::Literals::StringLiterals;
+
 HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonTaskModelBranch *taskModelBranch)
 :   QObject(taskModelBranch),
     QLoaderSettings(settings),
@@ -57,7 +59,7 @@ HolonDesktop *HolonAbstractTask::desktop() const
 
 QString HolonAbstractTask::group() const
 {
-    return value("group").toString();
+    return value(u"group"_s).toString();
 }
 
 bool HolonAbstractTask::isCopyable(const QStringList &to) const
@@ -76,12 +78,12 @@ bool HolonAbstractTask::isCopyable(const QStringList &to) const
 
 bool HolonAbstractTask::isCurrent() const
 {
-    return value("current").toBool();
+    return value(u"current"_s).toBool();
 }
 
 QString HolonAbstractTask::title() const
 {
-    return value("title", section().constLast()).toString();
+    return value(u"title"_s, section().constLast()).toString();
 }
 
 QWidget *HolonAbstractTask::widget(const QString &group) const

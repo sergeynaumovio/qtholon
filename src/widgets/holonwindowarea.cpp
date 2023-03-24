@@ -10,6 +10,8 @@
 #include <QMainWindow>
 #include <QStackedWidget>
 
+using namespace Qt::Literals::StringLiterals;
+
 HolonWindowArea::HolonWindowArea(HolonWindowAreaPrivate &d, QLoaderSettings *settings)
 :   QLoaderSettings(settings),
     d_ptr(&d)
@@ -53,17 +55,17 @@ HolonDesktop *HolonWindowArea::desktop() const
 
 bool HolonWindowArea::isChecked() const
 {
-    return value("checked", false).toBool();
+    return value(u"checked"_s, false).toBool();
 }
 
 QIcon HolonWindowArea::icon() const
 {
-    return QIcon(value("icon", ":/holon/holoniconlight.svg").toString());
+    return QIcon(value(u"icon"_s, u":/holon/holoniconlight.svg"_s).toString());
 }
 
 QString HolonWindowArea::shortcut() const
 {
-    return value("shortcut").toString();
+    return value(u"shortcut"_s).toString();
 }
 
 void HolonWindowArea::splitWindow(HolonAbstractWindow *first, HolonAbstractWindow *second, Qt::Orientation orientation)
@@ -73,5 +75,5 @@ void HolonWindowArea::splitWindow(HolonAbstractWindow *first, HolonAbstractWindo
 
 QString HolonWindowArea::title() const
 {
-    return value("title", section().constLast()).toString();
+    return value(u"title"_s, section().constLast()).toString();
 }

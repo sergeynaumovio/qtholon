@@ -14,6 +14,8 @@
 #include <QLoaderTree>
 #include <QUuid>
 
+using namespace Qt::Literals::StringLiterals;
+
 class HolonParametersWindowPrivate
 {
 public:
@@ -88,7 +90,7 @@ bool HolonParametersWindow::isCopyable(const QStringList &to) const
 
 QString HolonParametersWindow::title() const
 {
-    return "Parameters";
+    return u"Parameters"_s;
 }
 
 QWidget *HolonParametersWindow::toolbar() const

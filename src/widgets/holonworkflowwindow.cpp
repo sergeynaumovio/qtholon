@@ -9,6 +9,8 @@
 #include <QLabel>
 #include <QLoaderTree>
 
+using namespace Qt::Literals::StringLiterals;
+
 class HolonWorkflowWindowPrivate
 {
 public:
@@ -30,7 +32,7 @@ public:
 
         central = new QWidget;
         central->setLayout(new QVBoxLayout(central));
-        central->layout()->addWidget(new QLabel("Workflows", central));
+        central->layout()->addWidget(new QLabel(u"Workflows"_s, central));
 
         return central;
     }
@@ -78,7 +80,7 @@ bool HolonWorkflowWindow::isCopyable(const QStringList &to) const
 
 QString HolonWorkflowWindow::title() const
 {
-    return "Workflow";
+    return u"Workflow"_s;
 }
 
 QWidget *HolonWorkflowWindow::toolbar() const
@@ -92,7 +94,7 @@ QWidget *HolonWorkflowWindow::widget(const QString &group) const
         return d_ptr->widget();
 
     if (group == HolonAbstractWindow::group())
-        return new QLabel("Workflow Settings");
+        return new QLabel(u"Workflow Settings"_s);
 
     return {};
 }

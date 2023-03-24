@@ -17,6 +17,8 @@ class HolonSidebarDockPrivateData;
 class QStackedWidget;
 class QWidget;
 
+using namespace Qt::Literals::StringLiterals;
+
 class HolonSidebarDockTitleBar : public QWidget
 {
 public:
@@ -27,7 +29,7 @@ public:
         setLayout(new QHBoxLayout(this));
         {
             layout()->setContentsMargins({});
-            QLabel *label = new QLabel("", this);
+            QLabel *label = new QLabel(u""_s, this);
             {
                 label->setFixedHeight(desktop_d.titleBarHeight());
                 layout()->addWidget(label);
@@ -79,7 +81,7 @@ public:
         {
             root->addWidget(label);
             {
-                QFont font("Arial", 20, QFont::Bold);
+                QFont font(u"Arial"_s, 20, QFont::Bold);
                 label->setFont(font);
                 label->setAlignment(Qt::AlignCenter);
             }

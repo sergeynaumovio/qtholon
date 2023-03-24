@@ -5,6 +5,8 @@
 #include "holontaskmodel.h"
 #include <QIcon>
 
+using namespace Qt::Literals::StringLiterals;
+
 HolonTaskModelBranch::HolonTaskModelBranch(QLoaderSettings *settings, HolonTaskModel *taskTreeModel)
 :   QObject(taskTreeModel),
     QLoaderSettings(settings)
@@ -17,10 +19,10 @@ HolonTaskModelBranch::HolonTaskModelBranch(QLoaderSettings *settings, HolonTaskM
 
 QIcon HolonTaskModelBranch::icon() const
 {
-    return QIcon(value("icon", ":/holon/holoniconlight.svg").toString());
+    return QIcon(value(u"icon"_s, u":/holon/holoniconlight.svg"_s).toString());
 }
 
 QString HolonTaskModelBranch::title() const
 {
-    return value("title", section().constLast()).toString();
+    return value(u"title"_s, section().constLast()).toString();
 }

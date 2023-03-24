@@ -17,7 +17,7 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 
 find_package(QT NAMES Qt6 COMPONENTS Widgets REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} 6.3 COMPONENTS Widgets REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} 6.4 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR}Loader)
 
 if(NOT APPLE)
@@ -29,6 +29,10 @@ include("cmake/QtHolonConfigVersion.in")
 set(QT_HOLON_LIBRARY Qt${QT_VERSION_MAJOR}Holon)
 
 add_library(${QT_HOLON_LIBRARY} SHARED)
+
+target_compile_definitions(${QT_HOLON_LIBRARY}
+    PRIVATE QT_NO_CAST_FROM_ASCII
+)
 
 target_sources(${QT_HOLON_LIBRARY}
     PRIVATE src/core/holonabstractitemmodel.cpp

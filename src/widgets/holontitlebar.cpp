@@ -17,6 +17,8 @@
 #include <QPushButton>
 #include <QStyleOption>
 
+using namespace Qt::Literals::StringLiterals;
+
 class HolonTitleBarPrivate
 {
 public:
@@ -128,16 +130,16 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
             QMenu *menu = new QMenu(parent);
 
             QAction *split = new QAction(menu);
-            split->setText("Split");
+            split->setText(u"Split"_s);
             split->setCheckable(true);
             split->setChecked(true);
 
             QAction *splitSideBySide = new QAction(menu);
-            splitSideBySide->setText("Split Side By Side");
+            splitSideBySide->setText(u"Split Side By Side"_s);
             splitSideBySide->setCheckable(true);
 
             QAction *openNewWidnow = new QAction(menu);
-            openNewWidnow->setText("Open in New Window");
+            openNewWidnow->setText(u"Open in New Window"_s);
             openNewWidnow->setCheckable(true);
             openNewWidnow->setDisabled(true);
 
@@ -163,27 +165,27 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
                 });
             }
 
-            d_ptr->splitButton = addButton('S');
+            d_ptr->splitButton = addButton(u'S');
             d_ptr->splitButton->show();
             d_ptr->splitButton->setMenu(menu);
         }
 
         if (window->flags().testFlag(Holon::WindowMinMaxButtonsHint))
         {
-            d_ptr->maximizeButton = addButton('M');
+            d_ptr->maximizeButton = addButton(u'M');
             {
                 connect(d_ptr->maximizeButton, &QPushButton::clicked, this, [=, this]()
                 {
                     windowarea_d_ptr->maximized = !windowarea_d_ptr->maximized;
                     if (windowarea_d_ptr->maximized)
                     {
-                        d_ptr->maximizeButton->setText("m");
+                        d_ptr->maximizeButton->setText(u"m"_s);
                         d_ptr->splitButton->hide();
                         d_ptr->closeButton->hide();
                     }
                     else
                     {
-                        d_ptr->maximizeButton->setText("M");
+                        d_ptr->maximizeButton->setText(u"M"_s);
                         d_ptr->splitButton->show();
                         d_ptr->closeButton->show();
                     }
@@ -195,7 +197,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
 
         if (window->flags().testAnyFlag(Holon::WindowCloseButtonHint))
         {
-            d_ptr->closeButton = addButton('X');
+            d_ptr->closeButton = addButton(u'X');
             {
                 connect(d_ptr->closeButton, &QPushButton::clicked, this, [=](){ desktop->closeWindow(window); });
             }
@@ -205,9 +207,9 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
         {
             Qt::DockWidgetArea area = windowarea_d_ptr->area();
 
-            QChar ch = area == Qt::LeftDockWidgetArea ? 'L' :
-                       area == Qt::RightDockWidgetArea ? 'R' :
-                       area == Qt::TopDockWidgetArea ? 'T' : 'B';
+            QChar ch = area == Qt::LeftDockWidgetArea ? u'L' :
+                       area == Qt::RightDockWidgetArea ? u'R' :
+                       area == Qt::TopDockWidgetArea ? u'T' : u'B';
 
             d_ptr->hideWindowAreaButton = addButton(ch);
             {
@@ -252,16 +254,16 @@ void HolonTitleBar::setDockWidgetArea(Qt::DockWidgetArea area)
         return;
 
     if (area == Qt::LeftDockWidgetArea)
-        return d_ptr->closeButton->setText("L");
+        return d_ptr->closeButton->setText(u"L"_s);
 
     if (area == Qt::RightDockWidgetArea)
-        return d_ptr->closeButton->setText("R");
+        return d_ptr->closeButton->setText(u"R"_s);
 
     if (area == Qt::TopDockWidgetArea)
-        return d_ptr->closeButton->setText("T");
+        return d_ptr->closeButton->setText(u"T"_s);
 
     if (area == Qt::BottomDockWidgetArea)
-        return d_ptr->closeButton->setText("B");
+        return d_ptr->closeButton->setText(u"B"_s);
 }
 
 void HolonTitleBar::showControlButtons()

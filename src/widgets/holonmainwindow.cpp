@@ -12,6 +12,8 @@
 #include <QShortcut>
 #include <QStackedWidget>
 
+using namespace Qt::Literals::StringLiterals;
+
 class HolonMainWindowPrivate
 {
 public:
@@ -105,7 +107,7 @@ HolonMainWindow::~HolonMainWindow()
 
 HolonSidebarDock *HolonMainWindow::addSidebar(HolonSidebar *sidebar)
 {
-    QString dockName = sidebar->value("group").toString();
+    QString dockName = sidebar->value(u"group"_s).toString();
     HolonSidebarDock *sidebarDock;
 
     if (dockName.isEmpty() || !d_ptr->groupDock.contains(dockName))

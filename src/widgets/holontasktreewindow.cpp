@@ -16,6 +16,8 @@
 #include <QTreeView>
 #include <QUuid>
 
+using namespace Qt::Literals::StringLiterals;
+
 class HolonTaskTreeWindowPrivate
 {
 public:
@@ -130,7 +132,7 @@ bool HolonTaskTreeWindow::isCopyable(const QStringList &to) const
 
 QString HolonTaskTreeWindow::title() const
 {
-    return "Project Tasks";
+    return u"Project Tasks"_s;
 }
 
 QWidget *HolonTaskTreeWindow::toolbar() const

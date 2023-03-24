@@ -7,6 +7,8 @@
 #include "holonworkflowmodel.h"
 #include <QMap>
 
+using namespace Qt::Literals::StringLiterals;
+
 HolonAbstractTaskPrivate::HolonAbstractTaskPrivate(HolonAbstractTask *q, HolonWorkflowModelBranch *branch)
 :   q_ptr(q),
     workflowModelBranch(branch),
@@ -22,5 +24,5 @@ HolonAbstractTaskPrivate::HolonAbstractTaskPrivate(HolonAbstractTask *q, HolonWo
 
 void HolonAbstractTaskPrivate::setCurrent(bool current)
 {
-    q_ptr->setValue("current", current);
+    q_ptr->setValue(u"current"_s, current);
 }

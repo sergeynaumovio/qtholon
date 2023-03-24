@@ -4,6 +4,8 @@
 #include "holonabstractwidget.h"
 #include "holonabstracttask.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 HolonAbstractWidget::HolonAbstractWidget(QLoaderSettings *settings, HolonAbstractTask *parent)
 :   QObject(parent),
     QLoaderSettings(settings)
@@ -14,5 +16,5 @@ HolonAbstractWidget::~HolonAbstractWidget()
 
 QString HolonAbstractWidget::group() const
 {
-    return value("group").toString();
+    return value(u"group"_s).toString();
 }

@@ -16,6 +16,8 @@
 #include <QPainter>
 #include <QShortcut>
 
+using namespace Qt::Literals::StringLiterals;
+
 class HolonWindowAreaSwitchPrivate
 {
 public:
@@ -93,7 +95,7 @@ protected:
             p.drawLine(line);
         }
 
-        QFont font("Arial", desktop_d.taskbarPreferedHeight() / 2.6);
+        QFont font(u"Arial"_s, desktop_d.taskbarPreferedHeight() / 2.6);
         p.setFont(font);
         QRect rectangle = rect();
         rectangle.adjust(10, 0, 0, 0);

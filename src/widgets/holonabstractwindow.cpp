@@ -8,6 +8,8 @@
 #include "holonwindowarea.h"
 #include <QIcon>
 
+using namespace Qt::Literals::StringLiterals;
+
 HolonAbstractWindow::HolonAbstractWindow(QLoaderSettings *settings, HolonAbstractTask *parent)
 :   QObject(parent),
     QLoaderSettings(settings),
@@ -36,7 +38,7 @@ HolonDesktop *HolonAbstractWindow::desktop() const
 
 QString HolonAbstractWindow::group() const
 {
-    return value("group").toString();
+    return value(u"group"_s).toString();
 }
 
 QIcon HolonAbstractWindow::icon() const
@@ -46,7 +48,7 @@ QIcon HolonAbstractWindow::icon() const
 
 bool HolonAbstractWindow::isCurrent() const
 {
-    return value("current").toBool();
+    return value(u"current"_s).toBool();
 }
 
 HolonAbstractTask *HolonAbstractWindow::task() const

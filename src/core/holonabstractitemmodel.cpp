@@ -5,6 +5,8 @@
 #include "holoncore.h"
 #include "holondesktop.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 HolonAbstractItemModel::HolonAbstractItemModel(QLoaderSettings *settings, HolonCore *core)
 :   QAbstractItemModel(core),
     QLoaderSettings(settings)
@@ -17,10 +19,10 @@ HolonAbstractItemModel::HolonAbstractItemModel(QLoaderSettings *settings, HolonD
 
 bool HolonAbstractItemModel::isCurrent() const
 {
-    return value("current").toBool();
+    return value(u"current"_s).toBool();
 }
 
 void HolonAbstractItemModel::setCurrent(bool current)
 {
-    setValue("current", current);
+    setValue(u"current"_s, current);
 }

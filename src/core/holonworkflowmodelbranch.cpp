@@ -5,6 +5,8 @@
 #include "holonworkflowmodel.h"
 #include <QIcon>
 
+using namespace Qt::Literals::StringLiterals;
+
 HolonWorkflowModelBranch::HolonWorkflowModelBranch(QLoaderSettings *settings, HolonWorkflowModel *workflowModel)
 :   QObject(workflowModel),
     QLoaderSettings(settings)
@@ -12,22 +14,22 @@ HolonWorkflowModelBranch::HolonWorkflowModelBranch(QLoaderSettings *settings, Ho
 
 QIcon HolonWorkflowModelBranch::icon() const
 {
-    return QIcon(value("icon", ":/holon/holoniconlight.svg").toString());
+    return QIcon(value(u"icon"_s, u":/holon/holoniconlight.svg"_s).toString());
 }
 
 bool HolonWorkflowModelBranch::isCurrent() const
 {
-    return value("current").toBool();
+    return value(u"current"_s).toBool();
 }
 
 void HolonWorkflowModelBranch::setCurrent(bool current)
 {
-    setValue("current", current);
+    setValue(u"current"_s, current);
 }
 
 QString HolonWorkflowModelBranch::title() const
 {
-    return value("title", section().constLast()).toString();
+    return value(u"title"_s, section().constLast()).toString();
 }
 
 HolonWorkflowModel *HolonWorkflowModelBranch::workflowModel() const

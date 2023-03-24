@@ -8,6 +8,8 @@
 #include <QIcon>
 #include <QLoaderTree>
 
+using namespace Qt::Literals::StringLiterals;
+
 class HolonMessagesWindowPrivate
 {
 public:
@@ -81,7 +83,7 @@ bool HolonMessagesWindow::isCopyable(const QStringList &to) const
 
 QString HolonMessagesWindow::title() const
 {
-    return "Messages";
+    return u"Messages"_s;
 }
 
 QWidget *HolonMessagesWindow::toolbar() const

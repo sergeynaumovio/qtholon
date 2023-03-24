@@ -12,6 +12,8 @@
 #include <QLoaderTree>
 #include <QMainWindow>
 
+using namespace Qt::Literals::StringLiterals;
+
 HolonWindowAreaPrivate::HolonWindowAreaPrivate(HolonDesktop *desk, HolonWindowArea *q)
 :   desktop(desk),
     q_ptr(q),
@@ -32,7 +34,7 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
     {
         dockWidgetSplitState = new HolonDockWidgetSplitState(this);
 
-        if (q_ptr->contains("dockWidgetSplitState"))
+        if (q_ptr->contains(u"dockWidgetSplitState"_s))
             dockWidgetSplitState->restoreSplitState();
     }
 
@@ -56,15 +58,15 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
 
 Qt::DockWidgetArea HolonWindowAreaPrivate::area() const
 {
-    QString str = q_ptr->value("area", "left").toString();
+    QString str = q_ptr->value(u"area"_s, u"left"_s).toString();
 
-    if (str == "left")
+    if (str == "left"_L1)
         return Qt::LeftDockWidgetArea;
 
-    if (str == "right")
+    if (str == "right"_L1)
         return Qt::RightDockWidgetArea;
 
-    if (str == "top")
+    if (str == "top"_L1)
         return Qt::TopDockWidgetArea;
 
     return Qt::BottomDockWidgetArea;
@@ -107,7 +109,7 @@ void HolonWindowAreaPrivate::emitWarning(const QString &warning) const
 
 QByteArray HolonWindowAreaPrivate::mainWindowState() const
 {
-    return q_ptr->value("mainWindowState").toByteArray();
+    return q_ptr->value(u"mainWindowState"_s).toByteArray();
 }
 
 void HolonWindowAreaPrivate::maximizeWindow(HolonDockWidget *dock)
@@ -133,12 +135,12 @@ void HolonWindowAreaPrivate::maximizeWindow(HolonDockWidget *dock)
 void HolonWindowAreaPrivate::saveMainWindowState()
 {
     if (dockList.size() > 1)
-        q_ptr->setValue("mainWindowState", mainWindow->saveState());
+        q_ptr->setValue(u"mainWindowState"_s, mainWindow->saveState());
 }
 
 void HolonWindowAreaPrivate::setChecked(bool checked)
 {
-    q_ptr->setValue("checked", checked);
+    q_ptr->setValue(u"checked"_s, checked);
 }
 
 void HolonWindowAreaPrivate::setValue(const QString &key, const QVariant &value)

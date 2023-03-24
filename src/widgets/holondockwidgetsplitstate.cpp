@@ -7,14 +7,16 @@
 #include "holonwindowarea.h"
 #include "holonwindowarea_p.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 static
 QString toString(Qt::DockWidgetArea area)
 {
     switch (area) {
-    case Qt::LeftDockWidgetArea: return "l";
-    case Qt::RightDockWidgetArea: return "r";
-    case Qt::TopDockWidgetArea: return "t";
-    case Qt::BottomDockWidgetArea: return "b";
+    case Qt::LeftDockWidgetArea: return u"l"_s;
+    case Qt::RightDockWidgetArea: return u"r"_s;
+    case Qt::TopDockWidgetArea: return u"t"_s;
+    case Qt::BottomDockWidgetArea: return u"b"_s;
     case Qt::DockWidgetArea_Mask:
     case Qt::NoDockWidgetArea: return {};
     }
@@ -164,16 +166,16 @@ bool HolonDockWidgetSplitState::restoreSplitPath(const QStringList &path, QObjec
 {
     auto fromString = [](const QString &element) -> Qt::DockWidgetArea
     {
-        if (element == "l")
+        if (element == 'l'_L1)
             return Qt::LeftDockWidgetArea;
 
-        if (element == "r")
+        if (element == 'r'_L1)
             return Qt::RightDockWidgetArea;
 
-        if (element == "t")
+        if (element == 't'_L1)
             return Qt::TopDockWidgetArea;
 
-        if (element == "b")
+        if (element == 'b'_L1)
             return Qt::BottomDockWidgetArea;
 
         return {};
@@ -226,12 +228,13 @@ bool HolonDockWidgetSplitState::restoreSplitPath(const QStringList &path, QObjec
 
 void HolonDockWidgetSplitState::restoreSplitState()
 {
-    QStringList state = QString(d_ptr->q_ptr->value("dockWidgetSplitState").toByteArray()).split(',');
+    QLatin1StringView value(d_ptr->q_ptr->value(u"dockWidgetSplitState"_s).toByteArray());
+    QStringList state = QString(value).split(u',');
     for (const QString &path : state)
     {
-        QStringList list = path.split('/');
+        QStringList list = path.split(u'/');
 
-        if (list.first() == "")
+        if (list.first() == ""_L1)
             list.removeFirst();
 
         if (!restoreSplitPath(list, rootSplit))
@@ -239,7 +242,7 @@ void HolonDockWidgetSplitState::restoreSplitState()
             for (QObject *child : rootSplit->children())
                 delete child;
 
-            d_ptr->emitWarning("dockWidgetSplitState format is not valid, please close windows and split again");
+            d_ptr->emitWarning(u"dockWidgetSplitState format is not valid, please close windows and split again"_s);
 
             return;
         }
@@ -249,8 +252,8 @@ void HolonDockWidgetSplitState::restoreSplitState()
 void HolonDockWidgetSplitState::saveSplitState()
 {
     QStringList splitState;
-    saveSplitStateRecursive(splitState, "", rootSplit);
-    d_ptr->setValue("dockWidgetSplitState", splitState.join(',').toLocal8Bit());
+    saveSplitStateRecursive(splitState, u""_s, rootSplit);
+    d_ptr->setValue(u"dockWidgetSplitState"_s, splitState.join(u',').toLocal8Bit());
 }
 
 void HolonDockWidgetSplitState::saveSplitStateRecursive(QStringList &splitState, const QString &section, QObject *parent)
@@ -262,12 +265,12 @@ void HolonDockWidgetSplitState::saveSplitStateRecursive(QStringList &splitState,
         QString childSection = section;
 
         if (HolonDockWidgetSplit *split = qobject_cast<HolonDockWidgetSplit *>(child))
-            childSection += '/' + toString(split->area);
+            childSection += u'/' + toString(split->area);
         else if (HolonDockWidgetItem *item = qobject_cast<HolonDockWidgetItem *>(child))
         {
             if (item->dock)
             {
-                childSection += '/' + item->objectName() + '/' + toString(item->area);
+                childSection += u'/' + item->objectName() + u'/' + toString(item->area);
                 splitState.append(childSection);
             }
         }

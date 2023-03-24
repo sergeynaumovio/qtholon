@@ -6,6 +6,8 @@
 #include "holonsidebar_p.h"
 #include <QMainWindow>
 
+using namespace Qt::Literals::StringLiterals;
+
 HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop)
 :   HolonWindowArea(*new HolonSidebarPrivate(desktop, this), settings)
 {
@@ -23,5 +25,5 @@ HolonDesktop *HolonSidebar::desktop() const
 
 QString HolonSidebar::group() const
 {
-    return value("group").toString();
+    return value(u"group"_s).toString();
 }

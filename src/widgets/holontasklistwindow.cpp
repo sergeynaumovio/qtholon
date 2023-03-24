@@ -14,6 +14,8 @@
 #include <QLoaderTree>
 #include <QUuid>
 
+using namespace Qt::Literals::StringLiterals;
+
 class HolonTaskListWindowPrivate
 {
 public:
@@ -86,7 +88,7 @@ bool HolonTaskListWindow::isCopyable(const QStringList &to) const
 
 QString HolonTaskListWindow::title() const
 {
-    return "Open Tasks";
+    return u"Open Tasks"_s;
 }
 
 QWidget *HolonTaskListWindow::toolbar() const

@@ -4,6 +4,8 @@
 #include "holonabstractwindow_p.h"
 #include "holonabstractwindow.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 HolonAbstractWindowPrivate::HolonAbstractWindowPrivate(HolonAbstractWindow *q,
                                                        HolonDesktop *desk,
                                                        HolonAbstractTask *t)
@@ -14,5 +16,5 @@ HolonAbstractWindowPrivate::HolonAbstractWindowPrivate(HolonAbstractWindow *q,
 
 void HolonAbstractWindowPrivate::setCurrent(bool current)
 {
-    q_ptr->setValue("current", current);
+    q_ptr->setValue(u"current"_s, current);
 }
