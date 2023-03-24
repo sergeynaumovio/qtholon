@@ -50,6 +50,7 @@ public:
         {
             view->setFrameStyle(QFrame::NoFrame);
             view->setModel(taskTreeModel);
+            view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
             view->header()->hide();
 
             QLoaderTree *const tree = settings->tree();
