@@ -50,9 +50,10 @@ QIcon HolonThemeIcons::createIcon(const QList<HolonMaskColor<FileName>> &masks) 
         return name;
     };
 
+    int dpr = qRound(qApp->devicePixelRatio());
+
     QList<HolonMaskColor<QPixmap>> pixmaps;
     {
-        int dpr = qRound(qApp->devicePixelRatio());
         for (const auto &[mask, color] : masks)
         {
             QString fileName = maskFileName(mask, dpr);
@@ -115,7 +116,7 @@ QIcon HolonThemeIcons::createIcon(const QList<HolonMaskColor<FileName>> &masks) 
 
     QIcon icon;
     QColor disabledStateColor = colors()->iconsDisabledColor();
-    QPixmap iconMask = (masks.size() == 1 ? masks.first().mask : resultMask());
+    QPixmap iconMask = (masks.size() == 1 ? maskFileName(masks.first().mask, dpr) : resultMask());
     icon.addPixmap(coloringOne(iconMask, disabledStateColor), QIcon::Disabled);
     icon.addPixmap(coloringAll(iconMask), QIcon::Normal);
 

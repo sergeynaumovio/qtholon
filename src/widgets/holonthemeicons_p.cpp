@@ -34,7 +34,7 @@ QIcon HolonThemeIconsPrivate::splitButtonHorizontalIcon()
 QIcon HolonThemeIconsPrivate::splitButtonVerticalIcon()
 {
     if (splitVertical.isNull())
-        splitVertical = q_ptr->createIcon({{u":/holon/splitbutton_vertical.png"_s,
+        splitVertical = q_ptr->createIcon({{u":/holon/splitbutton_vertical.xpm"_s,
                                             colors->iconsBaseColor()}});
 
     return splitVertical;
