@@ -5,6 +5,8 @@
 #include "holonabstractwindow.h"
 #include "holondesktop.h"
 #include "holondockwidget.h"
+#include "holontheme.h"
+#include "holonthemeicons.h"
 #include "holonwindowarea.h"
 #include "holonwindowarea_p.h"
 #include <QActionGroup>
@@ -125,6 +127,20 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
             return button;
         };
 
+        auto addButtonIcon = [=, this](const QIcon &icon)
+        {
+            QPushButton *button = new QPushButton(icon, QString(), this);
+            {
+                button->hide();
+                button->setFixedHeight(desktop->titleBarHeight());
+                button->setFixedWidth(button->height() * 1.2);
+                button->setFlat(true);
+                button->setStyleSheet(desktop->buttonStyleSheet());
+                layout()->addWidget(button);
+            }
+            return button;
+        };
+
         if (window->flags().testFlag(Holon::WindowSplitButtonHint))
         {
             QMenu *menu = new QMenu(parent);
@@ -165,7 +181,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
                 });
             }
 
-            d_ptr->splitButton = addButton(u'S');
+            d_ptr->splitButton = addButtonIcon(desktop->currentTheme()->icons()->splitButtonHorizontalIcon());
             d_ptr->splitButton->show();
             d_ptr->splitButton->setMenu(menu);
         }
@@ -211,7 +227,12 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
                        area == Qt::RightDockWidgetArea ? u'R' :
                        area == Qt::TopDockWidgetArea ? u'T' : u'B';
 
-            d_ptr->hideWindowAreaButton = addButton(ch);
+            if (ch == 'B'_L1)
+                d_ptr->hideWindowAreaButton = addButtonIcon(desktop->
+                                                            currentTheme()->
+                                                            icons()->splitButtonCloseBottomIcon());
+            else
+                d_ptr->hideWindowAreaButton = addButton(ch);
             {
                 d_ptr->hideWindowAreaButton->show();
 

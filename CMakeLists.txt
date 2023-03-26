@@ -100,6 +100,18 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holontasktreewindow.h
             src/widgets/holonterminalwindow.cpp
             src/widgets/holonterminalwindow.h
+            src/widgets/holontheme.cpp
+            src/widgets/holontheme.h
+            src/widgets/holontheme_p.cpp
+            src/widgets/holontheme_p.h
+            src/widgets/holonthemecolors.cpp
+            src/widgets/holonthemecolors.h
+            src/widgets/holonthemecolors_p.cpp
+            src/widgets/holonthemecolors_p.h
+            src/widgets/holonthemeicons.cpp
+            src/widgets/holonthemeicons.h
+            src/widgets/holonthemeicons_p.cpp
+            src/widgets/holonthemeicons_p.h
             src/widgets/holontitlebar.cpp
             src/widgets/holontitlebar.h
             src/widgets/holonwindowarea.cpp
@@ -137,11 +149,17 @@ set(QT_HOLON_PUBLIC_HEADERS
     src/widgets/HolonDesktop
     src/widgets/HolonSidebar
     src/widgets/HolonStackedWidget
+    src/widgets/HolonTheme
+    src/widgets/HolonThemeColors
+    src/widgets/HolonThemeIcons
     src/widgets/holonabstractwidget.h
     src/widgets/holonabstractwindow.h
     src/widgets/holondesktop.h
     src/widgets/holonsidebar.h
     src/widgets/holonstackedwidget.h
+    src/widgets/holontheme.h
+    src/widgets/holonthemecolors.h
+    src/widgets/holonthemeicons.h
 )
 
 set_target_properties(${QT_HOLON_LIBRARY} PROPERTIES
@@ -165,6 +183,12 @@ qt_add_resources(${QT_HOLON_LIBRARY} "Holon"
     FILES share/icons/holoniconlight.svg
           share/icons/quit.svg
           share/icons/screwdriver.svg
+          share/icons/splitbutton_closebottom.xpm
+          share/icons/splitbutton_closebottom@2x.xpm
+          share/icons/splitbutton_horizontal.xpm
+          share/icons/splitbutton_horizontal@2x.xpm
+          share/icons/splitbutton_vertical.xpm
+          share/icons/splitbutton_vertical@2x.xpm
 )
 
 include(GNUInstallDirs)

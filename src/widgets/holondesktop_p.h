@@ -8,6 +8,7 @@
 #include <QScopedStorage>
 
 class HolonAbstractTask;
+class HolonTheme;
 class HolonAbstractWindow;
 class HolonDesktop;
 class HolonDesktopPrivateData;
@@ -28,7 +29,7 @@ class HolonDesktopPrivate
 
     friend class HolonDesktop;
     friend class HolonDesktopPrivateData;
-    const QScopedStorage<HolonDesktopPrivateData, 576> d_ptr;
+    const QScopedStorage<HolonDesktopPrivateData, 608> d_ptr;
 
     HolonDesktopPrivate(HolonDesktop *q);
 
@@ -36,14 +37,17 @@ class HolonDesktopPrivate
     void addModel(HolonWorkflowModel *model);
     void addSidebar(HolonSidebar *sidebar);
     void addTask(HolonAbstractTask *task);
+    void addTheme(HolonTheme *theme);
     void addWindow(HolonAbstractWindow *window);
     void addWindowArea(HolonWindowArea *window);
     void closeWindow(HolonAbstractWindow *window);
-    HolonAbstractTask *currentTask();
+    HolonAbstractTask *currentTask() const;
+    HolonTheme *currentTheme() const;
     void emitWarning(const QString &warning) const;
     void resizeEvent(QResizeEvent *e);
     void saveMainWindowState();
     void setCurrentTask(HolonAbstractTask *task);
+    void setCurrentTheme(HolonTheme *theme);
     void setCurrentWindow(HolonAbstractWindow *window);
     void setCurrentWindowArea(HolonWindowArea *windowArea);
     void setLayout();

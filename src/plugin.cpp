@@ -14,6 +14,7 @@
 #include "holontaskmodelbranch.h"
 #include "holontasktreewindow.h"
 #include "holonterminalwindow.h"
+#include "holontheme.h"
 #include "holonworkflowmodel.h"
 #include "holonworkflowmodelbranch.h"
 #include "holonworkflowwindow.h"
@@ -184,6 +185,17 @@ public:
 
             if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(parent))
                 return new HolonTerminalWindow(settings, task);
+
+            return parent;
+        }
+
+        if (!qstrcmp(shortName, "Theme"))
+        {
+            if (qobject_cast<HolonCore *>(parent))
+                return nullptr;
+
+            if (HolonDesktop *desktop = qobject_cast<HolonDesktop *>(parent))
+                return new HolonTheme(settings, desktop);
 
             return parent;
         }

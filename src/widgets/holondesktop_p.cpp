@@ -15,15 +15,17 @@
 #include "holonstackedwidget.h"
 #include "holontaskbar.h"
 #include "holontaskmodel.h"
+#include "holontheme.h"
+#include "holontheme_p.h"
 #include "holonwindowarea_p.h"
 #include "holonwindowareaswitch.h"
 #include "holonworkflowmodel.h"
 #include <QLayout>
 #include <QLoaderTree>
+#include <QRegularExpression>
 #include <QShortcut>
 #include <QStackedWidget>
 #include <QStringList>
-#include <QRegularExpression>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -64,6 +66,7 @@ public:
     HolonTaskbar *taskbar;
 
     QList<HolonAbstractTask *> taskList;
+    QList<HolonTheme *> themeList;
     QList<HolonAbstractWindow *> windowList;
 
     struct
@@ -91,6 +94,7 @@ public:
     QHash<HolonAbstractWindow *, HolonWindowStackedWidget *> stackedWidgetByTaskWindow;
 
     HolonAbstractTask *currentTask{};
+    HolonTheme *currentTheme{};
     QHash<HolonAbstractTask *, HolonAbstractWindow *> currentTaskWindow;
     HolonAbstractWindow *currentWindow{};
     HolonWindowArea *currentWindowArea{};
@@ -100,6 +104,7 @@ public:
 
     void addSidebar(HolonSidebar *sidebar);
     void addTask(HolonAbstractTask *task);
+    void addTheme(HolonTheme *theme);
     void addWidget(QWidget *widget, QWidget *parent);
     void addWindow(HolonAbstractWindow *window);
     void addWindowArea(HolonWindowArea *windowArea);
@@ -321,6 +326,19 @@ void HolonDesktopPrivateData::addTask(HolonAbstractTask *task)
 
     if (task->isCurrent())
         currentTask = task;
+}
+
+void HolonDesktopPrivateData::addTheme(HolonTheme *theme)
+{
+    if (themeList.contains(theme))
+        return;
+
+    themeList.append(theme);
+
+    if (theme->isCurrent() && !currentTheme)
+        currentTheme = theme;
+    else
+        desktop_d.emitWarning(u"current theme already set"_s);
 }
 
 void HolonDesktopPrivateData::addWidget(QWidget *widget, QWidget *parent)
@@ -564,6 +582,11 @@ void HolonDesktopPrivate::addTask(HolonAbstractTask *task)
     d_ptr->addTask(task);
 }
 
+void HolonDesktopPrivate::addTheme(HolonTheme *theme)
+{
+    d_ptr->addTheme(theme);
+}
+
 void HolonDesktopPrivate::addWindow(HolonAbstractWindow *window)
 {
     d_ptr->addWindow(window);
@@ -579,9 +602,14 @@ void HolonDesktopPrivate::closeWindow(HolonAbstractWindow *window)
     d_ptr->closeWindow(window);
 }
 
-HolonAbstractTask *HolonDesktopPrivate::currentTask()
+HolonAbstractTask *HolonDesktopPrivate::currentTask() const
 {
     return d_ptr->currentTask;
+}
+
+HolonTheme *HolonDesktopPrivate::currentTheme() const
+{
+    return d_ptr->currentTheme;
 }
 
 void HolonDesktopPrivate::emitWarning(const QString &warning) const
@@ -616,6 +644,23 @@ void HolonDesktopPrivate::setCurrentTask(HolonAbstractTask *task)
 
     if (task)
         task->d_ptr->setCurrent(true);
+}
+
+void HolonDesktopPrivate::setCurrentTheme(HolonTheme *theme)
+{
+    if (theme == d_ptr->currentTheme)
+        return;
+
+    if (d_ptr->currentTheme)
+    {
+        QLoaderSettings *themeSettings = d_ptr->currentTheme->tree()->settings(d_ptr->currentTheme);
+        if (themeSettings != q_ptr)
+        {
+            d_ptr->currentTheme->d_ptr->setCurrent(false);
+            theme->d_ptr->setCurrent(true);
+            q_ptr->emitWarning(u"theme change will take effect after restart"_s);
+        }
+    }
 }
 
 void HolonDesktopPrivate::setCurrentWindow(HolonAbstractWindow *window)

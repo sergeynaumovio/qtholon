@@ -13,6 +13,7 @@ class HolonAbstractWindow;
 class HolonDesktopPrivate;
 class HolonSidebar;
 class HolonTaskModel;
+class HolonTheme;
 class HolonWindowArea;
 class HolonWorkflowModel;
 
@@ -40,16 +41,19 @@ public:
     void addModel(HolonWorkflowModel *model);
     void addSidebar(HolonSidebar *sidebar);
     void addTask(HolonAbstractTask *task);
+    void addTheme(HolonTheme *theme);
     void addWindow(HolonAbstractWindow *window);
     void addWindowArea(HolonWindowArea *windowArea);
     QString buttonStyleSheet() const;
     void closeWindow(HolonAbstractWindow *window);
     HolonAbstractTask *currentTask() const;
+    HolonTheme *currentTheme() const;
     void hideWindowArea(HolonWindowArea *windowArea);
     int menuBorderWidth() const;
     QString menuStyleSheet() const;
     int menuWidth() const;
     void setCurrentTask(HolonAbstractTask *task);
+    void setCurrentTheme(HolonTheme *theme);
     void setCurrentWindow(HolonAbstractWindow *window);
     void setCurrentWindowArea(HolonWindowArea *windowArea);
     void showWindowArea(HolonWindowArea *windowArea);
