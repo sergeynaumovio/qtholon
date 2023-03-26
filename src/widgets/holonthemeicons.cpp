@@ -54,7 +54,7 @@ QIcon HolonThemeIcons::createIcon(const QList<HolonMaskColor<FileName>> &masks) 
 
     QList<HolonMaskColor<QPixmap>> pixmaps;
     {
-        for (const auto &[mask, color] : masks)
+        for (const auto &[mask, color] : std::as_const(masks))
         {
             QString fileName = maskFileName(mask, dpr);
             QPixmap pixmap(fileName);
@@ -73,12 +73,12 @@ QIcon HolonThemeIcons::createIcon(const QList<HolonMaskColor<FileName>> &masks) 
 
     auto resultMask = [&pixmaps]()
     {
-        QPixmap pixmap;
+        QPixmap pixmap(pixmaps.first().mask);
         QPainter p(&pixmap);
         p.setCompositionMode(QPainter::CompositionMode_Darken);
 
-        for (const auto &[mask, color] : pixmaps)
-           p.drawPixmap(0, 0, mask);
+        for (int i = 1; i < pixmaps.size(); ++i)
+            p.drawPixmap(0, 0, pixmaps.at(i).mask);
 
         return pixmap;
     };
@@ -108,7 +108,7 @@ QIcon HolonThemeIcons::createIcon(const QList<HolonMaskColor<FileName>> &masks) 
 
         QPainter p(&pixmap);
 
-        for (const auto &[mask, color] : pixmaps)
+        for (const auto &[mask, color] : std::as_const(pixmaps))
             p.drawPixmap(0, 0, coloringOne(mask, color));
 
         return pixmap;
