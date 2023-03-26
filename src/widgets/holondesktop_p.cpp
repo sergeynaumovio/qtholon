@@ -609,6 +609,12 @@ HolonAbstractTask *HolonDesktopPrivate::currentTask() const
 
 HolonTheme *HolonDesktopPrivate::currentTheme() const
 {
+    if (!d_ptr->currentTheme)
+    {
+        d_ptr->currentTheme = new HolonTheme(q_ptr->tree()->settings(q_ptr), q_ptr);
+        q_ptr->emitWarning(u"create default theme"_s);
+    }
+
     return d_ptr->currentTheme;
 }
 
