@@ -228,8 +228,8 @@ bool HolonDockWidgetSplitState::restoreSplitPath(const QStringList &path, QObjec
 
 void HolonDockWidgetSplitState::restoreSplitState()
 {
-    QLatin1StringView value(d_ptr->q_ptr->value(u"dockWidgetSplitState"_s).toByteArray());
-    QStringList state = QString(value).split(u',');
+    QByteArray value(d_ptr->q_ptr->value(u"dockWidgetSplitState"_s).toByteArray());
+    QStringList state = QString(QLatin1StringView(value.data())).split(u',');
     for (const QString &path : state)
     {
         QStringList list = path.split(u'/');
