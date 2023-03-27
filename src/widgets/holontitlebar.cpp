@@ -24,10 +24,15 @@ using namespace Qt::Literals::StringLiterals;
 class HolonTitleBarPrivate
 {
 public:
+    HolonDesktop *const desktop;
     QPushButton *splitButton{};
     QPushButton *maximizeButton{};
     QPushButton *closeButton{};
     QPushButton *hideWindowAreaButton{};
+
+    HolonTitleBarPrivate(HolonDesktop *desk)
+    :   desktop(desk)
+    { }
 };
 
 class MenuEventFilter : public QObject
@@ -81,7 +86,8 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
                              HolonDockWidget *parent,
                              HolonAbstractWindow *window,
                              HolonWindowAreaPrivate *windowarea_d_ptr)
-:   QWidget(parent)
+:   QWidget(parent),
+    d_ptr(desktop)
 {
     setStyleSheet(desktop->titleBarStyleSheet());
 
@@ -211,9 +217,21 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
             }
         }
 
+        Qt::DockWidgetArea area = windowarea_d_ptr->area();
+        QIcon icon;
+
+        if (area)
+        {
+            HolonThemeIcons *icons = desktop->currentTheme()->icons();
+            icon = area == Qt::LeftDockWidgetArea ? icons->splitButtonCloseLeftIcon() :
+                   area == Qt::RightDockWidgetArea ? icons->splitButtonCloseRightIcon() :
+                   area == Qt::TopDockWidgetArea ? icons->splitButtonCloseTopIcon() :
+                                                   icons->splitButtonCloseBottomIcon();
+        }
+
         if (window->flags().testAnyFlag(Holon::WindowCloseButtonHint))
         {
-            d_ptr->closeButton = addButton(u'X');
+            d_ptr->closeButton = addButtonIcon(icon);
             {
                 connect(d_ptr->closeButton, &QPushButton::clicked, this, [=](){ desktop->closeWindow(window); });
             }
@@ -221,18 +239,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
 
         if (qobject_cast<HolonWindowArea *>(window->parent()))
         {
-            Qt::DockWidgetArea area = windowarea_d_ptr->area();
-
-            QChar ch = area == Qt::LeftDockWidgetArea ? u'L' :
-                       area == Qt::RightDockWidgetArea ? u'R' :
-                       area == Qt::TopDockWidgetArea ? u'T' : u'B';
-
-            if (ch == 'B'_L1)
-                d_ptr->hideWindowAreaButton = addButtonIcon(desktop->
-                                                            currentTheme()->
-                                                            icons()->splitButtonCloseBottomIcon());
-            else
-                d_ptr->hideWindowAreaButton = addButton(ch);
+            d_ptr->hideWindowAreaButton = addButtonIcon(icon);
             {
                 d_ptr->hideWindowAreaButton->show();
 
@@ -274,17 +281,19 @@ void HolonTitleBar::setDockWidgetArea(Qt::DockWidgetArea area)
     if (!d_ptr->closeButton)
         return;
 
+    HolonThemeIcons *icons = d_ptr->desktop->currentTheme()->icons();
+
     if (area == Qt::LeftDockWidgetArea)
-        return d_ptr->closeButton->setText(u"L"_s);
+        return d_ptr->closeButton->setIcon(icons->splitButtonCloseLeftIcon());
 
     if (area == Qt::RightDockWidgetArea)
-        return d_ptr->closeButton->setText(u"R"_s);
+        return d_ptr->closeButton->setIcon(icons->splitButtonCloseRightIcon());
 
     if (area == Qt::TopDockWidgetArea)
-        return d_ptr->closeButton->setText(u"T"_s);
+        return d_ptr->closeButton->setIcon(icons->splitButtonCloseTopIcon());
 
     if (area == Qt::BottomDockWidgetArea)
-        return d_ptr->closeButton->setText(u"B"_s);
+        return d_ptr->closeButton->setIcon(icons->splitButtonCloseBottomIcon());
 }
 
 void HolonTitleBar::showControlButtons()

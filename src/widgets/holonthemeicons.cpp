@@ -28,6 +28,21 @@ QIcon HolonThemeIcons::splitButtonCloseBottomIcon() const
     return d_ptr->splitButtonCloseBottomIcon();
 }
 
+QIcon HolonThemeIcons::splitButtonCloseLeftIcon() const
+{
+    return d_ptr->splitButtonCloseLeftIcon();
+}
+
+QIcon HolonThemeIcons::splitButtonCloseRightIcon() const
+{
+    return d_ptr->splitButtonCloseRightIcon();
+}
+
+QIcon HolonThemeIcons::splitButtonCloseTopIcon() const
+{
+    return d_ptr->splitButtonCloseTopIcon();
+}
+
 QIcon HolonThemeIcons::splitButtonHorizontalIcon() const
 {
     return d_ptr->splitButtonHorizontalIcon();

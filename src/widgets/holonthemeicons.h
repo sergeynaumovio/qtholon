@@ -29,6 +29,9 @@ public:
 
     HolonThemeColors *colors() const;
     virtual QIcon splitButtonCloseBottomIcon() const;
+    virtual QIcon splitButtonCloseLeftIcon() const;
+    virtual QIcon splitButtonCloseRightIcon() const;
+    virtual QIcon splitButtonCloseTopIcon() const;
     virtual QIcon splitButtonHorizontalIcon() const;
     virtual QIcon splitButtonVerticalIcon() const;
     HolonTheme *theme() const;

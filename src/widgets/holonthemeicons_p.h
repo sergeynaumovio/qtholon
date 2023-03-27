@@ -13,6 +13,9 @@ class HolonThemeIcons;
 class HolonThemeIconsPrivate
 {
     QIcon splitButtonCloseBottom;
+    QIcon splitButtonCloseLeft;
+    QIcon splitButtonCloseRight;
+    QIcon splitButtonCloseTop;
     QIcon splitHorizontal;
     QIcon splitVertical;
 
@@ -24,6 +27,9 @@ public:
     HolonThemeIconsPrivate(HolonThemeIcons *q, HolonTheme *t);
 
     QIcon splitButtonCloseBottomIcon();
+    QIcon splitButtonCloseLeftIcon();
+    QIcon splitButtonCloseRightIcon();
+    QIcon splitButtonCloseTopIcon();
     QIcon splitButtonHorizontalIcon();
     QIcon splitButtonVerticalIcon();
 };

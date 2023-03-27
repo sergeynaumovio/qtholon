@@ -22,6 +22,33 @@ QIcon HolonThemeIconsPrivate::splitButtonCloseBottomIcon()
     return splitButtonCloseBottom;
 }
 
+QIcon HolonThemeIconsPrivate::splitButtonCloseLeftIcon()
+{
+    if (splitButtonCloseLeft.isNull())
+        splitButtonCloseLeft = theme->createIcon({{u":/holon/splitbutton_closeleft.xpm"_s,
+                                                   colors->iconsBaseColor()}});
+
+    return splitButtonCloseLeft;
+}
+
+QIcon HolonThemeIconsPrivate::splitButtonCloseRightIcon()
+{
+    if (splitButtonCloseRight.isNull())
+        splitButtonCloseRight = theme->createIcon({{u":/holon/splitbutton_closeright.xpm"_s,
+                                                    colors->iconsBaseColor()}});
+
+    return splitButtonCloseRight;
+}
+
+QIcon HolonThemeIconsPrivate::splitButtonCloseTopIcon()
+{
+    if (splitButtonCloseTop.isNull())
+        splitButtonCloseTop = theme->createIcon({{u":/holon/splitbutton_closetop.xpm"_s,
+                                                  colors->iconsBaseColor()}});
+
+    return splitButtonCloseTop;
+}
+
 QIcon HolonThemeIconsPrivate::splitButtonHorizontalIcon()
 {
     if (splitHorizontal.isNull())
