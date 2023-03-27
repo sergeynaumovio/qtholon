@@ -185,6 +185,12 @@ qt_add_resources(${QT_HOLON_LIBRARY} "Holon"
           share/icons/screwdriver.svg
           share/icons/splitbutton_closebottom.xpm
           share/icons/splitbutton_closebottom@2x.xpm
+          share/icons/splitbutton_closeleft.xpm
+          share/icons/splitbutton_closeleft@2x.xpm
+          share/icons/splitbutton_closeright.xpm
+          share/icons/splitbutton_closeright@2x.xpm
+          share/icons/splitbutton_closetop.xpm
+          share/icons/splitbutton_closetop@2x.xpm
           share/icons/splitbutton_horizontal.xpm
           share/icons/splitbutton_horizontal@2x.xpm
           share/icons/splitbutton_vertical.xpm
