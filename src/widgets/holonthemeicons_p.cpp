@@ -16,7 +16,7 @@ HolonThemeIconsPrivate::HolonThemeIconsPrivate(HolonThemeIcons *q, HolonTheme *t
 QIcon HolonThemeIconsPrivate::splitButtonCloseBottomIcon()
 {
     if (splitButtonCloseBottom.isNull())
-        splitButtonCloseBottom = q_ptr->createIcon({{u":/holon/splitbutton_closebottom.xpm"_s,
+        splitButtonCloseBottom = theme->createIcon({{u":/holon/splitbutton_closebottom.xpm"_s,
                                                      colors->iconsBaseColor()}});
 
     return splitButtonCloseBottom;
@@ -25,7 +25,7 @@ QIcon HolonThemeIconsPrivate::splitButtonCloseBottomIcon()
 QIcon HolonThemeIconsPrivate::splitButtonHorizontalIcon()
 {
     if (splitHorizontal.isNull())
-        splitHorizontal = q_ptr->createIcon({{u":/holon/splitbutton_horizontal.xpm"_s,
+        splitHorizontal = theme->createIcon({{u":/holon/splitbutton_horizontal.xpm"_s,
                                               colors->iconsBaseColor()}});
 
     return splitHorizontal;
@@ -34,7 +34,7 @@ QIcon HolonThemeIconsPrivate::splitButtonHorizontalIcon()
 QIcon HolonThemeIconsPrivate::splitButtonVerticalIcon()
 {
     if (splitVertical.isNull())
-        splitVertical = q_ptr->createIcon({{u":/holon/splitbutton_vertical.xpm"_s,
+        splitVertical = theme->createIcon({{u":/holon/splitbutton_vertical.xpm"_s,
                                             colors->iconsBaseColor()}});
 
     return splitVertical;

@@ -5,6 +5,7 @@
 #define HOLONTHEME_H
 
 #include "qtholonglobal.h"
+#include <QColor>
 #include <QLoaderSettings>
 #include <QObject>
 
@@ -12,6 +13,16 @@ class HolonDesktop;
 class HolonThemeColors;
 class HolonThemeIcons;
 class HolonThemePrivate;
+
+using FileName = QString;
+
+template<typename T>
+class HolonMaskColor
+{
+public:
+    T mask;
+    QColor color;
+};
 
 class Q_HOLON_EXPORT HolonTheme : public QObject, public QLoaderSettings
 {
@@ -29,6 +40,7 @@ public:
     ~HolonTheme();
 
     HolonThemeColors *colors() const;
+    QIcon createIcon(const QList<HolonMaskColor<FileName>> &masks) const;
     HolonThemeIcons *icons() const;
     bool isCurrent() const;
 };

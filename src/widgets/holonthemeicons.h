@@ -14,16 +14,6 @@ class HolonTheme;
 class HolonThemeColors;
 class HolonThemeIconsPrivate;
 
-using FileName = QString;
-
-template<typename T>
-class HolonMaskColor
-{
-public:
-    T mask;
-    QColor color;
-};
-
 class Q_HOLON_EXPORT HolonThemeIcons : public QObject, public QLoaderSettings
 {
     Q_OBJECT
@@ -38,7 +28,6 @@ public:
     ~HolonThemeIcons();
 
     HolonThemeColors *colors() const;
-    QIcon createIcon(const QList<HolonMaskColor<FileName>> &masks) const;
     virtual QIcon splitButtonCloseBottomIcon() const;
     virtual QIcon splitButtonHorizontalIcon() const;
     virtual QIcon splitButtonVerticalIcon() const;
