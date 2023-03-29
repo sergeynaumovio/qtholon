@@ -72,7 +72,7 @@ void HolonTaskDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
 
 QSize HolonTaskDelegate::sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const
 {
-    return QSize(0, 18);
+    return QSize(0, 16);
 }
 
 class HolonOpenTaskTreeViewPrivate
