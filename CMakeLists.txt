@@ -180,8 +180,8 @@ target_compile_definitions(${QT_HOLON_LIBRARY}
 qt_add_resources(${QT_HOLON_LIBRARY} "Holon"
     PREFIX "/holon"
     BASE "share/icons"
-    FILES share/icons/close@2x.xpm
-          #share/icons/close@2x.xpm
+    FILES share/icons/close.xpm
+          share/icons/close@2x.xpm
           share/icons/holoniconlight.svg
           share/icons/quit.svg
           share/icons/screwdriver.svg
