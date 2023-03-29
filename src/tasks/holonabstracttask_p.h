@@ -4,6 +4,7 @@
 #ifndef HOLONABSTRACTTASK_P_H
 #define HOLONABSTRACTTASK_P_H
 
+#include <QIcon>
 #include <QMap>
 
 class HolonAbstractTask;
@@ -14,6 +15,8 @@ class HolonWorkflowModelBranch;
 
 class HolonAbstractTaskPrivate
 {
+    QIcon ico;
+
 public:
     HolonAbstractTask *const q_ptr;
     HolonWorkflowModelBranch *const workflowModelBranch;
@@ -24,6 +27,7 @@ public:
     HolonAbstractTaskPrivate(HolonAbstractTask *q = nullptr,
                              HolonWorkflowModelBranch *branch = nullptr);
 
+    QIcon icon();
     void setCurrent(bool current);
 };
 

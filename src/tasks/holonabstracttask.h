@@ -34,6 +34,7 @@ public:
     HolonDesktop *desktop() const;
     virtual int exec() = 0;
     QString group() const;
+    virtual QIcon icon() const;
     bool isCopyable(const QStringList &to) const override;
     bool isCurrent() const;
     virtual QString title() const;

@@ -62,6 +62,11 @@ QString HolonAbstractTask::group() const
     return value(u"group"_s).toString();
 }
 
+QIcon HolonAbstractTask::icon() const
+{
+    return d_ptr->icon();
+}
+
 bool HolonAbstractTask::isCopyable(const QStringList &to) const
 {
     QStringList parentSection = to;

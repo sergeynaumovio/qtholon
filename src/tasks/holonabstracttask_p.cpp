@@ -5,7 +5,9 @@
 #include "holonabstracttask.h"
 #include "holonworkflowmodelbranch.h"
 #include "holonworkflowmodel.h"
+#include <QApplication>
 #include <QMap>
+#include <QStyle>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -21,6 +23,14 @@ HolonAbstractTaskPrivate::HolonAbstractTaskPrivate(HolonAbstractTask *q, HolonWo
         return {};
     }())
 { }
+
+QIcon HolonAbstractTaskPrivate::icon()
+{
+    if (ico.isNull())
+        ico.addPixmap(QApplication::style()->standardIcon(QStyle::SP_FileIcon).pixmap(QSize(16, 16)));
+
+    return ico;
+}
 
 void HolonAbstractTaskPrivate::setCurrent(bool current)
 {
