@@ -6,13 +6,13 @@
 #include "holondesktop.h"
 #include "holonmessageswidget.h"
 #include "holonmessageswindow.h"
+#include "holonopentasktreewindow.h"
 #include "holonparameterswindow.h"
+#include "holonprojecttasktreewindow.h"
 #include "holonsettingswindow.h"
 #include "holonsidebar.h"
-#include "holontasklistwindow.h"
 #include "holontaskmodel.h"
 #include "holontaskmodelbranch.h"
-#include "holontasktreewindow.h"
 #include "holonterminalwindow.h"
 #include "holontheme.h"
 #include "holonworkflowmodel.h"
@@ -84,6 +84,20 @@ public:
             return parent;
         }
 
+        if (!qstrcmp(shortName, "OpenTaskTreeWindow"))
+        {
+            if (qobject_cast<HolonCore *>(parent))
+                return nullptr;
+
+            if (HolonDesktop *desktop = qobject_cast<HolonDesktop *>(parent))
+                return new HolonOpenTaskTreeWindow(settings, desktop);
+
+            if (HolonSidebar *sidebar = qobject_cast<HolonSidebar *>(parent))
+                return new HolonOpenTaskTreeWindow(settings, sidebar);
+
+            return parent;
+        }
+
         if (!qstrcmp(shortName, "ParametersWindow"))
         {
             if (qobject_cast<HolonCore *>(parent))
@@ -94,6 +108,20 @@ public:
 
             if (HolonSidebar *sidebar = qobject_cast<HolonSidebar *>(parent))
                 return new HolonParametersWindow(settings, sidebar);
+
+            return parent;
+        }
+
+        if (!qstrcmp(shortName, "ProjectTaskTreeWindow"))
+        {
+            if (qobject_cast<HolonCore *>(parent))
+                return nullptr;
+
+            if (HolonDesktop *desktop = qobject_cast<HolonDesktop *>(parent))
+                return new HolonProjectTaskTreeWindow(settings, desktop);
+
+            if (HolonSidebar *sidebar = qobject_cast<HolonSidebar *>(parent))
+                return new HolonProjectTaskTreeWindow(settings, sidebar);
 
             return parent;
         }
@@ -123,20 +151,6 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "TaskListWindow"))
-        {
-            if (qobject_cast<HolonCore *>(parent))
-                return nullptr;
-
-            if (HolonDesktop *desktop = qobject_cast<HolonDesktop *>(parent))
-                return new HolonTaskListWindow(settings, desktop);
-
-            if (HolonSidebar *sidebar = qobject_cast<HolonSidebar *>(parent))
-                return new HolonTaskListWindow(settings, sidebar);
-
-            return parent;
-        }
-
         if (!qstrcmp(shortName, "TaskModel"))
         {
             if (qobject_cast<HolonCore *>(parent))
@@ -157,20 +171,6 @@ public:
 
                 return new HolonTaskModelBranch(settings, model);
             }
-
-            return parent;
-        }
-
-        if (!qstrcmp(shortName, "TaskTreeWindow"))
-        {
-            if (qobject_cast<HolonCore *>(parent))
-                return nullptr;
-
-            if (HolonDesktop *desktop = qobject_cast<HolonDesktop *>(parent))
-                return new HolonTaskTreeWindow(settings, desktop);
-
-            if (HolonSidebar *sidebar = qobject_cast<HolonSidebar *>(parent))
-                return new HolonTaskTreeWindow(settings, sidebar);
 
             return parent;
         }

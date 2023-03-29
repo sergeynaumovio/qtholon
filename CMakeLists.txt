@@ -76,8 +76,14 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonmessageswidget.h
             src/widgets/holonmessageswindow.cpp
             src/widgets/holonmessageswindow.h
+            src/widgets/holonopentasktreeview.cpp
+            src/widgets/holonopentasktreeview.h
+            src/widgets/holonopentasktreewindow.cpp
+            src/widgets/holonopentasktreewindow.h
             src/widgets/holonparameterswindow.cpp
             src/widgets/holonparameterswindow.h
+            src/widgets/holonprojecttasktreewindow.cpp
+            src/widgets/holonprojecttasktreewindow.h
             src/widgets/holonsettingswindow.cpp
             src/widgets/holonsettingswindow.h
             src/widgets/holonsidebar.cpp
@@ -92,12 +98,6 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonstackedwidget.h
             src/widgets/holontaskbar.cpp
             src/widgets/holontaskbar.h
-            src/widgets/holontasklistview.cpp
-            src/widgets/holontasklistview.h
-            src/widgets/holontasklistwindow.cpp
-            src/widgets/holontasklistwindow.h
-            src/widgets/holontasktreewindow.cpp
-            src/widgets/holontasktreewindow.h
             src/widgets/holonterminalwindow.cpp
             src/widgets/holonterminalwindow.h
             src/widgets/holontheme.cpp

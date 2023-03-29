@@ -1,7 +1,7 @@
 // Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
-#include "holontasktreewindow.h"
+#include "holonprojecttasktreewindow.h"
 #include "holonabstracttask.h"
 #include "holondesktop.h"
 #include "holonsidebar.h"
@@ -18,17 +18,17 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-class HolonTaskTreeWindowPrivate
+class HolonProjectTaskTreeWindowPrivate
 {
 public:
-    HolonTaskTreeWindow *const q_ptr;
+    HolonProjectTaskTreeWindow *const q_ptr;
     QLoaderSettings *const settings;
     HolonDesktop *const desktop;
     HolonTaskModel *taskTreeModel{};
     QTreeView *view{};
 
 
-    HolonTaskTreeWindowPrivate(HolonTaskTreeWindow *q = nullptr,
+    HolonProjectTaskTreeWindowPrivate(HolonProjectTaskTreeWindow *q = nullptr,
                                QLoaderSettings *s = nullptr,
                                HolonDesktop *desk = nullptr)
     :   q_ptr(q),
@@ -91,33 +91,33 @@ public:
     }
 };
 
-HolonTaskTreeWindow::HolonTaskTreeWindow(QLoaderSettings *settings, HolonDesktop *parent)
+HolonProjectTaskTreeWindow::HolonProjectTaskTreeWindow(QLoaderSettings *settings, HolonDesktop *parent)
 :   HolonAbstractWindow(settings, parent)
 {
     parent->addWindow(this);
 }
 
-HolonTaskTreeWindow::HolonTaskTreeWindow(QLoaderSettings *settings, HolonSidebar *parent)
+HolonProjectTaskTreeWindow::HolonProjectTaskTreeWindow(QLoaderSettings *settings, HolonSidebar *parent)
 :   HolonAbstractWindow(settings, parent),
     d_ptr(this, settings, parent->desktop())
 {
     parent->addWindow(this);
 }
 
-HolonTaskTreeWindow::~HolonTaskTreeWindow()
+HolonProjectTaskTreeWindow::~HolonProjectTaskTreeWindow()
 { }
 
-Holon::WindowFlags HolonTaskTreeWindow::flags() const
+Holon::WindowFlags HolonProjectTaskTreeWindow::flags() const
 {
     return Holon::SidebarWindow | Holon::WindowAllButtonsHint;
 }
 
-QIcon HolonTaskTreeWindow::icon() const
+QIcon HolonProjectTaskTreeWindow::icon() const
 {
     return {};
 }
 
-bool HolonTaskTreeWindow::isCopyable(const QStringList &to) const
+bool HolonProjectTaskTreeWindow::isCopyable(const QStringList &to) const
 {
     QStringList parentSection = to;
     if (to.size() > 1)
@@ -131,17 +131,17 @@ bool HolonTaskTreeWindow::isCopyable(const QStringList &to) const
     return false;
 }
 
-QString HolonTaskTreeWindow::title() const
+QString HolonProjectTaskTreeWindow::title() const
 {
     return u"Project Tasks"_s;
 }
 
-QWidget *HolonTaskTreeWindow::toolbar() const
+QWidget *HolonProjectTaskTreeWindow::toolbar() const
 {
     return {};
 }
 
-QWidget *HolonTaskTreeWindow::widget(const QString &group) const
+QWidget *HolonProjectTaskTreeWindow::widget(const QString &group) const
 {
     if (group == QString())
         return d_ptr->widget();

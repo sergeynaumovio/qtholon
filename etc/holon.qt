@@ -24,11 +24,11 @@ titleBarStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); 
 class = HolonTheme
 current = true
 
-[holon/task-tree-window]
-class = HolonTaskTreeWindow
+[holon/project-task-tree-window]
+class = HolonProjectTaskTreeWindow
 
-[holon/task-list-window]
-class = HolonTaskListWindow
+[holon/open-task-tree-window]
+class = HolonOpenTaskTreeWindow
 
 [holon/parameters-window]
 class = HolonParametersWindow
@@ -186,10 +186,10 @@ shortcut = Alt+1
 title = Tasks
 
 [holon/tasks/0]
-class = HolonTaskTreeWindow
+class = HolonProjectTaskTreeWindow
 
 [holon/tasks/1]
-class = HolonTaskListWindow
+class = HolonOpenTaskTreeWindow
 
 [holon/parameters]
 class = HolonSidebar

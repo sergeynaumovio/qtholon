@@ -1,34 +1,34 @@
 // Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
-#include "holontasklistwindow.h"
+#include "holonopentasktreewindow.h"
 #include "holondesktop.h"
 #include "holonsidebar.h"
-#include "holontasklistview.h"
+#include "holonopentasktreeview.h"
 #include "holonworkflowmodel.h"
 #include <QBoxLayout>
 #include <QHeaderView>
 #include <QIcon>
 #include <QLabel>
-#include <QListView>
+#include <QTreeView>
 #include <QLoaderTree>
 #include <QUuid>
 
 using namespace Qt::Literals::StringLiterals;
 
-class HolonTaskListWindowPrivate
+class HolonOpenTaskTreeWindowPrivate
 {
 public:
-    HolonTaskListWindow *const q_ptr;
+    HolonOpenTaskTreeWindow *const q_ptr;
     QLoaderSettings *const settings;
     HolonDesktop *const desktop;
     HolonWorkflowModel *workflowModel{};
-    QListView *view{};
+    QTreeView *view{};
 
 
-    HolonTaskListWindowPrivate(HolonTaskListWindow *q = nullptr,
-                               QLoaderSettings *s = nullptr,
-                               HolonDesktop *desk = nullptr)
+    HolonOpenTaskTreeWindowPrivate(HolonOpenTaskTreeWindow *q = nullptr,
+                                   QLoaderSettings *s = nullptr,
+                                   HolonDesktop *desk = nullptr)
     :   q_ptr(q),
         settings(s),
         desktop(desk)
@@ -42,37 +42,37 @@ public:
         if (view)
             return view;
 
-        return view = new HolonTaskListView(desktop);
+        return view = new HolonOpenTaskTreeView(desktop);
     }
 };
 
-HolonTaskListWindow::HolonTaskListWindow(QLoaderSettings *settings, HolonDesktop *parent)
+HolonOpenTaskTreeWindow::HolonOpenTaskTreeWindow(QLoaderSettings *settings, HolonDesktop *parent)
 :   HolonAbstractWindow(settings, parent)
 {
     parent->addWindow(this);
 }
 
-HolonTaskListWindow::HolonTaskListWindow(QLoaderSettings *settings, HolonSidebar *parent)
+HolonOpenTaskTreeWindow::HolonOpenTaskTreeWindow(QLoaderSettings *settings, HolonSidebar *parent)
 :   HolonAbstractWindow(settings, parent),
     d_ptr(this, settings, parent->desktop())
 {
     parent->addWindow(this);
 }
 
-HolonTaskListWindow::~HolonTaskListWindow()
+HolonOpenTaskTreeWindow::~HolonOpenTaskTreeWindow()
 { }
 
-Holon::WindowFlags HolonTaskListWindow::flags() const
+Holon::WindowFlags HolonOpenTaskTreeWindow::flags() const
 {
     return Holon::SidebarWindow | Holon::WindowAllButtonsHint;
 }
 
-QIcon HolonTaskListWindow::icon() const
+QIcon HolonOpenTaskTreeWindow::icon() const
 {
     return {};
 }
 
-bool HolonTaskListWindow::isCopyable(const QStringList &to) const
+bool HolonOpenTaskTreeWindow::isCopyable(const QStringList &to) const
 {
     QStringList parentSection = to;
     if (to.size() > 1)
@@ -86,17 +86,17 @@ bool HolonTaskListWindow::isCopyable(const QStringList &to) const
     return false;
 }
 
-QString HolonTaskListWindow::title() const
+QString HolonOpenTaskTreeWindow::title() const
 {
     return u"Open Tasks"_s;
 }
 
-QWidget *HolonTaskListWindow::toolbar() const
+QWidget *HolonOpenTaskTreeWindow::toolbar() const
 {
     return {};
 }
 
-QWidget *HolonTaskListWindow::widget(const QString &group) const
+QWidget *HolonOpenTaskTreeWindow::widget(const QString &group) const
 {
     if (group == QString())
         return d_ptr->widget();
