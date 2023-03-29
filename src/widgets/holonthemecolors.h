@@ -29,6 +29,8 @@ public:
     HolonThemeIcons *icons() const;
     virtual QColor iconsBaseColor() const;
     virtual QColor iconsDisabledColor() const;
+    virtual QColor panelTextColorDark() const;
+    virtual QColor panelTextColorLight() const;
     HolonTheme *theme() const;
 };
 

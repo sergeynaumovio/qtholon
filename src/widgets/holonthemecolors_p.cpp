@@ -36,3 +36,29 @@ QColor HolonThemeColorsPrivate::iconsDisabledColor()
 
     return iconsDisabled;
 }
+
+QColor HolonThemeColorsPrivate::panelTextColorDark()
+{
+    if (panelTextDark.isValid())
+        return panelTextDark;
+
+    if ((panelTextDark = q_ptr->value(u"panelTextColorDark"_s).value<QColor>()).isValid())
+        return panelTextDark;
+
+    panelTextDark = QColor(50, 50, 50);
+
+    return panelTextDark;
+}
+
+QColor HolonThemeColorsPrivate::panelTextColorLight()
+{
+    if (panelTextLight.isValid())
+        return panelTextLight;
+
+    if ((panelTextLight = q_ptr->value(u"panelTextColorLight"_s).value<QColor>()).isValid())
+        return panelTextLight;
+
+    panelTextLight = QColor(255, 255, 255);
+
+    return panelTextLight;
+}

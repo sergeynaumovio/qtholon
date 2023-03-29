@@ -13,6 +13,24 @@ HolonThemeIconsPrivate::HolonThemeIconsPrivate(HolonThemeIcons *q, HolonTheme *t
     theme(t)
 { }
 
+QIcon HolonThemeIconsPrivate::closeBackgroundIcon()
+{
+    if (closeBackground.isNull())
+        closeBackground = theme->createIcon({{u":/holon/close.xpm"_s,
+                                              colors->panelTextColorLight()}});
+
+    return closeBackground;
+}
+
+QIcon HolonThemeIconsPrivate::closeForegroundIcon()
+{
+    if (closeForeground.isNull())
+        closeForeground = theme->createIcon({{u":/holon/close.xpm"_s,
+                                              colors->panelTextColorDark()}});
+
+    return closeForeground;
+}
+
 QIcon HolonThemeIconsPrivate::splitButtonCloseBottomIcon()
 {
     if (splitButtonCloseBottom.isNull())

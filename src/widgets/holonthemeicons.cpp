@@ -23,6 +23,16 @@ HolonThemeColors *HolonThemeIcons::colors() const
     return d_ptr->colors;
 }
 
+QIcon HolonThemeIcons::closeBackgroundIcon() const
+{
+    return d_ptr->closeBackgroundIcon();
+}
+
+QIcon HolonThemeIcons::closeForegroundIcon() const
+{
+    return d_ptr->closeForegroundIcon();
+}
+
 QIcon HolonThemeIcons::splitButtonCloseBottomIcon() const
 {
     return d_ptr->splitButtonCloseBottomIcon();

@@ -28,6 +28,8 @@ public:
     ~HolonThemeIcons();
 
     HolonThemeColors *colors() const;
+    virtual QIcon closeBackgroundIcon() const;
+    virtual QIcon closeForegroundIcon() const;
     virtual QIcon splitButtonCloseBottomIcon() const;
     virtual QIcon splitButtonCloseLeftIcon() const;
     virtual QIcon splitButtonCloseRightIcon() const;

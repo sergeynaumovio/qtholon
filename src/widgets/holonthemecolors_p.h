@@ -14,6 +14,8 @@ class HolonThemeColorsPrivate
 {
     QColor iconsBase;
     QColor iconsDisabled;
+    QColor panelTextDark;
+    QColor panelTextLight;
 
 public:
     HolonThemeColors *const q_ptr;
@@ -24,6 +26,8 @@ public:
 
     QColor iconsBaseColor();
     QColor iconsDisabledColor();
+    QColor panelTextColorDark();
+    QColor panelTextColorLight();
 };
 
 #endif // HOLONTHEMECOLORS_P_H
