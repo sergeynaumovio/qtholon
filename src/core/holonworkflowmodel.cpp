@@ -5,6 +5,9 @@
 #include "holonabstracttask.h"
 #include "holoncore.h"
 #include "holondesktop.h"
+#include <QMetaEnum>
+
+using namespace Qt::Literals::StringLiterals;
 
 class HolonOpenTasksModelPrivate
 {
@@ -68,7 +71,7 @@ void HolonWorkflowModel::addBranch(HolonWorkflowModelBranch *branch)
 
 int HolonWorkflowModel::columnCount(const QModelIndex &) const
 {
-    return 1;
+    return QMetaEnum::fromType<Column>().keyCount();
 }
 
 HolonCore *HolonWorkflowModel::core() const
@@ -83,7 +86,10 @@ QModelIndex HolonWorkflowModel::restoreCurrentIndex() const
 
 QVariant HolonWorkflowModel::data(const QModelIndex &index, int role) const
 {
-    if (index.isValid() && (role == Qt::DisplayRole || role == Qt::EditRole))
+    if (!index.isValid())
+        return QVariant();
+
+    if (index.column() == Column::TaskTitle && (role == Qt::DisplayRole || role == Qt::EditRole))
     {
         if (index.row() < d_ptr->taskList.size())
         {
@@ -130,4 +136,3 @@ int HolonWorkflowModel::rowCount(const QModelIndex &) const
 {
     return d_ptr->rowCount();
 }
-
