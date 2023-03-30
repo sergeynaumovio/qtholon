@@ -5,7 +5,6 @@
 #include "holonabstracttask.h"
 #include "holoncore.h"
 #include "holondesktop.h"
-#include <QMetaEnum>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -71,7 +70,7 @@ void HolonWorkflowModel::addBranch(HolonWorkflowModelBranch *branch)
 
 int HolonWorkflowModel::columnCount(const QModelIndex &) const
 {
-    return QMetaEnum::fromType<Column>().keyCount();
+    return 2;
 }
 
 HolonCore *HolonWorkflowModel::core() const
@@ -86,17 +85,18 @@ QModelIndex HolonWorkflowModel::restoreCurrentIndex() const
 
 QVariant HolonWorkflowModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid())
+    if (!index.isValid() || index.column())
         return QVariant();
 
-    if (index.column() == Column::TaskTitle && (role == Qt::DisplayRole || role == Qt::EditRole))
+    if (index.row() < d_ptr->taskList.size())
     {
-        if (index.row() < d_ptr->taskList.size())
-        {
-            HolonAbstractTask *task = d_ptr->taskList.at(index.row());
+        HolonAbstractTask *task = d_ptr->taskList.at(index.row());
 
+        if (role == Qt::DecorationRole)
+            return task->icon();
+
+        if (role == Qt::DisplayRole)
             return task->title();
-        }
     }
 
     return QVariant();
@@ -107,8 +107,11 @@ HolonDesktop *HolonWorkflowModel::desktop() const
     return d_ptr->desktop;
 }
 
-QModelIndex HolonWorkflowModel::index(int row, int column, const QModelIndex &) const
+QModelIndex HolonWorkflowModel::index(int row, int column, const QModelIndex &parent) const
 {
+    if (parent.isValid())
+        return QModelIndex();
+
     QModelIndex index = createIndex(row, column, d_ptr->taskList.at(row));
 
     HolonAbstractTask *task = d_ptr->taskList.at(row);
@@ -132,7 +135,10 @@ QModelIndex HolonWorkflowModel::parent(const QModelIndex &) const
     return QModelIndex();
 }
 
-int HolonWorkflowModel::rowCount(const QModelIndex &) const
+int HolonWorkflowModel::rowCount(const QModelIndex &parent) const
 {
+    if (parent.isValid())
+        return 0;
+
     return d_ptr->rowCount();
 }

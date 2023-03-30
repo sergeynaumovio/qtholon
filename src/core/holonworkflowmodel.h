@@ -17,14 +17,6 @@ class Q_HOLON_EXPORT HolonWorkflowModel : public HolonAbstractItemModel
     const QScopedPointer<HolonOpenTasksModelPrivate> d_ptr;
 
 public:
-    enum Column
-    {
-        TaskIcon,
-        TaskTitle,
-        TaskClose
-    };
-    Q_ENUM(Column)
-
     HolonWorkflowModel(QLoaderSettings *settings, HolonCore *core);
     HolonWorkflowModel(QLoaderSettings *settings, HolonDesktop *desktop);
 
