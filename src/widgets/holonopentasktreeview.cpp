@@ -21,7 +21,6 @@ public:
     HolonTaskDelegate(HolonOpenTaskTreeView *parent);
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
 
 HolonTaskDelegate::HolonTaskDelegate(HolonOpenTaskTreeView *parent)
@@ -47,18 +46,9 @@ void HolonTaskDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
         QIcon icon = (option.state.testAnyFlag(QStyle::State_Selected) ? icons->closeBackgroundIcon()
                                                                        : icons->closeForegroundIcon());
 
-        QRect iconRect(option.rect.right() - option.rect.height(),
-                       option.rect.top(),
-                       option.rect.height(),
-                       option.rect.height());
-
-        icon.paint(painter, iconRect, Qt::AlignRight | Qt::AlignVCenter);
+        QRect iconRect(option.rect.right() - 15, option.rect.top() + 1, 16, 16);
+        icon.paint(painter, iconRect);
     }
-}
-
-QSize HolonTaskDelegate::sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const
-{
-    return QSize(0, 16);
 }
 
 class HolonOpenTaskTreeViewPrivate
