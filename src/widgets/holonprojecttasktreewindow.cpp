@@ -6,6 +6,7 @@
 #include "holondesktop.h"
 #include "holonsidebar.h"
 #include "holontaskmodel.h"
+#include "holontaskmodelbranch.h"
 #include "holonworkflowmodelbranch.h"
 #include "holonworkflowmodel.h"
 #include <QBoxLayout>
@@ -85,6 +86,15 @@ public:
 
                 workflowModel->insertRow(workflowModel->rowCount());
             });
+
+            auto setExpanded = [](const QModelIndex &index, bool expanded)
+            {
+                QObject *object = static_cast<QObject *>(index.internalPointer());
+                if (HolonTaskModelBranch *dir = qobject_cast<HolonTaskModelBranch *>(object))
+                    dir->setExpanded(expanded);
+            };
+            QTreeView::connect(view, &QTreeView::collapsed, view, [=](QModelIndex index){ setExpanded(index, false); });
+            QTreeView::connect(view, &QTreeView::expanded, view, [=](QModelIndex index){ setExpanded(index, true); });
         }
 
         return view;
