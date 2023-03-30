@@ -27,6 +27,13 @@ namespace Holon
     Q_DECLARE_FLAGS(WindowFlags, WindowType)
     Q_DECLARE_OPERATORS_FOR_FLAGS(WindowFlags)
     Q_FLAG_NS(WindowFlags)
+
+    enum TreeItem
+    {
+        Collapsed,
+        Expanded
+    };
+    Q_ENUM_NS(TreeItem)
 };
 
 #endif // HOLONNAMESPACE_H
