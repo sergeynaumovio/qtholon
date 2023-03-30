@@ -32,7 +32,7 @@ QColor HolonThemeColorsPrivate::iconsDisabledColor()
     if ((iconsDisabled = q_ptr->value(u"iconsDisabledColor"_s).value<QColor>()).isValid())
         return iconsDisabled;
 
-    iconsDisabled = QColor(50, 50, 50);
+    iconsDisabled = QColor(100, 100, 100);
 
     return iconsDisabled;
 }

@@ -188,14 +188,14 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
                     if (windowarea_d_ptr->maximized)
                     {
                         d_ptr->maximizeButton->setIcon(desktop->currentTheme()->icons()->minimizeIcon());
-                        d_ptr->splitButton->hide();
-                        d_ptr->closeButton->hide();
+                        d_ptr->splitButton->setDisabled(true);
+                        d_ptr->closeButton->setDisabled(true);
                     }
                     else
                     {
                         d_ptr->maximizeButton->setIcon(desktop->currentTheme()->icons()->maximizeIcon());
-                        d_ptr->splitButton->show();
-                        d_ptr->closeButton->show();
+                        d_ptr->splitButton->setDisabled(false);
+                        d_ptr->closeButton->setDisabled(false);
                     }
 
                     windowarea_d_ptr->maximizeWindow(parent);
