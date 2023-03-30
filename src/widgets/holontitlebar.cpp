@@ -119,21 +119,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
             }
         }
 
-        auto addButton = [=, this](const QChar &chr)
-        {
-            QPushButton *button = new QPushButton(chr, this);
-            {
-                button->hide();
-                button->setFixedHeight(desktop->titleBarHeight());
-                button->setFixedWidth(button->height() * 1.2);
-                button->setFlat(true);
-                button->setStyleSheet(desktop->buttonStyleSheet());
-                layout()->addWidget(button);
-            }
-            return button;
-        };
-
-        auto addButtonIcon = [=, this](const QIcon &icon)
+        auto addButton = [=, this](const QIcon &icon)
         {
             QPushButton *button = new QPushButton(icon, QString(), this);
             {
@@ -187,27 +173,27 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
                 });
             }
 
-            d_ptr->splitButton = addButtonIcon(desktop->currentTheme()->icons()->splitButtonHorizontalIcon());
+            d_ptr->splitButton = addButton(desktop->currentTheme()->icons()->splitButtonHorizontalIcon());
             d_ptr->splitButton->show();
             d_ptr->splitButton->setMenu(menu);
         }
 
         if (window->flags().testFlag(Holon::WindowMinMaxButtonsHint))
         {
-            d_ptr->maximizeButton = addButton(u'M');
+            d_ptr->maximizeButton = addButton(desktop->currentTheme()->icons()->maximizeIcon());
             {
                 connect(d_ptr->maximizeButton, &QPushButton::clicked, this, [=, this]()
                 {
                     windowarea_d_ptr->maximized = !windowarea_d_ptr->maximized;
                     if (windowarea_d_ptr->maximized)
                     {
-                        d_ptr->maximizeButton->setText(u"m"_s);
+                        d_ptr->maximizeButton->setIcon(desktop->currentTheme()->icons()->minimizeIcon());
                         d_ptr->splitButton->hide();
                         d_ptr->closeButton->hide();
                     }
                     else
                     {
-                        d_ptr->maximizeButton->setText(u"M"_s);
+                        d_ptr->maximizeButton->setIcon(desktop->currentTheme()->icons()->maximizeIcon());
                         d_ptr->splitButton->show();
                         d_ptr->closeButton->show();
                     }
@@ -231,7 +217,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
 
         if (window->flags().testAnyFlag(Holon::WindowCloseButtonHint))
         {
-            d_ptr->closeButton = addButtonIcon(icon);
+            d_ptr->closeButton = addButton(icon);
             {
                 connect(d_ptr->closeButton, &QPushButton::clicked, this, [=](){ desktop->closeWindow(window); });
             }
@@ -239,7 +225,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
 
         if (qobject_cast<HolonWindowArea *>(window->parent()))
         {
-            d_ptr->hideWindowAreaButton = addButtonIcon(icon);
+            d_ptr->hideWindowAreaButton = addButton(icon);
             {
                 d_ptr->hideWindowAreaButton->show();
 
