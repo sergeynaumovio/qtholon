@@ -41,21 +41,7 @@ void HolonTaskDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
 
     QStyledItemDelegate::paint(painter, option, index);
 
-    if (index.column() == HolonWorkflowModel::TaskIcon)
-    {
-        QObject *clickedObject = static_cast<QObject *>(index.internalPointer());
-        if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(clickedObject))
-        {
-            QRect iconRect(option.rect.left() + 2,
-                           option.rect.top(),
-                           option.rect.height(),
-                           option.rect.height());
-
-            task->icon().paint(painter, iconRect, Qt::AlignCenter);
-        }
-    }
-
-    if (index.column() == HolonWorkflowModel::TaskClose && isMouseOver)
+    if (index.column() == 1 && isMouseOver)
     {
         HolonThemeIcons *icons = view->desktop()->currentTheme()->icons();
         QIcon icon = (option.state.testAnyFlag(QStyle::State_Selected) ? icons->closeBackgroundIcon()
@@ -112,7 +98,7 @@ bool HolonOpenTaskTreeView::eventFilter(QObject *object, QEvent *event)
         {
             QModelIndex index = indexAt(mouseEvent->pos());
             if (mouseEvent->button() == Qt::MiddleButton || (index.isValid() &&
-                                                             index.column() == HolonWorkflowModel::TaskClose &&
+                                                             index.column() == 1 &&
                                                              mouseEvent->button() == Qt::LeftButton))
             {
                 emit closeActivated(index);
@@ -188,10 +174,8 @@ void HolonOpenTaskTreeView::setModel(QAbstractItemModel *model)
     QTreeView::setModel(model);
     header()->hide();
     header()->setStretchLastSection(false);
-    header()->setSectionResizeMode(HolonWorkflowModel::TaskIcon, QHeaderView::Fixed);
-    header()->setSectionResizeMode(HolonWorkflowModel::TaskTitle, QHeaderView::Stretch);
-    header()->setSectionResizeMode(HolonWorkflowModel::TaskClose, QHeaderView::Fixed);
+    header()->setSectionResizeMode(0, QHeaderView::Stretch);
+    header()->setSectionResizeMode(1, QHeaderView::Fixed);
     header()->setMinimumSectionSize(1);
-    header()->resizeSection(HolonWorkflowModel::TaskIcon, 20);
-    header()->resizeSection(HolonWorkflowModel::TaskClose, 16);
+    header()->resizeSection(1, 16);
 }
