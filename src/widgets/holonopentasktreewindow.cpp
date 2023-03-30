@@ -10,8 +10,8 @@
 #include <QHeaderView>
 #include <QIcon>
 #include <QLabel>
-#include <QTreeView>
 #include <QLoaderTree>
+#include <QTreeView>
 #include <QUuid>
 
 using namespace Qt::Literals::StringLiterals;
