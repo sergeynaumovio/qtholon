@@ -33,10 +33,10 @@ QIcon HolonThemeIconsPrivate::closeForegroundIcon()
     return closeForeground;
 }
 
-QIcon HolonThemeIconsPrivate::dirIcon()
+QIcon HolonThemeIconsPrivate::dirClosedIcon()
 {
     if (dir.isNull())
-        dir.addPixmap(QApplication::style()->standardIcon(QStyle::SP_DirIcon).pixmap(QSize(16, 16)));
+        dir.addPixmap(QApplication::style()->standardIcon(QStyle::SP_DirClosedIcon).pixmap(QSize(16, 16)));
 
     return dir;
 }

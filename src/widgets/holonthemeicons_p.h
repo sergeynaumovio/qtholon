@@ -34,7 +34,7 @@ public:
 
     QIcon closeBackgroundIcon();
     QIcon closeForegroundIcon();
-    QIcon dirIcon();
+    QIcon dirClosedIcon();
     QIcon dirOpenIcon();
     QIcon maximizeIcon();
     QIcon minimizeIcon();

@@ -57,7 +57,7 @@ HolonDesktop *HolonTaskModelBranch::desktop() const
 QIcon HolonTaskModelBranch::icon(Holon::TreeItem state) const
 {
     if (state == Holon::Collapsed)
-        return desktop()->currentTheme()->icons()->dirIcon();
+        return desktop()->currentTheme()->icons()->dirClosedIcon();
 
     return desktop()->currentTheme()->icons()->dirOpenIcon();
 }

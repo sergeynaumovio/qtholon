@@ -33,9 +33,9 @@ QIcon HolonThemeIcons::closeForegroundIcon() const
     return d_ptr->closeForegroundIcon();
 }
 
-QIcon HolonThemeIcons::dirIcon() const
+QIcon HolonThemeIcons::dirClosedIcon() const
 {
-    return d_ptr->dirIcon();
+    return d_ptr->dirClosedIcon();
 }
 
 QIcon HolonThemeIcons::dirOpenIcon() const
