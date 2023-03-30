@@ -33,6 +33,26 @@ QIcon HolonThemeIcons::closeForegroundIcon() const
     return d_ptr->closeForegroundIcon();
 }
 
+QIcon HolonThemeIcons::dirIcon() const
+{
+    return d_ptr->dirIcon();
+}
+
+QIcon HolonThemeIcons::dirOpenIcon() const
+{
+    return d_ptr->dirOpenIcon();
+}
+
+QIcon HolonThemeIcons::maximizeIcon() const
+{
+    return d_ptr->maximizeIcon();
+}
+
+QIcon HolonThemeIcons::minimizeIcon() const
+{
+    return d_ptr->minimizeIcon();
+}
+
 QIcon HolonThemeIcons::splitButtonCloseBottomIcon() const
 {
     return d_ptr->splitButtonCloseBottomIcon();

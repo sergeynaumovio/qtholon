@@ -5,6 +5,8 @@
 #include "holonthemecolors.h"
 #include "holonthemeicons.h"
 #include "holontheme.h"
+#include <QApplication>
+#include <QStyle>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -29,6 +31,40 @@ QIcon HolonThemeIconsPrivate::closeForegroundIcon()
                                               colors->panelTextColorDark()}});
 
     return closeForeground;
+}
+
+QIcon HolonThemeIconsPrivate::dirIcon()
+{
+    if (dir.isNull())
+        dir.addPixmap(QApplication::style()->standardIcon(QStyle::SP_DirIcon).pixmap(QSize(16, 16)));
+
+    return dir;
+}
+
+QIcon HolonThemeIconsPrivate::dirOpenIcon()
+{
+    if (dirOpen.isNull())
+        dirOpen.addPixmap(QApplication::style()->standardIcon(QStyle::SP_DirOpenIcon).pixmap(QSize(16, 16)));
+
+    return dirOpen;
+}
+
+QIcon HolonThemeIconsPrivate::maximizeIcon()
+{
+    if (maximize.isNull())
+        maximize = theme->createIcon({{u":/holon/maximize.xpm"_s,
+                                       colors->iconsBaseColor()}});
+
+    return maximize;
+}
+
+QIcon HolonThemeIconsPrivate::minimizeIcon()
+{
+    if (minimize.isNull())
+        minimize = theme->createIcon({{u":/holon/minimize.xpm"_s,
+                                       colors->iconsBaseColor()}});
+
+    return minimize;
 }
 
 QIcon HolonThemeIconsPrivate::splitButtonCloseBottomIcon()
