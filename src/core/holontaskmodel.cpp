@@ -10,9 +10,12 @@ class HolonTaskModelPrivate
 {
 public:
     HolonTaskModel *const q_ptr;
+    HolonDesktop *const desktop;
+    QHash<HolonTaskModelBranch *, bool> expanded;
 
-    HolonTaskModelPrivate(HolonTaskModel *q)
-    :   q_ptr(q)
+    HolonTaskModelPrivate(HolonTaskModel *q, HolonDesktop *desk)
+    :   q_ptr(q),
+        desktop(desk)
     { }
 
     QObject *object(const QModelIndex &index) const
@@ -27,7 +30,7 @@ public:
 
 HolonTaskModel::HolonTaskModel(QLoaderSettings *settings, HolonDesktop *desktop)
 :   HolonAbstractItemModel(settings, desktop),
-    d_ptr(new HolonTaskModelPrivate(this))
+    d_ptr(new HolonTaskModelPrivate(this, desktop))
 {
     desktop->addModel(this);
 }
@@ -42,7 +45,28 @@ int HolonTaskModel::columnCount(const QModelIndex &) const
 
 QVariant HolonTaskModel::data(const QModelIndex &index, int role) const
 {
-    if (index.isValid() && (role == Qt::DisplayRole || role == Qt::EditRole))
+    if (!index.isValid())
+        return QVariant();
+
+    if (role == Qt::DecorationRole)
+    {
+        QObject *object = d_ptr->object(index);
+
+        if (HolonTaskModelBranch *dir = qobject_cast<HolonTaskModelBranch *>(object))
+        {
+            if (dir->isExpanded())
+                return  dir->icon(Holon::Expanded);
+
+            return dir->icon(Holon::Collapsed);
+        }
+
+        if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(object))
+            return task->icon();
+
+        return QVariant();
+    }
+
+    if (role == Qt::DisplayRole)
     {
         QObject *object = d_ptr->object(index);
 
@@ -56,6 +80,11 @@ QVariant HolonTaskModel::data(const QModelIndex &index, int role) const
     }
 
     return QVariant();
+}
+
+HolonDesktop *HolonTaskModel::desktop() const
+{
+    return d_ptr->desktop;
 }
 
 QModelIndex HolonTaskModel::index(int row, int column, const QModelIndex &parent) const
