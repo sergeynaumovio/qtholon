@@ -7,6 +7,7 @@
 #include "holonthemeicons.h"
 #include "holontheme.h"
 #include "holonworkflowmodel.h"
+#include <QCoreApplication>
 #include <QEvent>
 #include <QHeaderView>
 #include <QMouseEvent>
@@ -40,7 +41,7 @@ void HolonTaskDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
 
     QStyledItemDelegate::paint(painter, option, index);
 
-    if (index.column() == 1 && isMouseOver)
+    if (isMouseOver && index.column() == 1)
     {
         HolonThemeIcons *icons = view->desktop()->currentTheme()->icons();
         QIcon icon = (option.state.testAnyFlag(QStyle::State_Selected) ? icons->closeBackgroundIcon()
@@ -89,11 +90,18 @@ bool HolonOpenTaskTreeView::eventFilter(QObject *object, QEvent *event)
         if (mouseEvent->modifiers() == Qt::NoModifier)
         {
             QModelIndex index = indexAt(mouseEvent->pos());
+
             if (mouseEvent->button() == Qt::MiddleButton || (index.isValid() &&
                                                              index.column() == 1 &&
                                                              mouseEvent->button() == Qt::LeftButton))
             {
                 emit closeActivated(index);
+
+                QPoint cursorPos = QCursor::pos();
+                QWidget *vp = viewport();
+                QMouseEvent e(QEvent::MouseMove, vp->mapFromGlobal(cursorPos), cursorPos, Qt::NoButton, {}, {});
+                QCoreApplication::sendEvent(vp, &e);
+
                 return true;
             }
         }
@@ -144,11 +152,20 @@ HolonOpenTaskTreeView::HolonOpenTaskTreeView(HolonDesktop *desktop)
             }
         });
 
-        connect(this, &QTreeView::clicked, this, [=](QModelIndex index)
+        connect(this, &QTreeView::clicked, this, [=](const QModelIndex &index)
         {
             QObject *clickedObject = static_cast<QObject *>(index.internalPointer());
             if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(clickedObject))
                 desktop->setCurrentTask(task);
+        });
+
+        connect(this, &HolonOpenTaskTreeView::closeActivated, this, [=](const QModelIndex &index)
+        {
+            d_ptr->workflowModel->removeRow(index.row());
+
+            QObject *clickedObject = static_cast<QObject *>(index.internalPointer());
+            if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(clickedObject))
+                desktop->closeTask(task);
         });
     }
 }

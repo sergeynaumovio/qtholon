@@ -108,6 +108,7 @@ public:
     void addWidget(QWidget *widget, QWidget *parent);
     void addWindow(HolonAbstractWindow *window);
     void addWindowArea(HolonWindowArea *windowArea);
+    void closeTask(HolonAbstractTask *task);
     void closeWindow(HolonAbstractWindow *window);
     void removeUncheckedDocks(HolonMainWindow *mainWindow);
     void setCurrentTask(HolonAbstractTask *task);
@@ -382,6 +383,11 @@ void HolonDesktopPrivateData::addWindowArea(HolonWindowArea *windowArea)
     }
 }
 
+void HolonDesktopPrivateData::closeTask(HolonAbstractTask *task)
+{
+    Q_UNUSED(task)
+}
+
 void HolonDesktopPrivateData::closeWindow(HolonAbstractWindow *window)
 {
     if (HolonSidebar *sidebar = sidebarByWindow.value(window))
@@ -595,6 +601,11 @@ void HolonDesktopPrivate::addWindow(HolonAbstractWindow *window)
 void HolonDesktopPrivate::addWindowArea(HolonWindowArea *windowArea)
 {
     d_ptr->addWindowArea(windowArea);
+}
+
+void HolonDesktopPrivate::closeTask(HolonAbstractTask *task)
+{
+    d_ptr->closeTask(task);
 }
 
 void HolonDesktopPrivate::closeWindow(HolonAbstractWindow *window)

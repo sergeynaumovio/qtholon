@@ -40,6 +40,7 @@ class HolonDesktopPrivate
     void addTheme(HolonTheme *theme);
     void addWindow(HolonAbstractWindow *window);
     void addWindowArea(HolonWindowArea *window);
+    void closeTask(HolonAbstractTask *task);
     void closeWindow(HolonAbstractWindow *window);
     HolonAbstractTask *currentTask() const;
     HolonTheme *currentTheme() const;

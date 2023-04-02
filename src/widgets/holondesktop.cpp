@@ -114,6 +114,11 @@ QString HolonDesktop::buttonStyleSheet() const
     return d_ptr->buttonStyleSheet();
 }
 
+void HolonDesktop::closeTask(HolonAbstractTask *task)
+{
+    d_ptr->closeTask(task);
+}
+
 void HolonDesktop::closeWindow(HolonAbstractWindow *window)
 {
     d_ptr->closeWindow(window);

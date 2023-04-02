@@ -45,6 +45,7 @@ public:
     void addWindow(HolonAbstractWindow *window);
     void addWindowArea(HolonWindowArea *windowArea);
     QString buttonStyleSheet() const;
+    void closeTask(HolonAbstractTask *task);
     void closeWindow(HolonAbstractWindow *window);
     HolonAbstractTask *currentTask() const;
     HolonTheme *currentTheme() const;
