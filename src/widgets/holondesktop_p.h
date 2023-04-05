@@ -29,7 +29,7 @@ class HolonDesktopPrivate
 
     friend class HolonDesktop;
     friend class HolonDesktopPrivateData;
-    const QScopedStorage<HolonDesktopPrivateData, 608> d_ptr;
+    const QScopedStorage<HolonDesktopPrivateData, 568> d_ptr;
 
     HolonDesktopPrivate(HolonDesktop *q);
 
@@ -73,9 +73,6 @@ public:
     ~HolonDesktopPrivate();
 
     QString buttonStyleSheet() const;
-    int menuBorderWidth() const;
-    QString menuStyleSheet() const;
-    int menuWidth() const;
     const QSet<HolonSidebarDock *> &sidebarDocks() const;
     QString sidebarMoveShortcut() const;
     int sidebarSwitchButtonWidth() const;

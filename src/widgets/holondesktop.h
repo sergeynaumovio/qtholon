@@ -52,9 +52,6 @@ public:
     HolonTaskModel *currentTaskModel() const;
     HolonTheme *currentTheme() const;
     HolonWorkflowModel *currentWorkflowModel() const;
-    int menuBorderWidth() const;
-    QString menuStyleSheet() const;
-    int menuWidth() const;
     void setCurrentTask(HolonAbstractTask *task);
     void setCurrentTaskModel(HolonTaskModel *model);
     void setCurrentTheme(HolonTheme *theme);

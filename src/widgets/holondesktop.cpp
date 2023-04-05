@@ -149,21 +149,6 @@ HolonWorkflowModel *HolonDesktop::currentWorkflowModel() const
     return d_ptr->currentWorkflowModel();
 }
 
-int HolonDesktop::menuBorderWidth() const
-{
-    return d_ptr->menuBorderWidth();
-}
-
-QString HolonDesktop::menuStyleSheet() const
-{
-    return d_ptr->menuStyleSheet();
-}
-
-int HolonDesktop::menuWidth() const
-{
-    return d_ptr->menuWidth();
-}
-
 void HolonDesktop::setCurrentTask(HolonAbstractTask *task)
 {
     d_ptr->setCurrentTask(task);

@@ -41,10 +41,6 @@ public:
     HolonDesktopPrivate &desktop_d;
     HolonDesktop *const q_ptr;
     const QString buttonStyleSheet;
-    const QString menuStyleSheet;
-    const QRegularExpression borderWidth{u"^QWidget\\s*{[^}]*border:[^};]*(?<px>\\d+)px[^}]*}$"_s};
-    const int menuBorderWidth;
-    const int menuWidth;
     const QString sidebarMoveShortcut;
     const int sidebarSwitchButtonWidth;
     const HolonDesktopPrivate::TaskbarArea taskbarArea;
@@ -253,16 +249,6 @@ HolonDesktopPrivateData::HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDe
 :   desktop_d(d),
     q_ptr(q),
     buttonStyleSheet(q_ptr->value(u"buttonStyleSheet"_s).toString()),
-    menuStyleSheet(q_ptr->value(u"menuStyleSheet"_s).toString()),
-    menuBorderWidth([this]()
-    {
-        QRegularExpressionMatch match = borderWidth.match(menuStyleSheet);
-        if (match.hasMatch())
-            return match.captured(u"px"_s).toInt();
-
-        return 1;
-    }()),
-    menuWidth(q_ptr->value(u"menuWidth"_s, 200).toInt()),
     sidebarMoveShortcut(q_ptr->value(u"sidebarMoveShortcut"_s).toString()),
     sidebarSwitchButtonWidth(q_ptr->value(u"sidebarSwitchButtonWidth"_s, 80).toInt()),
     taskbarArea([this]()
@@ -769,21 +755,6 @@ HolonDesktopPrivate::~HolonDesktopPrivate()
 QString HolonDesktopPrivate::buttonStyleSheet() const
 {
     return d_ptr->buttonStyleSheet;
-}
-
-int HolonDesktopPrivate::menuBorderWidth() const
-{
-    return d_ptr->menuBorderWidth;
-}
-
-QString HolonDesktopPrivate::menuStyleSheet() const
-{
-    return d_ptr->menuStyleSheet;
-}
-
-int HolonDesktopPrivate::menuWidth() const
-{
-    return d_ptr->menuWidth;
 }
 
 const QSet<HolonSidebarDock *> &HolonDesktopPrivate::sidebarDocks() const
