@@ -26,6 +26,19 @@ QString HolonThemeStyleSheetsPrivate::buttonStyleSheet()
     return button;
 }
 
+QString HolonThemeStyleSheetsPrivate::taskbarStyleSheet()
+{
+    if (!taskbar.isNull())
+        return taskbar;
+
+    if (!(taskbar = q_ptr->value(u"taskbarStyleSheet"_s).toString()).isNull())
+        return taskbar;
+
+    taskbar = u"QWidget { color: white; background-color: rgb(54, 56, 58); }"_s;
+
+    return taskbar;
+}
+
 QString HolonThemeStyleSheetsPrivate::titleBarStyleSheet()
 {
     if (!titleBar.isNull())

@@ -45,7 +45,6 @@ public:
     const HolonDesktopPrivate::TaskbarArea taskbarArea;
     const int taskbarPreferedHeight;
     const int taskbarPreferedWidth;
-    const QString taskbarStyleSheet;
 
     QWidget *screen;
     QWidget *top;
@@ -262,8 +261,7 @@ HolonDesktopPrivateData::HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDe
         return HolonDesktopPrivate::TaskbarArea::Bottom;
     }()),
     taskbarPreferedHeight(q_ptr->value(u"taskbarPreferedHeight"_s, 40).toInt()),
-    taskbarPreferedWidth(q_ptr->value(u"taskbarPreferedWidth"_s, 50).toInt()),
-    taskbarStyleSheet(q_ptr->value(u"taskbarStyleSheet"_s).toString())
+    taskbarPreferedWidth(q_ptr->value(u"taskbarPreferedWidth"_s, 50).toInt())
 { }
 
 void HolonDesktopPrivateData::addSidebar(HolonSidebar *sidebar)
@@ -779,11 +777,6 @@ int HolonDesktopPrivate::taskbarPreferedHeight() const
 int HolonDesktopPrivate::taskbarPreferedWidth() const
 {
     return d_ptr->taskbarPreferedWidth;
-}
-
-QString HolonDesktopPrivate::taskbarStyleSheet() const
-{
-    return d_ptr->taskbarStyleSheet;
 }
 
 QList<HolonAbstractWindow *> HolonDesktopPrivate::windows() const

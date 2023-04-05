@@ -4,6 +4,8 @@
 #include "holontaskbar.h"
 #include "holondesktop.h"
 #include "holondesktop_p.h"
+#include "holontheme.h"
+#include "holonthemestylesheets.h"
 #include "holonwindowareaswitch.h"
 #include <QBoxLayout>
 #include <QPainter>
@@ -54,7 +56,7 @@ HolonTaskbar::HolonTaskbar(HolonDesktopPrivate &desktop_d)
     layout()->addWidget(d_ptr->windowAreaSwitch = new HolonWindowAreaSwitch(desktop_d, this));
     layout()->addStretch();
 
-    setStyleSheet(desktop_d.taskbarStyleSheet());
+    setStyleSheet(desktop_d.q_ptr->currentTheme()->styleSheets()->taskbarStyleSheet());
 }
 
 HolonTaskbar::~HolonTaskbar()

@@ -10,10 +10,8 @@ saveShortcut = Ctrl+S
 sidebarMoveShortcut = Alt+M
 sidebarSwitchButtonWidth = 120
 styleSheet = QMainWindow::separator { width: 1px; height: 1px; background-color: rgb(34, 36, 38); }
-taskbarArea = bottom
 taskbarPreferedHeight = 26
 taskbarPreferedWidth = 50
-taskbarStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
 
 [holon/default-theme]
 class = HolonTheme
