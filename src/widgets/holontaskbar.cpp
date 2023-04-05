@@ -55,8 +55,6 @@ HolonTaskbar::HolonTaskbar(HolonDesktopPrivate &desktop_d)
     layout()->setSpacing(0);
     layout()->addWidget(d_ptr->windowAreaSwitch = new HolonWindowAreaSwitch(desktop_d, this));
     layout()->addStretch();
-
-    setStyleSheet(desktop_d.q_ptr->currentTheme()->styleSheets()->taskbarStyleSheet());
 }
 
 HolonTaskbar::~HolonTaskbar()

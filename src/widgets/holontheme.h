@@ -46,6 +46,7 @@ public:
 
     HolonThemeColors *colors() const;
     QIcon createIcon(const QList<HolonMaskColor<FileName>> &masks) const;
+    HolonDesktop *desktop() const;
     HolonThemeIcons *icons() const;
     bool isCurrent() const;
     HolonThemeStyleSheets *styleSheets() const;

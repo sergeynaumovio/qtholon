@@ -29,6 +29,7 @@ public:
     virtual QString buttonStyleSheet() const;
     HolonThemeColors *colors() const;
     HolonThemeIcons *icons() const;
+    virtual QString mainWindowStyleSheet() const;
     virtual QString taskbarStyleSheet() const;
     HolonTheme *theme() const;
     virtual QString titleBarStyleSheet() const;

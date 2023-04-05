@@ -30,6 +30,11 @@ HolonThemeIcons *HolonThemeStyleSheets::icons() const
     return d_ptr->icons;
 }
 
+QString HolonThemeStyleSheets::mainWindowStyleSheet() const
+{
+    return d_ptr->mainWindowStyleSheet();
+}
+
 QString HolonThemeStyleSheets::taskbarStyleSheet() const
 {
     return d_ptr->taskbarStyleSheet();

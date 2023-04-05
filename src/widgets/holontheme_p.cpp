@@ -11,21 +11,26 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-HolonThemePrivate::HolonThemePrivate(QLoaderSettings *settings, HolonTheme *theme)
+HolonThemePrivate::HolonThemePrivate(QLoaderSettings *settings,
+                                     HolonTheme *theme,
+                                     HolonDesktop *desktop)
 :   HolonThemePrivate(theme,
                       new HolonThemeColors(settings, theme),
                       new HolonThemeIcons(settings, theme),
-                      new HolonThemeStyleSheets(settings, theme))
+                      new HolonThemeStyleSheets(settings, theme),
+                      desktop)
 { }
 
 HolonThemePrivate::HolonThemePrivate(HolonTheme *t,
                                      HolonThemeColors *c,
                                      HolonThemeIcons *i,
-                                     HolonThemeStyleSheets *s)
+                                     HolonThemeStyleSheets *s,
+                                     HolonDesktop *d)
 :   theme(t),
     colors(c),
     icons(i),
-    styleSheets(s)
+    styleSheets(s),
+    desktop(d)
 {
     colors->d_ptr->icons = icons;
     colors->d_ptr->styleSheets = styleSheets;

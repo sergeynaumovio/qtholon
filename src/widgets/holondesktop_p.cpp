@@ -586,6 +586,7 @@ void HolonDesktopPrivate::addTaskModel(HolonTaskModel *taskModel)
 void HolonDesktopPrivate::addTheme(HolonTheme *theme)
 {
     d_ptr->addTheme(theme);
+    theme->d_ptr->desktop_d = this;
 }
 
 void HolonDesktopPrivate::addWindow(HolonAbstractWindow *window)

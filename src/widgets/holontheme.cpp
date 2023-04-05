@@ -3,6 +3,8 @@
 
 #include "holontheme.h"
 #include "holondesktop.h"
+#include "holondesktop_p.h"
+#include "holontaskbar.h"
 #include "holontheme_p.h"
 #include "holonthemecolors.h"
 #include "holonthemeicons.h"
@@ -22,7 +24,7 @@ HolonTheme::HolonTheme(QLoaderSettings *settings,
                        HolonThemeStyleSheets *styleSheets)
 :   QObject(desktop),
     QLoaderSettings(settings),
-    d_ptr(new HolonThemePrivate(this, colors, icons, styleSheets))
+    d_ptr(new HolonThemePrivate(this, colors, icons, styleSheets, desktop))
 {
     desktop->addTheme(this);
 }
@@ -30,9 +32,11 @@ HolonTheme::HolonTheme(QLoaderSettings *settings,
 HolonTheme::HolonTheme(QLoaderSettings *settings, HolonDesktop *desktop)
 :   QObject(desktop),
     QLoaderSettings(settings),
-    d_ptr(new HolonThemePrivate(settings, this))
+    d_ptr(new HolonThemePrivate(settings, this, desktop))
 {
     desktop->addTheme(this);
+    desktop->setStyleSheet(styleSheets()->mainWindowStyleSheet());
+    d_ptr->desktop_d->taskbar()->setStyleSheet(styleSheets()->taskbarStyleSheet());
 }
 
 HolonTheme::~HolonTheme()
@@ -137,6 +141,11 @@ QIcon HolonTheme::createIcon(const QList<HolonMaskColor<FileName>> &masks) const
     icon.addPixmap(coloringAll(iconMask), QIcon::Normal);
 
     return icon;
+}
+
+HolonDesktop *HolonTheme::desktop() const
+{
+    return d_ptr->desktop;
 }
 
 HolonThemeIcons *HolonTheme::icons() const

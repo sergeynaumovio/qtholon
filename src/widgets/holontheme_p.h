@@ -4,6 +4,8 @@
 #ifndef HOLONTHEME_P_H
 #define HOLONTHEME_P_H
 
+class HolonDesktop;
+class HolonDesktopPrivate;
 class HolonTheme;
 class HolonThemeColors;
 class HolonThemeIcons;
@@ -17,12 +19,18 @@ public:
     HolonThemeColors *const colors;
     HolonThemeIcons *const icons;
     HolonThemeStyleSheets *const styleSheets;
+    HolonDesktop *const desktop;
+    HolonDesktopPrivate *desktop_d;
 
-    HolonThemePrivate(QLoaderSettings *settings, HolonTheme *theme);
+    HolonThemePrivate(QLoaderSettings *settings,
+                      HolonTheme *theme,
+                      HolonDesktop *desktop);
+
     HolonThemePrivate(HolonTheme *theme,
                       HolonThemeColors *colors,
                       HolonThemeIcons *icons,
-                      HolonThemeStyleSheets *styleSheets);
+                      HolonThemeStyleSheets *styleSheets,
+                      HolonDesktop *desktop);
 
     void setCurrent(bool current);
 };

@@ -9,7 +9,6 @@ minimumWidth = 400
 saveShortcut = Ctrl+S
 sidebarMoveShortcut = Alt+M
 sidebarSwitchButtonWidth = 120
-styleSheet = QMainWindow::separator { width: 1px; height: 1px; background-color: rgb(34, 36, 38); }
 taskbarPreferedHeight = 26
 taskbarPreferedWidth = 50
 
