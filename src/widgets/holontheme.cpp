@@ -21,12 +21,14 @@ HolonTheme::HolonTheme(QLoaderSettings *settings,
                        HolonDesktop *desktop,
                        HolonThemeColors *colors,
                        HolonThemeIcons *icons,
-                       HolonThemeStyleSheets *styleSheets)
+                       HolonThemeStyleSheets *styles)
 :   QObject(desktop),
     QLoaderSettings(settings),
-    d_ptr(new HolonThemePrivate(this, colors, icons, styleSheets, desktop))
+    d_ptr(new HolonThemePrivate(this, colors, icons, styles, desktop))
 {
     desktop->addTheme(this);
+    desktop->setStyleSheet(styleSheets()->mainWindowStyleSheet());
+    d_ptr->desktop_d->taskbar()->setStyleSheet(styleSheets()->taskbarStyleSheet());
 }
 
 HolonTheme::HolonTheme(QLoaderSettings *settings, HolonDesktop *desktop)
