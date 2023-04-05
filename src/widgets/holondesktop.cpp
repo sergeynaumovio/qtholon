@@ -129,6 +129,11 @@ HolonAbstractTask *HolonDesktop::currentTask() const
     return d_ptr->currentTask();
 }
 
+HolonTaskModel *HolonDesktop::currentTaskModel() const
+{
+    return d_ptr->currentTaskModel();
+}
+
 HolonTheme *HolonDesktop::currentTheme() const
 {
     return d_ptr->currentTheme();
@@ -159,6 +164,11 @@ void HolonDesktop::setCurrentTask(HolonAbstractTask *task)
     d_ptr->setCurrentTask(task);
 }
 
+void HolonDesktop::setCurrentTaskModel(HolonTaskModel *model)
+{
+    d_ptr->setCurrentTaskModel(model);
+}
+
 void HolonDesktop::setCurrentTheme(HolonTheme *theme)
 {
     d_ptr->setCurrentTheme(theme);
@@ -177,11 +187,6 @@ void HolonDesktop::setCurrentWindowArea(HolonWindowArea *windowArea)
 void HolonDesktop::showWindowArea(HolonWindowArea *windowArea)
 {
     d_ptr->showWindowArea(windowArea);
-}
-
-HolonTaskModel *HolonDesktop::taskModel() const
-{
-    return d_ptr->taskModel();
 }
 
 int HolonDesktop::titleBarHeight() const

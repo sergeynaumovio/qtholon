@@ -43,16 +43,17 @@ class HolonDesktopPrivate
     void closeTask(HolonAbstractTask *task);
     void closeWindow(HolonAbstractWindow *window);
     HolonAbstractTask *currentTask() const;
+    HolonTaskModel *currentTaskModel() const;
     HolonTheme *currentTheme() const;
     void emitWarning(const QString &warning) const;
     void resizeEvent(QResizeEvent *e);
     void saveMainWindowState();
     void setCurrentTask(HolonAbstractTask *task);
+    void setCurrentTaskModel(HolonTaskModel *model);
     void setCurrentTheme(HolonTheme *theme);
     void setCurrentWindow(HolonAbstractWindow *window);
     void setCurrentWindowArea(HolonWindowArea *windowArea);
     void setLayout();
-    HolonTaskModel *taskModel() const;
     HolonWorkflowModel *workflowModel() const;
 
 public:

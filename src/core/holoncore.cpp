@@ -15,7 +15,7 @@ HolonCore::~HolonCore()
 
 void HolonCore::addModel(HolonTaskModel *model)
 {
-    d_ptr->models.tasks.append(model);
+    d_ptr->taskModelList.append(model);
 }
 
 void HolonCore::addModel(HolonWorkflowModel *model)

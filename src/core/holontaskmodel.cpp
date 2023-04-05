@@ -4,29 +4,8 @@
 #include "holontaskmodel.h"
 #include "holonabstracttask.h"
 #include "holondesktop.h"
+#include "holontaskmodel_p.h"
 #include "holontaskmodelbranch.h"
-
-class HolonTaskModelPrivate
-{
-public:
-    HolonTaskModel *const q_ptr;
-    HolonDesktop *const desktop;
-    QHash<HolonTaskModelBranch *, bool> expanded;
-
-    HolonTaskModelPrivate(HolonTaskModel *q, HolonDesktop *desk)
-    :   q_ptr(q),
-        desktop(desk)
-    { }
-
-    QObject *object(const QModelIndex &index) const
-    {
-        if (index.isValid())
-            if (QObject *obj = static_cast<QObject *>(index.internalPointer()))
-                return obj;
-
-        return q_ptr;
-    }
-};
 
 HolonTaskModel::HolonTaskModel(QLoaderSettings *settings, HolonDesktop *desktop)
 :   HolonAbstractItemModel(settings, desktop),

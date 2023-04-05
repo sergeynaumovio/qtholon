@@ -15,6 +15,7 @@
 #include "holonstackedwidget.h"
 #include "holontaskbar.h"
 #include "holontaskmodel.h"
+#include "holontaskmodel_p.h"
 #include "holontheme.h"
 #include "holontheme_p.h"
 #include "holonwindowarea_p.h"
@@ -102,6 +103,7 @@ public:
     HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDesktop *q);
     ~HolonDesktopPrivateData() { }
 
+    void addModel(HolonTaskModel *model);
     void addSidebar(HolonSidebar *sidebar);
     void addTask(HolonAbstractTask *task);
     void addTheme(HolonTheme *theme);
@@ -282,6 +284,19 @@ HolonDesktopPrivateData::HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDe
     titleBarHeight(q_ptr->value(u"titleBarHeight"_s, 10).toInt()),
     titleBarStyleSheet(q_ptr ->value(u"titleBarStyleSheet"_s).toString())
 { }
+
+void HolonDesktopPrivateData::addModel(HolonTaskModel *model)
+{
+    if (taskModelList.contains(model))
+        return;
+
+    taskModelList.append(model);
+
+    if (model->isCurrent() && !currentTaskModel)
+        currentTaskModel = model;
+    else
+        desktop_d.emitWarning(u"current task model already set"_s);
+}
 
 void HolonDesktopPrivateData::addSidebar(HolonSidebar *sidebar)
 {
@@ -563,11 +578,7 @@ HolonDesktopPrivate::HolonDesktopPrivate(HolonDesktop *q)
 
 void HolonDesktopPrivate::addModel(HolonTaskModel *model)
 {
-    if (d_ptr->models.tasks.isEmpty() || model->isCurrent())
-        d_ptr->models.current.task = model;
-
-    d_ptr->models.tasks.append(model);
-
+    d_ptr->addModel(model);
 }
 
 void HolonDesktopPrivate::addModel(HolonWorkflowModel *model)
@@ -618,6 +629,11 @@ HolonAbstractTask *HolonDesktopPrivate::currentTask() const
     return d_ptr->currentTask;
 }
 
+HolonTaskModel *HolonDesktopPrivate::currentTaskModel() const
+{
+    return d_ptr->currentTaskModel;
+}
+
 HolonTheme *HolonDesktopPrivate::currentTheme() const
 {
     if (!d_ptr->currentTheme)
@@ -663,6 +679,19 @@ void HolonDesktopPrivate::setCurrentTask(HolonAbstractTask *task)
         task->d_ptr->setCurrent(true);
 }
 
+void HolonDesktopPrivate::setCurrentTaskModel(HolonTaskModel *model)
+{
+    if (model == d_ptr->currentTaskModel)
+        return;
+
+    if (d_ptr->currentTaskModel)
+    {
+        d_ptr->currentTaskModel->d_ptr->setCurrent(false);
+        model->d_ptr->setCurrent(true);
+        q_ptr->emitWarning(u"task model change will take effect after restart"_s);
+    }
+}
+
 void HolonDesktopPrivate::setCurrentTheme(HolonTheme *theme)
 {
     if (theme == d_ptr->currentTheme)
@@ -670,7 +699,7 @@ void HolonDesktopPrivate::setCurrentTheme(HolonTheme *theme)
 
     if (d_ptr->currentTheme)
     {
-        QLoaderSettings *themeSettings = d_ptr->currentTheme->tree()->settings(d_ptr->currentTheme);
+        QLoaderSettings *themeSettings = q_ptr->tree()->settings(d_ptr->currentTheme);
         if (themeSettings != q_ptr)
         {
             d_ptr->currentTheme->d_ptr->setCurrent(false);
@@ -713,17 +742,13 @@ void HolonDesktopPrivate::setLayout()
     d_ptr->setLayout();
 }
 
-HolonTaskModel *HolonDesktopPrivate::taskModel() const
-{
-    return d_ptr->models.current.task;
-}
-
 HolonWorkflowModel *HolonDesktopPrivate::workflowModel() const
 {
     return d_ptr->models.current.workflow;
 }
 
-HolonDesktopPrivate::~HolonDesktopPrivate() = default;
+HolonDesktopPrivate::~HolonDesktopPrivate()
+{ }
 
 QString HolonDesktopPrivate::buttonStyleSheet() const
 {

@@ -12,14 +12,15 @@ class HolonWorkflowModel;
 class HolonCorePrivate
 {
 public:
+    QList<HolonTaskModel *> taskModelList;
+    HolonTaskModel *currentTaskModel{};
+
     struct
     {
-        QList<HolonTaskModel *> tasks;
         QList<HolonWorkflowModel *> workflows;
 
         struct
         {
-            HolonTaskModel *task{};
             HolonWorkflowModel *workflow{};
 
         } current;

@@ -14,6 +14,8 @@ class Q_HOLON_EXPORT HolonTaskModel : public HolonAbstractItemModel
 {
     Q_OBJECT
 
+    friend class HolonDesktopPrivate;
+    friend class HolonTaskModelPrivate;
     const QScopedPointer<HolonTaskModelPrivate> d_ptr;
 
 public:

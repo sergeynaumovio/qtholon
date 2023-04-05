@@ -47,7 +47,7 @@ public:
 
         view = new QTreeView;
 
-        if ((taskTreeModel = desktop->taskModel()))
+        if ((taskTreeModel = desktop->currentTaskModel()))
         {
             view->setFrameStyle(QFrame::NoFrame);
             view->setModel(taskTreeModel);

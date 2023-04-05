@@ -49,6 +49,7 @@ group = settings
 
 [holon/task-model]
 class = HolonTaskModel
+current = true
 
 [holon/task-model/branch-a]
 class = HolonTaskModelBranch
