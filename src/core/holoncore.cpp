@@ -13,12 +13,12 @@ HolonCore::HolonCore(QLoaderSettings *settings, QObject *parent)
 HolonCore::~HolonCore()
 { }
 
-void HolonCore::addModel(HolonTaskModel *model)
+void HolonCore::addTaskModel(HolonTaskModel *taskModel)
 {
-    d_ptr->taskModelList.append(model);
+    d_ptr->taskModelList.append(taskModel);
 }
 
-void HolonCore::addModel(HolonWorkflowModel *model)
+void HolonCore::addWorkflowModel(HolonWorkflowModel *workflowModel)
 {
-    d_ptr->workflowModelList.append(model);
+    d_ptr->workflowModelList.append(workflowModel);
 }

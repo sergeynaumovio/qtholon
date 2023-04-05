@@ -74,16 +74,6 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
 HolonDesktop::~HolonDesktop()
 { }
 
-void HolonDesktop::addModel(HolonTaskModel *model)
-{
-    d_ptr->addModel(model);
-}
-
-void HolonDesktop::addModel(HolonWorkflowModel *model)
-{
-    d_ptr->addModel(model);
-}
-
 void HolonDesktop::addSidebar(HolonSidebar *sidebar)
 {
     d_ptr->addSidebar(sidebar);
@@ -92,6 +82,11 @@ void HolonDesktop::addSidebar(HolonSidebar *sidebar)
 void HolonDesktop::addTask(HolonAbstractTask *task)
 {
     d_ptr->addTask(task);
+}
+
+void HolonDesktop::addTaskModel(HolonTaskModel *taskModel)
+{
+    d_ptr->addTaskModel(taskModel);
 }
 
 void HolonDesktop::addTheme(HolonTheme *theme)
@@ -107,6 +102,11 @@ void HolonDesktop::addWindow(HolonAbstractWindow *window)
 void HolonDesktop::addWindowArea(HolonWindowArea *windowArea)
 {
     d_ptr->addWindowArea(windowArea);
+}
+
+void HolonDesktop::addWorkflowModel(HolonWorkflowModel *workflowModel)
+{
+    d_ptr->addWorkflowModel(workflowModel);
 }
 
 void HolonDesktop::closeTask(HolonAbstractTask *task)

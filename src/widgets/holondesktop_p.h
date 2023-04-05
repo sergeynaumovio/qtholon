@@ -33,13 +33,13 @@ class HolonDesktopPrivate
 
     HolonDesktopPrivate(HolonDesktop *q);
 
-    void addModel(HolonTaskModel *model);
-    void addModel(HolonWorkflowModel *model);
     void addSidebar(HolonSidebar *sidebar);
     void addTask(HolonAbstractTask *task);
+    void addTaskModel(HolonTaskModel *taskModel);
     void addTheme(HolonTheme *theme);
     void addWindow(HolonAbstractWindow *window);
     void addWindowArea(HolonWindowArea *window);
+    void addWorkflowModel(HolonWorkflowModel *workflowModel);
     void closeTask(HolonAbstractTask *task);
     void closeWindow(HolonAbstractWindow *window);
     void closeWindowArea(HolonWindowArea *windowArea);

@@ -96,14 +96,14 @@ public:
     HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDesktop *q);
     ~HolonDesktopPrivateData() { }
 
-    void addModel(HolonTaskModel *model);
-    void addModel(HolonWorkflowModel *model);
     void addSidebar(HolonSidebar *sidebar);
     void addTask(HolonAbstractTask *task);
+    void addTaskModel(HolonTaskModel *taskModel);
     void addTheme(HolonTheme *theme);
     void addWidget(QWidget *widget, QWidget *parent);
     void addWindow(HolonAbstractWindow *window);
     void addWindowArea(HolonWindowArea *windowArea);
+    void addWorkflowModel(HolonWorkflowModel *workflowModel);
     void closeTask(HolonAbstractTask *task);
     void closeWindow(HolonAbstractWindow *window);
     void removeUncheckedDocks(HolonMainWindow *mainWindow);
@@ -266,32 +266,6 @@ HolonDesktopPrivateData::HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDe
     taskbarStyleSheet(q_ptr->value(u"taskbarStyleSheet"_s).toString())
 { }
 
-void HolonDesktopPrivateData::addModel(HolonTaskModel *model)
-{
-    if (taskModelList.contains(model))
-        return;
-
-    taskModelList.append(model);
-
-    if (model->isCurrent() && !currentTaskModel)
-        currentTaskModel = model;
-    else
-        desktop_d.emitWarning(u"current task model already set"_s);
-}
-
-void HolonDesktopPrivateData::addModel(HolonWorkflowModel *model)
-{
-    if (workflowModelList.contains(model))
-        return;
-
-    workflowModelList.append(model);
-
-    if (model->isCurrent() && !currentWorkflowModel)
-        currentWorkflowModel = model;
-    else
-        desktop_d.emitWarning(u"current workflow model already set"_s);
-}
-
 void HolonDesktopPrivateData::addSidebar(HolonSidebar *sidebar)
 {
     HolonSidebarDock *sidebarDock;
@@ -336,6 +310,19 @@ void HolonDesktopPrivateData::addTask(HolonAbstractTask *task)
 
     if (task->isCurrent())
         currentTask = task;
+}
+
+void HolonDesktopPrivateData::addTaskModel(HolonTaskModel *taskModel)
+{
+    if (taskModelList.contains(taskModel))
+        return;
+
+    taskModelList.append(taskModel);
+
+    if (taskModel->isCurrent() && !currentTaskModel)
+        currentTaskModel = taskModel;
+    else
+        desktop_d.emitWarning(u"current task model already set"_s);
 }
 
 void HolonDesktopPrivateData::addTheme(HolonTheme *theme)
@@ -390,6 +377,19 @@ void HolonDesktopPrivateData::addWindowArea(HolonWindowArea *windowArea)
         internalMainWindow->setCurrentWindowArea(windowArea);
         currentWindowArea = windowArea;
     }
+}
+
+void HolonDesktopPrivateData::addWorkflowModel(HolonWorkflowModel *workflowModel)
+{
+    if (workflowModelList.contains(workflowModel))
+        return;
+
+    workflowModelList.append(workflowModel);
+
+    if (workflowModel->isCurrent() && !currentWorkflowModel)
+        currentWorkflowModel = workflowModel;
+    else
+        desktop_d.emitWarning(u"current workflow model already set"_s);
 }
 
 void HolonDesktopPrivateData::closeTask(HolonAbstractTask *task)
@@ -570,16 +570,6 @@ HolonDesktopPrivate::HolonDesktopPrivate(HolonDesktop *q)
     }
 }
 
-void HolonDesktopPrivate::addModel(HolonTaskModel *model)
-{
-    d_ptr->addModel(model);
-}
-
-void HolonDesktopPrivate::addModel(HolonWorkflowModel *model)
-{
-    d_ptr->addModel(model);
-}
-
 void HolonDesktopPrivate::addSidebar(HolonSidebar *sidebar)
 {
     d_ptr->addSidebar(sidebar);
@@ -588,6 +578,11 @@ void HolonDesktopPrivate::addSidebar(HolonSidebar *sidebar)
 void HolonDesktopPrivate::addTask(HolonAbstractTask *task)
 {
     d_ptr->addTask(task);
+}
+
+void HolonDesktopPrivate::addTaskModel(HolonTaskModel *taskModel)
+{
+    d_ptr->addTaskModel(taskModel);
 }
 
 void HolonDesktopPrivate::addTheme(HolonTheme *theme)
@@ -603,6 +598,11 @@ void HolonDesktopPrivate::addWindow(HolonAbstractWindow *window)
 void HolonDesktopPrivate::addWindowArea(HolonWindowArea *windowArea)
 {
     d_ptr->addWindowArea(windowArea);
+}
+
+void HolonDesktopPrivate::addWorkflowModel(HolonWorkflowModel *workflowModel)
+{
+    d_ptr->addWorkflowModel(workflowModel);
 }
 
 void HolonDesktopPrivate::closeTask(HolonAbstractTask *task)

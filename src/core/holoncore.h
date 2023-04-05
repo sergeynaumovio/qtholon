@@ -21,8 +21,8 @@ public:
     HolonCore(QLoaderSettings *settings, QObject *parent);
     ~HolonCore();
 
-    void addModel(HolonTaskModel *model);
-    void addModel(HolonWorkflowModel *model);
+    void addTaskModel(HolonTaskModel *taskModel);
+    void addWorkflowModel(HolonWorkflowModel *workflowModel);
 };
 
 #endif // HOLONCORE_H

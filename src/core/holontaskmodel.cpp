@@ -14,7 +14,7 @@ HolonTaskModel::HolonTaskModel(QLoaderSettings *settings, HolonDesktop *desktop)
     QLoaderSettings(settings),
     d_ptr(new HolonTaskModelPrivate(this, desktop))
 {
-    desktop->addModel(this);
+    desktop->addTaskModel(this);
 }
 
 HolonTaskModel::~HolonTaskModel()
