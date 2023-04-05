@@ -47,11 +47,11 @@ public:
     QString buttonStyleSheet() const;
     void closeTask(HolonAbstractTask *task);
     void closeWindow(HolonAbstractWindow *window);
+    void closeWindowArea(HolonWindowArea *windowArea);
     HolonAbstractTask *currentTask() const;
     HolonTaskModel *currentTaskModel() const;
     HolonTheme *currentTheme() const;
     HolonWorkflowModel *currentWorkflowModel() const;
-    void hideWindowArea(HolonWindowArea *windowArea);
     int menuBorderWidth() const;
     QString menuStyleSheet() const;
     int menuWidth() const;
@@ -60,7 +60,6 @@ public:
     void setCurrentTheme(HolonTheme *theme);
     void setCurrentWindow(HolonAbstractWindow *window);
     void setCurrentWindowArea(HolonWindowArea *windowArea);
-    void showWindowArea(HolonWindowArea *windowArea);
     int titleBarHeight() const;
     QString titleBarStyleSheet() const;
     QList<HolonAbstractWindow *> windows() const;

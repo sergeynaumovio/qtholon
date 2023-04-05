@@ -25,8 +25,7 @@ public:
 
     void addSidebar(HolonSidebar *sidebar);
     void addWindowArea(HolonWindowArea *windowArea);
-    void hideWindowArea(HolonWindowArea *windowArea);
-    void showWindowArea(HolonWindowArea *windowArea);
+    void closeWindowArea(HolonWindowArea *windowArea);
 };
 
 #endif // HOLONWINDOWAREASWITCH_H

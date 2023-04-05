@@ -635,6 +635,11 @@ void HolonDesktopPrivate::closeWindow(HolonAbstractWindow *window)
     d_ptr->closeWindow(window);
 }
 
+void HolonDesktopPrivate::closeWindowArea(HolonWindowArea *windowArea)
+{
+    taskbar()->sidebarSwitch()->closeWindowArea(windowArea);
+}
+
 HolonAbstractTask *HolonDesktopPrivate::currentTask() const
 {
     return d_ptr->currentTask;
@@ -766,11 +771,6 @@ QString HolonDesktopPrivate::buttonStyleSheet() const
     return d_ptr->buttonStyleSheet;
 }
 
-void HolonDesktopPrivate::hideWindowArea(HolonWindowArea *windowArea)
-{
-    taskbar()->sidebarSwitch()->hideWindowArea(windowArea);
-}
-
 int HolonDesktopPrivate::menuBorderWidth() const
 {
     return d_ptr->menuBorderWidth;
@@ -799,11 +799,6 @@ int HolonDesktopPrivate::titleBarHeight() const
 QString HolonDesktopPrivate::titleBarStyleSheet() const
 {
     return d_ptr->titleBarStyleSheet;
-}
-
-void HolonDesktopPrivate::showWindowArea(HolonWindowArea *windowArea)
-{
-    taskbar()->sidebarSwitch()->showWindowArea(windowArea);
 }
 
 QString HolonDesktopPrivate::sidebarMoveShortcut() const

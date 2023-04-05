@@ -124,6 +124,11 @@ void HolonDesktop::closeWindow(HolonAbstractWindow *window)
     d_ptr->closeWindow(window);
 }
 
+void HolonDesktop::closeWindowArea(HolonWindowArea *windowArea)
+{
+    d_ptr->closeWindowArea(windowArea);
+}
+
 HolonAbstractTask *HolonDesktop::currentTask() const
 {
     return d_ptr->currentTask();
@@ -142,11 +147,6 @@ HolonTheme *HolonDesktop::currentTheme() const
 HolonWorkflowModel *HolonDesktop::currentWorkflowModel() const
 {
     return d_ptr->currentWorkflowModel();
-}
-
-void HolonDesktop::hideWindowArea(HolonWindowArea *windowArea)
-{
-    d_ptr->hideWindowArea(windowArea);
 }
 
 int HolonDesktop::menuBorderWidth() const
@@ -187,11 +187,6 @@ void HolonDesktop::setCurrentWindow(HolonAbstractWindow *window)
 void HolonDesktop::setCurrentWindowArea(HolonWindowArea *windowArea)
 {
     d_ptr->setCurrentWindowArea(windowArea);
-}
-
-void HolonDesktop::showWindowArea(HolonWindowArea *windowArea)
-{
-    d_ptr->showWindowArea(windowArea);
 }
 
 int HolonDesktop::titleBarHeight() const

@@ -231,7 +231,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
 
                 connect(d_ptr->hideWindowAreaButton, &QPushButton::clicked, this, [=]()
                 {
-                    desktop->hideWindowArea(windowarea_d_ptr->q_ptr);
+                    desktop->closeWindowArea(windowarea_d_ptr->q_ptr);
                 });
             }
         }

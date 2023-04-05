@@ -31,16 +31,10 @@ public:
     :   desktop_d(desk_d)
     { }
 
-    void hideWindowArea(HolonWindowArea *windowArea)
+    void closeWindowArea(HolonWindowArea *windowArea)
     {
         if (QAbstractButton *button = buttonByWindowArea.value(windowArea))
             button->setChecked(false);
-    }
-
-    void showWindowArea(HolonWindowArea *windowArea)
-    {
-        if (QAbstractButton *button = buttonByWindowArea.value(windowArea))
-            button->setChecked(true);
     }
 };
 
@@ -257,12 +251,7 @@ void HolonWindowAreaSwitch::addWindowArea(HolonWindowArea *windowArea)
     layout()->addWidget(new HolonWindowAreaButton(*d_ptr, windowArea, this));
 }
 
-void HolonWindowAreaSwitch::hideWindowArea(HolonWindowArea *windowArea)
+void HolonWindowAreaSwitch::closeWindowArea(HolonWindowArea *windowArea)
 {
-    d_ptr->hideWindowArea(windowArea);
-}
-
-void HolonWindowAreaSwitch::showWindowArea(HolonWindowArea *windowArea)
-{
-    d_ptr->showWindowArea(windowArea);
+    d_ptr->closeWindowArea(windowArea);
 }
