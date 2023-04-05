@@ -174,11 +174,6 @@ void HolonDesktop::setCurrentWindowArea(HolonWindowArea *windowArea)
     d_ptr->setCurrentWindowArea(windowArea);
 }
 
-int HolonDesktop::titleBarHeight() const
-{
-    return d_ptr->titleBarHeight();
-}
-
 QString HolonDesktop::titleBarStyleSheet() const
 {
     return d_ptr->titleBarStyleSheet();

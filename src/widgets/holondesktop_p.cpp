@@ -47,7 +47,6 @@ public:
     const int taskbarPreferedHeight;
     const int taskbarPreferedWidth;
     const QString taskbarStyleSheet;
-    const int titleBarHeight;
     const QString titleBarStyleSheet;
 
     QWidget *screen;
@@ -268,7 +267,6 @@ HolonDesktopPrivateData::HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDe
     taskbarPreferedHeight(q_ptr->value(u"taskbarPreferedHeight"_s, 40).toInt()),
     taskbarPreferedWidth(q_ptr->value(u"taskbarPreferedWidth"_s, 50).toInt()),
     taskbarStyleSheet(q_ptr->value(u"taskbarStyleSheet"_s).toString()),
-    titleBarHeight(q_ptr->value(u"titleBarHeight"_s, 10).toInt()),
     titleBarStyleSheet(q_ptr ->value(u"titleBarStyleSheet"_s).toString())
 { }
 
@@ -760,11 +758,6 @@ QString HolonDesktopPrivate::buttonStyleSheet() const
 const QSet<HolonSidebarDock *> &HolonDesktopPrivate::sidebarDocks() const
 {
     return d_ptr->sidebars.docks;
-}
-
-int HolonDesktopPrivate::titleBarHeight() const
-{
-    return d_ptr->titleBarHeight;
 }
 
 QString HolonDesktopPrivate::titleBarStyleSheet() const

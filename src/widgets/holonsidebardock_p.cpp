@@ -21,6 +21,8 @@ using namespace Qt::Literals::StringLiterals;
 
 class HolonSidebarDockTitleBar : public QWidget
 {
+    const int titleBarHeight{24};
+
 public:
     HolonSidebarDockTitleBar(HolonDesktopPrivate &desktop_d, QDockWidget *parent)
     :   QWidget(parent)
@@ -31,7 +33,7 @@ public:
             layout()->setContentsMargins({});
             QLabel *label = new QLabel(u""_s, this);
             {
-                label->setFixedHeight(desktop_d.titleBarHeight());
+                label->setFixedHeight(titleBarHeight);
                 layout()->addWidget(label);
             }
         }

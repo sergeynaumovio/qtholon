@@ -29,7 +29,7 @@ class HolonDesktopPrivate
 
     friend class HolonDesktop;
     friend class HolonDesktopPrivateData;
-    const QScopedStorage<HolonDesktopPrivateData, 568> d_ptr;
+    const QScopedStorage<HolonDesktopPrivateData, 560> d_ptr;
 
     HolonDesktopPrivate(HolonDesktop *q);
 
@@ -81,7 +81,6 @@ public:
     int taskbarPreferedHeight() const;
     int taskbarPreferedWidth() const;
     QString taskbarStyleSheet() const;
-    int titleBarHeight() const;
     QString titleBarStyleSheet() const;
     QList<HolonAbstractWindow *> windows() const;
 

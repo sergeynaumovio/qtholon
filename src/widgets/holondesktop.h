@@ -57,7 +57,6 @@ public:
     void setCurrentTheme(HolonTheme *theme);
     void setCurrentWindow(HolonAbstractWindow *window);
     void setCurrentWindowArea(HolonWindowArea *windowArea);
-    int titleBarHeight() const;
     QString titleBarStyleSheet() const;
     QList<HolonAbstractWindow *> windows() const;
 };

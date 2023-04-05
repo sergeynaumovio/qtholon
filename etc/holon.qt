@@ -15,7 +15,6 @@ taskbarArea = bottom
 taskbarPreferedHeight = 26
 taskbarPreferedWidth = 50
 taskbarStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
-titleBarHeight = 24
 titleBarStyleSheet = QWidget { color: white; background-color: rgb(54, 56, 58); }
 
 [holon/default-theme]

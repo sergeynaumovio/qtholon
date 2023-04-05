@@ -25,6 +25,7 @@ class HolonTitleBarPrivate
 {
 public:
     HolonDesktop *const desktop;
+    const int titleBarHeight{24};
     QPushButton *splitButton{};
     QPushButton *maximizeButton{};
     QPushButton *closeButton{};
@@ -100,7 +101,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
         {
             QComboBox *combobox = new QComboBox(this);
             {
-                combobox->setFixedHeight(desktop->titleBarHeight());
+                combobox->setFixedHeight(d_ptr->titleBarHeight);
 
                 QList<HolonAbstractWindow *> siblingWindowList = siblingWindows(window);
                 for (const HolonAbstractWindow *siblingWindow : siblingWindowList)
@@ -114,7 +115,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
         {
             QLabel *label = new QLabel(window->title(), this);
             {
-                label->setFixedHeight(desktop->titleBarHeight());
+                label->setFixedHeight(d_ptr->titleBarHeight);
                 layout()->addWidget(label);
             }
         }
@@ -124,7 +125,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
             QPushButton *button = new QPushButton(icon, QString(), this);
             {
                 button->hide();
-                button->setFixedHeight(desktop->titleBarHeight());
+                button->setFixedHeight(d_ptr->titleBarHeight);
                 button->setFixedWidth(button->height() * 1.2);
                 button->setFlat(true);
                 button->setStyleSheet(desktop->buttonStyleSheet());
