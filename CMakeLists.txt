@@ -35,9 +35,7 @@ target_compile_definitions(${QT_HOLON_LIBRARY}
 )
 
 target_sources(${QT_HOLON_LIBRARY}
-    PRIVATE src/core/holonabstractitemmodel.cpp
-            src/core/holonabstractitemmodel.h
-            src/core/holoncore.cpp
+    PRIVATE src/core/holoncore.cpp
             src/core/holoncore.h
             src/core/holoncore_p.h
             src/core/holonnamespace.h
@@ -134,11 +132,9 @@ target_include_directories(${QT_HOLON_LIBRARY}
 )
 
 set(QT_HOLON_PUBLIC_HEADERS
-    src/core/HolonAbstractItemModel
     src/core/HolonCore
     src/core/HolonTaskModel
     src/core/HolonWorkflowModel
-    src/core/holonabstractitemmodel.h
     src/core/holoncore.h
     src/core/holonnamespace.h
     src/core/holontaskmodel.h

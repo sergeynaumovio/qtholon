@@ -7,8 +7,11 @@
 #include "holontaskmodel_p.h"
 #include "holontaskmodelbranch.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 HolonTaskModel::HolonTaskModel(QLoaderSettings *settings, HolonDesktop *desktop)
-:   HolonAbstractItemModel(settings, desktop),
+:   QAbstractItemModel(desktop),
+    QLoaderSettings(settings),
     d_ptr(new HolonTaskModelPrivate(this, desktop))
 {
     desktop->addModel(this);
@@ -76,6 +79,11 @@ QModelIndex HolonTaskModel::index(int row, int column, const QModelIndex &parent
             return createIndex(row, column, childObject);
 
     return QModelIndex();
+}
+
+bool HolonTaskModel::isCurrent() const
+{
+    return value(u"current"_s).toBool();
 }
 
 QModelIndex HolonTaskModel::parent(const QModelIndex &child) const

@@ -4,13 +4,16 @@
 #ifndef HOLONTASKMODEL_H
 #define HOLONTASKMODEL_H
 
-#include "holonabstractitemmodel.h"
 #include "qtholonglobal.h"
+#include <QAbstractItemModel>
+#include <QLoaderSettings>
 
+class HolonCore;
+class HolonDesktop;
 class HolonTaskModelBranch;
 class HolonTaskModelPrivate;
 
-class Q_HOLON_EXPORT HolonTaskModel : public HolonAbstractItemModel
+class Q_HOLON_EXPORT HolonTaskModel : public QAbstractItemModel, public QLoaderSettings
 {
     Q_OBJECT
 
@@ -26,6 +29,7 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     HolonDesktop *desktop() const;
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
+    bool isCurrent() const;
     QModelIndex parent(const QModelIndex &child) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 };

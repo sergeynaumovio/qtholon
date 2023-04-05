@@ -47,14 +47,16 @@ public:
 };
 
 HolonWorkflowModel::HolonWorkflowModel(QLoaderSettings *settings, HolonCore *core)
-:   HolonAbstractItemModel(settings, core),
+:   QAbstractItemModel(core),
+    QLoaderSettings(settings),
     d_ptr(new HolonOpenTasksModelPrivate(this, core, nullptr))
 {
     core->addModel(this);
 }
 
 HolonWorkflowModel::HolonWorkflowModel(QLoaderSettings *settings, HolonDesktop *desktop)
-:   HolonAbstractItemModel(settings, desktop),
+:   QAbstractItemModel(desktop),
+    QLoaderSettings(settings),
     d_ptr(new HolonOpenTasksModelPrivate(this, nullptr, desktop))
 {
     desktop->addModel(this);
@@ -76,11 +78,6 @@ int HolonWorkflowModel::columnCount(const QModelIndex &) const
 HolonCore *HolonWorkflowModel::core() const
 {
     return d_ptr->core;
-}
-
-QModelIndex HolonWorkflowModel::restoreCurrentIndex() const
-{
-    return d_ptr->currentIndex;
 }
 
 QVariant HolonWorkflowModel::data(const QModelIndex &index, int role) const
@@ -130,9 +127,19 @@ bool HolonWorkflowModel::insertRows(int position, int rows, const QModelIndex &p
     return true;
 }
 
+bool HolonWorkflowModel::isCurrent() const
+{
+    return value(u"current"_s).toBool();
+}
+
 QModelIndex HolonWorkflowModel::parent(const QModelIndex &) const
 {
     return QModelIndex();
+}
+
+QModelIndex HolonWorkflowModel::restoreCurrentIndex() const
+{
+    return d_ptr->currentIndex;
 }
 
 int HolonWorkflowModel::rowCount(const QModelIndex &parent) const
