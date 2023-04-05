@@ -39,7 +39,7 @@ QIcon HolonThemeIconsPrivate::dirClosedIcon()
 #ifdef Q_OS_WINDOWS
         dirClosed.addPixmap(QApplication::style()->standardIcon(QStyle::SP_DirIcon).pixmap(QSize(16, 16)));
 #else
-        dirClosed.addPixmap(QApplication::style()->standardIcon(QStyle::SP_DirOpenIcon).pixmap(QSize(16, 16)));
+        dirClosed.addPixmap(QApplication::style()->standardIcon(QStyle::SP_DirClosedIcon).pixmap(QSize(16, 16)));
 #endif
 
     return dirClosed;
