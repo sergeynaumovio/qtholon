@@ -40,14 +40,12 @@ class HolonDesktopPrivateData : public HolonCorePrivate
 public:
     HolonDesktopPrivate &desktop_d;
     HolonDesktop *const q_ptr;
-    const QString buttonStyleSheet;
     const QString sidebarMoveShortcut;
     const int sidebarSwitchButtonWidth;
     const HolonDesktopPrivate::TaskbarArea taskbarArea;
     const int taskbarPreferedHeight;
     const int taskbarPreferedWidth;
     const QString taskbarStyleSheet;
-    const QString titleBarStyleSheet;
 
     QWidget *screen;
     QWidget *top;
@@ -247,7 +245,6 @@ void HolonDesktopPrivateData::addWindowAreaStackedWidget(HolonWindowAreaStackedW
 HolonDesktopPrivateData::HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDesktop *q)
 :   desktop_d(d),
     q_ptr(q),
-    buttonStyleSheet(q_ptr->value(u"buttonStyleSheet"_s).toString()),
     sidebarMoveShortcut(q_ptr->value(u"sidebarMoveShortcut"_s).toString()),
     sidebarSwitchButtonWidth(q_ptr->value(u"sidebarSwitchButtonWidth"_s, 80).toInt()),
     taskbarArea([this]()
@@ -266,8 +263,7 @@ HolonDesktopPrivateData::HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDe
     }()),
     taskbarPreferedHeight(q_ptr->value(u"taskbarPreferedHeight"_s, 40).toInt()),
     taskbarPreferedWidth(q_ptr->value(u"taskbarPreferedWidth"_s, 50).toInt()),
-    taskbarStyleSheet(q_ptr->value(u"taskbarStyleSheet"_s).toString()),
-    titleBarStyleSheet(q_ptr ->value(u"titleBarStyleSheet"_s).toString())
+    taskbarStyleSheet(q_ptr->value(u"taskbarStyleSheet"_s).toString())
 { }
 
 void HolonDesktopPrivateData::addModel(HolonTaskModel *model)
@@ -750,19 +746,9 @@ void HolonDesktopPrivate::setLayout()
 HolonDesktopPrivate::~HolonDesktopPrivate()
 { }
 
-QString HolonDesktopPrivate::buttonStyleSheet() const
-{
-    return d_ptr->buttonStyleSheet;
-}
-
 const QSet<HolonSidebarDock *> &HolonDesktopPrivate::sidebarDocks() const
 {
     return d_ptr->sidebars.docks;
-}
-
-QString HolonDesktopPrivate::titleBarStyleSheet() const
-{
-    return d_ptr->titleBarStyleSheet;
 }
 
 QString HolonDesktopPrivate::sidebarMoveShortcut() const

@@ -7,8 +7,6 @@
 #include "holonthemeicons_p.h"
 #include <QLoaderSettings>
 
-using namespace Qt::Literals::StringLiterals;
-
 HolonThemeIcons::HolonThemeIcons(QLoaderSettings *settings, HolonTheme *theme)
 :   QObject(theme),
     QLoaderSettings(settings),
@@ -81,6 +79,11 @@ QIcon HolonThemeIcons::splitButtonHorizontalIcon() const
 QIcon HolonThemeIcons::splitButtonVerticalIcon() const
 {
     return d_ptr->splitButtonVerticalIcon();
+}
+
+HolonThemeStyleSheets *HolonThemeIcons::styleSheets() const
+{
+    return d_ptr->styleSheets;
 }
 
 HolonTheme *HolonThemeIcons::theme() const

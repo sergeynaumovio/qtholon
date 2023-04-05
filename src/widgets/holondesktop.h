@@ -44,7 +44,6 @@ public:
     void addTheme(HolonTheme *theme);
     void addWindow(HolonAbstractWindow *window);
     void addWindowArea(HolonWindowArea *windowArea);
-    QString buttonStyleSheet() const;
     void closeTask(HolonAbstractTask *task);
     void closeWindow(HolonAbstractWindow *window);
     void closeWindowArea(HolonWindowArea *windowArea);
@@ -57,7 +56,6 @@ public:
     void setCurrentTheme(HolonTheme *theme);
     void setCurrentWindow(HolonAbstractWindow *window);
     void setCurrentWindowArea(HolonWindowArea *windowArea);
-    QString titleBarStyleSheet() const;
     QList<HolonAbstractWindow *> windows() const;
 };
 

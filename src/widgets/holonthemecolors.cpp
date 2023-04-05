@@ -6,8 +6,6 @@
 #include "holonthemecolors_p.h"
 #include <QLoaderSettings>
 
-using namespace Qt::Literals::StringLiterals;
-
 HolonThemeColors::HolonThemeColors(QLoaderSettings *settings, HolonTheme *theme)
 :   QObject(theme),
     QLoaderSettings(settings),
@@ -40,6 +38,11 @@ QColor HolonThemeColors::panelTextColorDark() const
 QColor HolonThemeColors::panelTextColorLight() const
 {
     return d_ptr->panelTextColorLight();
+}
+
+HolonThemeStyleSheets *HolonThemeColors::styleSheets() const
+{
+    return d_ptr->styleSheets;
 }
 
 HolonTheme *HolonThemeColors::theme() const

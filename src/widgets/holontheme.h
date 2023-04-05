@@ -13,6 +13,7 @@ class HolonDesktop;
 class HolonThemeColors;
 class HolonThemeIcons;
 class HolonThemePrivate;
+class HolonThemeStyleSheets;
 
 using FileName = QString;
 
@@ -33,7 +34,11 @@ class Q_HOLON_EXPORT HolonTheme : public QObject, public QLoaderSettings
     const QScopedPointer<HolonThemePrivate> d_ptr;
 
 protected:
-    HolonTheme(QLoaderSettings *settings, HolonDesktop *desktop, HolonThemeColors *colors, HolonThemeIcons *icons);
+    HolonTheme(QLoaderSettings *settings,
+               HolonDesktop *desktop,
+               HolonThemeColors *colors,
+               HolonThemeIcons *icons,
+               HolonThemeStyleSheets *styleSheets);
 
 public:
     HolonTheme(QLoaderSettings *settings, HolonDesktop *desktop);
@@ -43,6 +48,7 @@ public:
     QIcon createIcon(const QList<HolonMaskColor<FileName>> &masks) const;
     HolonThemeIcons *icons() const;
     bool isCurrent() const;
+    HolonThemeStyleSheets *styleSheets() const;
 };
 
 #endif // HOLONTHEME_H

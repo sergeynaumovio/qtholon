@@ -7,6 +7,7 @@
 class HolonTheme;
 class HolonThemeColors;
 class HolonThemeIcons;
+class HolonThemeStyleSheets;
 class QLoaderSettings;
 
 class HolonThemePrivate
@@ -15,9 +16,13 @@ public:
     HolonTheme *const theme;
     HolonThemeColors *const colors;
     HolonThemeIcons *const icons;
+    HolonThemeStyleSheets *const styleSheets;
 
     HolonThemePrivate(QLoaderSettings *settings, HolonTheme *theme);
-    HolonThemePrivate(HolonTheme *theme, HolonThemeColors *colors, HolonThemeIcons *icons);
+    HolonThemePrivate(HolonTheme *theme,
+                      HolonThemeColors *colors,
+                      HolonThemeIcons *icons,
+                      HolonThemeStyleSheets *styleSheets);
 
     void setCurrent(bool current);
 };

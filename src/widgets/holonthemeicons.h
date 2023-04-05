@@ -13,6 +13,7 @@
 class HolonTheme;
 class HolonThemeColors;
 class HolonThemeIconsPrivate;
+class HolonThemeStyleSheets;
 
 class Q_HOLON_EXPORT HolonThemeIcons : public QObject, public QLoaderSettings
 {
@@ -40,6 +41,7 @@ public:
     virtual QIcon splitButtonCloseTopIcon() const;
     virtual QIcon splitButtonHorizontalIcon() const;
     virtual QIcon splitButtonVerticalIcon() const;
+    HolonThemeStyleSheets *styleSheets() const;
     HolonTheme *theme() const;
 };
 

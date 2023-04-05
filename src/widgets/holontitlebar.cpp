@@ -7,6 +7,7 @@
 #include "holondockwidget.h"
 #include "holontheme.h"
 #include "holonthemeicons.h"
+#include "holonthemestylesheets.h"
 #include "holonwindowarea.h"
 #include "holonwindowarea_p.h"
 #include <QActionGroup>
@@ -90,7 +91,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
 :   QWidget(parent),
     d_ptr(desktop)
 {
-    setStyleSheet(desktop->titleBarStyleSheet());
+    setStyleSheet(desktop->currentTheme()->styleSheets()->titleBarStyleSheet());
 
     setLayout(new QHBoxLayout(this));
     {
@@ -128,7 +129,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
                 button->setFixedHeight(d_ptr->titleBarHeight);
                 button->setFixedWidth(button->height() * 1.2);
                 button->setFlat(true);
-                button->setStyleSheet(desktop->buttonStyleSheet());
+                button->setStyleSheet(desktop->currentTheme()->styleSheets()->buttonStyleSheet());
                 layout()->addWidget(button);
             }
             return button;

@@ -9,6 +9,7 @@
 class HolonTheme;
 class HolonThemeColors;
 class HolonThemeIcons;
+class HolonThemeStyleSheets;
 
 class HolonThemeIconsPrivate
 {
@@ -29,6 +30,7 @@ public:
     HolonThemeIcons *const q_ptr;
     HolonTheme *const theme;
     HolonThemeColors *colors;
+    HolonThemeStyleSheets *styleSheets;
 
     HolonThemeIconsPrivate(HolonThemeIcons *q, HolonTheme *t);
 

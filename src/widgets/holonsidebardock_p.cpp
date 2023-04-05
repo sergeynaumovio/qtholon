@@ -2,9 +2,12 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holonsidebardock_p.h"
+#include "holondesktop.h"
 #include "holondesktop_p.h"
 #include "holonsidebar.h"
 #include "holonsidebardock.h"
+#include "holontheme.h"
+#include "holonthemestylesheets.h"
 #include <QBoxLayout>
 #include <QStackedWidget>
 #include <QLabel>
@@ -27,7 +30,7 @@ public:
     HolonSidebarDockTitleBar(HolonDesktopPrivate &desktop_d, QDockWidget *parent)
     :   QWidget(parent)
     {
-        setStyleSheet(desktop_d.titleBarStyleSheet());
+        setStyleSheet(desktop_d.q_ptr->currentTheme()->styleSheets()->titleBarStyleSheet());
         setLayout(new QHBoxLayout(this));
         {
             layout()->setContentsMargins({});

@@ -6,6 +6,7 @@
 #include "holontheme_p.h"
 #include "holonthemecolors.h"
 #include "holonthemeicons.h"
+#include "holonthemestylesheets.h"
 #include <QApplication>
 #include <QFileInfo>
 #include <QLoaderSettings>
@@ -17,10 +18,11 @@ using namespace Qt::Literals::StringLiterals;
 HolonTheme::HolonTheme(QLoaderSettings *settings,
                        HolonDesktop *desktop,
                        HolonThemeColors *colors,
-                       HolonThemeIcons *icons)
+                       HolonThemeIcons *icons,
+                       HolonThemeStyleSheets *styleSheets)
 :   QObject(desktop),
     QLoaderSettings(settings),
-    d_ptr(new HolonThemePrivate(this, colors, icons))
+    d_ptr(new HolonThemePrivate(this, colors, icons, styleSheets))
 {
     desktop->addTheme(this);
 }
@@ -145,4 +147,9 @@ HolonThemeIcons *HolonTheme::icons() const
 bool HolonTheme::isCurrent() const
 {
     return value(u"current"_s).toBool();
+}
+
+HolonThemeStyleSheets *HolonTheme::styleSheets() const
+{
+    return d_ptr->styleSheets;
 }

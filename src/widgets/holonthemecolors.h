@@ -12,6 +12,7 @@
 class HolonTheme;
 class HolonThemeColorsPrivate;
 class HolonThemeIcons;
+class HolonThemeStyleSheets;
 
 class Q_HOLON_EXPORT HolonThemeColors : public QObject, public QLoaderSettings
 {
@@ -31,6 +32,7 @@ public:
     virtual QColor iconsDisabledColor() const;
     virtual QColor panelTextColorDark() const;
     virtual QColor panelTextColorLight() const;
+    HolonThemeStyleSheets *styleSheets() const;
     HolonTheme *theme() const;
 };
 

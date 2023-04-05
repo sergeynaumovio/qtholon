@@ -109,11 +109,6 @@ void HolonDesktop::addWindowArea(HolonWindowArea *windowArea)
     d_ptr->addWindowArea(windowArea);
 }
 
-QString HolonDesktop::buttonStyleSheet() const
-{
-    return d_ptr->buttonStyleSheet();
-}
-
 void HolonDesktop::closeTask(HolonAbstractTask *task)
 {
     d_ptr->closeTask(task);
@@ -172,11 +167,6 @@ void HolonDesktop::setCurrentWindow(HolonAbstractWindow *window)
 void HolonDesktop::setCurrentWindowArea(HolonWindowArea *windowArea)
 {
     d_ptr->setCurrentWindowArea(windowArea);
-}
-
-QString HolonDesktop::titleBarStyleSheet() const
-{
-    return d_ptr->titleBarStyleSheet();
 }
 
 QList<HolonAbstractWindow *> HolonDesktop::windows() const
