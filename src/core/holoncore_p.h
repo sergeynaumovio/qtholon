@@ -13,19 +13,10 @@ class HolonCorePrivate
 {
 public:
     QList<HolonTaskModel *> taskModelList;
+    QList<HolonWorkflowModel *> workflowModelList;
+
     HolonTaskModel *currentTaskModel{};
-
-    struct
-    {
-        QList<HolonWorkflowModel *> workflows;
-
-        struct
-        {
-            HolonWorkflowModel *workflow{};
-
-        } current;
-
-    } models;
+    HolonWorkflowModel *currentWorkflowModel{};
 };
 
 #endif // HOLONDESKTOP_P_H

@@ -45,6 +45,7 @@ class HolonDesktopPrivate
     HolonAbstractTask *currentTask() const;
     HolonTaskModel *currentTaskModel() const;
     HolonTheme *currentTheme() const;
+    HolonWorkflowModel *currentWorkflowModel() const;
     void emitWarning(const QString &warning) const;
     void resizeEvent(QResizeEvent *e);
     void saveMainWindowState();
@@ -54,7 +55,6 @@ class HolonDesktopPrivate
     void setCurrentWindow(HolonAbstractWindow *window);
     void setCurrentWindowArea(HolonWindowArea *windowArea);
     void setLayout();
-    HolonWorkflowModel *workflowModel() const;
 
 public:
     enum TaskbarArea

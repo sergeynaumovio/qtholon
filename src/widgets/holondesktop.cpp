@@ -139,6 +139,11 @@ HolonTheme *HolonDesktop::currentTheme() const
     return d_ptr->currentTheme();
 }
 
+HolonWorkflowModel *HolonDesktop::currentWorkflowModel() const
+{
+    return d_ptr->currentWorkflowModel();
+}
+
 void HolonDesktop::hideWindowArea(HolonWindowArea *windowArea)
 {
     d_ptr->hideWindowArea(windowArea);
@@ -202,10 +207,5 @@ QString HolonDesktop::titleBarStyleSheet() const
 QList<HolonAbstractWindow *> HolonDesktop::windows() const
 {
     return d_ptr->windows();
-}
-
-HolonWorkflowModel *HolonDesktop::workflowModel() const
-{
-    return d_ptr->workflowModel();
 }
 

@@ -104,6 +104,7 @@ public:
     ~HolonDesktopPrivateData() { }
 
     void addModel(HolonTaskModel *model);
+    void addModel(HolonWorkflowModel *model);
     void addSidebar(HolonSidebar *sidebar);
     void addTask(HolonAbstractTask *task);
     void addTheme(HolonTheme *theme);
@@ -296,6 +297,19 @@ void HolonDesktopPrivateData::addModel(HolonTaskModel *model)
         currentTaskModel = model;
     else
         desktop_d.emitWarning(u"current task model already set"_s);
+}
+
+void HolonDesktopPrivateData::addModel(HolonWorkflowModel *model)
+{
+    if (workflowModelList.contains(model))
+        return;
+
+    workflowModelList.append(model);
+
+    if (model->isCurrent() && !currentWorkflowModel)
+        currentWorkflowModel = model;
+    else
+        desktop_d.emitWarning(u"current workflow model already set"_s);
 }
 
 void HolonDesktopPrivateData::addSidebar(HolonSidebar *sidebar)
@@ -583,10 +597,7 @@ void HolonDesktopPrivate::addModel(HolonTaskModel *model)
 
 void HolonDesktopPrivate::addModel(HolonWorkflowModel *model)
 {
-    if (d_ptr->models.workflows.isEmpty() || model->isCurrent())
-        d_ptr->models.current.workflow = model;
-
-    d_ptr->models.workflows.append(model);
+    d_ptr->addModel(model);
 }
 
 void HolonDesktopPrivate::addSidebar(HolonSidebar *sidebar)
@@ -643,6 +654,11 @@ HolonTheme *HolonDesktopPrivate::currentTheme() const
     }
 
     return d_ptr->currentTheme;
+}
+
+HolonWorkflowModel *HolonDesktopPrivate::currentWorkflowModel() const
+{
+    return d_ptr->currentWorkflowModel;
 }
 
 void HolonDesktopPrivate::emitWarning(const QString &warning) const
@@ -740,11 +756,6 @@ void HolonDesktopPrivate::setCurrentWindowArea(HolonWindowArea *windowArea)
 void HolonDesktopPrivate::setLayout()
 {
     d_ptr->setLayout();
-}
-
-HolonWorkflowModel *HolonDesktopPrivate::workflowModel() const
-{
-    return d_ptr->models.current.workflow;
 }
 
 HolonDesktopPrivate::~HolonDesktopPrivate()

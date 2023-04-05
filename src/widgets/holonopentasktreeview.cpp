@@ -65,7 +65,7 @@ public:
     HolonOpenTaskTreeViewPrivate(HolonDesktop *desk,
                              HolonTaskDelegate *delegate)
     :   desktop(desk),
-        workflowModel(desktop->workflowModel()),
+        workflowModel(desktop->currentWorkflowModel()),
         itemDelegate(delegate)
     { }
 };

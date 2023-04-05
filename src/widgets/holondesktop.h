@@ -50,6 +50,7 @@ public:
     HolonAbstractTask *currentTask() const;
     HolonTaskModel *currentTaskModel() const;
     HolonTheme *currentTheme() const;
+    HolonWorkflowModel *currentWorkflowModel() const;
     void hideWindowArea(HolonWindowArea *windowArea);
     int menuBorderWidth() const;
     QString menuStyleSheet() const;
@@ -63,7 +64,6 @@ public:
     int titleBarHeight() const;
     QString titleBarStyleSheet() const;
     QList<HolonAbstractWindow *> windows() const;
-    HolonWorkflowModel *workflowModel() const;
 };
 
 #endif // HOLONDESKTOP_H

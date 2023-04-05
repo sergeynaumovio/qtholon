@@ -99,6 +99,7 @@ title = Terminal
 
 [holon/workflow-model1]
 class = HolonWorkflowModel
+current = true
 
 [holon/workflow-model1/branch1]
 class = HolonWorkflowModelBranch

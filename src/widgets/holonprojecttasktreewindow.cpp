@@ -66,7 +66,7 @@ public:
                 if (!clickedObjectSettings)
                     return;
 
-                HolonWorkflowModel *workflowModel = desktop->workflowModel();
+                HolonWorkflowModel *workflowModel = desktop->currentWorkflowModel();
                 if (!workflowModel)
                     return;
 
