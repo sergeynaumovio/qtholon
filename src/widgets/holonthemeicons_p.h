@@ -15,7 +15,7 @@ class HolonThemeIconsPrivate
 {
     QIcon closeBackground;
     QIcon closeForeground;
-    QIcon dir;
+    QIcon dirClosed;
     QIcon dirOpen;
     QIcon maximize;
     QIcon minimize;
