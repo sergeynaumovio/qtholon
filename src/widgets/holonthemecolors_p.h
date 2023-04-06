@@ -13,16 +13,15 @@ class HolonThemeStyleSheets;
 
 class HolonThemeColorsPrivate
 {
+    HolonThemeColors *const q_ptr;
+
     QColor iconsBase;
     QColor iconsDisabled;
     QColor panelTextDark;
     QColor panelTextLight;
 
 public:
-    HolonThemeColors *const q_ptr;
     HolonTheme *const theme;
-    HolonThemeIcons *icons;
-    HolonThemeStyleSheets *styleSheets;
 
     HolonThemeColorsPrivate(HolonThemeColors *q, HolonTheme *t);
 

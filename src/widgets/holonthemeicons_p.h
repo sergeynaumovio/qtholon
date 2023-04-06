@@ -13,6 +13,8 @@ class HolonThemeStyleSheets;
 
 class HolonThemeIconsPrivate
 {
+    HolonThemeIcons *const q_ptr;
+
     QIcon closeBackground;
     QIcon closeForeground;
     QIcon dirClosed;
@@ -27,10 +29,7 @@ class HolonThemeIconsPrivate
     QIcon splitVertical;
 
 public:
-    HolonThemeIcons *const q_ptr;
     HolonTheme *const theme;
-    HolonThemeColors *colors;
-    HolonThemeStyleSheets *styleSheets;
 
     HolonThemeIconsPrivate(HolonThemeIcons *q, HolonTheme *t);
 

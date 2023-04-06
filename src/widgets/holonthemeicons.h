@@ -28,7 +28,6 @@ protected:
 public:
     ~HolonThemeIcons();
 
-    HolonThemeColors *colors() const;
     virtual QIcon closeBackgroundIcon() const;
     virtual QIcon closeForegroundIcon() const;
     virtual QIcon dirClosedIcon() const;
@@ -41,7 +40,6 @@ public:
     virtual QIcon splitButtonCloseTopIcon() const;
     virtual QIcon splitButtonHorizontalIcon() const;
     virtual QIcon splitButtonVerticalIcon() const;
-    HolonThemeStyleSheets *styleSheets() const;
     HolonTheme *theme() const;
 };
 

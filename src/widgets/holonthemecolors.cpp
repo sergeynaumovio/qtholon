@@ -15,11 +15,6 @@ HolonThemeColors::HolonThemeColors(QLoaderSettings *settings, HolonTheme *theme)
 HolonThemeColors::~HolonThemeColors()
 { }
 
-HolonThemeIcons *HolonThemeColors::icons() const
-{
-    return d_ptr->icons;
-}
-
 QColor HolonThemeColors::iconsBaseColor() const
 {
     return d_ptr->iconsBaseColor();
@@ -38,11 +33,6 @@ QColor HolonThemeColors::panelTextColorDark() const
 QColor HolonThemeColors::panelTextColorLight() const
 {
     return d_ptr->panelTextColorLight();
-}
-
-HolonThemeStyleSheets *HolonThemeColors::styleSheets() const
-{
-    return d_ptr->styleSheets;
 }
 
 HolonTheme *HolonThemeColors::theme() const

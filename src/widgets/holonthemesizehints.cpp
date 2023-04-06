@@ -15,6 +15,11 @@ HolonThemeSizeHints::HolonThemeSizeHints(QLoaderSettings *settings, HolonTheme *
 HolonThemeSizeHints::~HolonThemeSizeHints()
 { }
 
+HolonTheme *HolonThemeSizeHints::theme() const
+{
+    return d_ptr->theme;
+}
+
 QSize HolonThemeSizeHints::titleBarSizeHint() const
 {
     return d_ptr->titleBarSizeHint();

@@ -13,16 +13,15 @@ class HolonThemeStyleSheets;
 
 class HolonThemeStyleSheetsPrivate
 {
+    HolonThemeStyleSheets *const q_ptr;
+
     QString mainWindow;
     QString pushButton;
     QString taskbar;
     QString titleBar;
 
 public:
-    HolonThemeStyleSheets *const q_ptr;
     HolonTheme *const theme;
-    HolonThemeColors *colors;
-    HolonThemeIcons *icons;
 
     HolonThemeStyleSheetsPrivate(HolonThemeStyleSheets *q, HolonTheme *t);
 

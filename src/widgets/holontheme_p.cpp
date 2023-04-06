@@ -3,12 +3,9 @@
 
 #include "holontheme_p.h"
 #include "holonthemecolors.h"
-#include "holonthemecolors_p.h"
 #include "holonthemeicons.h"
-#include "holonthemeicons_p.h"
 #include "holonthemesizehints.h"
 #include "holonthemestylesheets.h"
-#include "holonthemestylesheets_p.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -35,16 +32,7 @@ HolonThemePrivate::HolonThemePrivate(HolonTheme *t,
     sizeHints(h),
     styleSheets(s),
     desktop(d)
-{
-    colors->d_ptr->icons = icons;
-    colors->d_ptr->styleSheets = styleSheets;
-
-    icons->d_ptr->colors = colors;
-    icons->d_ptr->styleSheets = styleSheets;
-
-    styleSheets->d_ptr->colors = colors;
-    styleSheets->d_ptr->icons = icons;
-}
+{ }
 
 void HolonThemePrivate::setCurrent(bool current)
 {

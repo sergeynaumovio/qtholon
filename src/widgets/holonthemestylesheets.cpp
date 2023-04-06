@@ -15,16 +15,6 @@ HolonThemeStyleSheets::HolonThemeStyleSheets(QLoaderSettings *settings, HolonThe
 HolonThemeStyleSheets::~HolonThemeStyleSheets()
 { }
 
-HolonThemeColors *HolonThemeStyleSheets::colors() const
-{
-    return d_ptr->colors;
-}
-
-HolonThemeIcons *HolonThemeStyleSheets::icons() const
-{
-    return d_ptr->icons;
-}
-
 QString HolonThemeStyleSheets::mainWindowStyleSheet() const
 {
     return d_ptr->mainWindowStyleSheet();

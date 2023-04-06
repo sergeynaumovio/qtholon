@@ -3,7 +3,6 @@
 
 #include "holonthemeicons.h"
 #include "holontheme.h"
-#include "holonthemecolors.h"
 #include "holonthemeicons_p.h"
 #include <QLoaderSettings>
 
@@ -15,11 +14,6 @@ HolonThemeIcons::HolonThemeIcons(QLoaderSettings *settings, HolonTheme *theme)
 
 HolonThemeIcons::~HolonThemeIcons()
 { }
-
-HolonThemeColors *HolonThemeIcons::colors() const
-{
-    return d_ptr->colors;
-}
 
 QIcon HolonThemeIcons::closeBackgroundIcon() const
 {
@@ -79,11 +73,6 @@ QIcon HolonThemeIcons::splitButtonHorizontalIcon() const
 QIcon HolonThemeIcons::splitButtonVerticalIcon() const
 {
     return d_ptr->splitButtonVerticalIcon();
-}
-
-HolonThemeStyleSheets *HolonThemeIcons::styleSheets() const
-{
-    return d_ptr->styleSheets;
 }
 
 HolonTheme *HolonThemeIcons::theme() const

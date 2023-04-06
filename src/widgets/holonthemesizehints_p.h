@@ -12,11 +12,12 @@ class HolonThemeSizeHints;
 class HolonThemeSizeHintsPrivate
 {
     HolonThemeSizeHints *const q_ptr;
-    HolonTheme *const theme;
 
     QSize titleBar;
 
 public:
+    HolonTheme *const theme;
+
     HolonThemeSizeHintsPrivate(HolonThemeSizeHints *q, HolonTheme *t);
 
     QSize titleBarSizeHint();
