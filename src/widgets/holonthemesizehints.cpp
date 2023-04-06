@@ -15,6 +15,11 @@ HolonThemeSizeHints::HolonThemeSizeHints(QLoaderSettings *settings, HolonTheme *
 HolonThemeSizeHints::~HolonThemeSizeHints()
 { }
 
+QSize HolonThemeSizeHints::iconsSizeHint() const
+{
+    return d_ptr->iconsSizeHint();
+}
+
 HolonTheme *HolonThemeSizeHints::theme() const
 {
     return d_ptr->theme;

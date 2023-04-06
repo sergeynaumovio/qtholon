@@ -25,6 +25,7 @@ protected:
 public:
     ~HolonThemeSizeHints();
 
+    virtual QSize iconsSizeHint() const;
     HolonTheme *theme() const;
     virtual QSize titleBarSizeHint() const;
 };

@@ -4,6 +4,7 @@
 #include "holonthemeicons_p.h"
 #include "holonthemecolors.h"
 #include "holontheme.h"
+#include "holonthemesizehints.h"
 #include <QApplication>
 #include <QStyle>
 
@@ -35,11 +36,16 @@ QIcon HolonThemeIconsPrivate::closeForegroundIcon()
 QIcon HolonThemeIconsPrivate::dirClosedIcon()
 {
     if (dirClosed.isNull())
+    {
+        QSize iconsSize = theme->sizeHints()->iconsSizeHint();
+
 #ifdef Q_OS_WINDOWS
-        dirClosed.addPixmap(QApplication::style()->standardIcon(QStyle::SP_DirIcon).pixmap(QSize(16, 16)));
+        dirClosed.addPixmap(QApplication::style()->standardIcon(QStyle::SP_DirIcon).pixmap(iconsSize));
 #else
-        dirClosed.addPixmap(QApplication::style()->standardIcon(QStyle::SP_DirClosedIcon).pixmap(QSize(16, 16)));
+        dirClosed.addPixmap(QApplication::style()->standardIcon(QStyle::SP_DirClosedIcon).pixmap(iconsSize));
 #endif
+
+    }
 
     return dirClosed;
 }
@@ -47,11 +53,16 @@ QIcon HolonThemeIconsPrivate::dirClosedIcon()
 QIcon HolonThemeIconsPrivate::dirOpenIcon()
 {
     if (dirOpen.isNull())
+    {
+        QSize iconsSize = theme->sizeHints()->iconsSizeHint();
+
 #ifdef Q_OS_WINDOWS
-        dirOpen.addPixmap(QApplication::style()->standardIcon(QStyle::SP_DirIcon).pixmap(QSize(16, 16)));
+        dirOpen.addPixmap(QApplication::style()->standardIcon(QStyle::SP_DirIcon).pixmap(iconsSize));
 #else
-        dirOpen.addPixmap(QApplication::style()->standardIcon(QStyle::SP_DirOpenIcon).pixmap(QSize(16, 16)));
+        dirOpen.addPixmap(QApplication::style()->standardIcon(QStyle::SP_DirOpenIcon).pixmap(iconsSize));
 #endif
+
+    }
 
     return dirOpen;
 }
