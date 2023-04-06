@@ -24,14 +24,6 @@ HolonAbstractTaskPrivate::HolonAbstractTaskPrivate(HolonAbstractTask *q, HolonWo
     }())
 { }
 
-QIcon HolonAbstractTaskPrivate::icon()
-{
-    if (ico.isNull())
-        ico.addPixmap(QApplication::style()->standardIcon(QStyle::SP_FileIcon).pixmap(QSize(16, 16)));
-
-    return ico;
-}
-
 void HolonAbstractTaskPrivate::setCurrent(bool current)
 {
     q_ptr->setValue(u"current"_s, current);

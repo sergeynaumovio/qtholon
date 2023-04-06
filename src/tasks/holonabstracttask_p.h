@@ -15,8 +15,6 @@ class HolonWorkflowModelBranch;
 
 class HolonAbstractTaskPrivate
 {
-    QIcon ico;
-
 public:
     HolonAbstractTask *const q_ptr;
     HolonWorkflowModelBranch *const workflowModelBranch;
@@ -27,7 +25,6 @@ public:
     HolonAbstractTaskPrivate(HolonAbstractTask *q = nullptr,
                              HolonWorkflowModelBranch *branch = nullptr);
 
-    QIcon icon();
     void setCurrent(bool current);
 };
 

@@ -75,6 +75,11 @@ QIcon HolonThemeIcons::splitButtonVerticalIcon() const
     return d_ptr->splitButtonVerticalIcon();
 }
 
+QIcon HolonThemeIcons::taskIcon() const
+{
+    return d_ptr->taskIcon();
+}
+
 HolonTheme *HolonThemeIcons::theme() const
 {
     return d_ptr->theme;

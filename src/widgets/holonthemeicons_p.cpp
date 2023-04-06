@@ -139,3 +139,14 @@ QIcon HolonThemeIconsPrivate::splitButtonVerticalIcon()
     return splitVertical;
 }
 
+QIcon HolonThemeIconsPrivate::taskIcon()
+{
+    if (task.isNull())
+    {
+        QSize iconsSize = theme->sizeHints()->iconsSizeHint();
+        task.addPixmap(QApplication::style()->standardIcon(QStyle::SP_FileIcon).pixmap(iconsSize));;
+    }
+
+    return task;
+}
+

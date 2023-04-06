@@ -27,6 +27,7 @@ class HolonThemeIconsPrivate
     QIcon splitButtonCloseTop;
     QIcon splitHorizontal;
     QIcon splitVertical;
+    QIcon task;
 
 public:
     HolonTheme *const theme;
@@ -45,6 +46,7 @@ public:
     QIcon splitButtonCloseTopIcon();
     QIcon splitButtonHorizontalIcon();
     QIcon splitButtonVerticalIcon();
+    QIcon taskIcon();
 };
 
 #endif // HOLONTHEMEICONS_P_H

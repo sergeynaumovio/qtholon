@@ -7,6 +7,8 @@
 #include "holonabstractwindow.h"
 #include "holondesktop.h"
 #include "holontaskmodelbranch.h"
+#include "holontheme.h"
+#include "holonthemeicons.h"
 #include "holonworkflowmodel.h"
 #include "holonworkflowmodelbranch.h"
 #include <QLoaderTree>
@@ -64,7 +66,7 @@ QString HolonAbstractTask::group() const
 
 QIcon HolonAbstractTask::icon() const
 {
-    return d_ptr->icon();
+    return desktop()->currentTheme()->icons()->taskIcon();
 }
 
 bool HolonAbstractTask::isCopyable(const QStringList &to) const
