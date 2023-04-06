@@ -24,6 +24,32 @@ QSize HolonThemeSizeHintsPrivate::iconsSizeHint()
     return icons;
 }
 
+QSize HolonThemeSizeHintsPrivate::sidebarSwitchButtonSizeHint()
+{
+    if (sidebarSwitchButton.isValid())
+        return sidebarSwitchButton;
+
+    if ((sidebarSwitchButton = q_ptr->value(u"sidebarSwitchButtonSizeHint"_s).toSize()).isValid())
+        return sidebarSwitchButton;
+
+    sidebarSwitchButton = QSize(120, 26);
+
+    return sidebarSwitchButton;
+}
+
+QSize HolonThemeSizeHintsPrivate::taskbarSizeHint()
+{
+    if (taskbar.isValid())
+        return taskbar;
+
+    if ((taskbar = q_ptr->value(u"taskbarSizeHint"_s).toSize()).isValid())
+        return taskbar;
+
+    taskbar = QSize(50, 26);
+
+    return titleBar;
+}
+
 QSize HolonThemeSizeHintsPrivate::titleBarSizeHint()
 {
     if (titleBar.isValid())

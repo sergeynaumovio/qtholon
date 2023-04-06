@@ -4,8 +4,6 @@
 #include "holontaskbar.h"
 #include "holondesktop.h"
 #include "holondesktop_p.h"
-#include "holontheme.h"
-#include "holonthemestylesheets.h"
 #include "holonwindowareaswitch.h"
 #include <QBoxLayout>
 #include <QPainter>
@@ -20,7 +18,6 @@ public:
     HolonTaskbarPrivate(HolonDesktopPrivate &desk_d)
     :   desktop_d(desk_d)
     { }
-
 };
 
 void HolonTaskbar::paintEvent(QPaintEvent *)
@@ -39,19 +36,11 @@ HolonTaskbar::HolonTaskbar(HolonDesktopPrivate &desktop_d)
         desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Right)
     {
         setLayout(new QVBoxLayout(this));
-        {
-            layout()->setContentsMargins({});
-            setFixedWidth(desktop_d.taskbarPreferedWidth());
-        }
     }
     else
-    {
         setLayout(new QHBoxLayout(this));
-        {
-            layout()->setContentsMargins({});
-            setFixedHeight(desktop_d.taskbarPreferedHeight());
-        }
-    }
+
+    layout()->setContentsMargins({});
     layout()->setSpacing(0);
     layout()->addWidget(d_ptr->windowAreaSwitch = new HolonWindowAreaSwitch(desktop_d, this));
     layout()->addStretch();

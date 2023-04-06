@@ -20,9 +20,19 @@ QSize HolonThemeSizeHints::iconsSizeHint() const
     return d_ptr->iconsSizeHint();
 }
 
+QSize HolonThemeSizeHints::sidebarSwitchButtonSizeHint() const
+{
+    return d_ptr->sidebarSwitchButtonSizeHint();
+}
+
 HolonTheme *HolonThemeSizeHints::theme() const
 {
     return d_ptr->theme;
+}
+
+QSize HolonThemeSizeHints::taskbarSizeHint() const
+{
+    return d_ptr->taskbarSizeHint();
 }
 
 QSize HolonThemeSizeHints::titleBarSizeHint() const

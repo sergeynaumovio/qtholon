@@ -7,6 +7,8 @@
 #include "holonsidebar.h"
 #include "holonsidebardock.h"
 #include "holontaskbar.h"
+#include "holontheme.h"
+#include "holonthemesizehints.h"
 #include "holonwindowarea.h"
 #include <QAbstractButton>
 #include <QBoxLayout>
@@ -40,6 +42,26 @@ public:
 
 class HolonSwitchButton : public QAbstractButton
 {
+    float fontSize;
+
+    void adjustFromSizeHints()
+    {
+        HolonThemeSizeHints *sizeHints = desktop_d.q_ptr->currentTheme()->sizeHints();
+        fontSize = sizeHints->taskbarSizeHint().height() / 2.6;
+
+        if (desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Top ||
+            desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Bottom)
+        {
+            setFixedHeight(sizeHints->taskbarSizeHint().height());
+            setFixedWidth(sizeHints->sidebarSwitchButtonSizeHint().width());
+        }
+        else
+        {
+            setFixedWidth(sizeHints->taskbarSizeHint().width());
+            setFixedHeight(sizeHints->taskbarSizeHint().width());
+        }
+    }
+
 protected:
     HolonWindowAreaSwitchPrivate &switch_d;
     HolonDesktopPrivate &desktop_d;
@@ -59,6 +81,9 @@ protected:
         case QEvent::HoverLeave:
             hovered = false;
             update();
+            return true;
+        case QEvent::Polish:
+            adjustFromSizeHints();
             return true;
         default:
             return QWidget::event(e);
@@ -89,7 +114,7 @@ protected:
             p.drawLine(line);
         }
 
-        QFont font(u"Arial"_s, desktop_d.taskbarPreferedHeight() / 2.6);
+        QFont font(u"Arial"_s, fontSize);
         p.setFont(font);
         QRect rectangle = rect();
         rectangle.adjust(10, 0, 0, 0);
@@ -104,21 +129,10 @@ protected:
         desktop_d(switch_d.desktop_d),
         title(windowArea->title())
     {
-        if (desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Top ||
-            desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Bottom)
-        {
-            setFixedHeight(desktop_d.taskbarPreferedHeight());
-            setFixedWidth(desktop_d.sidebarSwitchButtonWidth());
-        }
-        else
-        {
-            setFixedWidth(desktop_d.taskbarPreferedWidth());
-            setFixedHeight(desktop_d.taskbarPreferedWidth());
-        }
-
         setAttribute(Qt::WA_Hover);
         setCheckable(true);
         setChecked(windowArea->isChecked());
+        setMinimumSize(1, 1);
 
         QShortcut *shortcut = new QShortcut(QKeySequence(windowArea->shortcut()), this);
         connect(shortcut, &QShortcut::activated, this, [this]() { setChecked(!isChecked()); });
