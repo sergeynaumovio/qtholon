@@ -11,21 +11,6 @@ HolonThemeStyleSheetsPrivate::HolonThemeStyleSheetsPrivate(HolonThemeStyleSheets
     theme(t)
 { }
 
-QString HolonThemeStyleSheetsPrivate::buttonStyleSheet()
-{
-    if (!button.isNull())
-        return button;
-
-    if (!(button = q_ptr->value(u"buttonStyleSheet"_s).toString()).isNull())
-        return button;
-
-    button = u"QPushButton { border: 0px; }"
-             u"QPushButton:hover { background-color: rgb(74, 76, 78); color: white; }"
-             u"QPushButton::menu-indicator { width: 0px; }"_s;
-
-    return button;
-}
-
 QString HolonThemeStyleSheetsPrivate::mainWindowStyleSheet()
 {
     if (!mainWindow.isNull())
@@ -37,6 +22,21 @@ QString HolonThemeStyleSheetsPrivate::mainWindowStyleSheet()
     mainWindow = u"QMainWindow::separator { width: 1px; height: 1px; background-color: rgb(34, 36, 38); }"_s;
 
     return mainWindow;
+}
+
+QString HolonThemeStyleSheetsPrivate::pushButtonStyleSheet()
+{
+    if (!pushButton.isNull())
+        return pushButton;
+
+    if (!(pushButton = q_ptr->value(u"pushButtonStyleSheet"_s).toString()).isNull())
+        return pushButton;
+
+    pushButton = u"QPushButton { border: 0px; }"
+                 u"QPushButton:hover { background-color: rgb(74, 76, 78); color: white; }"
+                 u"QPushButton::menu-indicator { width: 0px; }"_s;
+
+    return pushButton;
 }
 
 QString HolonThemeStyleSheetsPrivate::taskbarStyleSheet()

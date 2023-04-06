@@ -129,7 +129,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
                 button->setFixedHeight(d_ptr->titleBarHeight);
                 button->setFixedWidth(button->height() * 1.2);
                 button->setFlat(true);
-                button->setStyleSheet(desktop->currentTheme()->styleSheets()->buttonStyleSheet());
+                button->setStyleSheet(desktop->currentTheme()->styleSheets()->pushButtonStyleSheet());
                 layout()->addWidget(button);
             }
             return button;

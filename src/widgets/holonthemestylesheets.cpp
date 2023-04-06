@@ -15,11 +15,6 @@ HolonThemeStyleSheets::HolonThemeStyleSheets(QLoaderSettings *settings, HolonThe
 HolonThemeStyleSheets::~HolonThemeStyleSheets()
 { }
 
-QString HolonThemeStyleSheets::buttonStyleSheet() const
-{
-    return d_ptr->buttonStyleSheet();
-}
-
 HolonThemeColors *HolonThemeStyleSheets::colors() const
 {
     return d_ptr->colors;
@@ -33,6 +28,11 @@ HolonThemeIcons *HolonThemeStyleSheets::icons() const
 QString HolonThemeStyleSheets::mainWindowStyleSheet() const
 {
     return d_ptr->mainWindowStyleSheet();
+}
+
+QString HolonThemeStyleSheets::pushButtonStyleSheet() const
+{
+    return d_ptr->pushButtonStyleSheet();
 }
 
 QString HolonThemeStyleSheets::taskbarStyleSheet() const

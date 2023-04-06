@@ -13,8 +13,8 @@ class HolonThemeStyleSheets;
 
 class HolonThemeStyleSheetsPrivate
 {
-    QString button;
     QString mainWindow;
+    QString pushButton;
     QString taskbar;
     QString titleBar;
 
@@ -26,8 +26,8 @@ public:
 
     HolonThemeStyleSheetsPrivate(HolonThemeStyleSheets *q, HolonTheme *t);
 
-    QString buttonStyleSheet();
     QString mainWindowStyleSheet();
+    QString pushButtonStyleSheet();
     QString taskbarStyleSheet();
     QString titleBarStyleSheet();
 };
