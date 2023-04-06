@@ -6,6 +6,7 @@
 #include "holonthemecolors_p.h"
 #include "holonthemeicons.h"
 #include "holonthemeicons_p.h"
+#include "holonthemesizehints.h"
 #include "holonthemestylesheets.h"
 #include "holonthemestylesheets_p.h"
 
@@ -17,6 +18,7 @@ HolonThemePrivate::HolonThemePrivate(QLoaderSettings *settings,
 :   HolonThemePrivate(theme,
                       new HolonThemeColors(settings, theme),
                       new HolonThemeIcons(settings, theme),
+                      new HolonThemeSizeHints(settings, theme),
                       new HolonThemeStyleSheets(settings, theme),
                       desktop)
 { }
@@ -24,11 +26,13 @@ HolonThemePrivate::HolonThemePrivate(QLoaderSettings *settings,
 HolonThemePrivate::HolonThemePrivate(HolonTheme *t,
                                      HolonThemeColors *c,
                                      HolonThemeIcons *i,
+                                     HolonThemeSizeHints *h,
                                      HolonThemeStyleSheets *s,
                                      HolonDesktop *d)
 :   theme(t),
     colors(c),
     icons(i),
+    sizeHints(h),
     styleSheets(s),
     desktop(d)
 {

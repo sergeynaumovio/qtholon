@@ -21,10 +21,11 @@ HolonTheme::HolonTheme(QLoaderSettings *settings,
                        HolonDesktop *desktop,
                        HolonThemeColors *colors,
                        HolonThemeIcons *icons,
+                       HolonThemeSizeHints *sizes,
                        HolonThemeStyleSheets *styles)
 :   QObject(desktop),
     QLoaderSettings(settings),
-    d_ptr(new HolonThemePrivate(this, colors, icons, styles, desktop))
+    d_ptr(new HolonThemePrivate(this, colors, icons, sizes, styles, desktop))
 {
     desktop->addTheme(this);
     desktop->setStyleSheet(styleSheets()->mainWindowStyleSheet());
@@ -158,6 +159,11 @@ HolonThemeIcons *HolonTheme::icons() const
 bool HolonTheme::isCurrent() const
 {
     return value(u"current"_s).toBool();
+}
+
+HolonThemeSizeHints *HolonTheme::sizeHints() const
+{
+    return d_ptr->sizeHints;
 }
 
 HolonThemeStyleSheets *HolonTheme::styleSheets() const

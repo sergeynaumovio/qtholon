@@ -13,6 +13,7 @@ class HolonDesktop;
 class HolonThemeColors;
 class HolonThemeIcons;
 class HolonThemePrivate;
+class HolonThemeSizeHints;
 class HolonThemeStyleSheets;
 
 using FileName = QString;
@@ -38,6 +39,7 @@ protected:
                HolonDesktop *desktop,
                HolonThemeColors *colors,
                HolonThemeIcons *icons,
+               HolonThemeSizeHints *sizeHints,
                HolonThemeStyleSheets *styleSheets);
 
 public:
@@ -49,6 +51,7 @@ public:
     HolonDesktop *desktop() const;
     HolonThemeIcons *icons() const;
     bool isCurrent() const;
+    HolonThemeSizeHints *sizeHints() const;
     HolonThemeStyleSheets *styleSheets() const;
 };
 

@@ -112,6 +112,10 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonthemeicons.h
             src/widgets/holonthemeicons_p.cpp
             src/widgets/holonthemeicons_p.h
+            src/widgets/holonthemesizehints.cpp
+            src/widgets/holonthemesizehints.h
+            src/widgets/holonthemesizehints_p.cpp
+            src/widgets/holonthemesizehints_p.h
             src/widgets/holonthemestylesheets.cpp
             src/widgets/holonthemestylesheets.h
             src/widgets/holonthemestylesheets_p.cpp
@@ -154,6 +158,7 @@ set(QT_HOLON_PUBLIC_HEADERS
     src/widgets/HolonTheme
     src/widgets/HolonThemeColors
     src/widgets/HolonThemeIcons
+    src/widgets/HolonThemeSizeHints
     src/widgets/HolonThemeStyleSheets
     src/widgets/holonabstractwidget.h
     src/widgets/holonabstractwindow.h
@@ -163,6 +168,7 @@ set(QT_HOLON_PUBLIC_HEADERS
     src/widgets/holontheme.h
     src/widgets/holonthemecolors.h
     src/widgets/holonthemeicons.h
+    src/widgets/holonthemesizehints.h
     src/widgets/holonthemestylesheets.h
 )
 

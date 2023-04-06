@@ -9,6 +9,7 @@ class HolonDesktopPrivate;
 class HolonTheme;
 class HolonThemeColors;
 class HolonThemeIcons;
+class HolonThemeSizeHints;
 class HolonThemeStyleSheets;
 class QLoaderSettings;
 
@@ -18,6 +19,7 @@ public:
     HolonTheme *const theme;
     HolonThemeColors *const colors;
     HolonThemeIcons *const icons;
+    HolonThemeSizeHints *const sizeHints;
     HolonThemeStyleSheets *const styleSheets;
     HolonDesktop *const desktop;
     HolonDesktopPrivate *desktop_d;
@@ -29,6 +31,7 @@ public:
     HolonThemePrivate(HolonTheme *theme,
                       HolonThemeColors *colors,
                       HolonThemeIcons *icons,
+                      HolonThemeSizeHints *sizeHints,
                       HolonThemeStyleSheets *styleSheets,
                       HolonDesktop *desktop);
 

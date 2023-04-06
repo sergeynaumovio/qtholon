@@ -7,6 +7,7 @@
 #include "holondockwidget.h"
 #include "holontheme.h"
 #include "holonthemeicons.h"
+#include "holonthemesizehints.h"
 #include "holonthemestylesheets.h"
 #include "holonwindowarea.h"
 #include "holonwindowarea_p.h"
@@ -26,14 +27,15 @@ class HolonTitleBarPrivate
 {
 public:
     HolonDesktop *const desktop;
-    const int titleBarHeight{24};
+    const int titleBarHeight;
     QPushButton *splitButton{};
     QPushButton *maximizeButton{};
     QPushButton *closeButton{};
     QPushButton *hideWindowAreaButton{};
 
     HolonTitleBarPrivate(HolonDesktop *desk)
-    :   desktop(desk)
+    :   desktop(desk),
+        titleBarHeight(desktop->currentTheme()->sizeHints()->titleBarSizeHint().height())
     { }
 };
 
