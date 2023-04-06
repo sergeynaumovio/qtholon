@@ -27,8 +27,8 @@ public:
 
     virtual QSize iconsSizeHint() const;
     virtual QSize sidebarSwitchButtonSizeHint() const;
-    HolonTheme *theme() const;
     virtual QSize taskbarSizeHint() const;
+    HolonTheme *theme() const;
     virtual QSize titleBarSizeHint() const;
 };
 
