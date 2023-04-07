@@ -1,7 +1,8 @@
 /* XPM */
-static char *_e067d6685c240fcbd4bc5df375037efu3CdrkhBoCl6bz2J[] = {
-/* columns rows colors chars-per-pixel */
+static char *close_2x[] = {
+/* width height colors chars_per_pixel */
 "32 32 11 1 ",
+/* colors */
 "  c black",
 ". c #070707",
 "X c gray3",

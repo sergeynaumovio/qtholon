@@ -1,7 +1,8 @@
 /* XPM */
-static char *f08aa2f9dc9e4d36fdf4409967fedb42LCPpDucGxkTsmnj4[] = {
-/* columns rows colors chars-per-pixel */
+static char *splitbutton_closeright_2x[] = {
+/* width height colors chars_per_pixel */
 "32 32 5 1 ",
+/* colors */
 "  c black",
 ". c #777777",
 "X c gray50",

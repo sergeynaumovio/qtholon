@@ -1,7 +1,8 @@
 /* XPM */
-static char *e63a018015a048d0edb6235c9d071594ICDsLLiPO1VRfcSO[] = {
-/* columns rows colors chars-per-pixel */
+static char *splitbutton_horizontal[] = {
+/* width height colors chars_per_pixel */
 "16 16 2 1 ",
+/* colors */
 "  c black",
 ". c white",
 /* pixels */
