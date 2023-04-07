@@ -42,7 +42,7 @@ public:
         if (stackedWidget)
             return stackedWidget;
 
-        stackedWidget = new HolonWindowAreaStackedWidget(q_ptr->group());
+        stackedWidget = new HolonWindowAreaStackedWidget(q_ptr->role());
 
         return stackedWidget;
     }
@@ -98,9 +98,9 @@ QWidget *HolonSettingsWindow::toolbar() const
     return {};
 }
 
-QWidget *HolonSettingsWindow::widget(const QString &group) const
+QWidget *HolonSettingsWindow::widget(const QString &widgetRole) const
 {
-    if (group == QString())
+    if (widgetRole == QString())
         return d_ptr->widget();
 
     return {};

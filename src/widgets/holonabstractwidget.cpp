@@ -14,7 +14,7 @@ HolonAbstractWidget::HolonAbstractWidget(QLoaderSettings *settings, HolonAbstrac
 HolonAbstractWidget::~HolonAbstractWidget()
 { }
 
-QString HolonAbstractWidget::group() const
+QString HolonAbstractWidget::role() const
 {
-    return value(u"group"_s).toString();
+    return value(u"role"_s).toString();
 }

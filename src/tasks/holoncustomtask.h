@@ -19,7 +19,7 @@ public:
     ~HolonCustomTask();
 
     int exec() override;
-    QWidget *widget(const QString &group) const override;
+    QWidget *widget(const QString &role) const override;
 };
 
 #endif // HOLONCUSTOMTASK_H

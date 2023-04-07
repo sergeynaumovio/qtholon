@@ -19,20 +19,20 @@ class = HolonOpenTaskTreeWindow
 
 [holon/parameters-window]
 class = HolonParametersWindow
-group = parameters
+role = parameters
 
 [holon/settings-window]
 class = HolonSettingsWindow
-group = settings
+role = settings
 
 [holon/messages-window]
 class = HolonMessagesWindow
-group = messages
+role = messages
 
 [holon/terminal-window]
 class = HolonTerminalWindow
 current = true
-group = settings
+role = settings
 
 [holon/task-model]
 class = HolonTaskModel
@@ -44,44 +44,44 @@ title = Branch A
 
 [holon/task-model/branch-a/custom-task1]
 class = HolonCustomTask
-group = parameters
+role = parameters
 title = Custom Task A
 
 [holon/task-model/branch-a/custom-task1/messages]
 class = HolonMessagesWidget
-group = messages
+role = messages
 
 [holon/task-model/branch-a/custom-task1/0]
 class = HolonTerminalWindow
 current = true
-group = settings
+role = settings
 title = Terminal
 
 [holon/task-model/branch-b]
 class = HolonTaskModelBranch
-group = parameters
+role = parameters
 title = Branch B
 
 [holon/task-model/branch-b/custom-task2]
 class = HolonCustomTask
-group = parameters
+role = parameters
 title = Custom Task B
 
 [holon/task-model/branch-b/custom-task2/0]
 class = HolonTerminalWindow
 current = true
-group = settings
+role = settings
 title = Terminal
 
 [holon/task-model/branch-b/custom-task3]
 class = HolonCustomTask
-group = parameters
+role = parameters
 title = Custom Task C
 
 [holon/task-model/branch-b/custom-task3/0]
 class = HolonTerminalWindow
 current = true
-group = settings
+role = settings
 title = Terminal
 
 [holon/workflow-model1]
@@ -95,55 +95,55 @@ class = HolonWorkflowModelBranch
 class = HolonCustomTask
 current = true
 dockWidgetSplitState = QByteArray(LzAvbA==)
-group = parameters
+role = parameters
 mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAE6AAACLvwCAAAAAvsAAAAWAGQAYQBmAGEAdQBsAHQARABvAGMAawAAAAAA/////wAAAEQA/////AAAAAAAAAIuAAAAXAD////8AQAAAAL7AAAAAgAwAQAAAAAAAACdAAAAiQD////7AAAAAgAxAQAAAJ4AAACcAAAAiQD///8AAAAAAAAA2AAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 title = Custom Task A
 
 [holon/workflow-model1/branch1/85f69e0b-e525-429d-b63f-8bd2833a2ff0/0]
 class = HolonTerminalWindow
 current = true
-group = settings
+role = settings
 
 [holon/workflow-model1/branch1/28245495-e838-4056-8fc2-d3545c0d312c]
 class = HolonCustomTask
 current = false
 dockWidgetSplitState = QByteArray(LzEvdCwvMC9i)
-group = parameters
+role = parameters
 mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAE6AAACLvwCAAAABPsAAAAWAGQAYQBmAGEAdQBsAHQARABvAGMAawAAAAAA/////wAAAEQA/////AAAAAAAAAIuAAAAuQD////8AgAAAAL7AAAAAgAxAQAAAAAAAAEXAAAAXAD////7AAAAAgAwAQAAARgAAAEWAAAAXAD////7AAAAAgAxAAAAAAD/////AAAAAAAAAAD7AAAAAgAwAAAAAAD/////AAAAAAAAAAAAAAAAAAACLgAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 title = Custom Task B
 
 [holon/workflow-model1/branch1/28245495-e838-4056-8fc2-d3545c0d312c/1]
 class = HolonTerminalWindow
 current = false
-group = settings
+role = settings
 
 [holon/workflow-model1/branch1/28245495-e838-4056-8fc2-d3545c0d312c/0]
 class = HolonTerminalWindow
 current = true
-group = settings
+role = settings
 
 [holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560]
 class = HolonCustomTask
 current = false
 dockWidgetSplitState = QByteArray(LzAvdCwvYi8xL2wsL2IvMi9y)
-group = parameters
+role = parameters
 mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAE6AAACLvwCAAAABvsAAAAWAGQAYQBmAGEAdQBsAHQARABvAGMAawAAAAAA/////wAAAEQA/////AAAAAAAAAIuAAAAuQD////8AgAAAAL7AAAAAgAwAQAAAAAAAAEXAAAAXAD////8AAABGAAAARYAAABcAP////wBAAAAAvsAAAACADEBAAAAAAAAAJ0AAACJAP////sAAAACADIBAAAAngAAAJwAAACJAP////sAAAACADAAAAAAAP////8AAAAAAAAAAPsAAAACADEAAAAAAP////8AAAAAAAAAAPsAAAACADEAAAAAAP////8AAAAAAAAAAPsAAAACADIAAAAAAP////8AAAAAAAAAAAAAAAAAAAIuAAAABAAAAAQAAAAIAAAACPwAAAAA)
 title = Custom Task C
 
 [holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560/0]
 class = HolonTerminalWindow
 current = false
-group = settings
+role = settings
 
 [holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560/1]
 class = HolonTerminalWindow
 current = false
-group = settings
+role = settings
 
 [holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560/2]
 class = HolonTerminalWindow
 current = true
-group = settings
+role = settings
 
 [holon/data]
 class = QLoaderData
@@ -190,7 +190,7 @@ title = Parameters
 
 [holon/parameters/parameters-window]
 class = HolonParametersWindow
-group = parameters
+role = parameters
 
 [holon/workflows]
 class = HolonWindowArea
@@ -212,7 +212,7 @@ title = Messages
 
 [holon/messages/messages-window]
 class = HolonMessagesWindow
-group = messages
+role = messages
 
 [holon/settings]
 class = HolonSidebar
@@ -224,7 +224,7 @@ title = Settings
 
 [holon/settings/settings-window]
 class = HolonSettingsWindow
-group = settings
+role = settings
 
 [holon/storage]
 class = QLoaderStorage

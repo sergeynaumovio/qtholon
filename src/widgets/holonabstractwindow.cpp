@@ -36,9 +36,9 @@ HolonDesktop *HolonAbstractWindow::desktop() const
     return d_ptr->desktop;
 }
 
-QString HolonAbstractWindow::group() const
+QString HolonAbstractWindow::role() const
 {
-    return value(u"group"_s).toString();
+    return value(u"role"_s).toString();
 }
 
 QIcon HolonAbstractWindow::icon() const

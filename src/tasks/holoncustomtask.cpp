@@ -30,11 +30,11 @@ int HolonCustomTask::exec()
     return 0;
 }
 
-QWidget *HolonCustomTask::widget(const QString &widgetGroup) const
+QWidget *HolonCustomTask::widget(const QString &widgetRole) const
 {
-    if (widgetGroup == group())
+    if (widgetRole == role())
         return new QLabel(title());
 
-    return HolonAbstractTask::widget(widgetGroup);
+    return HolonAbstractTask::widget(widgetRole);
 }
 

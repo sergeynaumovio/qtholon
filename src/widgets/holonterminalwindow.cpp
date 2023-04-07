@@ -98,12 +98,12 @@ QWidget *HolonTerminalWindow::toolbar() const
     return {};
 }
 
-QWidget *HolonTerminalWindow::widget(const QString &group) const
+QWidget *HolonTerminalWindow::widget(const QString &widgetRole) const
 {
-    if (group == QString())
+    if (widgetRole == QString())
         return d_ptr->widget();
 
-    if (group == HolonAbstractWindow::group())
+    if (widgetRole == role())
         return new QLabel(section().constLast());
 
     return {};

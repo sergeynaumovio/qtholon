@@ -19,7 +19,7 @@ protected:
 public:
     ~HolonAbstractWidget();
 
-    QString group() const;
+    QString role() const;
     virtual QWidget *widget() const = 0;
 };
 

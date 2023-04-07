@@ -32,13 +32,13 @@ public:
 
     HolonDesktop *desktop() const;
     virtual Holon::WindowFlags flags() const = 0;
-    QString group() const;
+    QString role() const;
     virtual QIcon icon() const;
     bool isCurrent() const;
     HolonAbstractTask *task() const;
     virtual QString title() const;
     virtual QWidget *toolbar() const;
-    virtual QWidget *widget(const QString &group = QString()) const = 0;
+    virtual QWidget *widget(const QString &role = QString()) const = 0;
 };
 
 #endif // HOLONABSTRACTWINDOW_H

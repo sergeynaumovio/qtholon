@@ -88,12 +88,12 @@ QWidget *HolonWorkflowWindow::toolbar() const
     return {};
 }
 
-QWidget *HolonWorkflowWindow::widget(const QString &group) const
+QWidget *HolonWorkflowWindow::widget(const QString &widgetRole) const
 {
-    if (group == QString())
+    if (widgetRole == QString())
         return d_ptr->widget();
 
-    if (group == HolonAbstractWindow::group())
+    if (widgetRole == role())
         return new QLabel(u"Workflow Settings"_s);
 
     return {};

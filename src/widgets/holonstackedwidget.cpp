@@ -8,20 +8,20 @@
 
 class HolonStackedWidgetPrivate
 {
-    const QString widgetGroup;
+    const QString widgetRole;
 
 protected:
     HolonStackedWidget *const q_ptr;
 
 public:
-    HolonStackedWidgetPrivate(HolonStackedWidget *q, const QString &group)
-    :   widgetGroup(group),
+    HolonStackedWidgetPrivate(HolonStackedWidget *q, const QString &role)
+    :   widgetRole(role),
         q_ptr(q)
     { }
 
     virtual ~HolonStackedWidgetPrivate() { }
 
-    QString group() const { return widgetGroup; }
+    QString role() const { return widgetRole; }
 };
 
 class HolonTaskStackedWidgetPrivate : public HolonStackedWidgetPrivate
@@ -29,8 +29,8 @@ class HolonTaskStackedWidgetPrivate : public HolonStackedWidgetPrivate
     QHash<HolonAbstractTask *, QWidget *> taskWidget;
 
 public:
-    HolonTaskStackedWidgetPrivate(HolonTaskStackedWidget *q, const QString &group)
-    :   HolonStackedWidgetPrivate(q, group)
+    HolonTaskStackedWidgetPrivate(HolonTaskStackedWidget *q, const QString &role)
+    :   HolonStackedWidgetPrivate(q, role)
     { }
 
     void addTaskWidget(HolonAbstractTask *task, QWidget *widget)
@@ -59,8 +59,8 @@ class HolonWindowStackedWidgetPrivate : public HolonStackedWidgetPrivate
     QHash<HolonAbstractWindow *, QWidget *> windowWidget;
 
 public:
-    HolonWindowStackedWidgetPrivate(HolonWindowStackedWidget *q, const QString &group)
-    :   HolonStackedWidgetPrivate(q, group)
+    HolonWindowStackedWidgetPrivate(HolonWindowStackedWidget *q, const QString &role)
+    :   HolonStackedWidgetPrivate(q, role)
     { }
 
     void addWindowWidget(HolonAbstractWindow *window, QWidget *widget)
@@ -94,8 +94,8 @@ class HolonWindowAreaStackedWidgetPrivate : public HolonStackedWidgetPrivate
     QHash<HolonWindowArea *, QWidget *> windowAreaWidget;
 
 public:
-    HolonWindowAreaStackedWidgetPrivate(HolonWindowAreaStackedWidget *q, const QString &group)
-    :   HolonStackedWidgetPrivate(q, group)
+    HolonWindowAreaStackedWidgetPrivate(HolonWindowAreaStackedWidget *q, const QString &role)
+    :   HolonStackedWidgetPrivate(q, role)
     { }
 
     void addWindowAreaWidget(HolonWindowArea *windowArea, QWidget *widget)
@@ -120,14 +120,14 @@ HolonStackedWidget::HolonStackedWidget(HolonStackedWidgetPrivate &d)
 HolonStackedWidget::~HolonStackedWidget()
 { }
 
-QString HolonStackedWidget::group() const
+QString HolonStackedWidget::role() const
 {
-    return d_ptr->group();
+    return d_ptr->role();
 }
 
 
-HolonTaskStackedWidget::HolonTaskStackedWidget(const QString &group)
-:   HolonStackedWidget(*new HolonTaskStackedWidgetPrivate(this, group))
+HolonTaskStackedWidget::HolonTaskStackedWidget(const QString &role)
+:   HolonStackedWidget(*new HolonTaskStackedWidgetPrivate(this, role))
 { }
 
 HolonTaskStackedWidget::~HolonTaskStackedWidget()
@@ -152,8 +152,8 @@ QWidget *HolonTaskStackedWidget::taskWidget(HolonAbstractTask *task) const
 }
 
 
-HolonWindowStackedWidget::HolonWindowStackedWidget(const QString &group)
-:   HolonStackedWidget(*new HolonWindowStackedWidgetPrivate(this, group))
+HolonWindowStackedWidget::HolonWindowStackedWidget(const QString &role)
+:   HolonStackedWidget(*new HolonWindowStackedWidgetPrivate(this, role))
 { }
 
 HolonWindowStackedWidget::~HolonWindowStackedWidget()
@@ -178,8 +178,8 @@ void HolonWindowStackedWidget::setCurrentWindow(HolonAbstractWindow *window)
 }
 
 
-HolonWindowAreaStackedWidget::HolonWindowAreaStackedWidget(const QString &group)
-:   HolonStackedWidget(*new HolonWindowAreaStackedWidgetPrivate(this, group))
+HolonWindowAreaStackedWidget::HolonWindowAreaStackedWidget(const QString &role)
+:   HolonStackedWidget(*new HolonWindowAreaStackedWidgetPrivate(this, role))
 { }
 
 HolonWindowAreaStackedWidget::~HolonWindowAreaStackedWidget()

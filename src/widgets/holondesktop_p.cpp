@@ -33,7 +33,7 @@ using namespace Qt::Literals::StringLiterals;
 class HolonDesktopPrivateData : public HolonCorePrivate
 {
     void addSidebarWindow(HolonAbstractWindow *window, HolonSidebar *sidebar);
-    void addTaskStackedWidget(HolonTaskStackedWidget *taskStackedWidget, const QString &group);
+    void addTaskStackedWidget(HolonTaskStackedWidget *taskStackedWidget, const QString &role);
     void addTaskWindow(HolonAbstractTask *task, HolonAbstractWindow *window);
     void addWindowAreaStackedWidget(HolonWindowAreaStackedWidget *windowAreaStackedWidget);
 
@@ -127,20 +127,20 @@ void HolonDesktopPrivateData::addSidebarWindow(HolonAbstractWindow *window, Holo
     sidebarByWindow.insert(window, sidebar);
 
     if (HolonTaskStackedWidget *taskStackedWidget = qobject_cast<HolonTaskStackedWidget *>(stackedWidget))
-        return addTaskStackedWidget(taskStackedWidget, window->group());
+        return addTaskStackedWidget(taskStackedWidget, window->role());
 
     if (HolonWindowAreaStackedWidget *windowAreaStackedWidget = qobject_cast<HolonWindowAreaStackedWidget *>(stackedWidget))
         return addWindowAreaStackedWidget(windowAreaStackedWidget);
 }
 
 void HolonDesktopPrivateData::addTaskStackedWidget(HolonTaskStackedWidget *taskStackedWidget,
-                                                   const QString &group)
+                                                   const QString &role)
 {
     taskStackedWidgetList.append(taskStackedWidget);
 
     for (HolonAbstractTask *task : taskList)
     {
-        if (QWidget *widget = task->widget(group))
+        if (QWidget *widget = task->widget(role))
         {
             taskStackedWidget->addTaskWidget(task, widget);
 
@@ -183,7 +183,7 @@ void HolonDesktopPrivateData::addTaskWindow(HolonAbstractTask *task, HolonAbstra
 
     for (HolonTaskStackedWidget *taskStackedWidget : taskStackedWidgetList)
     {
-        if (taskStackedWidget->group() != window->group())
+        if (taskStackedWidget->role() != window->role())
             continue;
 
         QWidget *widget = taskStackedWidget->taskWidget(task);
@@ -198,7 +198,7 @@ void HolonDesktopPrivateData::addTaskWindow(HolonAbstractTask *task, HolonAbstra
             taskStackedWidget->addTaskWidget(task, windowStackedWidget);
         }
 
-        if (!(widget = window->widget(taskStackedWidget->group())))
+        if (!(widget = window->widget(taskStackedWidget->role())))
             continue;
 
         windowStackedWidget->addWindowWidget(window, widget);
@@ -213,13 +213,13 @@ void HolonDesktopPrivateData::addWindowAreaStackedWidget(HolonWindowAreaStackedW
 {
     windowAreaStackedWidgetList.append(windowAreaStackedWidget);
 
-    HolonTaskStackedWidget *taskStackedWidget = new HolonTaskStackedWidget(windowAreaStackedWidget->group());
+    HolonTaskStackedWidget *taskStackedWidget = new HolonTaskStackedWidget(windowAreaStackedWidget->role());
     windowAreaStackedWidget->addWindowAreaWidget(nullptr, taskStackedWidget);
     taskStackedWidgetList.append(taskStackedWidget);
 
     for (HolonAbstractTask *task : taskList)
     {
-        QList<HolonAbstractWindow *> taskWindowList = task->windows(taskStackedWidget->group());
+        QList<HolonAbstractWindow *> taskWindowList = task->windows(taskStackedWidget->role());
         if (taskWindowList.size())
         {
             HolonWindowStackedWidget *windowStackedWidget = new HolonWindowStackedWidget;
@@ -229,7 +229,7 @@ void HolonDesktopPrivateData::addWindowAreaStackedWidget(HolonWindowAreaStackedW
                 taskStackedWidget->setCurrentTask(task);
 
             for (HolonAbstractWindow *taskWindow : taskWindowList)
-                if (QWidget *widget = taskWindow->widget(taskStackedWidget->group()))
+                if (QWidget *widget = taskWindow->widget(taskStackedWidget->role()))
                 {
                     windowStackedWidget->addWindowWidget(taskWindow, widget);
                     stackedWidgetByTaskWindow.insert(taskWindow, windowStackedWidget);
@@ -296,7 +296,7 @@ void HolonDesktopPrivateData::addTask(HolonAbstractTask *task)
 
     for (HolonTaskStackedWidget *taskStackedWidget : taskStackedWidgetList)
     {
-        if (QWidget *widget = task->widget(taskStackedWidget->group()))
+        if (QWidget *widget = task->widget(taskStackedWidget->role()))
             taskStackedWidget->addTaskWidget(task, widget);
     }
 
@@ -349,8 +349,8 @@ void HolonDesktopPrivateData::addWindow(HolonAbstractWindow *window)
 
     if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(window->parent()))
     {
-        if (window->group().isEmpty())
-            return desktop_d.emitWarning(u"window group is not set"_s);
+        if (window->role().isEmpty())
+            return desktop_d.emitWarning(u"window role is not set"_s);
 
         return addTaskWindow(task, window);
     }

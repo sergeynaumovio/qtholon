@@ -42,7 +42,7 @@ public:
         if (stackedWidget)
             return stackedWidget;
 
-        stackedWidget = new HolonTaskStackedWidget(q_ptr->group());
+        stackedWidget = new HolonTaskStackedWidget(q_ptr->role());
 
         return stackedWidget;
     }
@@ -98,9 +98,9 @@ QWidget *HolonParametersWindow::toolbar() const
     return {};
 }
 
-QWidget *HolonParametersWindow::widget(const QString &group) const
+QWidget *HolonParametersWindow::widget(const QString &widgetRole) const
 {
-    if (group == QString())
+    if (widgetRole == QString())
         return d_ptr->widget();
 
     return {};

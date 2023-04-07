@@ -35,7 +35,7 @@ public:
         if (stackedWidget)
             return stackedWidget;
 
-        stackedWidget = new HolonTaskStackedWidget(q_ptr->group());
+        stackedWidget = new HolonTaskStackedWidget(q_ptr->role());
 
         return stackedWidget;
     }
@@ -91,9 +91,9 @@ QWidget *HolonMessagesWindow::toolbar() const
     return {};
 }
 
-QWidget *HolonMessagesWindow::widget(const QString &group) const
+QWidget *HolonMessagesWindow::widget(const QString &widgetRole) const
 {
-    if (group == QString())
+    if (widgetRole == QString())
         return d_ptr->widget();
 
     return {};

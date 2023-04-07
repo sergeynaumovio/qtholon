@@ -32,18 +32,18 @@ HolonAbstractTask::~HolonAbstractTask()
 
 void HolonAbstractTask::addWidget(HolonAbstractWidget *widget)
 {
-    if (d_ptr->widgetList.contains(widget->group()))
+    if (d_ptr->widgetList.contains(widget->role()))
         return;
 
-    d_ptr->widgetList[widget->group()] = widget;
+    d_ptr->widgetList[widget->role()] = widget;
 }
 
 void HolonAbstractTask::addWindow(HolonAbstractWindow *window)
 {
-    if (d_ptr->windowList[window->group()].contains(window))
+    if (d_ptr->windowList[window->role()].contains(window))
         return;
 
-    d_ptr->windowList[window->group()].append(window);
+    d_ptr->windowList[window->role()].append(window);
 
     if (d_ptr->workflowModelBranch)
         if (HolonWorkflowModel *workflowModel = d_ptr->workflowModelBranch->workflowModel())
@@ -59,9 +59,9 @@ HolonDesktop *HolonAbstractTask::desktop() const
     return {};
 }
 
-QString HolonAbstractTask::group() const
+QString HolonAbstractTask::role() const
 {
-    return value(u"group"_s).toString();
+    return value(u"role"_s).toString();
 }
 
 QIcon HolonAbstractTask::icon() const
@@ -93,18 +93,18 @@ QString HolonAbstractTask::title() const
     return value(u"title"_s, section().constLast()).toString();
 }
 
-QWidget *HolonAbstractTask::widget(const QString &group) const
+QWidget *HolonAbstractTask::widget(const QString &role) const
 {
     QWidget *widget{};
 
-    if (d_ptr->widgetList.contains(group))
-        widget = d_ptr->widgetList.value(group)->widget();
+    if (d_ptr->widgetList.contains(role))
+        widget = d_ptr->widgetList.value(role)->widget();
 
     return widget;
 }
 
-QList<HolonAbstractWindow *> HolonAbstractTask::windows(const QString &group) const
+QList<HolonAbstractWindow *> HolonAbstractTask::windows(const QString &role) const
 {
-    return d_ptr->windowList.value(group);
+    return d_ptr->windowList.value(role);
 }
 
