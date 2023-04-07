@@ -3,6 +3,7 @@
 [holon]
 class = HolonDesktop
 externalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAADCAAACuvwCAAAAAfwAAAAAAAACugAAALgA///+/AEAAAAC+wAAAAoAdABhAHMAawBzAQAAAAAAAADCAAAAwgD////7AAAAFABwAGEAcgBhAG0AZQB0AGUAcgBzAQAAAFwAAACSAAAAAAAAAAAAAAABAAAAbQAAArr8AgAAAAH7AAAAEABzAGUAdAB0AGkAbgBnAHMBAAAAAAAAAroAAAAmAP///gAAAXYAAAK6AAAABAAAAAQAAAAIAAAACPwAAAAA)
+geometry =
 internalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAAF2AAAAi/wBAAAAAfsAAAAQAG0AZQBzAHMAYQBnAGUAcwEAAAAAAAABdgAAAIMA////AAABdgAAAi4AAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 saveShortcut = Ctrl+S
 sidebarMoveShortcut = Alt+M
@@ -185,6 +186,8 @@ class = HolonSidebar
 area = bottom
 checked = true
 layout = internal
+mainWindowNestingIndex =
+mainWindowState =
 shortcut = Alt+0
 title = Messages
 
