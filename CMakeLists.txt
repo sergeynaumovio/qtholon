@@ -194,7 +194,9 @@ qt_add_resources(${QT_HOLON_LIBRARY} "Holon"
           share/icons/close@2x.xpm
           share/icons/holoniconlight.svg
           share/icons/maximize.xpm
+          share/icons/maximize@2x.xpm
           share/icons/minimize.xpm
+          share/icons/minimize@2x.xpm
           share/icons/quit.svg
           share/icons/screwdriver.svg
           share/icons/splitbutton_closebottom.xpm
