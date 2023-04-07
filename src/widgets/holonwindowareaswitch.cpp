@@ -44,7 +44,7 @@ class HolonSwitchButton : public QAbstractButton
 {
     float fontSize;
 
-    void adjustFromSizeHints()
+    void adjustSize()
     {
         HolonThemeSizeHints *sizeHints = desktop_d.q_ptr->currentTheme()->sizeHints();
         fontSize = sizeHints->taskbarSizeHint().height() / 2.6;
@@ -83,7 +83,7 @@ protected:
             update();
             return true;
         case QEvent::Polish:
-            adjustFromSizeHints();
+            adjustSize();
             return true;
         default:
             return QWidget::event(e);
