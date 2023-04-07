@@ -92,6 +92,7 @@ public:
     HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDesktop *q);
     ~HolonDesktopPrivateData() { }
 
+    void addObject(auto *object, auto &list, auto *&current);
     void addSidebar(HolonSidebar *sidebar);
     void addTask(HolonAbstractTask *task);
     void addTaskModel(HolonTaskModel *taskModel);
@@ -257,6 +258,26 @@ HolonDesktopPrivateData::HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDe
     }())
 { }
 
+void HolonDesktopPrivateData::addObject(auto *object, auto &list, auto *&current)
+{
+    if (list.contains(object))
+        return;
+
+    list.append(object);
+
+    if (object->isCurrent())
+    {
+        if (!current)
+            current = object;
+        else if (qobject_cast<HolonTaskModel *>(object))
+             desktop_d.emitWarning(u"current task model already set"_s);
+        else if (qobject_cast<HolonTheme *>(object))
+            desktop_d.emitWarning(u"current theme already set"_s);
+        else if (qobject_cast<HolonWorkflowModel *>(object))
+            desktop_d.emitWarning(u"current workflow model already set"_s);
+    }
+}
+
 void HolonDesktopPrivateData::addSidebar(HolonSidebar *sidebar)
 {
     HolonSidebarDock *sidebarDock;
@@ -305,28 +326,12 @@ void HolonDesktopPrivateData::addTask(HolonAbstractTask *task)
 
 void HolonDesktopPrivateData::addTaskModel(HolonTaskModel *taskModel)
 {
-    if (taskModelList.contains(taskModel))
-        return;
-
-    taskModelList.append(taskModel);
-
-    if (taskModel->isCurrent() && !currentTaskModel)
-        currentTaskModel = taskModel;
-    else
-        desktop_d.emitWarning(u"current task model already set"_s);
+    addObject(taskModel, taskModelList, currentTaskModel);
 }
 
 void HolonDesktopPrivateData::addTheme(HolonTheme *theme)
 {
-    if (themeList.contains(theme))
-        return;
-
-    themeList.append(theme);
-
-    if (theme->isCurrent() && !currentTheme)
-        currentTheme = theme;
-    else
-        desktop_d.emitWarning(u"current theme already set"_s);
+    addObject(theme, themeList, currentTheme);
 }
 
 void HolonDesktopPrivateData::addWidget(QWidget *widget, QWidget *parent)
@@ -372,15 +377,7 @@ void HolonDesktopPrivateData::addWindowArea(HolonWindowArea *windowArea)
 
 void HolonDesktopPrivateData::addWorkflowModel(HolonWorkflowModel *workflowModel)
 {
-    if (workflowModelList.contains(workflowModel))
-        return;
-
-    workflowModelList.append(workflowModel);
-
-    if (workflowModel->isCurrent() && !currentWorkflowModel)
-        currentWorkflowModel = workflowModel;
-    else
-        desktop_d.emitWarning(u"current workflow model already set"_s);
+    addObject(workflowModel, workflowModelList, currentWorkflowModel);
 }
 
 void HolonDesktopPrivateData::closeTask(HolonAbstractTask *task)
