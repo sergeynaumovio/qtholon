@@ -30,8 +30,12 @@ HolonMessagesWidget::HolonMessagesWidget(QLoaderSettings *settings, HolonAbstrac
 HolonMessagesWidget::~HolonMessagesWidget()
 { }
 
+int HolonMessagesWidget::role() const
+{
+    return Holon::MessagesRole;
+}
+
 QWidget *HolonMessagesWidget::widget() const
 {
     return d_ptr->plainText;
 }
-

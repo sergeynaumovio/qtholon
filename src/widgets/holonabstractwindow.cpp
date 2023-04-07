@@ -36,11 +36,6 @@ HolonDesktop *HolonAbstractWindow::desktop() const
     return d_ptr->desktop;
 }
 
-QString HolonAbstractWindow::role() const
-{
-    return value(u"role"_s).toString();
-}
-
 QIcon HolonAbstractWindow::icon() const
 {
     return {};
@@ -49,6 +44,11 @@ QIcon HolonAbstractWindow::icon() const
 bool HolonAbstractWindow::isCurrent() const
 {
     return value(u"current"_s).toBool();
+}
+
+int HolonAbstractWindow::role() const
+{
+    return Holon::NoRole;
 }
 
 HolonAbstractTask *HolonAbstractWindow::task() const

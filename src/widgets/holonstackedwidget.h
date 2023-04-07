@@ -5,6 +5,7 @@
 #define HOLONSTACKEDWIDGET_H
 
 #include "qtholonglobal.h"
+#include "holonnamespace.h"
 #include <QStackedWidget>
 
 class HolonAbstractTask;
@@ -27,7 +28,7 @@ protected:
 public:
     ~HolonStackedWidget();
 
-    QString role() const;
+    int role() const;
 };
 
 
@@ -37,7 +38,7 @@ class Q_HOLON_EXPORT HolonTaskStackedWidget : public HolonStackedWidget
     Q_DECLARE_PRIVATE(HolonTaskStackedWidget)
 
 public:
-    explicit HolonTaskStackedWidget(const QString &role = QString());
+    explicit HolonTaskStackedWidget(int role = Holon::NoRole);
     ~HolonTaskStackedWidget();
 
     void addTaskWidget(HolonAbstractTask *task, QWidget *widget);
@@ -52,7 +53,7 @@ class Q_HOLON_EXPORT HolonWindowStackedWidget : public HolonStackedWidget
     Q_DECLARE_PRIVATE(HolonWindowStackedWidget)
 
 public:
-    explicit HolonWindowStackedWidget(const QString &role = QString());
+    explicit HolonWindowStackedWidget(int role = Holon::NoRole);
     ~HolonWindowStackedWidget();
 
     void addWindowWidget(HolonAbstractWindow *window, QWidget *widget);
@@ -67,7 +68,7 @@ class Q_HOLON_EXPORT HolonWindowAreaStackedWidget : public HolonStackedWidget
     Q_DECLARE_PRIVATE(HolonWindowAreaStackedWidget)
 
 public:
-    explicit HolonWindowAreaStackedWidget(const QString &role = QString());
+    explicit HolonWindowAreaStackedWidget(int role = Holon::NoRole);
     ~HolonWindowAreaStackedWidget();
 
     void addWindowAreaWidget(HolonWindowArea *windowArea, QWidget *widget);

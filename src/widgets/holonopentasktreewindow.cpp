@@ -96,9 +96,9 @@ QWidget *HolonOpenTaskTreeWindow::toolbar() const
     return {};
 }
 
-QWidget *HolonOpenTaskTreeWindow::widget(const QString &widgetRole) const
+QWidget *HolonOpenTaskTreeWindow::widget(int widgetRole) const
 {
-    if (widgetRole == QString())
+    if (widgetRole == Holon::NoRole)
         return d_ptr->widget();
 
     return {};

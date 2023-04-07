@@ -88,6 +88,11 @@ bool HolonParametersWindow::isCopyable(const QStringList &to) const
     return false;
 }
 
+int HolonParametersWindow::role() const
+{
+    return Holon::ParametersRole;
+}
+
 QString HolonParametersWindow::title() const
 {
     return u"Parameters"_s;
@@ -98,9 +103,9 @@ QWidget *HolonParametersWindow::toolbar() const
     return {};
 }
 
-QWidget *HolonParametersWindow::widget(const QString &widgetRole) const
+QWidget *HolonParametersWindow::widget(int widgetRole) const
 {
-    if (widgetRole == QString())
+    if (widgetRole == Holon::NoRole)
         return d_ptr->widget();
 
     return {};

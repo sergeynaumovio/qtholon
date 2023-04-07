@@ -88,6 +88,11 @@ bool HolonTerminalWindow::isCopyable(const QStringList &to) const
     return false;
 }
 
+int HolonTerminalWindow::role() const
+{
+    return Holon::SettingsRole;
+}
+
 QString HolonTerminalWindow::title() const
 {
     return u"Terminal"_s;
@@ -98,9 +103,9 @@ QWidget *HolonTerminalWindow::toolbar() const
     return {};
 }
 
-QWidget *HolonTerminalWindow::widget(const QString &widgetRole) const
+QWidget *HolonTerminalWindow::widget(int widgetRole) const
 {
-    if (widgetRole == QString())
+    if (widgetRole == Holon::NoRole)
         return d_ptr->widget();
 
     if (widgetRole == role())

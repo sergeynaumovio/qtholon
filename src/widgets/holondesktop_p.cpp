@@ -33,7 +33,7 @@ using namespace Qt::Literals::StringLiterals;
 class HolonDesktopPrivateData : public HolonCorePrivate
 {
     void addSidebarWindow(HolonAbstractWindow *window, HolonSidebar *sidebar);
-    void addTaskStackedWidget(HolonTaskStackedWidget *taskStackedWidget, const QString &role);
+    void addTaskStackedWidget(HolonTaskStackedWidget *taskStackedWidget, int role);
     void addTaskWindow(HolonAbstractTask *task, HolonAbstractWindow *window);
     void addWindowAreaStackedWidget(HolonWindowAreaStackedWidget *windowAreaStackedWidget);
 
@@ -133,8 +133,7 @@ void HolonDesktopPrivateData::addSidebarWindow(HolonAbstractWindow *window, Holo
         return addWindowAreaStackedWidget(windowAreaStackedWidget);
 }
 
-void HolonDesktopPrivateData::addTaskStackedWidget(HolonTaskStackedWidget *taskStackedWidget,
-                                                   const QString &role)
+void HolonDesktopPrivateData::addTaskStackedWidget(HolonTaskStackedWidget *taskStackedWidget, int role)
 {
     taskStackedWidgetList.append(taskStackedWidget);
 
@@ -349,7 +348,7 @@ void HolonDesktopPrivateData::addWindow(HolonAbstractWindow *window)
 
     if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(window->parent()))
     {
-        if (window->role().isEmpty())
+        if (window->role() == Holon::NoRole)
             return desktop_d.emitWarning(u"window role is not set"_s);
 
         return addTaskWindow(task, window);

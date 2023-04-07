@@ -27,7 +27,7 @@ public:
     bool isCopyable(const QStringList &to) const override;
     QString title() const override;
     QWidget *toolbar() const override;
-    QWidget *widget(const QString &role = QString()) const override;
+    QWidget *widget(int role = Holon::NoRole) const override;
 };
 
 #endif // HOLONPROJECTTASKTREEWINDOW_H

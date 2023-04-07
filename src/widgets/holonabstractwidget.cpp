@@ -3,6 +3,7 @@
 
 #include "holonabstractwidget.h"
 #include "holonabstracttask.h"
+#include "holonnamespace.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -14,7 +15,7 @@ HolonAbstractWidget::HolonAbstractWidget(QLoaderSettings *settings, HolonAbstrac
 HolonAbstractWidget::~HolonAbstractWidget()
 { }
 
-QString HolonAbstractWidget::role() const
+int HolonAbstractWidget::role() const
 {
-    return value(u"role"_s).toString();
+    return Holon::NoRole;
 }

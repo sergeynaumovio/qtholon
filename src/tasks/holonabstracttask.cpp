@@ -59,11 +59,6 @@ HolonDesktop *HolonAbstractTask::desktop() const
     return {};
 }
 
-QString HolonAbstractTask::role() const
-{
-    return value(u"role"_s).toString();
-}
-
 QIcon HolonAbstractTask::icon() const
 {
     return desktop()->currentTheme()->icons()->taskIcon();
@@ -88,23 +83,28 @@ bool HolonAbstractTask::isCurrent() const
     return value(u"current"_s).toBool();
 }
 
+int HolonAbstractTask::role() const
+{
+    return Holon::ParametersRole;
+}
+
 QString HolonAbstractTask::title() const
 {
     return value(u"title"_s, section().constLast()).toString();
 }
 
-QWidget *HolonAbstractTask::widget(const QString &role) const
+QWidget *HolonAbstractTask::widget(int widgetRole) const
 {
     QWidget *widget{};
 
-    if (d_ptr->widgetList.contains(role))
-        widget = d_ptr->widgetList.value(role)->widget();
+    if (d_ptr->widgetList.contains(widgetRole))
+        widget = d_ptr->widgetList.value(widgetRole)->widget();
 
     return widget;
 }
 
-QList<HolonAbstractWindow *> HolonAbstractTask::windows(const QString &role) const
+QList<HolonAbstractWindow *> HolonAbstractTask::windows(int windowRole) const
 {
-    return d_ptr->windowList.value(role);
+    return d_ptr->windowList.value(windowRole);
 }
 

@@ -5,6 +5,7 @@
 #define HOLONWORKFLOWWINDOW_H
 
 #include "holonabstractwindow.h"
+#include "holonnamespace.h"
 #include <QScopedStorage>
 
 class HolonDesktop;
@@ -25,9 +26,10 @@ public:
     Holon::WindowFlags flags() const override;
     QIcon icon() const override;
     bool isCopyable(const QStringList &to) const override;
+    int role() const override;
     QString title() const override;
     QWidget *toolbar() const override;
-    QWidget *widget(const QString &role = QString()) const override;
+    QWidget *widget(int role = Holon::NoRole) const override;
 };
 
 #endif // HOLONWORKFLOWWINDOW_H

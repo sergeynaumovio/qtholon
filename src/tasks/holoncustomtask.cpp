@@ -30,7 +30,7 @@ int HolonCustomTask::exec()
     return 0;
 }
 
-QWidget *HolonCustomTask::widget(const QString &widgetRole) const
+QWidget *HolonCustomTask::widget(int widgetRole) const
 {
     if (widgetRole == role())
         return new QLabel(title());

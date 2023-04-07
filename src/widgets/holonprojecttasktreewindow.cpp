@@ -151,9 +151,9 @@ QWidget *HolonProjectTaskTreeWindow::toolbar() const
     return {};
 }
 
-QWidget *HolonProjectTaskTreeWindow::widget(const QString &widgetRole) const
+QWidget *HolonProjectTaskTreeWindow::widget(int widgetRole) const
 {
-    if (widgetRole == QString())
+    if (widgetRole == Holon::NoRole)
         return d_ptr->widget();
 
     return {};

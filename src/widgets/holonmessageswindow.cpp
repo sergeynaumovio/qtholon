@@ -81,6 +81,11 @@ bool HolonMessagesWindow::isCopyable(const QStringList &to) const
     return false;
 }
 
+int HolonMessagesWindow::role() const
+{
+    return Holon::MessagesRole;
+}
+
 QString HolonMessagesWindow::title() const
 {
     return u"Messages"_s;
@@ -91,9 +96,9 @@ QWidget *HolonMessagesWindow::toolbar() const
     return {};
 }
 
-QWidget *HolonMessagesWindow::widget(const QString &widgetRole) const
+QWidget *HolonMessagesWindow::widget(int widgetRole) const
 {
-    if (widgetRole == QString())
+    if (widgetRole == Holon::NoRole)
         return d_ptr->widget();
 
     return {};

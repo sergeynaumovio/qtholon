@@ -20,6 +20,7 @@ public:
     HolonMessagesWidget(QLoaderSettings *settings, HolonAbstractTask *parent);
     ~HolonMessagesWidget();
 
+    int role() const override;
     QWidget *widget() const override;
 };
 

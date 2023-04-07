@@ -5,6 +5,7 @@
 #define HOLONCUSTOMTASK_H
 
 #include "holonabstracttask.h"
+#include "holonnamespace.h"
 
 class HolonTaskModelBranch;
 class HolonWorkflowModelBranch;
@@ -19,7 +20,7 @@ public:
     ~HolonCustomTask();
 
     int exec() override;
-    QWidget *widget(const QString &role) const override;
+    QWidget *widget(int role = Holon::NoRole) const override;
 };
 
 #endif // HOLONCUSTOMTASK_H

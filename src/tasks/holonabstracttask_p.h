@@ -13,14 +13,16 @@ class HolonAbstractWindow;
 class HolonDesktop;
 class HolonWorkflowModelBranch;
 
+using WidgetRole = int;
+
 class HolonAbstractTaskPrivate
 {
 public:
     HolonAbstractTask *const q_ptr;
     HolonWorkflowModelBranch *const workflowModelBranch;
     HolonDesktop *const desktop;
-    QMap<QString, QList<HolonAbstractWindow *>> windowList;
-    QMap<QString, HolonAbstractWidget *> widgetList;
+    QMap<WidgetRole, QList<HolonAbstractWindow *>> windowList;
+    QMap<WidgetRole, HolonAbstractWidget *> widgetList;
 
     HolonAbstractTaskPrivate(HolonAbstractTask *q = nullptr,
                              HolonWorkflowModelBranch *branch = nullptr);

@@ -5,6 +5,7 @@
 #define HOLONABSTRACTTASK_H
 
 #include "qtholonglobal.h"
+#include "holonnamespace.h"
 #include <QLoaderSettings>
 
 class HolonAbstractTaskPrivate;
@@ -33,13 +34,13 @@ public:
     void addWindow(HolonAbstractWindow *window);
     HolonDesktop *desktop() const;
     virtual int exec() = 0;
-    QString role() const;
     virtual QIcon icon() const;
     bool isCopyable(const QStringList &to) const override;
     bool isCurrent() const;
+    virtual int role() const;
     virtual QString title() const;
-    virtual QWidget *widget(const QString &role) const;
-    QList<HolonAbstractWindow *> windows(const QString &role) const;
+    virtual QWidget *widget(int role = Holon::NoRole) const;
+    QList<HolonAbstractWindow *> windows(int role = Holon::NoRole) const;
 };
 
 #endif // HOLONABSTRACTTASK_H

@@ -13,6 +13,22 @@ namespace Holon
 {
     Q_NAMESPACE_EXPORT(Q_HOLON_EXPORT)
 
+    enum TreeItem
+    {
+        Collapsed,
+        Expanded
+    };
+    Q_ENUM_NS(TreeItem)
+
+    enum WidgetRole
+    {
+        NoRole = 0,
+        ParametersRole = 1,
+        SettingsRole = 2,
+        MessagesRole = 3
+    };
+    Q_ENUM_NS(WidgetRole)
+
     enum WindowType
     {
         SidebarWindow = 0x0001,
@@ -27,13 +43,6 @@ namespace Holon
     Q_DECLARE_FLAGS(WindowFlags, WindowType)
     Q_DECLARE_OPERATORS_FOR_FLAGS(WindowFlags)
     Q_FLAG_NS(WindowFlags)
-
-    enum TreeItem
-    {
-        Collapsed,
-        Expanded
-    };
-    Q_ENUM_NS(TreeItem)
 };
 
 #endif // HOLONNAMESPACE_H

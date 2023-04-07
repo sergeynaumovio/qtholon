@@ -78,6 +78,11 @@ bool HolonWorkflowWindow::isCopyable(const QStringList &to) const
     return false;
 }
 
+int HolonWorkflowWindow::role() const
+{
+    return Holon::SettingsRole;
+}
+
 QString HolonWorkflowWindow::title() const
 {
     return u"Workflow"_s;
@@ -88,9 +93,9 @@ QWidget *HolonWorkflowWindow::toolbar() const
     return {};
 }
 
-QWidget *HolonWorkflowWindow::widget(const QString &widgetRole) const
+QWidget *HolonWorkflowWindow::widget(int widgetRole) const
 {
-    if (widgetRole == QString())
+    if (widgetRole == Holon::NoRole)
         return d_ptr->widget();
 
     if (widgetRole == role())
