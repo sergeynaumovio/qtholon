@@ -18,7 +18,7 @@ using namespace Qt::Literals::StringLiterals;
 HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonTaskModelBranch *taskModelBranch)
 :   QObject(taskModelBranch),
     QLoaderSettings(settings),
-    d_ptr(new HolonAbstractTaskPrivate)
+    d_ptr(new HolonAbstractTaskPrivate(this, taskModelBranch))
 { }
 
 HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonWorkflowModelBranch *workflowModelBranch)
