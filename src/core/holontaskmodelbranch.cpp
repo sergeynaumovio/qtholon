@@ -12,10 +12,9 @@ using namespace Qt::Literals::StringLiterals;
 
 class HolonTaskModelBranchPrivate
 {
+public:
     HolonTaskModel *const model;
     HolonTaskModelBranch *const branch;
-
-public:
     bool expanded{};
 
     HolonTaskModelBranchPrivate(HolonTaskModel *m)
@@ -70,6 +69,14 @@ bool HolonTaskModelBranch::isExpanded() const
 void HolonTaskModelBranch::setExpanded(bool expanded)
 {
     d_ptr->expanded = expanded;
+}
+
+HolonTaskModel *HolonTaskModelBranch::taskModel() const
+{
+    if (d_ptr->model)
+        return d_ptr->model;
+
+    return d_ptr->branch->taskModel();
 }
 
 QString HolonTaskModelBranch::title() const

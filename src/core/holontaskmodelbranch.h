@@ -29,6 +29,7 @@ public:
     virtual QIcon icon(Holon::TreeItem expanded) const;
     bool isExpanded() const;
     void setExpanded(bool expanded);
+    HolonTaskModel *taskModel() const;
     virtual QString title() const;
 };
 
