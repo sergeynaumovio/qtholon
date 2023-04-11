@@ -7,6 +7,7 @@
 class HolonAbstractTask;
 class HolonAbstractWindow;
 class HolonDesktop;
+class QByteArray;
 
 class HolonAbstractWindowPrivate
 {
@@ -19,6 +20,7 @@ public:
                                HolonDesktop *desktop,
                                HolonAbstractTask *task = nullptr);
 
+    void saveSidebarState(const QByteArray &state);
     void setCurrent(bool current);
 };
 

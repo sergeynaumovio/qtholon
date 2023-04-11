@@ -24,6 +24,8 @@ public:
 
     HolonDesktop *desktop() const;
     QString group() const;
+    int mainWindowNestingIndex() const;
+    QByteArray mainWindowState() const;
 };
 
 #endif // HOLONSIDEBAR_H

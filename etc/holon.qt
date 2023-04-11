@@ -2,9 +2,7 @@
 
 [holon]
 class = HolonDesktop
-externalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAADCAAACuvwCAAAAAfwAAAAAAAACugAAALgA///+/AEAAAAC+wAAAAoAdABhAHMAawBzAQAAAAAAAADCAAAAwgD////7AAAAFABwAGEAcgBhAG0AZQB0AGUAcgBzAQAAAFwAAACSAAAAAAAAAAAAAAABAAAAbQAAArr8AgAAAAH7AAAAEABzAGUAdAB0AGkAbgBnAHMBAAAAAAAAAroAAAAmAP///gAAAXYAAAK6AAAABAAAAAQAAAAIAAAACPwAAAAA)
-geometry =
-internalMainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAAF2AAAAi/wBAAAAAfsAAAAQAG0AZQBzAHMAYQBnAGUAcwEAAAAAAAABdgAAAIMA////AAABdgAAAi4AAAAEAAAABAAAAAgAAAAI/AAAAAA=)
+geometry = QByteArray(AdnQywADAAAAAAAAAAAAFAAABVEAAAFxAAAAAAAAABQAAAVRAAABcQAAAAAAAAAABVYAAAAAAAAAFAAABVEAAAFx)
 saveShortcut = Ctrl+S
 sidebarMoveShortcut = Alt+M
 
@@ -82,7 +80,7 @@ class = HolonWorkflowModelBranch
 
 [holon/workflow-model1/branch1/85f69e0b-e525-429d-b63f-8bd2833a2ff0]
 class = HolonCustomTask
-current = true
+current = false
 dockWidgetSplitState = QByteArray(LzAvbA==)
 mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAE6AAACLvwCAAAAAvsAAAAWAGQAYQBmAGEAdQBsAHQARABvAGMAawAAAAAA/////wAAAEQA/////AAAAAAAAAIuAAAAXAD////8AQAAAAL7AAAAAgAwAQAAAAAAAACdAAAAiQD////7AAAAAgAxAQAAAJ4AAACcAAAAiQD///8AAAAAAAAA2AAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 title = Custom Task A
@@ -95,7 +93,7 @@ current = true
 class = HolonCustomTask
 current = false
 dockWidgetSplitState = QByteArray(LzEvdCwvMC9i)
-mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAE6AAACLvwCAAAABPsAAAAWAGQAYQBmAGEAdQBsAHQARABvAGMAawAAAAAA/////wAAAEQA/////AAAAAAAAAIuAAAAuQD////8AgAAAAL7AAAAAgAxAQAAAAAAAAEXAAAAXAD////7AAAAAgAwAQAAARgAAAEWAAAAXAD////7AAAAAgAxAAAAAAD/////AAAAAAAAAAD7AAAAAgAwAAAAAAD/////AAAAAAAAAAAAAAAAAAACLgAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAM+AAACevwCAAAABvsAAAAWAGQAYQBmAGEAdQBsAHQARABvAGMAawAAAAAA/////wAAAAAAAAAA/AAAAAAAAAJ6AAAAuQD////8AgAAAAL7AAAAAgAxAQAAAAAAAAE9AAAAXAD////7AAAAAgAwAQAAAT4AAAE8AAAAXAD////7AAAAAgAxAAAAAAD/////AAAAAAAAAAD7AAAAAgAwAAAAAAD/////AAAAAAAAAAD7AAAAAgAwAAAAAAD/////AAAAAAAAAAD7AAAAAgAwAAAAAAD/////AAAAAAAAAAAAAAAAAAACegAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 title = Custom Task B
 
 [holon/workflow-model1/branch1/28245495-e838-4056-8fc2-d3545c0d312c/1]
@@ -108,20 +106,16 @@ current = true
 
 [holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560]
 class = HolonCustomTask
-current = false
-dockWidgetSplitState = QByteArray(LzAvdCwvYi8xL2wsL2IvMi9y)
-mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAE6AAACLvwCAAAABvsAAAAWAGQAYQBmAGEAdQBsAHQARABvAGMAawAAAAAA/////wAAAEQA/////AAAAAAAAAIuAAAAuQD////8AgAAAAL7AAAAAgAwAQAAAAAAAAEXAAAAXAD////8AAABGAAAARYAAABcAP////wBAAAAAvsAAAACADEBAAAAAAAAAJ0AAACJAP////sAAAACADIBAAAAngAAAJwAAACJAP////sAAAACADAAAAAAAP////8AAAAAAAAAAPsAAAACADEAAAAAAP////8AAAAAAAAAAPsAAAACADEAAAAAAP////8AAAAAAAAAAPsAAAACADIAAAAAAP////8AAAAAAAAAAAAAAAAAAAIuAAAABAAAAAQAAAAIAAAACPwAAAAA)
+current = true
+dockWidgetSplitState = QByteArray(LzEvbCwvMC9y)
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAPTAAAA2PwCAAAABvsAAAAWAGQAYQBmAGEAdQBsAHQARABvAGMAawAAAAAA/////wAAAAAAAAAA/AAAAAAAAADYAAAAXAD////8AgAAAAL8AAAAAAAAAOAAAAAAAP////wBAAAAAfsAAAACADMBAAABoAAAAZ4AAAAAAAAAAPwAAAAAAAAA2AAAAFwA/////AEAAAAC/AAAAAAAAAPTAAABTwD////8AgAAAAL8AAAAAAAAANgAAABcAP////wBAAAAAvsAAAACADEBAAAAAAAAAekAAACnAP////sAAAACADABAAAB6gAAAekAAACnAP////wAAABtAAAAawAAAAAA/////AEAAAAB+wAAAAIAMgEAAAIzAAABoAAAAAAAAAAA/AAAAioAAAEUAAAAAAD////8AgAAAAH7AAAAAgA0AQAAAAAAAAJ6AAAAAAAAAAD7AAAAAgAwAAAAAAD/////AAAAAAAAAAD7AAAAAgAxAAAAAAD/////AAAAAAAAAAD7AAAAAgAxAAAAAAD/////AAAAAAAAAAD7AAAAAgAyAAAAAAD/////AAAAAAAAAAAAAAAAAAAA2AAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 title = Custom Task C
-
-[holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560/0]
-class = HolonTerminalWindow
-current = false
 
 [holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560/1]
 class = HolonTerminalWindow
 current = false
 
-[holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560/2]
+[holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560/0]
 class = HolonTerminalWindow
 current = true
 
@@ -149,13 +143,14 @@ class = HolonSidebar
 area = left
 checked = true
 dockWidgetSplitState = QByteArray(LzAvdCwvMS9i)
-layout = external
-mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAADCAAACuvwCAAAAAvwAAAAAAAACugAAALkA/////AIAAAAC+wAAAAIAMAEAAAAAAAABXQAAAFwA////+wAAAAIAMQEAAAFeAAABXAAAAFwA////+wAAAAIAMQAAAAAA/////wAAAAAAAAAAAAAAAAAAAroAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
+mainWindowNestingIndex = 0
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAADCAAABRPwCAAAAAfsAAAAKAHQAYQBzAGsAcwEAAAAAAAABRAAAALgA///+AAAAAQAAAJgAAAFE/AIAAAAB+wAAABAAcwBlAHQAdABpAG4AZwBzAQAAAAAAAAFEAAAAJgD///4AAAP2AAABRAAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 shortcut = Alt+1
-title = Tasks
+title = 1  Tasks
 
 [holon/tasks/0]
 class = HolonProjectTaskTreeWindow
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAADCAAABRPwCAAAAAvsAAAACADABAAAAAAAAAMQAAABcAP////sAAAACADEBAAAAxQAAAH8AAABcAP///wAAAAAAAAFEAAAABAAAAAQAAAAIAAAACPwAAAAA)
 
 [holon/tasks/1]
 class = HolonOpenTaskTreeWindow
@@ -163,10 +158,11 @@ class = HolonOpenTaskTreeWindow
 [holon/parameters]
 class = HolonSidebar
 area = left
-checked = false
-layout = external
+checked = true
+mainWindowNestingIndex = 1
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAC7AAABRPwCAAAAAfsAAAAUAHAAYQByAGEAbQBlAHQAZQByAHMBAAAAAAAAAUQAAAAmAP///gAAAzoAAAFEAAAABAAAAAQAAAAIAAAACPwAAAAA)
 shortcut = Alt+2
-title = Parameters
+title = 2  Parameters
 
 [holon/parameters/parameters-window]
 class = HolonParametersWindow
@@ -175,8 +171,8 @@ class = HolonParametersWindow
 class = HolonWindowArea
 area = bottom
 checked = false
-shortcut = Alt+9
-title = Workflows
+shortcut = Alt+3
+title = 3  Workflows
 
 [holon/workflows/workflow-window]
 class = HolonWorkflowWindow
@@ -185,11 +181,10 @@ class = HolonWorkflowWindow
 class = HolonSidebar
 area = bottom
 checked = true
-layout = internal
-mainWindowNestingIndex =
-mainWindowState =
-shortcut = Alt+0
-title = Messages
+mainWindowNestingIndex = 2
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAAPTAAAAa/wBAAAAAfsAAAAQAG0AZQBzAHMAYQBnAGUAcwEAAAAAAAAD0wAAAIMA////AAAD0wAAANgAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
+shortcut = Alt+4
+title = 4  Messages
 
 [holon/messages/messages-window]
 class = HolonMessagesWindow
@@ -197,10 +192,10 @@ class = HolonMessagesWindow
 [holon/settings]
 class = HolonSidebar
 area = right
-checked = true
-layout = external
-shortcut = Alt+-
-title = Settings
+checked = false
+mainWindowNestingIndex = 0
+shortcut = Alt+5
+title = 5  Settings
 
 [holon/settings/settings-window]
 class = HolonSettingsWindow

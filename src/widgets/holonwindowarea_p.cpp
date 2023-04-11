@@ -14,12 +14,15 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-HolonWindowAreaPrivate::HolonWindowAreaPrivate(HolonDesktop *desk, HolonWindowArea *q)
+HolonWindowAreaPrivate::HolonWindowAreaPrivate(HolonDesktop *desk,
+                                               HolonWindowArea *q,
+                                               Holon::WindowType winType)
 :   desktop(desk),
     q_ptr(q),
-    mainWindow(new QMainWindow)
+    mainWindow(new QMainWindow),
+    windowType(winType)
 {
-    mainWindow->setDockOptions(QMainWindow::AnimatedDocks | QMainWindow::AllowNestedDocks);
+    mainWindow->setDockOptions(QMainWindow::AllowNestedDocks);
 }
 
 HolonWindowAreaPrivate::~HolonWindowAreaPrivate()
@@ -40,8 +43,16 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
 
     dockByWindow.insert(window, dock);
 
-    if (!qobject_cast<HolonAbstractTask *>(window->parent()))
+    if (windowType == Holon::SidebarWindow)
+    {
+        QByteArray state = window->value(u"mainWindowState"_s).toByteArray();
+        if (!state.isNull())
+            mainWindow->restoreState(state);
+
         desktop->addWindow(window);
+    }
+    else
+        mainWindow->restoreState(mainWindowState());
 
     if (dockByWindow.count() > 1)
         for (const HolonDockWidget *dockWidget: std::as_const(dockByWindow))
@@ -51,7 +62,7 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
         }
 
     if (!window->tree()->isLoaded())
-        mainWindow->restoreState(mainWindowState());
+        mainWindow->restoreDockWidget(dock);
 
     dockWidgetSplitState->setSplitItemDock(dock);
 }
@@ -132,10 +143,9 @@ void HolonWindowAreaPrivate::maximizeWindow(HolonDockWidget *dock)
     }
 }
 
-void HolonWindowAreaPrivate::saveMainWindowState()
+void HolonWindowAreaPrivate::saveWindowAreaState()
 {
-    if (dockList.size() > 1)
-        q_ptr->setValue(u"mainWindowState"_s, mainWindow->saveState());
+    q_ptr->setValue(u"mainWindowState"_s, mainWindow->saveState());
 }
 
 void HolonWindowAreaPrivate::setChecked(bool checked)

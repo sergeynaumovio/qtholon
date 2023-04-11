@@ -4,6 +4,7 @@
 #ifndef HOLONWINDOWAREA_P_H
 #define HOLONWINDOWAREA_P_H
 
+#include "holonnamespace.h"
 #include <QMap>
 
 class HolonAbstractWindow;
@@ -22,11 +23,16 @@ public:
     HolonDesktop *const desktop;
     HolonWindowArea *const q_ptr;
     QMainWindow *const mainWindow;
+
+    Holon::WindowType windowType;
     QList<HolonDockWidget *> dockList;
     QMap<HolonAbstractWindow *, HolonDockWidget *> dockByWindow;
     bool maximized{};
 
-    HolonWindowAreaPrivate(HolonDesktop *desktop, HolonWindowArea *q);
+    HolonWindowAreaPrivate(HolonDesktop *desktop,
+                           HolonWindowArea *q,
+                           Holon::WindowType winType = Holon::TaskWindow);
+
     virtual ~HolonWindowAreaPrivate();
 
     void addWindow(HolonAbstractWindow *window);
@@ -35,7 +41,7 @@ public:
     void emitWarning(const QString &warning) const;
     QByteArray mainWindowState() const;
     void maximizeWindow(HolonDockWidget *dock);
-    void saveMainWindowState();
+    virtual void saveWindowAreaState();
     void setChecked(bool checked);
     void setValue(const QString &key, const QVariant &value);
     void splitWindow(HolonAbstractWindow *first, HolonAbstractWindow *second, Qt::Orientation orientation);

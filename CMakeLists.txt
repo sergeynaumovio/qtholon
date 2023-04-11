@@ -90,10 +90,12 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonsidebar.h
             src/widgets/holonsidebar_p.cpp
             src/widgets/holonsidebar_p.h
-            src/widgets/holonsidebardock.cpp
-            src/widgets/holonsidebardock.h
-            src/widgets/holonsidebardock_p.cpp
-            src/widgets/holonsidebardock_p.h
+            src/widgets/holonsidebardockwidget.cpp
+            src/widgets/holonsidebardockwidget.h
+            src/widgets/holonsidebardockwidget_p.cpp
+            src/widgets/holonsidebardockwidget_p.h
+            src/widgets/holonsidebarmainwindow.cpp
+            src/widgets/holonsidebarmainwindow.h
             src/widgets/holonstackedwidget.cpp
             src/widgets/holonstackedwidget.h
             src/widgets/holontaskbar.cpp

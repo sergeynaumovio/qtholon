@@ -30,9 +30,6 @@ protected:
     QVariant fromString(const QString &string) const override;
     QString fromVariant(const QVariant &variant) const override;
 
-Q_SIGNALS:
-    void sizeChanged(QSize);
-
 public:
     HolonDesktop(QLoaderSettings *settings, QWidget *parent);
     ~HolonDesktop();

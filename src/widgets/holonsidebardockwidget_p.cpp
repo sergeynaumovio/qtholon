@@ -1,25 +1,17 @@
 // Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
-#include "holonsidebardock_p.h"
+#include "holonsidebardockwidget_p.h"
 #include "holondesktop.h"
 #include "holondesktop_p.h"
 #include "holonsidebar.h"
-#include "holonsidebardock.h"
+#include "holonsidebardockwidget.h"
 #include "holontheme.h"
 #include "holonthemesizehints.h"
 #include "holonthemestylesheets.h"
 #include <QBoxLayout>
 #include <QStackedWidget>
 #include <QLabel>
-
-class HolonDesktopPrivate;
-class HolonMainWindow;
-class HolonSidebar;
-class HolonSidebarDock;
-class HolonSidebarDockPrivateData;
-class QStackedWidget;
-class QWidget;
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -42,19 +34,19 @@ public:
     }
 };
 
-class HolonSidebarDockPrivateData
+class HolonSidebarDockWidgetPrivateData
 {
 public:
     HolonDesktopPrivate &desktop_d;
-    HolonSidebarDock *const q_ptr;
-    HolonMainWindow *const mainWindow;
+    HolonSidebarDockWidget *const q_ptr;
+    HolonSidebarMainWindow *const sidebarMainWindow;
 
     struct Titlebar
     {
         HolonSidebarDockTitleBar *visible;
         QWidget *hidden;
 
-        Titlebar(HolonSidebarDock *q)
+        Titlebar(HolonSidebarDockWidget *q)
         :   hidden(new QWidget(q))
         { }
 
@@ -78,7 +70,7 @@ public:
 
         } sidebars;
 
-        StackedWidget(HolonSidebarDock *q, const QString &name)
+        StackedWidget(HolonSidebarDockWidget *q, const QString &name)
         :   label(new QLabel(name, q)),
             root(new QStackedWidget(q)),
             sidebars(root)
@@ -112,22 +104,22 @@ public:
 
     } stackedWidget;
 
-    HolonSidebarDockPrivateData(HolonDesktopPrivate &desk_d,
-                                HolonSidebarDock *q,
-                                const QString &name,
-                                HolonMainWindow *parent)
+    HolonSidebarDockWidgetPrivateData(HolonDesktopPrivate &desk_d,
+                                      HolonSidebarDockWidget *q,
+                                      const QString &name,
+                                      HolonSidebarMainWindow *parent)
     :   desktop_d(desk_d),
         q_ptr(q),
-        mainWindow(parent),
+        sidebarMainWindow(parent),
         titlebar(q),
         stackedWidget(q, name)
     { }
 };
 
-HolonSidebarDockPrivate::HolonSidebarDockPrivate(HolonDesktopPrivate &desktop_d,
-                                                 HolonSidebarDock *q,
-                                                 const QString &name,
-                                                 HolonMainWindow *parent)
+HolonSidebarDockWidgetPrivate::HolonSidebarDockWidgetPrivate(HolonDesktopPrivate &desktop_d,
+                                                             HolonSidebarDockWidget *q,
+                                                             const QString &name,
+                                                             HolonSidebarMainWindow *parent)
 :   d_ptr(desktop_d, q, name, parent)
 {
     q->setFeatures(QDockWidget::DockWidgetMovable);
@@ -136,35 +128,35 @@ HolonSidebarDockPrivate::HolonSidebarDockPrivate(HolonDesktopPrivate &desktop_d,
     q->setObjectName(name);
 }
 
-HolonSidebarDockPrivate::~HolonSidebarDockPrivate()
+HolonSidebarDockWidgetPrivate::~HolonSidebarDockWidgetPrivate()
 { }
 
-void HolonSidebarDockPrivate::addSidebar(HolonSidebar *sidebar)
+void HolonSidebarDockWidgetPrivate::addSidebar(HolonSidebar *sidebar)
 {
     d_ptr->stackedWidget.addSidebar(sidebar);
 }
 
-HolonSidebar *HolonSidebarDockPrivate::currentSidebar() const
+HolonSidebar *HolonSidebarDockWidgetPrivate::currentSidebar() const
 {
     return static_cast<HolonSidebar *>(d_ptr->stackedWidget.sidebars.stacked->currentWidget());
 }
 
-HolonDesktopPrivate &HolonSidebarDockPrivate::desktop_d() const
+HolonDesktopPrivate &HolonSidebarDockWidgetPrivate::desktop_d() const
 {
     return d_ptr->desktop_d;
 }
 
-void HolonSidebarDockPrivate::setSidebar(HolonSidebar *sidebar)
+void HolonSidebarDockWidgetPrivate::setSidebar(HolonSidebar *sidebar)
 {
     d_ptr->stackedWidget.setSidebar(sidebar);
 }
 
-const QList<HolonSidebar *> &HolonSidebarDockPrivate::sidebars() const
+const QList<HolonSidebar *> &HolonSidebarDockWidgetPrivate::sidebars() const
 {
     return d_ptr->stackedWidget.sidebars.list;
 }
 
-void HolonSidebarDockPrivate::showTitleBarWidget(bool show) const
+void HolonSidebarDockWidgetPrivate::showTitleBarWidget(bool show) const
 {
     if (show)
     {
@@ -178,4 +170,9 @@ void HolonSidebarDockPrivate::showTitleBarWidget(bool show) const
         d_ptr->q_ptr->setTitleBarWidget(d_ptr->titlebar.hidden = new QWidget(d_ptr->q_ptr));
         d_ptr->titlebar.visible->deleteLater();
     }
+}
+
+HolonSidebarMainWindow *HolonSidebarDockWidgetPrivate::sidebarMainWindow() const
+{
+    return d_ptr->sidebarMainWindow;
 }

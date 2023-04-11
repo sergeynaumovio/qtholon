@@ -5,7 +5,7 @@
 #include "holondesktop.h"
 #include "holondesktop_p.h"
 #include "holonsidebar.h"
-#include "holonsidebardock.h"
+#include "holonsidebardockwidget.h"
 #include "holontaskbar.h"
 #include "holontheme.h"
 #include "holonthemesizehints.h"
@@ -149,7 +149,7 @@ public:
     {
         swtch_d.buttonByWindowArea.insert(sidebar, this);
 
-        HolonSidebarDock *dock = desktop_d.sidebarDock(sidebar);
+        HolonSidebarDockWidget *dock = desktop_d.sidebarDockWidget(sidebar);
 
         if (sidebar->group().size())
         {

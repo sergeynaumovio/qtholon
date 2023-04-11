@@ -10,21 +10,18 @@
 class HolonAbstractTask;
 class HolonDesktopPrivate;
 class HolonMainWindowPrivate;
-class HolonSidebar;
-class HolonSidebarDock;
 class HolonWindowArea;
 
 class HolonMainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    const QScopedStorage<HolonMainWindowPrivate, 64> d_ptr;
+    const QScopedStorage<HolonMainWindowPrivate, 40> d_ptr;
 
 public:
-    HolonMainWindow(HolonDesktopPrivate &desktop_d, QWidget *parent);
+    HolonMainWindow(HolonDesktopPrivate &desktop_d);
     ~HolonMainWindow();
 
-    HolonSidebarDock *addSidebar(HolonSidebar *sidebar);
     HolonWindowArea *addWindowArea(HolonAbstractTask *task);
     void addWindowArea(HolonWindowArea *windowArea);
     void setCurrentTask(HolonAbstractTask *task);

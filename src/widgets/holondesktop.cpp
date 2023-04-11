@@ -9,15 +9,17 @@
 #include <QApplication>
 #include <QLoaderTree>
 
+using namespace Qt::Literals::StringLiterals;
+
 void HolonDesktop::closeEvent(QCloseEvent *)
 {
     hide();
     deleteLater();
 }
 
-void HolonDesktop::resizeEvent(QResizeEvent *e)
+void HolonDesktop::resizeEvent(QResizeEvent *)
 {
-    d_ptr->resizeEvent(e);
+    setValue(u"geometry"_s, saveGeometry());
 }
 
 QVariant HolonDesktop::fromString(const QString &string) const
@@ -35,6 +37,8 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
     QLoaderSettings(settings),
     d_ptr(new HolonDesktopPrivate(this))
 {
+    restoreGeometry(value(u"geometry"_s).toByteArray());
+
     if (QApplication *app = qobject_cast<QApplication *>(QCoreApplication::instance()))
     {
         connect(app, &QApplication::focusObjectChanged, this, [this](QObject *object)
@@ -65,8 +69,11 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
                                      << sender->metaObject()->className() << ", \"" << message << "\")";
     });
 
-    if (!parent)
-        show();
+    connect(tree(), &QLoaderTree::loaded, this, [=, this]()
+    {
+        if (!parent)
+            show();
+    });
 
     d_ptr->setLayout();
 }

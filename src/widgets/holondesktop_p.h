@@ -13,7 +13,8 @@ class HolonAbstractWindow;
 class HolonDesktop;
 class HolonDesktopPrivateData;
 class HolonSidebar;
-class HolonSidebarDock;
+class HolonSidebarDockWidget;
+class HolonSidebarMainWindow;
 class HolonTaskbar;
 class HolonTaskModel;
 class HolonWindowArea;
@@ -29,7 +30,7 @@ class HolonDesktopPrivate
 
     friend class HolonDesktop;
     friend class HolonDesktopPrivateData;
-    const QScopedStorage<HolonDesktopPrivateData, 480> d_ptr;
+    const QScopedStorage<HolonDesktopPrivateData, 424> d_ptr;
 
     HolonDesktopPrivate(HolonDesktop *q);
 
@@ -48,16 +49,17 @@ class HolonDesktopPrivate
     HolonTheme *currentTheme() const;
     HolonWorkflowModel *currentWorkflowModel() const;
     void emitWarning(const QString &warning) const;
-    void resizeEvent(QResizeEvent *e);
-    void saveMainWindowState();
     void setCurrentTask(HolonAbstractTask *task);
     void setCurrentTaskModel(HolonTaskModel *model);
     void setCurrentTheme(HolonTheme *theme);
     void setCurrentWindow(HolonAbstractWindow *window);
     void setCurrentWindowArea(HolonWindowArea *windowArea);
     void setLayout();
+    QList<HolonAbstractWindow *> windows() const;
 
 public:
+    HolonDesktop *const q_ptr;
+
     enum TaskbarArea
     {
         Left,
@@ -67,22 +69,15 @@ public:
     };
     Q_ENUM(TaskbarArea)
 
-
-    HolonDesktop *const q_ptr;
-
     ~HolonDesktopPrivate();
 
-    const QSet<HolonSidebarDock *> &sidebarDocks() const;
-    QString sidebarMoveShortcut() const;
+    void removeSidebar(HolonSidebar *sidebar);
+    void restoreSidebar(HolonSidebar *sidebar);
+    void saveSidebarMainWindowState(HolonSidebarMainWindow *sidebarMainWindow);
+    void saveSidebarState(HolonAbstractWindow *firstSidebarWindow);
+    HolonSidebarDockWidget *sidebarDockWidget(HolonSidebar *sidebar) const;
     HolonTaskbar *taskbar() const;
     HolonDesktopPrivate::TaskbarArea taskbarArea() const;
-    QList<HolonAbstractWindow *> windows() const;
-
-    void removeSidebar(HolonSidebar *sidebar);
-    void resizeDocks();
-    void restoreSidebar(HolonSidebar *sidebar);
-    void saveDockWidgetWidth(HolonSidebarDock *dock, int width);
-    HolonSidebarDock *sidebarDock(HolonSidebar *sidebar) const;
 };
 
 #endif // HOLONDESKTOP_P_H

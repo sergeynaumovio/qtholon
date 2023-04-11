@@ -7,14 +7,21 @@
 #include "holonsidebar.h"
 #include "holonwindowarea_p.h"
 
+class HolonDesktopPrivate;
 class HolonSidebar;
 
 class HolonSidebarPrivate : public HolonWindowAreaPrivate
 {
     Q_DECLARE_PUBLIC(HolonSidebar)
 
+    int mainWindowNestingIndex;
+
 public:
+    HolonDesktopPrivate *desktop_d;
+
     HolonSidebarPrivate(HolonDesktop *desktop, HolonSidebar *q);
+    void saveSidebarMainWindowState(const QByteArray &state);
+    void saveWindowAreaState() override;
 };
 
 #endif // HOLONSIDEBAR_P_H

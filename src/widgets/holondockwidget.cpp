@@ -36,7 +36,8 @@ public:
 
 void HolonDockWidget::resizeEvent(QResizeEvent *)
 {
-    d_ptr->windowarea_d_ptr->saveMainWindowState();
+    if (isVisible() && d_ptr->windowarea_d_ptr->dockList.size() > 1)
+        d_ptr->windowarea_d_ptr->saveWindowAreaState();
 }
 
 HolonDockWidget::HolonDockWidget(HolonDesktop *desktop,
