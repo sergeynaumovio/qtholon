@@ -42,12 +42,12 @@ public:
 
 class HolonSwitchButton : public QAbstractButton
 {
-    float fontSize;
+    QFont font;
 
     void adjustSize()
     {
         HolonThemeSizeHints *sizeHints = desktop_d.q_ptr->currentTheme()->sizeHints();
-        fontSize = sizeHints->taskbarSizeHint().height() / 2.6;
+        font.setPointSizeF(sizeHints->taskbarSizeHint().height() / 2.6);
 
         if (desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Top ||
             desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Bottom)
@@ -114,7 +114,6 @@ protected:
             p.drawLine(line);
         }
 
-        QFont font(u"Arial"_s, fontSize);
         p.setFont(font);
         QRect rectangle = rect();
         rectangle.adjust(10, 0, 0, 0);
@@ -125,6 +124,7 @@ protected:
                       HolonWindowArea *windowArea,
                       HolonWindowAreaSwitch *parent)
     :   QAbstractButton(parent),
+        font(u"Arial"_s),
         switch_d(swtch_d),
         desktop_d(switch_d.desktop_d),
         title(windowArea->title())
