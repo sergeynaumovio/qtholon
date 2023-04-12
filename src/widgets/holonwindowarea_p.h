@@ -17,7 +17,7 @@ class QMainWindow;
 class HolonWindowAreaPrivate
 {
     HolonDockWidgetSplitState *dockWidgetSplitState{};
-    QByteArray mainWindowStateBeforeMaximized;
+    QByteArray mainWindowStateCache;
 
 public:
     HolonDesktop *const desktop;
@@ -37,10 +37,11 @@ public:
 
     void addWindow(HolonAbstractWindow *window);
     Qt::DockWidgetArea area() const;
+    void cacheMainWindowState();
     void closeWindow(HolonAbstractWindow *window);
     void emitWarning(const QString &warning) const;
-    QByteArray mainWindowState() const;
     void maximizeWindow(HolonDockWidget *dock);
+    void restoreMainWindowStateCache();
     virtual void saveWindowAreaState();
     void setChecked(bool checked);
     void setValue(const QString &key, const QVariant &value);

@@ -45,14 +45,16 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
 
     if (windowType == Holon::SidebarWindow)
     {
-        QByteArray state = window->value(u"mainWindowState"_s).toByteArray();
-        if (!state.isNull())
-            mainWindow->restoreState(state);
+        if (mainWindowStateCache.isNull())
+            mainWindowStateCache = window->value(u"mainWindowState"_s).toByteArray();
 
         desktop->addWindow(window);
     }
     else
-        mainWindow->restoreState(mainWindowState());
+    {
+        if (mainWindowStateCache.isNull())
+            mainWindowStateCache = q_ptr->value(u"mainWindowState"_s).toByteArray();
+    }
 
     if (dockByWindow.count() > 1)
         for (const HolonDockWidget *dockWidget: std::as_const(dockByWindow))
@@ -62,7 +64,7 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
         }
 
     if (!window->tree()->isLoaded())
-        mainWindow->restoreDockWidget(dock);
+        restoreMainWindowStateCache();
 
     dockWidgetSplitState->setSplitItemDock(dock);
 }
@@ -81,6 +83,11 @@ Qt::DockWidgetArea HolonWindowAreaPrivate::area() const
         return Qt::TopDockWidgetArea;
 
     return Qt::BottomDockWidgetArea;
+}
+
+void HolonWindowAreaPrivate::cacheMainWindowState()
+{
+    mainWindowStateCache = mainWindow->saveState();
 }
 
 void HolonWindowAreaPrivate::closeWindow(HolonAbstractWindow *window)
@@ -118,16 +125,11 @@ void HolonWindowAreaPrivate::emitWarning(const QString &warning) const
     q_ptr->emitWarning(warning);
 }
 
-QByteArray HolonWindowAreaPrivate::mainWindowState() const
-{
-    return q_ptr->value(u"mainWindowState"_s).toByteArray();
-}
-
 void HolonWindowAreaPrivate::maximizeWindow(HolonDockWidget *dock)
 {
     if (maximized)
     {
-        mainWindowStateBeforeMaximized = mainWindow->saveState();
+        cacheMainWindowState();
 
         for (HolonDockWidget *w : dockList)
             w->hide();
@@ -139,8 +141,13 @@ void HolonWindowAreaPrivate::maximizeWindow(HolonDockWidget *dock)
         for (HolonDockWidget *w : dockList)
             w->show();
 
-        mainWindow->restoreState(mainWindowStateBeforeMaximized);
+        restoreMainWindowStateCache();
     }
+}
+
+void HolonWindowAreaPrivate::restoreMainWindowStateCache()
+{
+    mainWindow->restoreState(mainWindowStateCache);
 }
 
 void HolonWindowAreaPrivate::saveWindowAreaState()

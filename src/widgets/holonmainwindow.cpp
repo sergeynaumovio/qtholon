@@ -54,8 +54,14 @@ public:
 
     void setCurrentTask(HolonAbstractTask *task)
     {
-        if (taskWorkspacesWindowAreas.contains(task))
-            taskWorkspaces->setCurrentWidget(taskWorkspacesWindowAreas.value(task));
+        if (HolonWindowArea *windowArea = qobject_cast<HolonWindowArea *>(taskWorkspaces->currentWidget()))
+            desktop_d.cacheMainWindowState(windowArea);
+
+        if (HolonWindowArea *windowArea = taskWorkspacesWindowAreas.value(task))
+        {
+            desktop_d.restoreMainWindowStateCache(windowArea);
+            taskWorkspaces->setCurrentWidget(windowArea);
+        }
     }
 
     void setCurrentWindowArea(HolonWindowArea *windowArea)

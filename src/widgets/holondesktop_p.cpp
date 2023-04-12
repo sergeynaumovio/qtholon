@@ -733,6 +733,11 @@ void HolonDesktopPrivate::setLayout()
 HolonDesktopPrivate::~HolonDesktopPrivate()
 { }
 
+void HolonDesktopPrivate::cacheMainWindowState(HolonWindowArea *windowArea)
+{
+    windowArea->d_ptr->cacheMainWindowState();
+}
+
 HolonTaskbar *HolonDesktopPrivate::taskbar() const
 {
     return d_ptr->taskbar;
@@ -766,6 +771,11 @@ void HolonDesktopPrivate::restoreSidebar(HolonSidebar *sidebar)
     dock->d_ptr->setSidebar(sidebar);
     d_ptr->sidebars.mainWindowByDock.value(dock)->restoreDockWidget(dock);
     sidebar->d_ptr->setChecked(true);
+}
+
+void HolonDesktopPrivate::restoreMainWindowStateCache(HolonWindowArea *windowArea)
+{
+    windowArea->d_ptr->restoreMainWindowStateCache();
 }
 
 void HolonDesktopPrivate::saveSidebarMainWindowState(HolonSidebarMainWindow *sidebarMainWindow)
