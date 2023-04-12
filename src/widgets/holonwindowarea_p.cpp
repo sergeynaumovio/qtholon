@@ -43,18 +43,16 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
 
     dockByWindow.insert(window, dock);
 
-    if (windowType == Holon::SidebarWindow)
+    if (mainWindowStateCache.isNull())
     {
-        if (mainWindowStateCache.isNull())
+        if (windowType == Holon::SidebarWindow)
             mainWindowStateCache = window->value(u"mainWindowState"_s).toByteArray();
-
-        desktop->addWindow(window);
-    }
-    else
-    {
-        if (mainWindowStateCache.isNull())
+        else
             mainWindowStateCache = q_ptr->value(u"mainWindowState"_s).toByteArray();
     }
+
+    if (windowType == Holon::SidebarWindow)
+        desktop->addWindow(window);
 
     if (dockByWindow.count() > 1)
         for (const HolonDockWidget *dockWidget: std::as_const(dockByWindow))
