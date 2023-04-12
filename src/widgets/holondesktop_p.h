@@ -74,7 +74,7 @@ public:
     void cacheMainWindowState(HolonWindowArea *windowArea);
     void removeSidebar(HolonSidebar *sidebar);
     void restoreSidebar(HolonSidebar *sidebar);
-    void restoreMainWindowStateCache(HolonWindowArea *windowArea);
+    void restoreMainWindowStateFromCache(HolonWindowArea *windowArea);
     void saveSidebarMainWindowState(HolonSidebarMainWindow *sidebarMainWindow);
     void saveSidebarState(HolonAbstractWindow *firstSidebarWindow);
     HolonSidebarDockWidget *sidebarDockWidget(HolonSidebar *sidebar) const;

@@ -62,7 +62,7 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
         }
 
     if (!window->tree()->isLoaded())
-        restoreMainWindowStateCache();
+        restoreMainWindowStateFromCache();
 
     dockWidgetSplitState->setSplitItemDock(dock);
 }
@@ -139,11 +139,11 @@ void HolonWindowAreaPrivate::maximizeWindow(HolonDockWidget *dock)
         for (HolonDockWidget *w : dockList)
             w->show();
 
-        restoreMainWindowStateCache();
+        restoreMainWindowStateFromCache();
     }
 }
 
-void HolonWindowAreaPrivate::restoreMainWindowStateCache()
+void HolonWindowAreaPrivate::restoreMainWindowStateFromCache()
 {
     mainWindow->restoreState(mainWindowStateCache);
 }

@@ -773,9 +773,9 @@ void HolonDesktopPrivate::restoreSidebar(HolonSidebar *sidebar)
     sidebar->d_ptr->setChecked(true);
 }
 
-void HolonDesktopPrivate::restoreMainWindowStateCache(HolonWindowArea *windowArea)
+void HolonDesktopPrivate::restoreMainWindowStateFromCache(HolonWindowArea *windowArea)
 {
-    windowArea->d_ptr->restoreMainWindowStateCache();
+    windowArea->d_ptr->restoreMainWindowStateFromCache();
 }
 
 void HolonDesktopPrivate::saveSidebarMainWindowState(HolonSidebarMainWindow *sidebarMainWindow)

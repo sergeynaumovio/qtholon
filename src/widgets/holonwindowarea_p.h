@@ -41,7 +41,7 @@ public:
     void closeWindow(HolonAbstractWindow *window);
     void emitWarning(const QString &warning) const;
     void maximizeWindow(HolonDockWidget *dock);
-    void restoreMainWindowStateCache();
+    void restoreMainWindowStateFromCache();
     virtual void saveWindowAreaState();
     void setChecked(bool checked);
     void setValue(const QString &key, const QVariant &value);

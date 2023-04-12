@@ -59,7 +59,7 @@ public:
 
         if (HolonWindowArea *windowArea = taskWorkspacesWindowAreas.value(task))
         {
-            desktop_d.restoreMainWindowStateCache(windowArea);
+            desktop_d.restoreMainWindowStateFromCache(windowArea);
             taskWorkspaces->setCurrentWidget(windowArea);
         }
     }
