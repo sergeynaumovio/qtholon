@@ -8,6 +8,7 @@
 #include "holontheme_p.h"
 #include "holonthemecolors.h"
 #include "holonthemeicons.h"
+#include "holonthemestyle.h"
 #include "holonthemestylesheets.h"
 #include <QApplication>
 #include <QFileInfo>
@@ -22,6 +23,7 @@ HolonTheme::HolonTheme(QLoaderSettings *settings,
                        HolonThemeColors *colors,
                        HolonThemeIcons *icons,
                        HolonThemeSizeHints *sizes,
+                       HolonThemeStyle *style,
                        HolonThemeStyleSheets *styles)
 :   QObject(desktop),
     QLoaderSettings(settings),
@@ -30,6 +32,7 @@ HolonTheme::HolonTheme(QLoaderSettings *settings,
     desktop->addTheme(this);
     desktop->setStyleSheet(styleSheets()->mainWindowStyleSheet());
     d_ptr->desktop_d->taskbar()->setStyleSheet(styleSheets()->taskbarStyleSheet());
+    QApplication::setStyle(style);
 }
 
 HolonTheme::HolonTheme(QLoaderSettings *settings, HolonDesktop *desktop)

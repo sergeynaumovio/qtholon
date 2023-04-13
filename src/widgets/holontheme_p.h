@@ -10,6 +10,7 @@ class HolonTheme;
 class HolonThemeColors;
 class HolonThemeIcons;
 class HolonThemeSizeHints;
+class HolonThemeStyle;
 class HolonThemeStyleSheets;
 class QLoaderSettings;
 

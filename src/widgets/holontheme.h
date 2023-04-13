@@ -14,6 +14,7 @@ class HolonThemeColors;
 class HolonThemeIcons;
 class HolonThemePrivate;
 class HolonThemeSizeHints;
+class HolonThemeStyle;
 class HolonThemeStyleSheets;
 
 using FileName = QString;
@@ -40,6 +41,7 @@ protected:
                HolonThemeColors *colors,
                HolonThemeIcons *icons,
                HolonThemeSizeHints *sizeHints,
+               HolonThemeStyle *style,
                HolonThemeStyleSheets *styleSheets);
 
 public:

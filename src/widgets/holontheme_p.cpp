@@ -2,10 +2,13 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holontheme_p.h"
+#include "holondesktop.h"
 #include "holonthemecolors.h"
 #include "holonthemeicons.h"
 #include "holonthemesizehints.h"
+#include "holonthemestyle.h"
 #include "holonthemestylesheets.h"
+#include <QApplication>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -18,7 +21,9 @@ HolonThemePrivate::HolonThemePrivate(QLoaderSettings *settings,
                       new HolonThemeSizeHints(settings, theme),
                       new HolonThemeStyleSheets(settings, theme),
                       desktop)
-{ }
+{
+    QApplication::setStyle(new HolonThemeStyle(theme));
+}
 
 HolonThemePrivate::HolonThemePrivate(HolonTheme *t,
                                      HolonThemeColors *c,

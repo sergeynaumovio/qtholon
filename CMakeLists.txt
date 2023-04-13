@@ -118,6 +118,10 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonthemesizehints.h
             src/widgets/holonthemesizehints_p.cpp
             src/widgets/holonthemesizehints_p.h
+            src/widgets/holonthemestyle.cpp
+            src/widgets/holonthemestyle.h
+            src/widgets/holonthemestyle_p.cpp
+            src/widgets/holonthemestyle_p.h
             src/widgets/holonthemestylesheets.cpp
             src/widgets/holonthemestylesheets.h
             src/widgets/holonthemestylesheets_p.cpp
