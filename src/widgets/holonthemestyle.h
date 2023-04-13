@@ -22,6 +22,17 @@ protected:
 
 public:
     ~HolonThemeStyle();
+
+    void drawPrimitive(QStyle::PrimitiveElement element,
+                       const QStyleOption *option,
+                       QPainter *painter,
+                       const QWidget *widget = nullptr) const override;
+
+    int pixelMetric(QStyle::PixelMetric metric,
+                    const QStyleOption *option = nullptr,
+                    const QWidget *widget = nullptr) const override;
+
+    HolonTheme *theme() const;
 };
 
 #endif // HOLONTHEMESTYLE_H

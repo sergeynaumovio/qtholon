@@ -26,7 +26,6 @@ protected:
 public:
     ~HolonThemeStyleSheets();
 
-    virtual QString mainWindowStyleSheet() const;
     virtual QString pushButtonStyleSheet() const;
     virtual QString taskbarStyleSheet() const;
     HolonTheme *theme() const;

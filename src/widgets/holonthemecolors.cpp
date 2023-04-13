@@ -25,6 +25,11 @@ QColor HolonThemeColors::iconsDisabledColor() const
     return d_ptr->iconsDisabledColor();
 }
 
+QColor HolonThemeColors::mainWindowSeparatorColor() const
+{
+    return d_ptr->mainWindowSeparatorColor();
+}
+
 QColor HolonThemeColors::panelTextColorDark() const
 {
     return d_ptr->panelTextColorDark();

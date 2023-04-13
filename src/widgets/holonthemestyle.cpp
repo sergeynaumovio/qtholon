@@ -2,8 +2,12 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holonthemestyle.h"
+#include "holontheme.h"
+#include "holonthemecolors.h"
 #include "holonthemestyle_p.h"
+#include <QPainter>
 #include <QStyleFactory>
+#include <QStyleOption>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -18,3 +22,38 @@ HolonThemeStyle::HolonThemeStyle(HolonTheme *theme) :
 
 HolonThemeStyle::~HolonThemeStyle()
 { }
+
+void HolonThemeStyle::drawPrimitive(QStyle::PrimitiveElement element,
+                                    const QStyleOption *option,
+                                    QPainter *painter,
+                                    const QWidget *widget) const
+{
+    switch (element) {
+    case PE_IndicatorDockWidgetResizeHandle:
+        painter->fillRect(option->rect, theme()->colors()->mainWindowSeparatorColor());
+        break;
+    default:
+        break;
+    }
+
+    QProxyStyle::drawPrimitive(element, option, painter, widget);
+}
+
+int HolonThemeStyle::pixelMetric(QStyle::PixelMetric metric,
+                                 const QStyleOption *option,
+                                 const QWidget *widget) const
+{
+    switch (metric) {
+    case PM_DockWidgetSeparatorExtent:
+        return 1;
+    default:
+        break;
+    }
+
+    return QProxyStyle::pixelMetric(metric, option, widget);;
+}
+
+HolonTheme *HolonThemeStyle::theme() const
+{
+    return d_ptr->theme;
+}

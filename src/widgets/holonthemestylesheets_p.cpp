@@ -11,19 +11,6 @@ HolonThemeStyleSheetsPrivate::HolonThemeStyleSheetsPrivate(HolonThemeStyleSheets
     theme(t)
 { }
 
-QString HolonThemeStyleSheetsPrivate::mainWindowStyleSheet()
-{
-    if (!mainWindow.isNull())
-        return mainWindow;
-
-    if (!(mainWindow = q_ptr->value(u"taskbarStyleSheet"_s).toString()).isNull())
-        return mainWindow;
-
-    mainWindow = u"QMainWindow::separator { width: 1px; height: 1px; background-color: rgb(34, 36, 38); }"_s;
-
-    return mainWindow;
-}
-
 QString HolonThemeStyleSheetsPrivate::pushButtonStyleSheet()
 {
     if (!pushButton.isNull())

@@ -37,6 +37,19 @@ QColor HolonThemeColorsPrivate::iconsDisabledColor()
     return iconsDisabled;
 }
 
+QColor HolonThemeColorsPrivate::mainWindowSeparatorColor()
+{
+    if (mainWindowSeparator.isValid())
+        return mainWindowSeparator;
+
+    if ((mainWindowSeparator = q_ptr->value(u"mainWindowSeparator"_s).value<QColor>()).isValid())
+        return mainWindowSeparator;
+
+    mainWindowSeparator = QColor(34, 36, 38);
+
+    return mainWindowSeparator;
+}
+
 QColor HolonThemeColorsPrivate::panelTextColorDark()
 {
     if (panelTextDark.isValid())

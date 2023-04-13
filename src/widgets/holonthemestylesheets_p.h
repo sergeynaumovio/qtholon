@@ -15,7 +15,6 @@ class HolonThemeStyleSheetsPrivate
 {
     HolonThemeStyleSheets *const q_ptr;
 
-    QString mainWindow;
     QString pushButton;
     QString taskbar;
     QString titleBar;
@@ -25,7 +24,6 @@ public:
 
     HolonThemeStyleSheetsPrivate(HolonThemeStyleSheets *q, HolonTheme *t);
 
-    QString mainWindowStyleSheet();
     QString pushButtonStyleSheet();
     QString taskbarStyleSheet();
     QString titleBarStyleSheet();

@@ -15,11 +15,6 @@ HolonThemeStyleSheets::HolonThemeStyleSheets(QLoaderSettings *settings, HolonThe
 HolonThemeStyleSheets::~HolonThemeStyleSheets()
 { }
 
-QString HolonThemeStyleSheets::mainWindowStyleSheet() const
-{
-    return d_ptr->mainWindowStyleSheet();
-}
-
 QString HolonThemeStyleSheets::pushButtonStyleSheet() const
 {
     return d_ptr->pushButtonStyleSheet();
