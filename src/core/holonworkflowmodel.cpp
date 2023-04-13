@@ -21,8 +21,7 @@ public:
     HolonOpenTasksModelPrivate(HolonWorkflowModel *q, HolonCore *c, HolonDesktop *desk)
     :   q_ptr(q),
         core(c),
-        desktop(desk),
-        taskList(q->findChildren<HolonAbstractTask *>().size())
+        desktop(desk)
     { }
 
     int rowCount()
