@@ -66,7 +66,6 @@ public:
     HolonDesktop *const desktop;
     HolonWorkflowModel *const workflowModel;
     HolonTaskDelegate *const itemDelegate;
-    bool once{true};
 
     HolonOpenTaskTreeViewPrivate(HolonDesktop *desk,
                              HolonTaskDelegate *delegate)
@@ -78,6 +77,12 @@ public:
 
 bool HolonOpenTaskTreeView::eventFilter(QObject *object, QEvent *event)
 {
+    if (object == this && event->type() == QEvent::Polish && d_ptr->workflowModel)
+    {
+        setCurrentIndex(d_ptr->workflowModel->restoreCurrentIndex());
+        return true;
+    }
+
     if (object == this && event->type() == QEvent::KeyPress && currentIndex().isValid())
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
@@ -114,15 +119,6 @@ bool HolonOpenTaskTreeView::eventFilter(QObject *object, QEvent *event)
     }
 
     return false;
-}
-
-void HolonOpenTaskTreeView::showEvent(QShowEvent *)
-{
-    if (d_ptr->once && d_ptr->workflowModel)
-    {
-        setCurrentIndex(d_ptr->workflowModel->restoreCurrentIndex());
-        d_ptr->once = false;
-    }
 }
 
 HolonOpenTaskTreeView::HolonOpenTaskTreeView(HolonDesktop *desktop)

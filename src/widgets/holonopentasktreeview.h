@@ -15,11 +15,10 @@ class HolonOpenTaskTreeView : public QTreeView
 {
     Q_OBJECT
 
-    const QScopedStorage<HolonOpenTaskTreeViewPrivate, 32> d_ptr;
+    const QScopedStorage<HolonOpenTaskTreeViewPrivate, 24> d_ptr;
 
 protected:
     bool eventFilter(QObject *object, QEvent *event) override;
-    void showEvent(QShowEvent *) override;
 
 Q_SIGNALS:
     void closeActivated(const QModelIndex &index);
