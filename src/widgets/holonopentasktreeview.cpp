@@ -8,7 +8,7 @@
 #include "holontheme.h"
 #include "holonthemesizehints.h"
 #include "holonworkflowmodel.h"
-#include <QCoreApplication>
+#include <QApplication>
 #include <QEvent>
 #include <QHeaderView>
 #include <QMouseEvent>
@@ -18,18 +18,18 @@
 class HolonTaskDelegate : public QStyledItemDelegate
 {
     HolonOpenTaskTreeView *const view;
-    const QSize iconsSize;
+    const int iconsSize;
 
 public:
-    HolonTaskDelegate(HolonDesktop *desktop, HolonOpenTaskTreeView *parent);
+    HolonTaskDelegate(HolonOpenTaskTreeView *parent);
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
 
-HolonTaskDelegate::HolonTaskDelegate(HolonDesktop *desktop, HolonOpenTaskTreeView *parent)
+HolonTaskDelegate::HolonTaskDelegate(HolonOpenTaskTreeView *parent)
 :   QStyledItemDelegate(parent),
     view(parent),
-    iconsSize(desktop->currentTheme()->sizeHints()->iconsSizeHint())
+    iconsSize(QApplication::style()->pixelMetric(QStyle::PM_ListViewIconSize))
 { }
 
 void HolonTaskDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -49,13 +49,8 @@ void HolonTaskDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
         HolonThemeIcons *icons = view->desktop()->currentTheme()->icons();
         QIcon icon = (option.state.testAnyFlag(QStyle::State_Selected) ? icons->closeBackgroundIcon()
                                                                        : icons->closeForegroundIcon());
-        int voffset = (option.rect.height() - iconsSize.height()) / 2;
-
-        QRect iconRect(option.rect.right() - iconsSize.width(),
-                       option.rect.top() + voffset,
-                       iconsSize.width(),
-                       iconsSize.height());
-
+        int voffset = (option.rect.height() - iconsSize) / 2;
+        QRect iconRect(option.rect.right() - iconsSize, option.rect.top() + voffset, iconsSize, iconsSize);
         icon.paint(painter, iconRect);
     }
 }
@@ -122,7 +117,7 @@ bool HolonOpenTaskTreeView::eventFilter(QObject *object, QEvent *event)
 }
 
 HolonOpenTaskTreeView::HolonOpenTaskTreeView(HolonDesktop *desktop)
-:   d_ptr(desktop, new HolonTaskDelegate(desktop, this))
+:   d_ptr(desktop, new HolonTaskDelegate(this))
 {
     setItemDelegate(d_ptr->itemDelegate);
     setFrameStyle(QFrame::NoFrame);
@@ -188,5 +183,5 @@ void HolonOpenTaskTreeView::setModel(QAbstractItemModel *model)
     header()->setSectionResizeMode(0, QHeaderView::Stretch);
     header()->setSectionResizeMode(1, QHeaderView::Fixed);
     header()->setMinimumSectionSize(1);
-    header()->resizeSection(1, d_ptr->desktop->currentTheme()->sizeHints()->iconsSizeHint().width());
+    header()->resizeSection(1, QApplication::style()->pixelMetric(QStyle::PM_ListViewIconSize));
 }

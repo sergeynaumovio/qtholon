@@ -11,19 +11,6 @@ HolonThemeSizeHintsPrivate::HolonThemeSizeHintsPrivate(HolonThemeSizeHints *q, H
     theme(t)
 { }
 
-QSize HolonThemeSizeHintsPrivate::iconsSizeHint()
-{
-    if (icons.isValid())
-        return icons;
-
-    if ((icons = q_ptr->value(u"iconsSizeHint"_s).toSize()).isValid())
-        return icons;
-
-    icons = QSize(16, 16);
-
-    return icons;
-}
-
 QSize HolonThemeSizeHintsPrivate::sidebarSwitchButtonSizeHint()
 {
     if (sidebarSwitchButton.isValid())

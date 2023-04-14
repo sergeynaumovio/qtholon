@@ -15,11 +15,6 @@ HolonThemeSizeHints::HolonThemeSizeHints(QLoaderSettings *settings, HolonTheme *
 HolonThemeSizeHints::~HolonThemeSizeHints()
 { }
 
-QSize HolonThemeSizeHints::iconsSizeHint() const
-{
-    return d_ptr->iconsSizeHint();
-}
-
 QSize HolonThemeSizeHints::sidebarSwitchButtonSizeHint() const
 {
     return d_ptr->sidebarSwitchButtonSizeHint();

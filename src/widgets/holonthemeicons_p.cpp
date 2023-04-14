@@ -37,7 +37,8 @@ QIcon HolonThemeIconsPrivate::dirClosedIcon()
 {
     if (dirClosed.isNull())
     {
-        QSize iconsSize = theme->sizeHints()->iconsSizeHint();
+        int px = QApplication::style()->pixelMetric(QStyle::PM_ListViewIconSize);
+        QSize iconsSize(px, px);
 
 #ifdef Q_OS_WINDOWS
         dirClosed.addPixmap(QApplication::style()->standardIcon(QStyle::SP_DirIcon).pixmap(iconsSize));
@@ -54,7 +55,8 @@ QIcon HolonThemeIconsPrivate::dirOpenIcon()
 {
     if (dirOpen.isNull())
     {
-        QSize iconsSize = theme->sizeHints()->iconsSizeHint();
+        int px = QApplication::style()->pixelMetric(QStyle::PM_ListViewIconSize);
+        QSize iconsSize(px, px);
 
 #ifdef Q_OS_WINDOWS
         dirOpen.addPixmap(QApplication::style()->standardIcon(QStyle::SP_DirIcon).pixmap(iconsSize));
@@ -143,7 +145,9 @@ QIcon HolonThemeIconsPrivate::taskIcon()
 {
     if (task.isNull())
     {
-        QSize iconsSize = theme->sizeHints()->iconsSizeHint();
+        int px = QApplication::style()->pixelMetric(QStyle::PM_ListViewIconSize);
+        QSize iconsSize(px, px);
+
         task.addPixmap(QApplication::style()->standardIcon(QStyle::SP_FileIcon).pixmap(iconsSize));;
     }
 

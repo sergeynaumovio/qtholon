@@ -46,6 +46,11 @@ int HolonThemeStyle::pixelMetric(QStyle::PixelMetric metric,
     switch (metric) {
     case PM_DockWidgetSeparatorExtent:
         return 1;
+    case PM_ToolBarIconSize:
+    case PM_ListViewIconSize:
+    case PM_ButtonIconSize:
+    case PM_SmallIconSize:
+        return 16;
     default:
         break;
     }

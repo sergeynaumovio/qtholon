@@ -13,7 +13,6 @@ class HolonThemeSizeHintsPrivate
 {
     HolonThemeSizeHints *const q_ptr;
 
-    QSize icons;
     QSize sidebarSwitchButton;
     QSize taskbar;
     QSize titleBar;
@@ -23,7 +22,6 @@ public:
 
     HolonThemeSizeHintsPrivate(HolonThemeSizeHints *q, HolonTheme *t);
 
-    QSize iconsSizeHint();
     QSize sidebarSwitchButtonSizeHint();
     QSize taskbarSizeHint();
     QSize titleBarSizeHint();
