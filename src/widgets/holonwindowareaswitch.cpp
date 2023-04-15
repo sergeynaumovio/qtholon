@@ -7,10 +7,10 @@
 #include "holonsidebar.h"
 #include "holonsidebardockwidget.h"
 #include "holontaskbar.h"
-#include "holontheme.h"
-#include "holonthemesizehints.h"
+#include "holonthemestyle.h"
 #include "holonwindowarea.h"
 #include <QAbstractButton>
+#include <QApplication>
 #include <QBoxLayout>
 #include <QButtonGroup>
 #include <QLabel>
@@ -46,19 +46,23 @@ class HolonSwitchButton : public QAbstractButton
 
     void adjustSize()
     {
-        HolonThemeSizeHints *sizeHints = desktop_d.q_ptr->currentTheme()->sizeHints();
-        font.setPointSizeF(sizeHints->taskbarSizeHint().height() / 2.6);
+        using enum HolonThemeStyle::PixelMetric;
+        QStyle *style = QApplication::style();
+        int h = style->pixelMetric(static_cast<QStyle::PixelMetric>(PM_TaskbarHeight));
+        int w = style->pixelMetric(static_cast<QStyle::PixelMetric>(PM_TaskbarWidth));
+        font.setPointSizeF(h / 2.6);
 
         if (desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Top ||
             desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Bottom)
         {
-            setFixedHeight(sizeHints->taskbarSizeHint().height());
-            setFixedWidth(sizeHints->sidebarSwitchButtonSizeHint().width());
+            w = style->pixelMetric(static_cast<QStyle::PixelMetric>(PM_SidebarSwitchButtonWidth));
+            setFixedHeight(h);
+            setFixedWidth(w);
         }
         else
         {
-            setFixedWidth(sizeHints->taskbarSizeHint().width());
-            setFixedHeight(sizeHints->taskbarSizeHint().width());
+            setFixedWidth(w);
+            setFixedHeight(w);
         }
     }
 

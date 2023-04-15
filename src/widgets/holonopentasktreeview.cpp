@@ -6,7 +6,6 @@
 #include "holondesktop.h"
 #include "holonthemeicons.h"
 #include "holontheme.h"
-#include "holonthemesizehints.h"
 #include "holonworkflowmodel.h"
 #include <QApplication>
 #include <QEvent>

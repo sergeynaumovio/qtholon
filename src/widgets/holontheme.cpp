@@ -22,12 +22,11 @@ HolonTheme::HolonTheme(QLoaderSettings *settings,
                        HolonDesktop *desktop,
                        HolonThemeColors *colors,
                        HolonThemeIcons *icons,
-                       HolonThemeSizeHints *sizes,
                        HolonThemeStyle *style,
                        HolonThemeStyleSheets *styles)
 :   QObject(desktop),
     QLoaderSettings(settings),
-    d_ptr(new HolonThemePrivate(this, colors, icons, sizes, styles, desktop))
+    d_ptr(new HolonThemePrivate(this, colors, icons, styles, desktop))
 {
     desktop->addTheme(this);
     d_ptr->desktop_d->taskbar()->setStyleSheet(styleSheets()->taskbarStyleSheet());
@@ -160,11 +159,6 @@ HolonThemeIcons *HolonTheme::icons() const
 bool HolonTheme::isCurrent() const
 {
     return value(u"current"_s).toBool();
-}
-
-HolonThemeSizeHints *HolonTheme::sizeHints() const
-{
-    return d_ptr->sizeHints;
 }
 
 HolonThemeStyleSheets *HolonTheme::styleSheets() const

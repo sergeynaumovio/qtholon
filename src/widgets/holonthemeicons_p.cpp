@@ -4,7 +4,6 @@
 #include "holonthemeicons_p.h"
 #include "holonthemecolors.h"
 #include "holontheme.h"
-#include "holonthemesizehints.h"
 #include <QApplication>
 #include <QStyle>
 

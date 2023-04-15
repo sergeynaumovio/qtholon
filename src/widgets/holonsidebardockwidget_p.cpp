@@ -7,11 +7,12 @@
 #include "holonsidebar.h"
 #include "holonsidebardockwidget.h"
 #include "holontheme.h"
-#include "holonthemesizehints.h"
 #include "holonthemestylesheets.h"
+#include <QApplication>
 #include <QBoxLayout>
 #include <QStackedWidget>
 #include <QLabel>
+#include <QStyle>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -21,16 +22,8 @@ public:
     HolonSidebarDockTitleBar(HolonDesktopPrivate &desktop_d, QDockWidget *parent)
     :   QWidget(parent)
     {
+        setFixedHeight(QApplication::style()->pixelMetric(QStyle::PM_TitleBarHeight));
         setStyleSheet(desktop_d.q_ptr->currentTheme()->styleSheets()->titleBarStyleSheet());
-        setLayout(new QHBoxLayout(this));
-        {
-            layout()->setContentsMargins({});
-            QLabel *label = new QLabel(u""_s, this);
-            {
-                label->setFixedHeight(desktop_d.q_ptr->currentTheme()->sizeHints()->titleBarSizeHint().height());
-                layout()->addWidget(label);
-            }
-        }
     }
 };
 

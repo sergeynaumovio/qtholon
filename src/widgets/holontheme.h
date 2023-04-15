@@ -13,7 +13,6 @@ class HolonDesktop;
 class HolonThemeColors;
 class HolonThemeIcons;
 class HolonThemePrivate;
-class HolonThemeSizeHints;
 class HolonThemeStyle;
 class HolonThemeStyleSheets;
 
@@ -40,7 +39,6 @@ protected:
                HolonDesktop *desktop,
                HolonThemeColors *colors,
                HolonThemeIcons *icons,
-               HolonThemeSizeHints *sizeHints,
                HolonThemeStyle *style,
                HolonThemeStyleSheets *styleSheets);
 
@@ -53,7 +51,6 @@ public:
     HolonDesktop *desktop() const;
     HolonThemeIcons *icons() const;
     bool isCurrent() const;
-    HolonThemeSizeHints *sizeHints() const;
     HolonThemeStyleSheets *styleSheets() const;
 };
 

@@ -21,6 +21,13 @@ protected:
     HolonThemeStyle(HolonTheme *theme);
 
 public:
+    enum PixelMetric
+    {
+        PM_TaskbarHeight = PM_CustomBase | 1,
+        PM_TaskbarWidth = PM_CustomBase | 2,
+        PM_SidebarSwitchButtonWidth = PM_CustomBase | 3
+    };
+
     ~HolonThemeStyle();
 
     void drawPrimitive(QStyle::PrimitiveElement element,

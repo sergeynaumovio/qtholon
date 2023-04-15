@@ -43,16 +43,35 @@ int HolonThemeStyle::pixelMetric(QStyle::PixelMetric metric,
                                  const QStyleOption *option,
                                  const QWidget *widget) const
 {
-    switch (metric) {
-    case PM_DockWidgetSeparatorExtent:
-        return 1;
-    case PM_ToolBarIconSize:
-    case PM_ListViewIconSize:
-    case PM_ButtonIconSize:
-    case PM_SmallIconSize:
-        return 16;
-    default:
-        break;
+    if (metric < PM_CustomBase)
+    {
+        switch (metric) {
+        case PM_DockWidgetSeparatorExtent:
+            return 1;
+        case PM_ToolBarIconSize:
+        case PM_ListViewIconSize:
+        case PM_ButtonIconSize:
+        case PM_SmallIconSize:
+            return 16;
+        case PM_TitleBarHeight:
+            return 24;
+        default:
+            break;
+        }
+    }
+    else
+    {
+        HolonThemeStyle::PixelMetric custom = static_cast<HolonThemeStyle::PixelMetric>(metric);
+        switch (custom) {
+        case PM_TaskbarHeight:
+            return 26;
+        case PM_TaskbarWidth:
+            return 50;
+        case PM_SidebarSwitchButtonWidth:
+            return 120;
+        default:
+            break;
+        }
     }
 
     return QProxyStyle::pixelMetric(metric, option, widget);;

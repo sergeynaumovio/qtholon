@@ -7,11 +7,11 @@
 #include "holondockwidget.h"
 #include "holontheme.h"
 #include "holonthemeicons.h"
-#include "holonthemesizehints.h"
 #include "holonthemestylesheets.h"
 #include "holonwindowarea.h"
 #include "holonwindowarea_p.h"
 #include <QActionGroup>
+#include <QApplication>
 #include <QBoxLayout>
 #include <QComboBox>
 #include <QEvent>
@@ -27,15 +27,13 @@ class HolonTitleBarPrivate
 {
 public:
     HolonDesktop *const desktop;
-    const int titleBarHeight;
     QPushButton *splitButton{};
     QPushButton *maximizeButton{};
     QPushButton *closeButton{};
     QPushButton *hideWindowAreaButton{};
 
     HolonTitleBarPrivate(HolonDesktop *desk)
-    :   desktop(desk),
-        titleBarHeight(desktop->currentTheme()->sizeHints()->titleBarSizeHint().height())
+    :   desktop(desk)
     { }
 };
 
@@ -93,6 +91,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
 :   QWidget(parent),
     d_ptr(desktop)
 {
+    setFixedHeight(QApplication::style()->pixelMetric(QStyle::PM_TitleBarHeight));
     setStyleSheet(desktop->currentTheme()->styleSheets()->titleBarStyleSheet());
 
     setLayout(new QHBoxLayout(this));
@@ -104,8 +103,6 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
         {
             QComboBox *combobox = new QComboBox(this);
             {
-                combobox->setFixedHeight(d_ptr->titleBarHeight);
-
                 QList<HolonAbstractWindow *> siblingWindowList = siblingWindows(window);
                 for (const HolonAbstractWindow *siblingWindow : siblingWindowList)
                     combobox->addItem(siblingWindow->icon(), siblingWindow->title());
@@ -115,20 +112,14 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
             }
         }
         else
-        {
-            QLabel *label = new QLabel(window->title(), this);
-            {
-                label->setFixedHeight(d_ptr->titleBarHeight);
-                layout()->addWidget(label);
-            }
-        }
+            layout()->addWidget(new QLabel(window->title(), this));
 
         auto addButton = [=, this](const QIcon &icon)
         {
             QPushButton *button = new QPushButton(icon, QString(), this);
             {
                 button->hide();
-                button->setFixedHeight(d_ptr->titleBarHeight);
+                button->setFixedHeight(height());
                 button->setFixedWidth(button->height() * 1.2);
                 button->setFlat(true);
                 button->setStyleSheet(desktop->currentTheme()->styleSheets()->pushButtonStyleSheet());
