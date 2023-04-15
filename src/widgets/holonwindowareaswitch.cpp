@@ -83,7 +83,6 @@ protected:
 
     void paintEvent(QPaintEvent *) override
     {
-        QStyle::PrimitiveElement pe = static_cast<QStyle::PrimitiveElement>(HolonThemeStyle::PE_SidebarSwitchButton);
         QStyleOption opt;
         opt.initFrom(this);
         opt.state.setFlag(isChecked() ? QStyle::State_On : QStyle::State_Off);
