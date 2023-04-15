@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holonthemestyle.h"
-#include "holontaskbar.h"
 #include "holontheme.h"
 #include "holonthemecolors.h"
 #include "holonthemestyle_p.h"
+#include <QAbstractButton>
+#include <QApplication>
 #include <QPainter>
 #include <QStyleFactory>
 #include <QStyleOption>
@@ -47,6 +48,41 @@ void HolonThemeStyle::drawPrimitive(QStyle::PrimitiveElement element,
         case PE_TitleBar:
             painter->fillRect(option->rect, theme()->colors()->baseColor());
             break;
+        case PE_SidebarSwitchButton:
+        case PE_WindowAreaSwitchButton:
+            painter->save();
+            {
+                QPen pen(Qt::white);
+                pen.setWidth(2);
+                painter->setPen(pen);
+
+                bool isHovered = option->state.testAnyFlag(QStyle::State_MouseOver);
+                bool isChecked = option->state.testAnyFlag(QStyle::State_On);
+
+                if (isHovered)
+                {
+                    if (isChecked)
+                        painter->fillRect(option->rect, QColor(44, 46, 48));
+                    else
+                        painter->fillRect(option->rect, QColor(74, 76, 78));
+                }
+
+                if (isChecked)
+                {
+                    if (!isHovered)
+                        painter->fillRect(option->rect, QColor(24, 26, 28));
+
+                    QLineF line(option->rect.bottomLeft(), option->rect.bottomRight());
+                    painter->drawLine(line);
+                }
+
+                painter->setFont(QApplication::font());
+                QRect rectangle = option->rect;
+                rectangle.adjust(10, 0, 0, 0);
+                if (const QAbstractButton *button = qobject_cast<const QAbstractButton *>(widget))
+                    painter->drawText(rectangle, Qt::AlignLeft | Qt::AlignVCenter, button->text());
+            }
+            painter->restore();
         default:
             break;
         }

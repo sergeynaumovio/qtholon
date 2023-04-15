@@ -17,6 +17,7 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include <QShortcut>
+#include <QStyleOption>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -42,7 +43,7 @@ public:
 
 class HolonSwitchButton : public QAbstractButton
 {
-    QFont font;
+    const QStyle::PrimitiveElement pe;
 
     void adjustSize()
     {
@@ -50,7 +51,6 @@ class HolonSwitchButton : public QAbstractButton
         QStyle *style = QApplication::style();
         int h = style->pixelMetric(static_cast<QStyle::PixelMetric>(PM_TaskbarHeight));
         int w = style->pixelMetric(static_cast<QStyle::PixelMetric>(PM_TaskbarWidth));
-        font.setPointSizeF(h / 2.6);
 
         if (desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Top ||
             desktop_d.taskbarArea() == HolonDesktopPrivate::TaskbarArea::Bottom)
@@ -69,23 +69,10 @@ class HolonSwitchButton : public QAbstractButton
 protected:
     HolonWindowAreaSwitchPrivate &switch_d;
     HolonDesktopPrivate &desktop_d;
-    bool hovered{};
-    const QString title;
-    const QColor color{Qt::white};
-
-    bool isHovered() const { return hovered; }
 
     bool event(QEvent *e) override
     {
         switch(e->type()) {
-        case QEvent::HoverEnter:
-            hovered = true;
-            update();
-            return true;
-        case QEvent::HoverLeave:
-            hovered = false;
-            update();
-            return true;
         case QEvent::Polish:
             adjustSize();
             return true;
@@ -96,47 +83,29 @@ protected:
 
     void paintEvent(QPaintEvent *) override
     {
+        QStyle::PrimitiveElement pe = static_cast<QStyle::PrimitiveElement>(HolonThemeStyle::PE_SidebarSwitchButton);
+        QStyleOption opt;
+        opt.initFrom(this);
+        opt.state.setFlag(isChecked() ? QStyle::State_On : QStyle::State_Off);
         QPainter p(this);
-        QPen pen(color);
-        pen.setWidth(2);
-        p.setPen(pen);
-
-        if (isHovered())
-        {
-            if (isChecked())
-                p.fillRect(rect(), QColor(44, 46, 48));
-            else
-                p.fillRect(rect(), QColor(74, 76, 78));
-        }
-
-        if (isChecked())
-        {
-            if (!isHovered())
-                p.fillRect(rect(), QColor(24, 26, 28));
-
-            QLineF line(rect().bottomLeft(), rect().bottomRight());
-            p.drawLine(line);
-        }
-
-        p.setFont(font);
-        QRect rectangle = rect();
-        rectangle.adjust(10, 0, 0, 0);
-        p.drawText(rectangle, Qt::AlignLeft | Qt::AlignVCenter, title);
+        QApplication::style()->drawPrimitive(pe, &opt, &p, this);
     }
 
     HolonSwitchButton(HolonWindowAreaSwitchPrivate &swtch_d,
                       HolonWindowArea *windowArea,
                       HolonWindowAreaSwitch *parent)
     :   QAbstractButton(parent),
-        font(u"Arial"_s),
+        pe(static_cast<QStyle::PrimitiveElement>(qobject_cast<HolonSidebar *>(windowArea) ?
+                                                     HolonThemeStyle::PE_SidebarSwitchButton :
+                                                     HolonThemeStyle::PE_WindowAreaSwitchButton)),
         switch_d(swtch_d),
-        desktop_d(switch_d.desktop_d),
-        title(windowArea->title())
+        desktop_d(switch_d.desktop_d)
     {
         setAttribute(Qt::WA_Hover);
         setCheckable(true);
         setChecked(windowArea->isChecked());
         setMinimumSize(1, 1);
+        setText(windowArea->title());
 
         QShortcut *shortcut = new QShortcut(QKeySequence(windowArea->shortcut()), this);
         connect(shortcut, &QShortcut::activated, this, [this]() { setChecked(!isChecked()); });
