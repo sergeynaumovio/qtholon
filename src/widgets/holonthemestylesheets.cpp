@@ -24,8 +24,3 @@ HolonTheme *HolonThemeStyleSheets::theme() const
 {
     return d_ptr->theme;
 }
-
-QString HolonThemeStyleSheets::titleBarStyleSheet() const
-{
-    return d_ptr->titleBarStyleSheet();
-}

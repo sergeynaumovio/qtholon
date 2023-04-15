@@ -7,23 +7,32 @@
 #include "holonsidebar.h"
 #include "holonsidebardockwidget.h"
 #include "holontheme.h"
-#include "holonthemestylesheets.h"
+#include "holonthemestyle.h"
 #include <QApplication>
 #include <QBoxLayout>
-#include <QStackedWidget>
 #include <QLabel>
-#include <QStyle>
+#include <QPainter>
+#include <QStackedWidget>
+#include <QStyleOption>
 
 using namespace Qt::Literals::StringLiterals;
 
 class HolonSidebarDockTitleBar : public QWidget
 {
+    void paintEvent(QPaintEvent *)
+    {
+        QStyle::PrimitiveElement e = static_cast<QStyle::PrimitiveElement>(HolonThemeStyle::PE_TitleBar);
+        QStyleOption opt;
+        opt.initFrom(this);
+        QPainter p(this);
+        QApplication::style()->drawPrimitive(e, &opt, &p, this);
+    }
+
 public:
-    HolonSidebarDockTitleBar(HolonDesktopPrivate &desktop_d, QDockWidget *parent)
+    HolonSidebarDockTitleBar(QDockWidget *parent)
     :   QWidget(parent)
     {
         setFixedHeight(QApplication::style()->pixelMetric(QStyle::PM_TitleBarHeight));
-        setStyleSheet(desktop_d.q_ptr->currentTheme()->styleSheets()->titleBarStyleSheet());
         setLayout(new QHBoxLayout(this));
     }
 };
@@ -155,7 +164,7 @@ void HolonSidebarDockWidgetPrivate::showTitleBarWidget(bool show) const
     if (show)
     {
         d_ptr->stackedWidget.setLabel();
-        d_ptr->q_ptr->setTitleBarWidget(d_ptr->titlebar.visible = new HolonSidebarDockTitleBar(d_ptr->desktop_d, d_ptr->q_ptr));
+        d_ptr->q_ptr->setTitleBarWidget(d_ptr->titlebar.visible = new HolonSidebarDockTitleBar(d_ptr->q_ptr));
         d_ptr->titlebar.hidden->deleteLater();
     }
     else

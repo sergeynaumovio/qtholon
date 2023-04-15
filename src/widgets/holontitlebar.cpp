@@ -7,6 +7,7 @@
 #include "holondockwidget.h"
 #include "holontheme.h"
 #include "holonthemeicons.h"
+#include "holonthemestyle.h"
 #include "holonthemestylesheets.h"
 #include "holonwindowarea.h"
 #include "holonwindowarea_p.h"
@@ -78,10 +79,11 @@ QList<HolonAbstractWindow *> HolonTitleBar::siblingWindows(HolonAbstractWindow *
 
 void HolonTitleBar::paintEvent(QPaintEvent *)
 {
+    QStyle::PrimitiveElement e = static_cast<QStyle::PrimitiveElement>(HolonThemeStyle::PE_TitleBar);
     QStyleOption opt;
     opt.initFrom(this);
     QPainter p(this);
-    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+    QApplication::style()->drawPrimitive(e, &opt, &p, this);
 }
 
 HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
@@ -92,7 +94,6 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
     d_ptr(desktop)
 {
     setFixedHeight(QApplication::style()->pixelMetric(QStyle::PM_TitleBarHeight));
-    setStyleSheet(desktop->currentTheme()->styleSheets()->titleBarStyleSheet());
 
     setLayout(new QHBoxLayout(this));
     {

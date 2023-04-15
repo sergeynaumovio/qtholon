@@ -44,6 +44,7 @@ void HolonThemeStyle::drawPrimitive(QStyle::PrimitiveElement element,
         HolonThemeStyle::PrimitiveElement custom = static_cast<HolonThemeStyle::PrimitiveElement>(element);
         switch (custom) {
         case PE_Taskbar:
+        case PE_TitleBar:
             painter->fillRect(option->rect, theme()->colors()->baseColor());
             break;
         default:

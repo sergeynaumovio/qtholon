@@ -16,7 +16,6 @@ class HolonThemeStyleSheetsPrivate
     HolonThemeStyleSheets *const q_ptr;
 
     QString pushButton;
-    QString titleBar;
 
 public:
     HolonTheme *const theme;
@@ -24,7 +23,6 @@ public:
     HolonThemeStyleSheetsPrivate(HolonThemeStyleSheets *q, HolonTheme *t);
 
     QString pushButtonStyleSheet();
-    QString titleBarStyleSheet();
 };
 
 #endif // HOLONTHEMESTYLESHEETS_P_H

@@ -25,16 +25,3 @@ QString HolonThemeStyleSheetsPrivate::pushButtonStyleSheet()
 
     return pushButton;
 }
-
-QString HolonThemeStyleSheetsPrivate::titleBarStyleSheet()
-{
-    if (!titleBar.isNull())
-        return titleBar;
-
-    if (!(titleBar = q_ptr->value(u"titleBarStyleSheet"_s).toString()).isNull())
-        return titleBar;
-
-    titleBar = u"QWidget { color: white; background-color: rgb(54, 56, 58); }"_s;
-
-    return titleBar;
-}

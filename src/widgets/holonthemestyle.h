@@ -30,7 +30,8 @@ public:
 
     enum PrimitiveElement
     {
-        PE_Taskbar = PE_CustomBase | 1
+        PE_Taskbar = PE_CustomBase | 1,
+        PE_TitleBar = PE_CustomBase | 2,
     };
 
     ~HolonThemeStyle();
