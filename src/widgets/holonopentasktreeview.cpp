@@ -71,20 +71,22 @@ public:
 
 bool HolonOpenTaskTreeView::eventFilter(QObject *object, QEvent *event)
 {
-    if (object == this && event->type() == QEvent::Polish && d_ptr->workflowModel)
+    if (object == this)
     {
-        setCurrentIndex(d_ptr->workflowModel->restoreCurrentIndex());
-        return true;
-    }
-
-    if (object == this && event->type() == QEvent::KeyPress && currentIndex().isValid())
-    {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        if (keyEvent->modifiers() == Qt::NoModifier && (keyEvent->key() == Qt::Key_Delete ||
-                                                        keyEvent->key() == Qt::Key_Backspace))
+        if (currentIndex().isValid())
         {
-            emit closeActivated(currentIndex());
+            if (event->type() == QEvent::KeyPress)
+            {
+                QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+                if (keyEvent->modifiers() == Qt::NoModifier && (keyEvent->key() == Qt::Key_Delete ||
+                                                                keyEvent->key() == Qt::Key_Backspace))
+                {
+                    emit closeActivated(currentIndex());
+                }
+            }
         }
+        else if (event->type() == QEvent::Show && d_ptr->workflowModel)
+            setCurrentIndex(d_ptr->workflowModel->restoreCurrentIndex());
 
         return false;
     }
