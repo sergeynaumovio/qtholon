@@ -24,11 +24,11 @@ public:
 
 void HolonTaskbar::paintEvent(QPaintEvent *)
 {
-    QStyle::PrimitiveElement e = static_cast<QStyle::PrimitiveElement>(HolonThemeStyle::PE_Taskbar);
+    QStyle::PrimitiveElement pe = static_cast<QStyle::PrimitiveElement>(HolonThemeStyle::PE_Taskbar);
     QStyleOption opt;
     opt.initFrom(this);
     QPainter p(this);
-    QApplication::style()->drawPrimitive(e, &opt, &p, this);
+    QApplication::style()->drawPrimitive(pe, &opt, &p, this);
 }
 
 HolonTaskbar::HolonTaskbar(HolonDesktopPrivate &desktop_d)

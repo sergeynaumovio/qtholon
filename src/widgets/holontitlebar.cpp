@@ -79,11 +79,11 @@ QList<HolonAbstractWindow *> HolonTitleBar::siblingWindows(HolonAbstractWindow *
 
 void HolonTitleBar::paintEvent(QPaintEvent *)
 {
-    QStyle::PrimitiveElement e = static_cast<QStyle::PrimitiveElement>(HolonThemeStyle::PE_TitleBar);
+    QStyle::PrimitiveElement pe = static_cast<QStyle::PrimitiveElement>(HolonThemeStyle::PE_TitleBar);
     QStyleOption opt;
     opt.initFrom(this);
     QPainter p(this);
-    QApplication::style()->drawPrimitive(e, &opt, &p, this);
+    QApplication::style()->drawPrimitive(pe, &opt, &p, this);
 }
 
 HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
