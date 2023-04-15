@@ -43,7 +43,7 @@ int HolonThemeStyle::pixelMetric(QStyle::PixelMetric metric,
                                  const QStyleOption *option,
                                  const QWidget *widget) const
 {
-    if (metric < PM_CustomBase)
+    if (static_cast<unsigned int>(metric) < static_cast<unsigned int>(QStyle::PM_CustomBase))
     {
         switch (metric) {
         case PM_DockWidgetSeparatorExtent:
