@@ -15,6 +15,7 @@ class HolonThemeColorsPrivate
 {
     HolonThemeColors *const q_ptr;
 
+    QColor base;
     QColor iconsBase;
     QColor iconsDisabled;
     QColor mainWindowSeparator;
@@ -26,6 +27,7 @@ public:
 
     HolonThemeColorsPrivate(HolonThemeColors *q, HolonTheme *t);
 
+    QColor baseColor();
     QColor iconsBaseColor();
     QColor iconsDisabledColor();
     QColor mainWindowSeparatorColor();

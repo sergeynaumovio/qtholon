@@ -28,6 +28,11 @@ public:
         PM_SidebarSwitchButtonWidth = PM_CustomBase | 3
     };
 
+    enum PrimitiveElement
+    {
+        PE_Taskbar = PE_CustomBase | 1
+    };
+
     ~HolonThemeStyle();
 
     void drawPrimitive(QStyle::PrimitiveElement element,

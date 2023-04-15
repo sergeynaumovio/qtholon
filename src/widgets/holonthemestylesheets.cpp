@@ -20,11 +20,6 @@ QString HolonThemeStyleSheets::pushButtonStyleSheet() const
     return d_ptr->pushButtonStyleSheet();
 }
 
-QString HolonThemeStyleSheets::taskbarStyleSheet() const
-{
-    return d_ptr->taskbarStyleSheet();
-}
-
 HolonTheme *HolonThemeStyleSheets::theme() const
 {
     return d_ptr->theme;

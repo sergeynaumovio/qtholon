@@ -15,6 +15,11 @@ HolonThemeColors::HolonThemeColors(QLoaderSettings *settings, HolonTheme *theme)
 HolonThemeColors::~HolonThemeColors()
 { }
 
+QColor HolonThemeColors::baseColor() const
+{
+    return d_ptr->baseColor();
+}
+
 QColor HolonThemeColors::iconsBaseColor() const
 {
     return d_ptr->iconsBaseColor();

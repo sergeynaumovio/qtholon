@@ -25,6 +25,7 @@ protected:
 public:
     ~HolonThemeColors();
 
+    virtual QColor baseColor() const;
     virtual QColor iconsBaseColor() const;
     virtual QColor iconsDisabledColor() const;
     virtual QColor mainWindowSeparatorColor() const;

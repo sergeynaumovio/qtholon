@@ -29,7 +29,6 @@ HolonTheme::HolonTheme(QLoaderSettings *settings,
     d_ptr(new HolonThemePrivate(this, colors, icons, styles, desktop))
 {
     desktop->addTheme(this);
-    d_ptr->desktop_d->taskbar()->setStyleSheet(styleSheets()->taskbarStyleSheet());
     QApplication::setStyle(style);
 }
 
@@ -39,7 +38,6 @@ HolonTheme::HolonTheme(QLoaderSettings *settings, HolonDesktop *desktop)
     d_ptr(new HolonThemePrivate(settings, this, desktop))
 {
     desktop->addTheme(this);
-    d_ptr->desktop_d->taskbar()->setStyleSheet(styleSheets()->taskbarStyleSheet());
 }
 
 HolonTheme::~HolonTheme()

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holonthemestyle.h"
+#include "holontaskbar.h"
 #include "holontheme.h"
 #include "holonthemecolors.h"
 #include "holonthemestyle_p.h"
@@ -28,12 +29,26 @@ void HolonThemeStyle::drawPrimitive(QStyle::PrimitiveElement element,
                                     QPainter *painter,
                                     const QWidget *widget) const
 {
-    switch (element) {
-    case PE_IndicatorDockWidgetResizeHandle:
-        painter->fillRect(option->rect, theme()->colors()->mainWindowSeparatorColor());
-        break;
-    default:
-        break;
+    if (static_cast<unsigned int>(element) < static_cast<unsigned int>(PE_CustomBase))
+    {
+        switch (element) {
+        case PE_IndicatorDockWidgetResizeHandle:
+            painter->fillRect(option->rect, theme()->colors()->mainWindowSeparatorColor());
+            break;
+        default:
+            break;
+        }
+    }
+    else
+    {
+        HolonThemeStyle::PrimitiveElement custom = static_cast<HolonThemeStyle::PrimitiveElement>(element);
+        switch (custom) {
+        case PE_Taskbar:
+            painter->fillRect(option->rect, theme()->colors()->baseColor());
+            break;
+        default:
+            break;
+        }
     }
 
     QProxyStyle::drawPrimitive(element, option, painter, widget);

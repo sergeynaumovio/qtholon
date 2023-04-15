@@ -4,7 +4,9 @@
 #include "holontaskbar.h"
 #include "holondesktop.h"
 #include "holondesktop_p.h"
+#include "holonthemestyle.h"
 #include "holonwindowareaswitch.h"
+#include <QApplication>
 #include <QBoxLayout>
 #include <QPainter>
 #include <QStyleOption>
@@ -25,7 +27,8 @@ void HolonTaskbar::paintEvent(QPaintEvent *)
     QStyleOption opt;
     opt.initFrom(this);
     QPainter p(this);
-    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+    QStyle::PrimitiveElement e = static_cast<QStyle::PrimitiveElement>(HolonThemeStyle::PE_Taskbar);
+    QApplication::style()->drawPrimitive(e, &opt, &p, this);
 }
 
 HolonTaskbar::HolonTaskbar(HolonDesktopPrivate &desktop_d)

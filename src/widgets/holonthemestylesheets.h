@@ -27,7 +27,6 @@ public:
     ~HolonThemeStyleSheets();
 
     virtual QString pushButtonStyleSheet() const;
-    virtual QString taskbarStyleSheet() const;
     HolonTheme *theme() const;
     virtual QString titleBarStyleSheet() const;
 };

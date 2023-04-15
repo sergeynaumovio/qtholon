@@ -11,6 +11,19 @@ HolonThemeColorsPrivate::HolonThemeColorsPrivate(HolonThemeColors *q, HolonTheme
     theme(t)
 { }
 
+QColor HolonThemeColorsPrivate::baseColor()
+{
+    if (base.isValid())
+        return base;
+
+    if ((base = q_ptr->value(u"baseColor"_s).value<QColor>()).isValid())
+        return base;
+
+    base = QColor(54, 56, 58);
+
+    return base;
+}
+
 QColor HolonThemeColorsPrivate::iconsBaseColor()
 {
     if (iconsBase.isValid())
