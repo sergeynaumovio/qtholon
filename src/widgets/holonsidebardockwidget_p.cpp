@@ -24,6 +24,7 @@ public:
     {
         setFixedHeight(QApplication::style()->pixelMetric(QStyle::PM_TitleBarHeight));
         setStyleSheet(desktop_d.q_ptr->currentTheme()->styleSheets()->titleBarStyleSheet());
+        setLayout(new QHBoxLayout(this));
     }
 };
 
