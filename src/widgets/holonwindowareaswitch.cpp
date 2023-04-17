@@ -87,7 +87,7 @@ protected:
         opt.initFrom(this);
         opt.state.setFlag(isChecked() ? QStyle::State_On : QStyle::State_Off);
         QPainter p(this);
-        QApplication::style()->drawPrimitive(pe, &opt, &p, this);
+        style()->drawPrimitive(pe, &opt, &p, this);
     }
 
     HolonSwitchButton(HolonWindowAreaSwitchPrivate &swtch_d,

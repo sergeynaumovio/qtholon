@@ -25,7 +25,7 @@ class HolonSidebarDockTitleBar : public QWidget
         QStyleOption opt;
         opt.initFrom(this);
         QPainter p(this);
-        QApplication::style()->drawPrimitive(pe, &opt, &p, this);
+        style()->drawPrimitive(pe, &opt, &p, this);
     }
 
 public:
