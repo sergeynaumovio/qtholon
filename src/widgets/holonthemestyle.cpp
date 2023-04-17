@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+﻿// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonthemestyle.h"
@@ -36,7 +36,18 @@ void HolonThemeStyle::drawPrimitive(QStyle::PrimitiveElement element,
         case PE_IndicatorDockWidgetResizeHandle:
             painter->fillRect(option->rect, theme()->colors()->mainWindowSeparatorColor());
             break;
+        case PE_PanelButtonTool: {
+                bool isPressed = option->state.testAnyFlags({State_Sunken, State_On});
+                bool isHovered = option->state.testFlags({State_Enabled, State_MouseOver});
+
+                if (isPressed)
+                    painter->fillRect(option->rect, QColor(44, 46, 48));
+                else if (isHovered)
+                    painter->fillRect(option->rect, QColor(74, 76, 78));
+            }
+            break;
         default:
+            QProxyStyle::drawPrimitive(element, option, painter, widget);
             break;
         }
     }
@@ -49,9 +60,7 @@ void HolonThemeStyle::drawPrimitive(QStyle::PrimitiveElement element,
             painter->fillRect(option->rect, theme()->colors()->baseColor());
             break;
         case PE_SidebarSwitchButton:
-        case PE_WindowAreaSwitchButton:
-            painter->save();
-            {
+        case PE_WindowAreaSwitchButton: {
                 QPen pen(Qt::white);
                 pen.setWidth(2);
                 painter->setPen(pen);
@@ -76,19 +85,19 @@ void HolonThemeStyle::drawPrimitive(QStyle::PrimitiveElement element,
                     painter->drawLine(line);
                 }
 
-                painter->setFont(QApplication::font());
-                QRect rectangle = option->rect;
-                rectangle.adjust(10, 0, 0, 0);
                 if (const QAbstractButton *button = qobject_cast<const QAbstractButton *>(widget))
+                {
+                    painter->setFont(QApplication::font());
+                    QRect rectangle = option->rect;
+                    rectangle.adjust(10, 0, 0, 0);
                     painter->drawText(rectangle, Qt::AlignLeft | Qt::AlignVCenter, button->text());
+                }
             }
-            painter->restore();
+            break;
         default:
             break;
         }
     }
-
-    QProxyStyle::drawPrimitive(element, option, painter, widget);
 }
 
 int HolonThemeStyle::pixelMetric(QStyle::PixelMetric metric,
@@ -107,6 +116,8 @@ int HolonThemeStyle::pixelMetric(QStyle::PixelMetric metric,
             return 16;
         case PM_TitleBarHeight:
             return 24;
+        case PM_MenuButtonIndicator:
+            return 0;
         default:
             break;
         }

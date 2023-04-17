@@ -14,7 +14,6 @@ class HolonThemeColors;
 class HolonThemeIcons;
 class HolonThemePrivate;
 class HolonThemeStyle;
-class HolonThemeStyleSheets;
 
 using FileName = QString;
 
@@ -39,8 +38,7 @@ protected:
                HolonDesktop *desktop,
                HolonThemeColors *colors,
                HolonThemeIcons *icons,
-               HolonThemeStyle *style,
-               HolonThemeStyleSheets *styleSheets);
+               HolonThemeStyle *style);
 
 public:
     HolonTheme(QLoaderSettings *settings, HolonDesktop *desktop);
@@ -51,7 +49,6 @@ public:
     HolonDesktop *desktop() const;
     HolonThemeIcons *icons() const;
     bool isCurrent() const;
-    HolonThemeStyleSheets *styleSheets() const;
 };
 
 #endif // HOLONTHEME_H

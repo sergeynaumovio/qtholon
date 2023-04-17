@@ -8,7 +8,6 @@
 #include "holontheme.h"
 #include "holonthemeicons.h"
 #include "holonthemestyle.h"
-#include "holonthemestylesheets.h"
 #include "holonwindowarea.h"
 #include "holonwindowarea_p.h"
 #include <QActionGroup>
@@ -19,8 +18,8 @@
 #include <QLabel>
 #include <QMenu>
 #include <QPainter>
-#include <QPushButton>
 #include <QStyleOption>
+#include <QToolButton>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -28,10 +27,10 @@ class HolonTitleBarPrivate
 {
 public:
     HolonDesktop *const desktop;
-    QPushButton *splitButton{};
-    QPushButton *maximizeButton{};
-    QPushButton *closeButton{};
-    QPushButton *hideWindowAreaButton{};
+    QToolButton *splitButton{};
+    QToolButton *maximizeButton{};
+    QToolButton *closeButton{};
+    QToolButton *hideWindowAreaButton{};
 
     HolonTitleBarPrivate(HolonDesktop *desk)
     :   desktop(desk)
@@ -117,13 +116,12 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
 
         auto addButton = [=, this](const QIcon &icon)
         {
-            QPushButton *button = new QPushButton(icon, QString(), this);
+            QToolButton *button = new QToolButton(this);
             {
                 button->hide();
                 button->setFixedHeight(height());
                 button->setFixedWidth(button->height() * 1.2);
-                button->setFlat(true);
-                button->setStyleSheet(desktop->currentTheme()->styleSheets()->pushButtonStyleSheet());
+                button->setIcon(icon);
                 layout()->addWidget(button);
             }
             return button;
@@ -172,13 +170,14 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
             d_ptr->splitButton = addButton(desktop->currentTheme()->icons()->splitButtonHorizontalIcon());
             d_ptr->splitButton->show();
             d_ptr->splitButton->setMenu(menu);
+            d_ptr->splitButton->setPopupMode(QToolButton::InstantPopup);
         }
 
         if (window->flags().testFlag(Holon::WindowMinMaxButtonsHint))
         {
             d_ptr->maximizeButton = addButton(desktop->currentTheme()->icons()->maximizeIcon());
             {
-                connect(d_ptr->maximizeButton, &QPushButton::clicked, this, [=, this]()
+                connect(d_ptr->maximizeButton, &QToolButton::clicked, this, [=, this]()
                 {
                     windowarea_d_ptr->maximized = !windowarea_d_ptr->maximized;
                     if (windowarea_d_ptr->maximized)
@@ -215,7 +214,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
         {
             d_ptr->closeButton = addButton(icon);
             {
-                connect(d_ptr->closeButton, &QPushButton::clicked, this, [=](){ desktop->closeWindow(window); });
+                connect(d_ptr->closeButton, &QToolButton::clicked, this, [=](){ desktop->closeWindow(window); });
             }
         }
 
@@ -225,7 +224,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
             {
                 d_ptr->hideWindowAreaButton->show();
 
-                connect(d_ptr->hideWindowAreaButton, &QPushButton::clicked, this, [=]()
+                connect(d_ptr->hideWindowAreaButton, &QToolButton::clicked, this, [=]()
                 {
                     desktop->closeWindowArea(windowarea_d_ptr->q_ptr);
                 });
