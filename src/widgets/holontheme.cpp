@@ -4,7 +4,6 @@
 #include "holontheme.h"
 #include "holondesktop.h"
 #include "holondesktop_p.h"
-#include "holontaskbar.h"
 #include "holontheme_p.h"
 #include "holonthemecolors.h"
 #include "holonthemeicons.h"
