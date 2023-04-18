@@ -18,7 +18,7 @@ class Q_HOLON_EXPORT HolonCore : public QObject, public QLoaderSettings
     const QScopedPointer<HolonCorePrivate> d_ptr;
 
 public:
-    HolonCore(QLoaderSettings *settings, QObject *parent);
+    explicit HolonCore(QLoaderSettings *settings, QObject *parent);
     ~HolonCore();
 
     void addTaskModel(HolonTaskModel *taskModel);

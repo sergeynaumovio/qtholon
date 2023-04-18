@@ -21,8 +21,8 @@ class Q_HOLON_EXPORT HolonTaskModelBranch : public QObject, public QLoaderSettin
     const QScopedPointer<HolonTaskModelBranchPrivate> d_ptr;
 
 public:
-    HolonTaskModelBranch(QLoaderSettings *settings, HolonTaskModel *taskTreeModel);
-    HolonTaskModelBranch(QLoaderSettings *settings, HolonTaskModelBranch *taskTreeBranch);
+    explicit HolonTaskModelBranch(QLoaderSettings *settings, HolonTaskModel *taskTreeModel);
+    explicit HolonTaskModelBranch(QLoaderSettings *settings, HolonTaskModelBranch *taskTreeBranch);
     ~HolonTaskModelBranch();
 
     HolonDesktop *desktop() const;

@@ -26,7 +26,7 @@ protected:
     HolonWindowArea(HolonWindowAreaPrivate &d, QLoaderSettings *settings);
 
 public:
-    HolonWindowArea(QLoaderSettings *settings, HolonDesktop *desktop);
+    explicit HolonWindowArea(QLoaderSettings *settings, HolonDesktop *desktop);
     ~HolonWindowArea();
 
     void addWindow(HolonAbstractWindow *window);

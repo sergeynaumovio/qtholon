@@ -17,9 +17,6 @@ class Q_HOLON_EXPORT HolonThemeStyle : public QProxyStyle
     friend class HolonThemePrivate;
     const QScopedPointer<HolonThemeStylePrivate> d_ptr;
 
-protected:
-    HolonThemeStyle(HolonTheme *theme);
-
 public:
     enum PixelMetric
     {
@@ -36,6 +33,7 @@ public:
         PE_WindowAreaSwitchButton = PE_CustomBase | 4
     };
 
+    explicit HolonThemeStyle(HolonTheme *theme);
     ~HolonThemeStyle();
 
     void drawPrimitive(QStyle::PrimitiveElement element,

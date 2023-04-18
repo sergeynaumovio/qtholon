@@ -31,7 +31,7 @@ protected:
     QString fromVariant(const QVariant &variant) const override;
 
 public:
-    HolonDesktop(QLoaderSettings *settings, QWidget *parent);
+    explicit HolonDesktop(QLoaderSettings *settings, QWidget *parent);
     ~HolonDesktop();
 
     void addSidebar(HolonSidebar *sidebar);

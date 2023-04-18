@@ -41,7 +41,7 @@ protected:
                HolonThemeStyle *style);
 
 public:
-    HolonTheme(QLoaderSettings *settings, HolonDesktop *desktop);
+    explicit HolonTheme(QLoaderSettings *settings, HolonDesktop *desktop);
     ~HolonTheme();
 
     HolonThemeColors *colors() const;

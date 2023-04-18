@@ -19,7 +19,7 @@ class Q_HOLON_EXPORT HolonSidebar : public HolonWindowArea
     friend class HolonDesktopPrivate;
 
 public:
-    HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop);
+    explicit HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop);
     ~HolonSidebar();
 
     HolonDesktop *desktop() const;

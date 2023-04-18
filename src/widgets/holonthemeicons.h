@@ -22,10 +22,8 @@ class Q_HOLON_EXPORT HolonThemeIcons : public QObject, public QLoaderSettings
     friend class HolonThemePrivate;
     const QScopedPointer<HolonThemeIconsPrivate> d_ptr;
 
-protected:
-    HolonThemeIcons(QLoaderSettings *settings, HolonTheme *parent);
-
 public:
+    explicit HolonThemeIcons(QLoaderSettings *settings, HolonTheme *parent);
     ~HolonThemeIcons();
 
     virtual QIcon closeBackgroundIcon() const;

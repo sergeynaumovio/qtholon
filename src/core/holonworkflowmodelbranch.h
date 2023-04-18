@@ -15,7 +15,7 @@ class Q_HOLON_EXPORT HolonWorkflowModelBranch : public QObject, public QLoaderSe
     Q_OBJECT
 
 public:
-    HolonWorkflowModelBranch(QLoaderSettings *settings, HolonWorkflowModel *workflowModel);
+    explicit HolonWorkflowModelBranch(QLoaderSettings *settings, HolonWorkflowModel *workflowModel);
 
     virtual QIcon icon() const;
     bool isCurrent() const;

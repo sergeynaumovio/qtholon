@@ -19,10 +19,8 @@ class Q_HOLON_EXPORT HolonThemeColors : public QObject, public QLoaderSettings
     friend class HolonThemePrivate;
     const QScopedPointer<HolonThemeColorsPrivate> d_ptr;
 
-protected:
-    HolonThemeColors(QLoaderSettings *settings, HolonTheme *parent);
-
 public:
+    explicit HolonThemeColors(QLoaderSettings *settings, HolonTheme *parent);
     ~HolonThemeColors();
 
     virtual QColor baseColor() const;

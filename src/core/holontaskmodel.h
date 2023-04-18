@@ -22,7 +22,7 @@ class Q_HOLON_EXPORT HolonTaskModel : public QAbstractItemModel, public QLoaderS
     const QScopedPointer<HolonTaskModelPrivate> d_ptr;
 
 public:
-    HolonTaskModel(QLoaderSettings *settings, HolonDesktop *desktop);
+    explicit HolonTaskModel(QLoaderSettings *settings, HolonDesktop *desktop);
     ~HolonTaskModel();
 
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;

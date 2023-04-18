@@ -20,8 +20,8 @@ class Q_HOLON_EXPORT HolonWorkflowModel : public QAbstractItemModel, public QLoa
     const QScopedPointer<HolonOpenTasksModelPrivate> d_ptr;
 
 public:
-    HolonWorkflowModel(QLoaderSettings *settings, HolonCore *core);
-    HolonWorkflowModel(QLoaderSettings *settings, HolonDesktop *desktop);
+    explicit HolonWorkflowModel(QLoaderSettings *settings, HolonCore *core);
+    explicit HolonWorkflowModel(QLoaderSettings *settings, HolonDesktop *desktop);
 
     ~HolonWorkflowModel();
 
