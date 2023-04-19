@@ -18,6 +18,7 @@ public:
     HolonTheme *const theme;
     HolonThemeColors *const colors;
     HolonThemeIcons *const icons;
+    HolonThemeStyle *const style;
     HolonDesktop *const desktop;
     HolonDesktopPrivate *desktop_d;
 
@@ -28,6 +29,7 @@ public:
     HolonThemePrivate(HolonTheme *theme,
                       HolonThemeColors *colors,
                       HolonThemeIcons *icons,
+                      HolonThemeStyle *style,
                       HolonDesktop *desktop);
 
     void setCurrent(bool current);

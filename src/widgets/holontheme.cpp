@@ -23,10 +23,9 @@ HolonTheme::HolonTheme(QLoaderSettings *settings,
                        HolonThemeStyle *style)
 :   QObject(desktop),
     QLoaderSettings(settings),
-    d_ptr(new HolonThemePrivate(this, colors, icons, desktop))
+    d_ptr(new HolonThemePrivate(this, colors, icons, style, desktop))
 {
     desktop->addTheme(this);
-    QApplication::setStyle(style);
 }
 
 HolonTheme::HolonTheme(QLoaderSettings *settings, HolonDesktop *desktop)

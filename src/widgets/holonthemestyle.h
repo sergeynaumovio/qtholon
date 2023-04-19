@@ -14,6 +14,7 @@ class Q_HOLON_EXPORT HolonThemeStyle : public QProxyStyle
 {
     Q_OBJECT
 
+    friend class HolonDesktopPrivate;
     friend class HolonThemePrivate;
     const QScopedPointer<HolonThemeStylePrivate> d_ptr;
 
@@ -36,6 +37,8 @@ public:
     explicit HolonThemeStyle(HolonTheme *theme);
     ~HolonThemeStyle();
 
+    void adjustPanelWidgetPalette(QWidget *widget);
+
     void drawPrimitive(QStyle::PrimitiveElement element,
                        const QStyleOption *option,
                        QPainter *painter,
@@ -44,6 +47,13 @@ public:
     int pixelMetric(QStyle::PixelMetric metric,
                     const QStyleOption *option = nullptr,
                     const QWidget *widget = nullptr) const override;
+
+    void polish(QWidget *widget) override;
+
+    int styleHint(QStyle::StyleHint hint,
+                  const QStyleOption *option = nullptr,
+                  const QWidget *widget = nullptr,
+                  QStyleHintReturn *returnData = nullptr) const override;
 
     HolonTheme *theme() const;
 };

@@ -4,6 +4,7 @@
 #ifndef HOLONTHEMESTYLE_P_H
 #define HOLONTHEMESTYLE_P_H
 
+class HolonDesktopPrivate;
 class HolonTheme;
 class HolonThemeStyle;
 
@@ -13,6 +14,7 @@ class HolonThemeStylePrivate
 
 public:
     HolonTheme *const theme;
+    HolonDesktopPrivate *desktop_d;
 
     HolonThemeStylePrivate(HolonThemeStyle *q, HolonTheme *t);
 };

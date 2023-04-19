@@ -5,6 +5,8 @@
 #define HOLONWINDOWAREASWITCH_H
 
 #include <QScopedStorage>
+#include <QStyle>
+#include <QToolButton>
 #include <QWidget>
 
 class HolonDesktopPrivate;
@@ -26,6 +28,43 @@ public:
     void addSidebar(HolonSidebar *sidebar);
     void addWindowArea(HolonWindowArea *windowArea);
     void closeWindowArea(HolonWindowArea *windowArea);
+};
+
+class HolonSwitchButton : public QToolButton
+{
+    Q_OBJECT
+
+    const QStyle::PrimitiveElement pe;
+
+protected:
+    HolonWindowAreaSwitchPrivate &switch_d;
+    HolonDesktopPrivate &desktop_d;
+
+    void paintEvent(QPaintEvent *) override;
+
+    HolonSwitchButton(HolonWindowAreaSwitchPrivate &swtch_d,
+                      HolonWindowArea *windowArea,
+                      HolonWindowAreaSwitch *parent);
+};
+
+class HolonSidebarButton : public HolonSwitchButton
+{
+    Q_OBJECT
+
+public:
+    HolonSidebarButton(HolonWindowAreaSwitchPrivate &swtch_d,
+                       HolonSidebar *sidebar,
+                       HolonWindowAreaSwitch *parent);
+};
+
+class HolonWindowAreaButton : public HolonSwitchButton
+{
+    Q_OBJECT
+
+public:
+    HolonWindowAreaButton(HolonWindowAreaSwitchPrivate &swtch_d,
+                          HolonWindowArea *windowArea,
+                          HolonWindowAreaSwitch *parent);
 };
 
 #endif // HOLONWINDOWAREASWITCH_H

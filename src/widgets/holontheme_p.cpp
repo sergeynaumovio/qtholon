@@ -16,6 +16,7 @@ HolonThemePrivate::HolonThemePrivate(QLoaderSettings *settings,
 :   HolonThemePrivate(theme,
                       new HolonThemeColors(settings, theme),
                       new HolonThemeIcons(settings, theme),
+                      new HolonThemeStyle(theme),
                       desktop)
 {
     QApplication::setStyle(new HolonThemeStyle(theme));
@@ -24,10 +25,12 @@ HolonThemePrivate::HolonThemePrivate(QLoaderSettings *settings,
 HolonThemePrivate::HolonThemePrivate(HolonTheme *t,
                                      HolonThemeColors *c,
                                      HolonThemeIcons *i,
+                                     HolonThemeStyle *s,
                                      HolonDesktop *d)
 :   theme(t),
     colors(c),
     icons(i),
+    style(s),
     desktop(d)
 { }
 

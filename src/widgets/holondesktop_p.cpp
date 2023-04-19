@@ -20,8 +20,11 @@
 #include "holontaskmodel_p.h"
 #include "holontheme.h"
 #include "holontheme_p.h"
+#include "holonthemestyle.h"
+#include "holonthemestyle_p.h"
 #include "holonwindowareaswitch.h"
 #include "holonworkflowmodel.h"
+#include <QApplication>
 #include <QLayout>
 #include <QLoaderTree>
 #include <QRegularExpression>
@@ -590,6 +593,12 @@ void HolonDesktopPrivate::addTheme(HolonTheme *theme)
 {
     d_ptr->addTheme(theme);
     theme->d_ptr->desktop_d = this;
+
+    if (theme == d_ptr->currentTheme)
+    {
+        theme->d_ptr->style->d_ptr->desktop_d = this;
+        QApplication::setStyle(theme->d_ptr->style);
+    }
 }
 
 void HolonDesktopPrivate::addWindow(HolonAbstractWindow *window)

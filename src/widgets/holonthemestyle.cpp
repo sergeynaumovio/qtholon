@@ -2,28 +2,56 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holonthemestyle.h"
+#include "holondesktop_p.h"
 #include "holontheme.h"
 #include "holonthemecolors.h"
 #include "holonthemestyle_p.h"
+#include "holonwindowareaswitch.h"
 #include <QAbstractButton>
 #include <QApplication>
+#include <QComboBox>
+#include <QFormLayout>
 #include <QPainter>
 #include <QStyleFactory>
 #include <QStyleOption>
+#include <QToolButton>
 
 using namespace Qt::Literals::StringLiterals;
 
-HolonThemeStyle::HolonThemeStyle(HolonTheme *theme) :
+static bool isMac()
+{
 #ifdef Q_OS_MAC
-    QProxyStyle(QStyleFactory::create(QApplication::style()->objectName())),
+    return true;
 #else
-    QProxyStyle(QStyleFactory::create(u"fusion"_s)),
+    return false;
 #endif
+}
+
+HolonThemeStyle::HolonThemeStyle(HolonTheme *theme) :
+    QProxyStyle(QStyleFactory::create(isMac() ? QApplication::style()->objectName() : u"fusion"_s)),
     d_ptr(new HolonThemeStylePrivate(this, theme))
-{ }
+{
+    setParent(theme);
+}
 
 HolonThemeStyle::~HolonThemeStyle()
 { }
+
+void HolonThemeStyle::adjustPanelWidgetPalette(QWidget *widget)
+{
+    QColor color;
+    QPalette palette = widget->palette();
+
+    color = theme()->colors()->panelTextColorLight();
+    palette.setBrush(QPalette::All, QPalette::WindowText, color);
+    palette.setBrush(QPalette::All, QPalette::ButtonText, color);
+
+    color = theme()->colors()->iconsDisabledColor();
+    palette.setBrush(QPalette::Disabled, QPalette::WindowText, color);
+    palette.setBrush(QPalette::Disabled, QPalette::ButtonText, color);
+
+    widget->setPalette(palette);
+}
 
 void HolonThemeStyle::drawPrimitive(QStyle::PrimitiveElement element,
                                     const QStyleOption *option,
@@ -138,6 +166,63 @@ int HolonThemeStyle::pixelMetric(QStyle::PixelMetric metric,
     }
 
     return QProxyStyle::pixelMetric(metric, option, widget);;
+}
+
+void HolonThemeStyle::polish(QWidget *widget)
+{
+    QProxyStyle::polish(widget);
+
+    if (qobject_cast<QToolButton *>(widget))
+    {
+        widget->setAttribute(Qt::WA_Hover);
+
+        if (qobject_cast<HolonSwitchButton *>(widget))
+        {
+            using enum HolonThemeStyle::PixelMetric;
+            int h = pixelMetric(static_cast<QStyle::PixelMetric>(PM_TaskbarHeight));
+            int w = pixelMetric(static_cast<QStyle::PixelMetric>(PM_TaskbarWidth));
+
+            if (d_ptr->desktop_d->taskbarArea() == HolonDesktopPrivate::TaskbarArea::Top ||
+                d_ptr->desktop_d->taskbarArea() == HolonDesktopPrivate::TaskbarArea::Bottom)
+            {
+                w = pixelMetric(static_cast<QStyle::PixelMetric>(PM_SidebarSwitchButtonWidth));
+                widget->setFixedHeight(h);
+                widget->setFixedWidth(w);
+            }
+            else
+            {
+                widget->setFixedWidth(w);
+                widget->setFixedHeight(w);
+            }
+        }
+
+        return;
+    }
+
+    if (qobject_cast<QComboBox *>(widget))
+    {
+        adjustPanelWidgetPalette(widget);
+        widget->setAttribute(Qt::WA_Hover);
+
+        return;
+    }
+}
+
+int HolonThemeStyle::styleHint(QStyle::StyleHint hint,
+                               const QStyleOption *option,
+                               const QWidget *widget,
+                               QStyleHintReturn *returnData) const
+{
+    switch (hint) {
+    case QStyle::SH_FormLayoutFieldGrowthPolicy:
+        return QFormLayout::AllNonFixedFieldsGrow;
+    case QStyle::SH_ComboBox_AllowWheelScrolling:
+        return QGuiApplication::keyboardModifiers() == (isMac() ? Qt::MetaModifier : Qt::ControlModifier);
+    default:
+        break;
+    }
+
+    return QProxyStyle::styleHint(hint, option, widget, returnData);
 }
 
 HolonTheme *HolonThemeStyle::theme() const
