@@ -35,6 +35,16 @@ QIcon HolonThemeIcons::dirOpenIcon() const
     return d_ptr->dirOpenIcon();
 }
 
+QIcon HolonThemeIcons::indicatorArrowDownIcon() const
+{
+    return d_ptr->indicatorArrowDownIcon();
+}
+
+QIcon HolonThemeIcons::indicatorArrowUpIcon() const
+{
+    return d_ptr->indicatorArrowUpIcon();
+}
+
 QIcon HolonThemeIcons::maximizeIcon() const
 {
     return d_ptr->maximizeIcon();

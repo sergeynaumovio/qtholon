@@ -30,6 +30,8 @@ public:
     virtual QIcon closeForegroundIcon() const;
     virtual QIcon dirClosedIcon() const;
     virtual QIcon dirOpenIcon() const;
+    virtual QIcon indicatorArrowDownIcon() const;
+    virtual QIcon indicatorArrowUpIcon() const;
     virtual QIcon maximizeIcon() const;
     virtual QIcon minimizeIcon() const;
     virtual QIcon splitButtonCloseBottomIcon() const;

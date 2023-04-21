@@ -68,6 +68,24 @@ QIcon HolonThemeIconsPrivate::dirOpenIcon()
     return dirOpen;
 }
 
+QIcon HolonThemeIconsPrivate::indicatorArrowDownIcon()
+{
+    if (indicatorArrowDown.isNull())
+        indicatorArrowDown = theme->createIcon({{u":/holon/indicator_arrowdown.xpm"_s,
+                                                 theme->colors()->iconsBaseColor()}});
+
+    return indicatorArrowDown;
+}
+
+QIcon HolonThemeIconsPrivate::indicatorArrowUpIcon()
+{
+    if (indicatorArrowUp.isNull())
+        indicatorArrowUp = theme->createIcon({{u":/holon/indicator_arrowup.xpm"_s,
+                                               theme->colors()->iconsBaseColor()}});
+
+    return indicatorArrowUp;
+}
+
 QIcon HolonThemeIconsPrivate::maximizeIcon()
 {
     if (maximize.isNull())
