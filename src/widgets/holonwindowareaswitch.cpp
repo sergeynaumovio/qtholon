@@ -14,9 +14,9 @@
 #include <QButtonGroup>
 #include <QLabel>
 #include <QMouseEvent>
-#include <QPainter>
 #include <QShortcut>
 #include <QStyleOption>
+#include <QStylePainter>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -84,11 +84,10 @@ void HolonWindowAreaSwitch::closeWindowArea(HolonWindowArea *windowArea)
 
 void HolonSwitchButton::paintEvent(QPaintEvent *)
 {
-    QStyleOption opt;
-    opt.initFrom(this);
-    opt.state.setFlag(isChecked() ? QStyle::State_On : QStyle::State_Off);
-    QPainter p(this);
-    style()->drawPrimitive(pe, &opt, &p, this);
+    QStyleOption option;
+    option.initFrom(this);
+    option.state.setFlag(isChecked() ? QStyle::State_On : QStyle::State_Off);
+    QStylePainter(this).drawPrimitive(pe, option);
 }
 
 HolonSwitchButton::HolonSwitchButton(HolonWindowAreaSwitchPrivate &swtch_d,

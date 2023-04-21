@@ -2,18 +2,16 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holonsidebardockwidget_p.h"
-#include "holondesktop.h"
 #include "holondesktop_p.h"
 #include "holonsidebar.h"
 #include "holonsidebardockwidget.h"
-#include "holontheme.h"
 #include "holonthemestyle.h"
 #include <QApplication>
 #include <QBoxLayout>
 #include <QLabel>
-#include <QPainter>
 #include <QStackedWidget>
 #include <QStyleOption>
+#include <QStylePainter>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -22,10 +20,9 @@ class HolonSidebarDockTitleBar : public QWidget
     void paintEvent(QPaintEvent *)
     {
         QStyle::PrimitiveElement pe = static_cast<QStyle::PrimitiveElement>(HolonThemeStyle::PE_TitleBar);
-        QStyleOption opt;
-        opt.initFrom(this);
-        QPainter p(this);
-        style()->drawPrimitive(pe, &opt, &p, this);
+        QStyleOption option;
+        option.initFrom(this);
+        QStylePainter(this).drawPrimitive(pe, option);
     }
 
 public:

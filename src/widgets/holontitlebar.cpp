@@ -17,8 +17,8 @@
 #include <QEvent>
 #include <QLabel>
 #include <QMenu>
-#include <QPainter>
 #include <QStyleOption>
+#include <QStylePainter>
 #include <QToolButton>
 
 using namespace Qt::Literals::StringLiterals;
@@ -79,10 +79,9 @@ QList<HolonAbstractWindow *> HolonTitleBar::siblingWindows(HolonAbstractWindow *
 void HolonTitleBar::paintEvent(QPaintEvent *)
 {
     QStyle::PrimitiveElement pe = static_cast<QStyle::PrimitiveElement>(HolonThemeStyle::PE_TitleBar);
-    QStyleOption opt;
-    opt.initFrom(this);
-    QPainter p(this);
-    style()->drawPrimitive(pe, &opt, &p, this);
+    QStyleOption option;
+    option.initFrom(this);
+    QStylePainter(this).drawPrimitive(pe, option);
 }
 
 HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
@@ -96,7 +95,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
 
     setLayout(new QHBoxLayout(this));
     {
-        layout()->setContentsMargins({7, 0, 0, 0});
+        layout()->setContentsMargins({});
         layout()->setSpacing(0);
 
         if (window->flags().testFlag(Holon::WindowSplitButtonHint))
