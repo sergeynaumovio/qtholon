@@ -30,6 +30,7 @@ public:
     virtual QColor panelTextColorDark() const;
     virtual QColor panelTextColorLight() const;
     HolonTheme *theme() const;
+    virtual QColor toolButtonSeparatorColor() const;
 };
 
 #endif // HOLONTHEMECOLORS_H

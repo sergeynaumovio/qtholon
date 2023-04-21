@@ -50,3 +50,7 @@ HolonTheme *HolonThemeColors::theme() const
     return d_ptr->theme;
 }
 
+QColor HolonThemeColors::toolButtonSeparatorColor() const
+{
+    return d_ptr->toolButtonSeparatorColor();
+}

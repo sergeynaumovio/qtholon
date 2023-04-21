@@ -21,6 +21,7 @@ class HolonThemeColorsPrivate
     QColor mainWindowSeparator;
     QColor panelTextDark;
     QColor panelTextLight;
+    QColor toolButtonSeparator;
 
 public:
     HolonTheme *const theme;
@@ -33,6 +34,7 @@ public:
     QColor mainWindowSeparatorColor();
     QColor panelTextColorDark();
     QColor panelTextColorLight();
+    QColor toolButtonSeparatorColor();
 };
 
 #endif // HOLONTHEMECOLORS_P_H

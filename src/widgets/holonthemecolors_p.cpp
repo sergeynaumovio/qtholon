@@ -55,7 +55,7 @@ QColor HolonThemeColorsPrivate::mainWindowSeparatorColor()
     if (mainWindowSeparator.isValid())
         return mainWindowSeparator;
 
-    if ((mainWindowSeparator = q_ptr->value(u"mainWindowSeparator"_s).value<QColor>()).isValid())
+    if ((mainWindowSeparator = q_ptr->value(u"mainWindowSeparatorColor"_s).value<QColor>()).isValid())
         return mainWindowSeparator;
 
     mainWindowSeparator = QColor(34, 36, 38);
@@ -87,4 +87,17 @@ QColor HolonThemeColorsPrivate::panelTextColorLight()
     panelTextLight = QColor(255, 255, 255);
 
     return panelTextLight;
+}
+
+QColor HolonThemeColorsPrivate::toolButtonSeparatorColor()
+{
+    if (toolButtonSeparator.isValid())
+        return toolButtonSeparator;
+
+    if ((toolButtonSeparator = q_ptr->value(u"toolButtonSeparatorColor"_s).value<QColor>()).isValid())
+        return toolButtonSeparator;
+
+    toolButtonSeparator = QColor(200, 200, 200, 60);
+
+    return toolButtonSeparator;
 }
