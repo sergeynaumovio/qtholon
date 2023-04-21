@@ -86,7 +86,8 @@ void HolonThemeStyle::drawControl(QStyle::ControlElement element,
             QRect rect = subControlRect(CC_ComboBox, cb, SC_ComboBoxEditField, widget);
             painter->setPen(cb->state.testAnyFlag(State_Enabled) ? cb->palette.color(QPalette::WindowText)
                                                                  : theme()->colors()->iconsDisabledColor());
-            painter->drawText(rect.adjusted(1, 2, 0, 0), Qt::AlignLeft | Qt::AlignVCenter, cb->currentText);
+            int dy = (qRound(qApp->devicePixelRatio()) == 1 ? 2 : -2);
+            painter->drawText(rect.adjusted(1, dy, 0, 0), Qt::AlignLeft | Qt::AlignVCenter, cb->currentText);
             painter->restore();
         }
         break;
