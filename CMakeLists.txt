@@ -188,7 +188,9 @@ qt_add_resources(${QT_HOLON_LIBRARY} "Holon"
           share/icons/close@2x.xpm
           share/icons/holoniconlight.svg
           share/icons/indicator_arrowdown.xpm
+          share/icons/indicator_arrowdown@2x.xpm
           share/icons/indicator_arrowup.xpm
+          share/icons/indicator_arrowup@2x.xpm
           share/icons/maximize.xpm
           share/icons/maximize@2x.xpm
           share/icons/minimize.xpm
