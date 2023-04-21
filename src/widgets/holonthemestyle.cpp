@@ -5,6 +5,7 @@
 #include "holondesktop_p.h"
 #include "holontheme.h"
 #include "holonthemecolors.h"
+#include "holonthemeicons.h"
 #include "holonthemestyle_p.h"
 #include "holonwindowareaswitch.h"
 #include <QAbstractButton>
@@ -53,6 +54,48 @@ void HolonThemeStyle::adjustPanelWidgetPalette(QWidget *widget)
     widget->setPalette(palette);
 }
 
+void HolonThemeStyle::drawComplexControl(QStyle::ComplexControl control,
+                                         const QStyleOptionComplex *option,
+                                         QPainter *painter,
+                                         const QWidget *widget) const
+{
+    switch (control) {
+    case CC_ComboBox:
+        drawToolButtonSeparator(option, painter);
+        painter->setClipRect(option->rect.adjusted(0, 0, -2, 0));
+        drawPrimitive(PE_PanelButtonTool, option, painter, widget);
+        drawPrimitive(PE_IndicatorArrowDown, option, painter, widget);
+        drawPrimitive(PE_IndicatorArrowUp, option, painter, widget);
+        break;
+    default:
+        QProxyStyle::drawComplexControl(control, option, painter, widget);
+        break;
+    }
+}
+
+void HolonThemeStyle::drawControl(QStyle::ControlElement element,
+                                  const QStyleOption *option,
+                                  QPainter *painter,
+                                  const QWidget *widget) const
+{
+    switch (element) {
+    case CE_ComboBoxLabel:
+        if (const auto *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option))
+        {
+            painter->save();
+            QRect rect = subControlRect(CC_ComboBox, cb, SC_ComboBoxEditField, widget);
+            painter->setPen(cb->state.testAnyFlag(State_Enabled) ? cb->palette.color(QPalette::WindowText)
+                                                                 : theme()->colors()->iconsDisabledColor());
+            painter->drawText(rect.adjusted(1, 2, 0, 0), Qt::AlignLeft | Qt::AlignVCenter, cb->currentText);
+            painter->restore();
+        }
+        break;
+    default:
+        QProxyStyle::drawControl(element, option, painter, widget);
+        break;
+    }
+}
+
 void HolonThemeStyle::drawPrimitive(QStyle::PrimitiveElement element,
                                     const QStyleOption *option,
                                     QPainter *painter,
@@ -74,6 +117,16 @@ void HolonThemeStyle::drawPrimitive(QStyle::PrimitiveElement element,
                     painter->fillRect(option->rect, QColor(74, 76, 78));
             }
             break;
+        case PE_IndicatorArrowDown:
+        case PE_IndicatorArrowUp: {
+                int x = option->rect.width() - 18;
+                int y = option->rect.height() / 2 - 7;
+                int w = pixelMetric(QStyle::PM_ButtonIconSize);
+                QIcon icon = (element == PE_IndicatorArrowDown ? theme()->icons()->indicatorArrowDownIcon()
+                                                               : theme()->icons()->indicatorArrowUpIcon());
+                icon.paint(painter, x, y, w, w);
+            }
+            break;
         default:
             QProxyStyle::drawPrimitive(element, option, painter, widget);
             break;
@@ -89,6 +142,8 @@ void HolonThemeStyle::drawPrimitive(QStyle::PrimitiveElement element,
             break;
         case PE_SidebarSwitchButton:
         case PE_WindowAreaSwitchButton: {
+                painter->save();
+
                 QPen pen(Qt::white);
                 pen.setWidth(2);
                 painter->setPen(pen);
@@ -120,12 +175,25 @@ void HolonThemeStyle::drawPrimitive(QStyle::PrimitiveElement element,
                     rectangle.adjust(10, 0, 0, 0);
                     painter->drawText(rectangle, Qt::AlignLeft | Qt::AlignVCenter, button->text());
                 }
+
+                painter->restore();
             }
             break;
         default:
             break;
         }
     }
+}
+
+void HolonThemeStyle::drawToolButtonSeparator(const QStyleOption *option, QPainter *painter) const
+{
+    QPointF margin = QPointF(0, 3);
+    QRectF rect = QRectF(option->rect).adjusted(1, 1, -1, -1);
+
+    painter->save();
+    painter->setPen(theme()->colors()->toolButtonSeparatorColor());
+    painter->drawLine(rect.topRight() + margin, rect.bottomRight() - margin);
+    painter->restore();
 }
 
 int HolonThemeStyle::pixelMetric(QStyle::PixelMetric metric,
@@ -178,7 +246,6 @@ void HolonThemeStyle::polish(QWidget *widget)
 
         if (qobject_cast<HolonSwitchButton *>(widget))
         {
-            using enum HolonThemeStyle::PixelMetric;
             int h = pixelMetric(static_cast<QStyle::PixelMetric>(PM_TaskbarHeight));
             int w = pixelMetric(static_cast<QStyle::PixelMetric>(PM_TaskbarWidth));
 
@@ -214,9 +281,9 @@ int HolonThemeStyle::styleHint(QStyle::StyleHint hint,
                                QStyleHintReturn *returnData) const
 {
     switch (hint) {
-    case QStyle::SH_FormLayoutFieldGrowthPolicy:
+    case SH_FormLayoutFieldGrowthPolicy:
         return QFormLayout::AllNonFixedFieldsGrow;
-    case QStyle::SH_ComboBox_AllowWheelScrolling:
+    case SH_ComboBox_AllowWheelScrolling:
         return QGuiApplication::keyboardModifiers() == (isMac() ? Qt::MetaModifier : Qt::ControlModifier);
     default:
         break;

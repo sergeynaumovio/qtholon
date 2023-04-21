@@ -39,10 +39,23 @@ public:
 
     void adjustPanelWidgetPalette(QWidget *widget);
 
+    void drawComplexControl(QStyle::ComplexControl control,
+                            const QStyleOptionComplex *option,
+                            QPainter *painter,
+                            const QWidget *widget = nullptr) const override;
+
+    void drawControl(QStyle::ControlElement element,
+                     const QStyleOption *option,
+                     QPainter *painter,
+                     const QWidget *widget = nullptr) const override;
+
     void drawPrimitive(QStyle::PrimitiveElement element,
                        const QStyleOption *option,
                        QPainter *painter,
                        const QWidget *widget = nullptr) const override;
+
+    void drawToolButtonSeparator(const QStyleOption *option,
+                                 QPainter *painter) const;
 
     int pixelMetric(QStyle::PixelMetric metric,
                     const QStyleOption *option = nullptr,
