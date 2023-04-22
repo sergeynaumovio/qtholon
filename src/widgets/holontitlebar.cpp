@@ -95,11 +95,11 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
 
     setLayout(new QHBoxLayout(this));
     {
-        layout()->setContentsMargins({});
         layout()->setSpacing(0);
 
         if (window->flags().testFlag(Holon::WindowSplitButtonHint))
         {
+            layout()->setContentsMargins({});
             QComboBox *combobox = new QComboBox(this);
             {
                 QList<HolonAbstractWindow *> siblingWindowList = siblingWindows(window);
@@ -111,7 +111,10 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
             }
         }
         else
+        {
+            layout()->setContentsMargins(5, 0, 0, 0);
             layout()->addWidget(new QLabel(window->title(), this));
+        }
 
         auto addButton = [=, this](const QIcon &icon)
         {
