@@ -57,6 +57,8 @@ public:
     void drawToolButtonSeparator(const QStyleOption *option,
                                  QPainter *painter) const;
 
+    bool isPanelWidget(QWidget *widget) const;
+
     int pixelMetric(QStyle::PixelMetric metric,
                     const QStyleOption *option = nullptr,
                     const QWidget *widget = nullptr) const override;

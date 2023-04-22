@@ -7,11 +7,13 @@
 #include "holonthemecolors.h"
 #include "holonthemeicons.h"
 #include "holonthemestyle_p.h"
+#include "holontitlebar.h"
 #include "holonwindowareaswitch.h"
 #include <QAbstractButton>
 #include <QApplication>
 #include <QComboBox>
 #include <QFormLayout>
+#include <QLabel>
 #include <QPainter>
 #include <QStyleFactory>
 #include <QStyleOption>
@@ -113,9 +115,9 @@ void HolonThemeStyle::drawPrimitive(QStyle::PrimitiveElement element,
                 bool isHovered = option->state.testFlags({State_Enabled, State_MouseOver});
 
                 if (isPressed)
-                    painter->fillRect(option->rect, QColor(44, 46, 48));
+                    painter->fillRect(option->rect, theme()->colors()->buttonPressedColor());
                 else if (isHovered)
-                    painter->fillRect(option->rect, QColor(74, 76, 78));
+                    painter->fillRect(option->rect, theme()->colors()->buttonHoveredColor());
             }
             break;
         case PE_IndicatorArrowDown:
@@ -145,7 +147,7 @@ void HolonThemeStyle::drawPrimitive(QStyle::PrimitiveElement element,
         case PE_WindowAreaSwitchButton: {
                 painter->save();
 
-                QPen pen(Qt::white);
+                QPen pen(theme()->colors()->panelTextColorLight());
                 pen.setWidth(2);
                 painter->setPen(pen);
 
@@ -155,15 +157,15 @@ void HolonThemeStyle::drawPrimitive(QStyle::PrimitiveElement element,
                 if (isHovered)
                 {
                     if (isChecked)
-                        painter->fillRect(option->rect, QColor(44, 46, 48));
+                        painter->fillRect(option->rect, theme()->colors()->buttonPressedColor());
                     else
-                        painter->fillRect(option->rect, QColor(74, 76, 78));
+                        painter->fillRect(option->rect, theme()->colors()->buttonHoveredColor());
                 }
 
                 if (isChecked)
                 {
                     if (!isHovered)
-                        painter->fillRect(option->rect, QColor(24, 26, 28));
+                        painter->fillRect(option->rect, theme()->colors()->buttonPressedHoveredColor());
 
                     QLineF line(option->rect.bottomLeft(), option->rect.bottomRight());
                     painter->drawLine(line);
@@ -195,6 +197,20 @@ void HolonThemeStyle::drawToolButtonSeparator(const QStyleOption *option, QPaint
     painter->setPen(theme()->colors()->toolButtonSeparatorColor());
     painter->drawLine(rect.topRight() + margin, rect.bottomRight() - margin);
     painter->restore();
+}
+
+bool HolonThemeStyle::isPanelWidget(QWidget *widget) const
+{
+    if (!widget)
+        return false;
+
+    if (qobject_cast<HolonTitleBar *>(widget->parent()))
+        return true;
+
+    if (qobject_cast<HolonWindowAreaSwitch *>(widget->parent()))
+        return true;
+
+    return false;
 }
 
 int HolonThemeStyle::pixelMetric(QStyle::PixelMetric metric,
@@ -241,6 +257,9 @@ void HolonThemeStyle::polish(QWidget *widget)
 {
     QProxyStyle::polish(widget);
 
+    if (!isPanelWidget(widget))
+        return;
+
     if (qobject_cast<QToolButton *>(widget))
     {
         widget->setAttribute(Qt::WA_Hover);
@@ -266,6 +285,9 @@ void HolonThemeStyle::polish(QWidget *widget)
 
         return;
     }
+
+    if (qobject_cast<QLabel *>(widget))
+        adjustPanelWidgetPalette(widget);
 
     if (qobject_cast<QComboBox *>(widget))
     {
