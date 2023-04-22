@@ -24,6 +24,9 @@ public:
     ~HolonThemeColors();
 
     virtual QColor baseColor() const;
+    virtual QColor buttonHoveredColor() const;
+    virtual QColor buttonPressedColor() const;
+    virtual QColor buttonPressedHoveredColor() const;
     virtual QColor iconsBaseColor() const;
     virtual QColor iconsDisabledColor() const;
     virtual QColor mainWindowSeparatorColor() const;

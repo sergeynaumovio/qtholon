@@ -20,6 +20,21 @@ QColor HolonThemeColors::baseColor() const
     return d_ptr->baseColor();
 }
 
+QColor HolonThemeColors::buttonHoveredColor() const
+{
+    return d_ptr->buttonHoveredColor();
+}
+
+QColor HolonThemeColors::buttonPressedColor() const
+{
+    return d_ptr->buttonPressedColor();
+}
+
+QColor HolonThemeColors::buttonPressedHoveredColor() const
+{
+    return d_ptr->buttonPressedHoveredColor();
+}
+
 QColor HolonThemeColors::iconsBaseColor() const
 {
     return d_ptr->iconsBaseColor();

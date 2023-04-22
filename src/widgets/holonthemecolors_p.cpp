@@ -24,6 +24,45 @@ QColor HolonThemeColorsPrivate::baseColor()
     return base;
 }
 
+QColor HolonThemeColorsPrivate::buttonHoveredColor()
+{
+    if (buttonHovered.isValid())
+        return buttonHovered;
+
+    if ((buttonHovered = q_ptr->value(u"buttonHoveredColor"_s).value<QColor>()).isValid())
+        return buttonHovered;
+
+    buttonHovered = QColor(74, 76, 78);
+
+    return buttonHovered;
+}
+
+QColor HolonThemeColorsPrivate::buttonPressedColor()
+{
+    if (buttonPressed.isValid())
+        return buttonPressed;
+
+    if ((buttonPressed = q_ptr->value(u"buttonPressedColor"_s).value<QColor>()).isValid())
+        return buttonPressed;
+
+    buttonPressed = QColor(44, 46, 48);
+
+    return buttonPressed;
+}
+
+QColor HolonThemeColorsPrivate::buttonPressedHoveredColor()
+{
+    if (buttonPressedHovered.isValid())
+        return buttonPressedHovered;
+
+    if ((buttonPressedHovered = q_ptr->value(u"buttonPressedHoveredColor"_s).value<QColor>()).isValid())
+        return buttonPressedHovered;
+
+    buttonPressedHovered = QColor(24, 26, 28);
+
+    return buttonPressedHovered;
+}
+
 QColor HolonThemeColorsPrivate::iconsBaseColor()
 {
     if (iconsBase.isValid())
