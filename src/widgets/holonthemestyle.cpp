@@ -30,8 +30,8 @@ static bool isMac()
 #endif
 }
 
-HolonThemeStyle::HolonThemeStyle(HolonTheme *theme) :
-    QProxyStyle(QStyleFactory::create(isMac() ? QApplication::style()->objectName() : u"fusion"_s)),
+HolonThemeStyle::HolonThemeStyle(HolonTheme *theme)
+:   QProxyStyle(QStyleFactory::create(isMac() ? QApplication::style()->objectName() : u"fusion"_s)),
     d_ptr(new HolonThemeStylePrivate(this, theme))
 {
     setParent(theme);
