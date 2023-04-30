@@ -22,7 +22,7 @@ HolonTheme::HolonTheme(QLoaderSettings *settings,
                        HolonThemeIcons *icons,
                        HolonThemeStyle *style)
 :   QObject(desktop),
-    QLoaderSettings(settings),
+    QLoaderSettings(this, settings),
     d_ptr(new HolonThemePrivate(this, colors, icons, style, desktop))
 {
     desktop->addTheme(this);
@@ -30,8 +30,8 @@ HolonTheme::HolonTheme(QLoaderSettings *settings,
 
 HolonTheme::HolonTheme(QLoaderSettings *settings, HolonDesktop *desktop)
 :   QObject(desktop),
-    QLoaderSettings(settings),
-    d_ptr(new HolonThemePrivate(settings, this, desktop))
+    QLoaderSettings(this, settings),
+    d_ptr(new HolonThemePrivate(this, settings, desktop))
 {
     desktop->addTheme(this);
 }

@@ -6,7 +6,7 @@
 
 HolonCore::HolonCore(QLoaderSettings *settings, QObject *parent)
 :   QObject(parent),
-    QLoaderSettings(settings),
+    QLoaderSettings(this, settings),
     d_ptr(new HolonCorePrivate)
 { }
 

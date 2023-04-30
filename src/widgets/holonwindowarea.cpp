@@ -13,7 +13,7 @@
 using namespace Qt::Literals::StringLiterals;
 
 HolonWindowArea::HolonWindowArea(HolonWindowAreaPrivate &d, QLoaderSettings *settings)
-:   QLoaderSettings(settings),
+:   QLoaderSettings(this, settings),
     d_ptr(&d)
 {
     setLayout(new QHBoxLayout(this));

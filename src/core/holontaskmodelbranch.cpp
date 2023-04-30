@@ -35,13 +35,13 @@ public:
 
 HolonTaskModelBranch::HolonTaskModelBranch(QLoaderSettings *settings, HolonTaskModel *taskTreeModel)
 :   QObject(taskTreeModel),
-    QLoaderSettings(settings),
+    QLoaderSettings(this, settings),
     d_ptr(new HolonTaskModelBranchPrivate(taskTreeModel))
 { }
 
 HolonTaskModelBranch::HolonTaskModelBranch(QLoaderSettings *settings, HolonTaskModelBranch *taskTreeBranch)
 :   QObject(taskTreeBranch),
-    QLoaderSettings(settings),
+    QLoaderSettings(this, settings),
     d_ptr(new HolonTaskModelBranchPrivate(taskTreeBranch))
 { }
 

@@ -12,19 +12,19 @@ using namespace Qt::Literals::StringLiterals;
 
 HolonAbstractWindow::HolonAbstractWindow(QLoaderSettings *settings, HolonAbstractTask *parent)
 :   QObject(parent),
-    QLoaderSettings(settings),
+    QLoaderSettings(this, settings),
     d_ptr(new HolonAbstractWindowPrivate(this, parent->desktop(), parent))
 { }
 
 HolonAbstractWindow::HolonAbstractWindow(QLoaderSettings *settings, HolonDesktop *parent)
 :   QObject(parent),
-    QLoaderSettings(settings),
+    QLoaderSettings(this, settings),
     d_ptr(new HolonAbstractWindowPrivate(this, parent))
 { }
 
 HolonAbstractWindow::HolonAbstractWindow(QLoaderSettings *settings, HolonWindowArea *parent)
 :   QObject(parent),
-    QLoaderSettings(settings),
+    QLoaderSettings(this, settings),
     d_ptr(new HolonAbstractWindowPrivate(this, parent->desktop()))
 { }
 

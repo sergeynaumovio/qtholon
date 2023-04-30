@@ -22,8 +22,8 @@ public:
     HolonDesktop *const desktop;
     HolonDesktopPrivate *desktop_d;
 
-    HolonThemePrivate(QLoaderSettings *settings,
-                      HolonTheme *theme,
+    HolonThemePrivate(HolonTheme *theme,
+                      QLoaderSettings *settings,
                       HolonDesktop *desktop);
 
     HolonThemePrivate(HolonTheme *theme,

@@ -10,8 +10,8 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-HolonThemePrivate::HolonThemePrivate(QLoaderSettings *settings,
-                                     HolonTheme *theme,
+HolonThemePrivate::HolonThemePrivate(HolonTheme *theme,
+                                     QLoaderSettings *settings,
                                      HolonDesktop *desktop)
 :   HolonThemePrivate(theme,
                       new HolonThemeColors(settings, theme),

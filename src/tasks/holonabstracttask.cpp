@@ -17,13 +17,13 @@ using namespace Qt::Literals::StringLiterals;
 
 HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonTaskModelBranch *taskModelBranch)
 :   QObject(taskModelBranch),
-    QLoaderSettings(settings),
+    QLoaderSettings(this, settings),
     d_ptr(new HolonAbstractTaskPrivate(this, taskModelBranch))
 { }
 
 HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonWorkflowModelBranch *workflowModelBranch)
 :   QObject(workflowModelBranch),
-    QLoaderSettings(settings),
+    QLoaderSettings(this, settings),
     d_ptr(new HolonAbstractTaskPrivate(this, workflowModelBranch))
 { }
 

@@ -9,7 +9,7 @@ using namespace Qt::Literals::StringLiterals;
 
 HolonWorkflowModelBranch::HolonWorkflowModelBranch(QLoaderSettings *settings, HolonWorkflowModel *workflowModel)
 :   QObject(workflowModel),
-    QLoaderSettings(settings)
+    QLoaderSettings(this, settings)
 { }
 
 QIcon HolonWorkflowModelBranch::icon() const

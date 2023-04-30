@@ -8,7 +8,7 @@
 
 HolonThemeColors::HolonThemeColors(QLoaderSettings *settings, HolonTheme *theme)
 :   QObject(theme),
-    QLoaderSettings(settings),
+    QLoaderSettings(this, settings),
     d_ptr(new HolonThemeColorsPrivate(this, theme))
 { }
 

@@ -9,7 +9,7 @@ using namespace Qt::Literals::StringLiterals;
 
 HolonAbstractWidget::HolonAbstractWidget(QLoaderSettings *settings, HolonAbstractTask *parent)
 :   QObject(parent),
-    QLoaderSettings(settings)
+    QLoaderSettings(this, settings)
 { }
 
 HolonAbstractWidget::~HolonAbstractWidget()

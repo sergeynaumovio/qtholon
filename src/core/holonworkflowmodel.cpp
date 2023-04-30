@@ -47,7 +47,7 @@ public:
 
 HolonWorkflowModel::HolonWorkflowModel(QLoaderSettings *settings, HolonCore *core)
 :   QAbstractItemModel(core),
-    QLoaderSettings(settings),
+    QLoaderSettings(this, settings),
     d_ptr(new HolonOpenTasksModelPrivate(this, core, nullptr))
 {
     core->addWorkflowModel(this);
@@ -55,7 +55,7 @@ HolonWorkflowModel::HolonWorkflowModel(QLoaderSettings *settings, HolonCore *cor
 
 HolonWorkflowModel::HolonWorkflowModel(QLoaderSettings *settings, HolonDesktop *desktop)
 :   QAbstractItemModel(desktop),
-    QLoaderSettings(settings),
+    QLoaderSettings(this, settings),
     d_ptr(new HolonOpenTasksModelPrivate(this, nullptr, desktop))
 {
     desktop->addWorkflowModel(this);

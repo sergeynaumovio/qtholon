@@ -34,7 +34,7 @@ QString HolonDesktop::fromVariant(const QVariant &variant) const
 
 HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
 :   QWidget(parent),
-    QLoaderSettings(settings),
+    QLoaderSettings(this, settings),
     d_ptr(new HolonDesktopPrivate(this))
 {
     restoreGeometry(value(u"geometry"_s).toByteArray());

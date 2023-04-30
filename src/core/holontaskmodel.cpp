@@ -11,7 +11,7 @@ using namespace Qt::Literals::StringLiterals;
 
 HolonTaskModel::HolonTaskModel(QLoaderSettings *settings, HolonDesktop *desktop)
 :   QAbstractItemModel(desktop),
-    QLoaderSettings(settings),
+    QLoaderSettings(this, settings),
     d_ptr(new HolonTaskModelPrivate(this, desktop))
 {
     desktop->addTaskModel(this);
