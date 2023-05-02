@@ -14,16 +14,13 @@ HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop)
     d_ptr->mainWindow->setParent(this);
 
     Q_D(HolonSidebar);
-    d->mainWindowNestingIndex = [=, this]()
+    d->mainWindowNestingIndex = [=, this]() -> int
     {
         QVariant v = value(u"mainWindowNestingIndex"_s);
-
-        bool ok;
-        int index = v.toInt(&ok);
-
-        if (ok)
+        if (v.canConvert<uint>())
         {
-            if (index >= 0 && index <= 127)
+            uint index = v.toUInt();
+            if (index <= 127)
                 return index;
 
             emitError(u"mainWindowNestingIndex = "_s + v.toString() + u" out of range 0..127"_s);
