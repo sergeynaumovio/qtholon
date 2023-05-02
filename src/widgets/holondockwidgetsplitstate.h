@@ -40,8 +40,7 @@ class HolonDockWidgetSplitState : public QObject
 
     HolonWindowAreaPrivate *const d_ptr;
 
-    void parseSplitPath(const QStringList &path);
-    bool restoreSplitPath(const QStringList &path, QObject *parent);
+    bool restoreSplitFromPath(const QString &path);
     void saveSplitState();
     void saveSplitStateRecursive(QStringList &splitState, const QString &section, QObject *parent);
 
@@ -52,7 +51,7 @@ public:
 
     void addSplit(HolonDockWidget *firstDock, HolonDockWidget *secondDock, Qt::Orientation orientation);
     void removeSplit(HolonDockWidget *dock);
-    void restoreSplitState();
+    bool restoreSplitState();
     void setSplitItemDock(HolonDockWidget *dock);
 };
 

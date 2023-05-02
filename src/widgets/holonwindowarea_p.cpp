@@ -7,6 +7,7 @@
 #include "holondesktop.h"
 #include "holondockwidget.h"
 #include "holondockwidgetsplitstate.h"
+#include "holonid.h"
 #include "holontitlebar.h"
 #include "holonwindowarea.h"
 #include <QLoaderTree>
@@ -38,7 +39,8 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
         dockWidgetSplitState = new HolonDockWidgetSplitState(this);
 
         if (q_ptr->contains(u"dockWidgetSplitState"_s))
-            dockWidgetSplitState->restoreSplitState();
+            if (!dockWidgetSplitState->restoreSplitState())
+                q_ptr->emitWarning(u"dockWidgetSplitState format not valid, please close windows and split again"_s);
     }
 
     dockByWindow.insert(window, dock);
@@ -118,11 +120,6 @@ void HolonWindowAreaPrivate::closeWindow(HolonAbstractWindow *window)
     }
 }
 
-void HolonWindowAreaPrivate::emitWarning(const QString &warning) const
-{
-    q_ptr->emitWarning(warning);
-}
-
 void HolonWindowAreaPrivate::maximizeWindow(HolonDockWidget *dock)
 {
     if (maximized)
@@ -171,20 +168,9 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first,
     {
         auto to = [](auto *object) -> QStringList
         {
-            QSet<int> windows;
-            for (QObject *o : object->children())
-            {
-                if (qobject_cast<HolonAbstractWindow *>(o))
-                    windows.insert(o->objectName().toInt());
-            }
-
-            int i{};
-            for (; i < windows.count(); ++i)
-                if (!windows.contains(i))
-                    break;
-
+            int id = HolonId::createChildId<HolonAbstractWindow *>(object);
             QStringList section = object->section();
-            section.append(QString::number(i));
+            section.append(QString::number(id));
 
             return section;
         };

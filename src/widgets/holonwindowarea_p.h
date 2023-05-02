@@ -39,7 +39,6 @@ public:
     Qt::DockWidgetArea area() const;
     void cacheMainWindowState();
     void closeWindow(HolonAbstractWindow *window);
-    void emitWarning(const QString &warning) const;
     void maximizeWindow(HolonDockWidget *dock);
     void restoreMainWindowStateFromCache();
     virtual void saveWindowAreaState();

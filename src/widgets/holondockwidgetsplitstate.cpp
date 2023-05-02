@@ -162,7 +162,7 @@ void HolonDockWidgetSplitState::removeSplit(HolonDockWidget *firstDock)
     }
 }
 
-bool HolonDockWidgetSplitState::restoreSplitPath(const QStringList &path, QObject *parent)
+bool HolonDockWidgetSplitState::restoreSplitFromPath(const QString &path)
 {
     auto fromString = [](const QString &element) -> Qt::DockWidgetArea
     {
@@ -181,13 +181,18 @@ bool HolonDockWidgetSplitState::restoreSplitPath(const QStringList &path, QObjec
         return {};
     };
 
-    for (const QString &element : path)
+    QObject *parent = rootSplit;
+    QStringList list = path.split(u'/');
+
+    if (list.first() == ""_L1)
+        list.removeFirst();
+
+    for (const QString &element : list)
     {
         if (HolonDockWidgetSplit *split = qobject_cast<HolonDockWidgetSplit *>(parent))
         {
             QObject *object;
-            bool isNumber;
-            if ((element.toInt(&isNumber), isNumber))
+            if (bool ok = (element.toUInt(&ok), ok))
             {
                 if ((object = parent->findChild<HolonDockWidgetItem *>(element, Qt::FindDirectChildrenOnly)))
                 {
@@ -226,27 +231,20 @@ bool HolonDockWidgetSplitState::restoreSplitPath(const QStringList &path, QObjec
     return true;
 }
 
-void HolonDockWidgetSplitState::restoreSplitState()
+bool HolonDockWidgetSplitState::restoreSplitState()
 {
     QByteArray value(d_ptr->q_ptr->value(u"dockWidgetSplitState"_s).toByteArray());
-    QStringList state = QString(QLatin1StringView(value.data())).split(u',');
-    for (const QString &path : state)
+    QStringList list = QString(QLatin1StringView(value.data())).split(u',');
+    for (const QString &path : list)
     {
-        QStringList list = path.split(u'/');
-
-        if (list.first() == ""_L1)
-            list.removeFirst();
-
-        if (!restoreSplitPath(list, rootSplit))
+        if (!restoreSplitFromPath(path))
         {
-            for (QObject *child : rootSplit->children())
-                delete child;
-
-            d_ptr->emitWarning(u"dockWidgetSplitState format is not valid, please close windows and split again"_s);
-
-            return;
+            qDeleteAll(rootSplit->children());
+            return false;
         }
     }
+
+    return true;
 }
 
 void HolonDockWidgetSplitState::saveSplitState()
