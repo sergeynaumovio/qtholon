@@ -168,7 +168,7 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first,
     {
         auto to = [](auto *object) -> QStringList
         {
-            int id = HolonId::createChildId<HolonAbstractWindow *>(object);
+            int id = HolonId::createChildId(object);
             QStringList section = object->section();
             section.append(QString::number(id));
 

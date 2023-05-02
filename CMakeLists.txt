@@ -38,6 +38,7 @@ target_sources(${QT_HOLON_LIBRARY}
     PRIVATE src/core/holoncore.cpp
             src/core/holoncore.h
             src/core/holoncore_p.h
+            src/core/holonid.cpp
             src/core/holonid.h
             src/core/holonnamespace.h
             src/core/holontaskmodel.cpp

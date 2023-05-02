@@ -10,21 +10,7 @@
 namespace HolonId
 {
 
-template<typename T>
-uint createChildId(QObject *parent)
-{
-    QSet<uint> children;
-    for (QObject *o : parent->children())
-    {
-        if (qobject_cast<T>(o))
-            children.insert(o->objectName().toUInt());
-    }
-
-    int id{-1};
-    while (children.contains(++id));
-
-    return id;
-}
+uint createChildId(QObject *parent);
 
 } // namespace HolonId
 
