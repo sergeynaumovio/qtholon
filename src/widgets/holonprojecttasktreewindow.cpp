@@ -4,6 +4,7 @@
 #include "holonprojecttasktreewindow.h"
 #include "holonabstracttask.h"
 #include "holondesktop.h"
+#include "holonid.h"
 #include "holonsidebar.h"
 #include "holontaskmodel.h"
 #include "holontaskmodelbranch.h"
@@ -15,7 +16,6 @@
 #include <QLabel>
 #include <QLoaderTree>
 #include <QTreeView>
-#include <QUuid>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -81,7 +81,11 @@ public:
                     return;
 
                 QStringList to = branchList.constFirst()->section();
-                to.append(QUuid::createUuid().toString(QUuid::WithoutBraces));
+                HolonWorkflowModelBranch *branch = qobject_cast<HolonWorkflowModelBranch *>(tree->object(to));
+                if (!branch)
+                    return;
+
+                to.append(QString::number(HolonId::createChildId(branch)));
                 tree->copy(clickedObjectSettings->section(), to);
 
                 workflowModel->insertRow(workflowModel->rowCount());
