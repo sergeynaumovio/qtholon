@@ -25,7 +25,12 @@ HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonWorkflowMod
 :   QObject(workflowModelBranch),
     QLoaderSettings(this, settings),
     d_ptr(new HolonAbstractTaskPrivate(this, workflowModelBranch))
-{ }
+{
+    if (bool ok = (objectName().toUInt(&ok), ok))
+        workflowModelBranch->addTask(this);
+    else
+        emitError(u"task id not valid"_s);
+}
 
 HolonAbstractTask::~HolonAbstractTask()
 { }
