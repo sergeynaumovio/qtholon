@@ -3,6 +3,7 @@
 
 #include "holonworkflowmodel_p.h"
 #include "holonabstracttask.h"
+#include "holonworkflowitem.h"
 #include "holonworkflowmodel.h"
 #include "holonworkflowmodelbranch.h"
 #include "holonworkflowmodelbranch_p.h"
