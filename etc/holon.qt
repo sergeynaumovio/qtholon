@@ -78,44 +78,44 @@ current = true
 [holon/workflow-model1/branch1]
 class = HolonWorkflowModelBranch
 
-[holon/workflow-model1/branch1/85f69e0b-e525-429d-b63f-8bd2833a2ff0]
+[holon/workflow-model1/branch1/0]
 class = HolonCustomTask
 current = false
 dockWidgetSplitState = QByteArray(LzAvbA==)
 mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAE6AAACLvwCAAAAAvsAAAAWAGQAYQBmAGEAdQBsAHQARABvAGMAawAAAAAA/////wAAAEQA/////AAAAAAAAAIuAAAAXAD////8AQAAAAL7AAAAAgAwAQAAAAAAAACdAAAAiQD////7AAAAAgAxAQAAAJ4AAACcAAAAiQD///8AAAAAAAAA2AAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 title = Custom Task A
 
-[holon/workflow-model1/branch1/85f69e0b-e525-429d-b63f-8bd2833a2ff0/0]
+[holon/workflow-model1/branch1/0/0]
 class = HolonTerminalWindow
 current = true
 
-[holon/workflow-model1/branch1/28245495-e838-4056-8fc2-d3545c0d312c]
+[holon/workflow-model1/branch1/1]
 class = HolonCustomTask
 current = false
 dockWidgetSplitState = QByteArray(LzEvdCwvMC9i)
 mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAM+AAACevwCAAAABvsAAAAWAGQAYQBmAGEAdQBsAHQARABvAGMAawAAAAAA/////wAAAAAAAAAA/AAAAAAAAAJ6AAAAuQD////8AgAAAAL7AAAAAgAxAQAAAAAAAAE9AAAAXAD////7AAAAAgAwAQAAAT4AAAE8AAAAXAD////7AAAAAgAxAAAAAAD/////AAAAAAAAAAD7AAAAAgAwAAAAAAD/////AAAAAAAAAAD7AAAAAgAwAAAAAAD/////AAAAAAAAAAD7AAAAAgAwAAAAAAD/////AAAAAAAAAAAAAAAAAAACegAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 title = Custom Task B
 
-[holon/workflow-model1/branch1/28245495-e838-4056-8fc2-d3545c0d312c/1]
+[holon/workflow-model1/branch1/1/1]
 class = HolonTerminalWindow
 current = false
 
-[holon/workflow-model1/branch1/28245495-e838-4056-8fc2-d3545c0d312c/0]
+[holon/workflow-model1/branch1/1/0]
 class = HolonTerminalWindow
 current = true
 
-[holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560]
+[holon/workflow-model1/branch1/2]
 class = HolonCustomTask
 current = true
 dockWidgetSplitState = QByteArray(LzEvbCwvMC9y)
 mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAPTAAAA2PwCAAAABvsAAAAWAGQAYQBmAGEAdQBsAHQARABvAGMAawAAAAAA/////wAAAAAAAAAA/AAAAAAAAADYAAAAXAD////8AgAAAAL8AAAAAAAAAOAAAAAAAP////wBAAAAAfsAAAACADMBAAABoAAAAZ4AAAAAAAAAAPwAAAAAAAAA2AAAAFwA/////AEAAAAC/AAAAAAAAAPTAAABTwD////8AgAAAAL8AAAAAAAAANgAAABcAP////wBAAAAAvsAAAACADEBAAAAAAAAAekAAACnAP////sAAAACADABAAAB6gAAAekAAACnAP////wAAABtAAAAawAAAAAA/////AEAAAAB+wAAAAIAMgEAAAIzAAABoAAAAAAAAAAA/AAAAioAAAEUAAAAAAD////8AgAAAAH7AAAAAgA0AQAAAAAAAAJ6AAAAAAAAAAD7AAAAAgAwAAAAAAD/////AAAAAAAAAAD7AAAAAgAxAAAAAAD/////AAAAAAAAAAD7AAAAAgAxAAAAAAD/////AAAAAAAAAAD7AAAAAgAyAAAAAAD/////AAAAAAAAAAAAAAAAAAAA2AAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 title = Custom Task C
 
-[holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560/1]
+[holon/workflow-model1/branch1/2/1]
 class = HolonTerminalWindow
 current = false
 
-[holon/workflow-model1/branch1/a93b67da-1566-4319-be8b-9fb9653f5560/0]
+[holon/workflow-model1/branch1/2/0]
 class = HolonTerminalWindow
 current = true
 
