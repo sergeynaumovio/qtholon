@@ -5,50 +5,14 @@
 #include "holonabstracttask.h"
 #include "holoncore.h"
 #include "holondesktop.h"
+#include "holonworkflowmodel_p.h"
 
 using namespace Qt::Literals::StringLiterals;
-
-class HolonOpenTasksModelPrivate
-{
-public:
-    HolonWorkflowModel *const q_ptr;
-    HolonCore *const core;
-    HolonDesktop *const desktop;
-    bool once{true};
-    QList<HolonAbstractTask *> taskList;
-    QModelIndex currentIndex;
-
-    HolonOpenTasksModelPrivate(HolonWorkflowModel *q, HolonCore *c, HolonDesktop *desk)
-    :   q_ptr(q),
-        core(c),
-        desktop(desk)
-    { }
-
-    int rowCount()
-    {
-        if (once)
-        {
-            once = false;
-            taskList = q_ptr->findChildren<HolonAbstractTask *>();
-        }
-
-        return taskList.size();
-    }
-
-    QObject *object(const QModelIndex &index) const
-    {
-        if (index.isValid())
-            if (QObject *obj = static_cast<QObject *>(index.internalPointer()))
-                return obj;
-
-        return q_ptr;
-    }
-};
 
 HolonWorkflowModel::HolonWorkflowModel(QLoaderSettings *settings, HolonCore *core)
 :   QAbstractItemModel(core),
     QLoaderSettings(this, settings),
-    d_ptr(new HolonOpenTasksModelPrivate(this, core, nullptr))
+    d_ptr(new HolonWorkflowModelPrivate(this, core, nullptr))
 {
     core->addWorkflowModel(this);
 }
@@ -56,7 +20,7 @@ HolonWorkflowModel::HolonWorkflowModel(QLoaderSettings *settings, HolonCore *cor
 HolonWorkflowModel::HolonWorkflowModel(QLoaderSettings *settings, HolonDesktop *desktop)
 :   QAbstractItemModel(desktop),
     QLoaderSettings(this, settings),
-    d_ptr(new HolonOpenTasksModelPrivate(this, nullptr, desktop))
+    d_ptr(new HolonWorkflowModelPrivate(this, nullptr, desktop))
 {
     desktop->addWorkflowModel(this);
 }
@@ -66,7 +30,7 @@ HolonWorkflowModel::~HolonWorkflowModel()
 
 void HolonWorkflowModel::addBranch(HolonWorkflowModelBranch *branch)
 {
-    Q_UNUSED(branch)
+    d_ptr->addBranch(branch);
 }
 
 int HolonWorkflowModel::columnCount(const QModelIndex &) const

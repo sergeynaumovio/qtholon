@@ -11,13 +11,14 @@
 class HolonCore;
 class HolonDesktop;
 class HolonWorkflowModelBranch;
-class HolonOpenTasksModelPrivate;
+class HolonWorkflowModelPrivate;
 
 class Q_HOLON_EXPORT HolonWorkflowModel : public QAbstractItemModel, public QLoaderSettings
 {
     Q_OBJECT
 
-    const QScopedPointer<HolonOpenTasksModelPrivate> d_ptr;
+    friend class HolonWorkflowModelPrivate;
+    const QScopedPointer<HolonWorkflowModelPrivate> d_ptr;
 
 public:
     explicit HolonWorkflowModel(QLoaderSettings *settings, HolonCore *core);

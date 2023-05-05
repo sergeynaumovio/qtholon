@@ -51,6 +51,8 @@ target_sources(${QT_HOLON_LIBRARY}
             src/core/holonworkflowitem.h
             src/core/holonworkflowmodel.cpp
             src/core/holonworkflowmodel.h
+            src/core/holonworkflowmodel_p.cpp
+            src/core/holonworkflowmodel_p.h
             src/core/holonworkflowmodelbranch.cpp
             src/core/holonworkflowmodelbranch.h
             src/core/holonworkflowmodelbranch_p.cpp
