@@ -24,6 +24,7 @@
 #include "holonthemestyle_p.h"
 #include "holonwindowareaswitch.h"
 #include "holonworkflowmodel.h"
+#include "holonworkflowmodel_p.h"
 #include <QApplication>
 #include <QLayout>
 #include <QLoaderTree>
@@ -86,6 +87,7 @@ public:
     QHash<HolonAbstractTask *, HolonAbstractWindow *> currentTaskWindow;
     HolonAbstractWindow *currentWindow{};
     HolonWindowArea *currentWindowArea{};
+    HolonWorkflowModel *currentWorkflowModel{};
 
     HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDesktop *q);
     ~HolonDesktopPrivateData() { }
@@ -105,6 +107,7 @@ public:
     void setCurrentTask(HolonAbstractTask *task);
     void setCurrentWindow(HolonAbstractWindow *window);
     void setCurrentWindowArea(HolonWindowArea *windowArea);
+    void setCurrentWorkflowModel(HolonWorkflowModel *workflowModel);
     void setHBoxLayout(QWidget *&widget, const QString &name, QWidget *parent);
     void setLayout();
     void setMainWindow(HolonMainWindow *&widget, const QString &name, QWidget *parent);
@@ -488,6 +491,11 @@ void HolonDesktopPrivateData::setCurrentWindowArea(HolonWindowArea *windowArea)
     currentWindowArea = windowArea;
 }
 
+void HolonDesktopPrivateData::setCurrentWorkflowModel(HolonWorkflowModel *workflowModel)
+{
+    Q_UNUSED(workflowModel)
+}
+
 void HolonDesktopPrivateData::setHBoxLayout(QWidget *&widget, const QString &name, QWidget *parent)
 {
     widget = new QWidget(parent);
@@ -676,15 +684,15 @@ void HolonDesktopPrivate::setCurrentTask(HolonAbstractTask *task)
         task->d_ptr->setCurrent(true);
 }
 
-void HolonDesktopPrivate::setCurrentTaskModel(HolonTaskModel *model)
+void HolonDesktopPrivate::setCurrentTaskModel(HolonTaskModel *taskModel)
 {
-    if (model == d_ptr->currentTaskModel)
+    if (taskModel == d_ptr->currentTaskModel)
         return;
 
     if (d_ptr->currentTaskModel)
     {
         d_ptr->currentTaskModel->d_ptr->setCurrent(false);
-        model->d_ptr->setCurrent(true);
+        taskModel->d_ptr->setCurrent(true);
         q_ptr->emitWarning(u"task model change will take effect after restart"_s);
     }
 }
@@ -732,6 +740,20 @@ void HolonDesktopPrivate::setCurrentWindowArea(HolonWindowArea *windowArea)
 
     if (windowArea)
         windowArea->d_ptr->setChecked(true);
+}
+
+void HolonDesktopPrivate::setCurrentWorkflowModel(HolonWorkflowModel *workflowModel)
+{
+    if (workflowModel == d_ptr->currentWorkflowModel)
+        return;
+
+    if (d_ptr->currentWorkflowModel)
+        d_ptr->currentWorkflowModel->d_ptr->setCurrent(false);
+
+    d_ptr->setCurrentWorkflowModel(workflowModel);
+
+    if (workflowModel)
+        workflowModel->d_ptr->setCurrent(true);
 }
 
 void HolonDesktopPrivate::setLayout()

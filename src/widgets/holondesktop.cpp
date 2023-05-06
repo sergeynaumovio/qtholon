@@ -156,9 +156,9 @@ void HolonDesktop::setCurrentTask(HolonAbstractTask *task)
     d_ptr->setCurrentTask(task);
 }
 
-void HolonDesktop::setCurrentTaskModel(HolonTaskModel *model)
+void HolonDesktop::setCurrentTaskModel(HolonTaskModel *taskModel)
 {
-    d_ptr->setCurrentTaskModel(model);
+    d_ptr->setCurrentTaskModel(taskModel);
 }
 
 void HolonDesktop::setCurrentTheme(HolonTheme *theme)
@@ -176,8 +176,12 @@ void HolonDesktop::setCurrentWindowArea(HolonWindowArea *windowArea)
     d_ptr->setCurrentWindowArea(windowArea);
 }
 
+void HolonDesktop::setCurrentWorkflowModel(HolonWorkflowModel *workflowModel)
+{
+    d_ptr->setCurrentWorkflowModel(workflowModel);
+}
+
 QList<HolonAbstractWindow *> HolonDesktop::windows() const
 {
     return d_ptr->windows();
 }
-

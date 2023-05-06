@@ -30,7 +30,7 @@ class HolonDesktopPrivate
 
     friend class HolonDesktop;
     friend class HolonDesktopPrivateData;
-    const QScopedStorage<HolonDesktopPrivateData, 424> d_ptr;
+    const QScopedStorage<HolonDesktopPrivateData, 432> d_ptr;
 
     HolonDesktopPrivate(HolonDesktop *q);
 
@@ -50,10 +50,11 @@ class HolonDesktopPrivate
     HolonWorkflowModel *currentWorkflowModel() const;
     void emitWarning(const QString &warning) const;
     void setCurrentTask(HolonAbstractTask *task);
-    void setCurrentTaskModel(HolonTaskModel *model);
+    void setCurrentTaskModel(HolonTaskModel *taskModel);
     void setCurrentTheme(HolonTheme *theme);
     void setCurrentWindow(HolonAbstractWindow *window);
     void setCurrentWindowArea(HolonWindowArea *windowArea);
+    void setCurrentWorkflowModel(HolonWorkflowModel *workflowModel);
     void setLayout();
     QList<HolonAbstractWindow *> windows() const;
 

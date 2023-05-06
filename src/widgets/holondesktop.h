@@ -49,10 +49,11 @@ public:
     HolonTheme *currentTheme() const;
     HolonWorkflowModel *currentWorkflowModel() const;
     void setCurrentTask(HolonAbstractTask *task);
-    void setCurrentTaskModel(HolonTaskModel *model);
+    void setCurrentTaskModel(HolonTaskModel *taskModel);
     void setCurrentTheme(HolonTheme *theme);
     void setCurrentWindow(HolonAbstractWindow *window);
     void setCurrentWindowArea(HolonWindowArea *windowArea);
+    void setCurrentWorkflowModel(HolonWorkflowModel *workflowModel);
     QList<HolonAbstractWindow *> windows() const;
 };
 
