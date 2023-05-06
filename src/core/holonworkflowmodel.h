@@ -17,6 +17,7 @@ class Q_HOLON_EXPORT HolonWorkflowModel : public QAbstractItemModel, public QLoa
 {
     Q_OBJECT
 
+    friend class HolonDesktopPrivate;
     friend class HolonWorkflowModelPrivate;
     const QScopedPointer<HolonWorkflowModelPrivate> d_ptr;
 
