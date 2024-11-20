@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONABSTRACTTASK_P_H
@@ -11,7 +11,7 @@ class HolonAbstractTask;
 class HolonAbstractWidget;
 class HolonAbstractWindow;
 class HolonDesktop;
-class HolonTaskModelBranch;
+class HolonTaskFolder;
 class HolonWorkflowModelBranch;
 
 using WidgetRole = int;
@@ -20,14 +20,14 @@ class HolonAbstractTaskPrivate
 {
 public:
     HolonAbstractTask *const q_ptr;
-    HolonTaskModelBranch *const taskModelBranch;
+    HolonTaskFolder *const folder;
     HolonWorkflowModelBranch *const workflowModelBranch;
     HolonDesktop *const desktop;
     QMap<WidgetRole, QList<HolonAbstractWindow *>> windowList;
     QMap<WidgetRole, HolonAbstractWidget *> widgetList;
 
     HolonAbstractTaskPrivate(HolonAbstractTask *q = nullptr,
-                             HolonTaskModelBranch *branch = nullptr);
+                             HolonTaskFolder *folder = nullptr);
 
     HolonAbstractTaskPrivate(HolonAbstractTask *q = nullptr,
                              HolonWorkflowModelBranch *branch = nullptr);

@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONDESKTOP_H
@@ -12,7 +12,6 @@ class HolonAbstractTask;
 class HolonAbstractWindow;
 class HolonDesktopPrivate;
 class HolonSidebar;
-class HolonTaskModel;
 class HolonTheme;
 class HolonWindowArea;
 class HolonWorkflowModel;
@@ -36,7 +35,6 @@ public:
 
     void addSidebar(HolonSidebar *sidebar);
     void addTask(HolonAbstractTask *task);
-    void addTaskModel(HolonTaskModel *taskModel);
     void addTheme(HolonTheme *theme);
     void addWindow(HolonAbstractWindow *window);
     void addWindowArea(HolonWindowArea *windowArea);
@@ -45,11 +43,9 @@ public:
     void closeWindow(HolonAbstractWindow *window);
     void closeWindowArea(HolonWindowArea *windowArea);
     HolonAbstractTask *currentTask() const;
-    HolonTaskModel *currentTaskModel() const;
     HolonTheme *currentTheme() const;
     HolonWorkflowModel *currentWorkflowModel() const;
     void setCurrentTask(HolonAbstractTask *task);
-    void setCurrentTaskModel(HolonTaskModel *taskModel);
     void setCurrentTheme(HolonTheme *theme);
     void setCurrentWindow(HolonAbstractWindow *window);
     void setCurrentWindowArea(HolonWindowArea *windowArea);

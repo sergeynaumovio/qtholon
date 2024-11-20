@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holondesktop_p.h"
@@ -16,8 +16,6 @@
 #include "holonsidebarmainwindow.h"
 #include "holonstackedwidget.h"
 #include "holontaskbar.h"
-#include "holontaskmodel.h"
-#include "holontaskmodel_p.h"
 #include "holontheme.h"
 #include "holontheme_p.h"
 #include "holonthemestyle.h"
@@ -278,8 +276,6 @@ void HolonDesktopPrivateData::addObject(auto *object, auto &list, auto *&current
     {
         if (!current)
             current = object;
-        else if (qobject_cast<HolonTaskModel *>(object))
-            desktop_d.emitWarning(u"current task model already set"_s);
         else if (qobject_cast<HolonTheme *>(object))
             desktop_d.emitWarning(u"current theme already set"_s);
         else if (qobject_cast<HolonWorkflowModel *>(object))
@@ -343,11 +339,6 @@ void HolonDesktopPrivateData::addTask(HolonAbstractTask *task)
 
     if (task->isCurrent())
         currentTask = task;
-}
-
-void HolonDesktopPrivateData::addTaskModel(HolonTaskModel *taskModel)
-{
-    addObject(taskModel, taskModelList, currentTaskModel);
 }
 
 void HolonDesktopPrivateData::addTheme(HolonTheme *theme)
@@ -592,11 +583,6 @@ void HolonDesktopPrivate::addTask(HolonAbstractTask *task)
     d_ptr->addTask(task);
 }
 
-void HolonDesktopPrivate::addTaskModel(HolonTaskModel *taskModel)
-{
-    d_ptr->addTaskModel(taskModel);
-}
-
 void HolonDesktopPrivate::addTheme(HolonTheme *theme)
 {
     d_ptr->addTheme(theme);
@@ -644,11 +630,6 @@ HolonAbstractTask *HolonDesktopPrivate::currentTask() const
     return d_ptr->currentTask;
 }
 
-HolonTaskModel *HolonDesktopPrivate::currentTaskModel() const
-{
-    return d_ptr->currentTaskModel;
-}
-
 HolonTheme *HolonDesktopPrivate::currentTheme() const
 {
     if (!d_ptr->currentTheme)
@@ -682,19 +663,6 @@ void HolonDesktopPrivate::setCurrentTask(HolonAbstractTask *task)
 
     if (task)
         task->d_ptr->setCurrent(true);
-}
-
-void HolonDesktopPrivate::setCurrentTaskModel(HolonTaskModel *taskModel)
-{
-    if (taskModel == d_ptr->currentTaskModel)
-        return;
-
-    if (d_ptr->currentTaskModel)
-    {
-        d_ptr->currentTaskModel->d_ptr->setCurrent(false);
-        taskModel->d_ptr->setCurrent(true);
-        q_ptr->emitWarning(u"task model change will take effect after restart"_s);
-    }
 }
 
 void HolonDesktopPrivate::setCurrentTheme(HolonTheme *theme)

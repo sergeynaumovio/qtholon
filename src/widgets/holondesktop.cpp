@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holondesktop.h"
@@ -91,11 +91,6 @@ void HolonDesktop::addTask(HolonAbstractTask *task)
     d_ptr->addTask(task);
 }
 
-void HolonDesktop::addTaskModel(HolonTaskModel *taskModel)
-{
-    d_ptr->addTaskModel(taskModel);
-}
-
 void HolonDesktop::addTheme(HolonTheme *theme)
 {
     d_ptr->addTheme(theme);
@@ -136,11 +131,6 @@ HolonAbstractTask *HolonDesktop::currentTask() const
     return d_ptr->currentTask();
 }
 
-HolonTaskModel *HolonDesktop::currentTaskModel() const
-{
-    return d_ptr->currentTaskModel();
-}
-
 HolonTheme *HolonDesktop::currentTheme() const
 {
     return d_ptr->currentTheme();
@@ -154,11 +144,6 @@ HolonWorkflowModel *HolonDesktop::currentWorkflowModel() const
 void HolonDesktop::setCurrentTask(HolonAbstractTask *task)
 {
     d_ptr->setCurrentTask(task);
-}
-
-void HolonDesktop::setCurrentTaskModel(HolonTaskModel *taskModel)
-{
-    d_ptr->setCurrentTaskModel(taskModel);
 }
 
 void HolonDesktop::setCurrentTheme(HolonTheme *theme)

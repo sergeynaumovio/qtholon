@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holoncore.h"
@@ -11,8 +11,7 @@
 #include "holonprojecttasktreewindow.h"
 #include "holonsettingswindow.h"
 #include "holonsidebar.h"
-#include "holontaskmodel.h"
-#include "holontaskmodelbranch.h"
+#include "holontaskfolder.h"
 #include "holonterminalwindow.h"
 #include "holontheme.h"
 #include "holonworkflowmodel.h"
@@ -38,8 +37,8 @@ public:
 
         if (!qstrcmp(shortName, "CustomTask"))
         {
-            if (HolonTaskModelBranch *newTaskDir = qobject_cast<HolonTaskModelBranch *>(parent))
-                return new HolonCustomTask(settings, newTaskDir);
+            if (HolonTaskFolder *folder = qobject_cast<HolonTaskFolder *>(parent))
+                return new HolonCustomTask(settings, folder);
 
             if (HolonWorkflowModelBranch *openTasksDir = qobject_cast<HolonWorkflowModelBranch *>(parent))
                 return new HolonCustomTask(settings, openTasksDir);
@@ -151,26 +150,16 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "TaskModel"))
+        if (!qstrcmp(shortName, "TaskFolder"))
         {
             if (qobject_cast<HolonCore *>(parent))
                 return nullptr;
 
             if (HolonDesktop *desktop = qobject_cast<HolonDesktop *>(parent))
-                return new HolonTaskModel(settings, desktop);
+                return new HolonTaskFolder(settings, desktop);
 
-            return parent;
-        }
-
-        if (!qstrcmp(shortName, "TaskModelBranch"))
-        {
-            if (HolonTaskModel *model = qobject_cast<HolonTaskModel *>(parent))
-            {
-                if (coreApp)
-                    return nullptr;
-
-                return new HolonTaskModelBranch(settings, model);
-            }
+            if (HolonTaskFolder *folder = qobject_cast<HolonTaskFolder *>(parent))
+                return new HolonTaskFolder(settings, folder);
 
             return parent;
         }

@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONCUSTOMTASK_H
@@ -7,7 +7,7 @@
 #include "holonabstracttask.h"
 #include "holonnamespace.h"
 
-class HolonTaskModelBranch;
+class HolonTaskFoler;
 class HolonWorkflowModelBranch;
 
 class HolonCustomTask : public HolonAbstractTask
@@ -15,7 +15,7 @@ class HolonCustomTask : public HolonAbstractTask
     Q_OBJECT
 
 public:
-    HolonCustomTask(QLoaderSettings *settings, HolonTaskModelBranch *taskModelBranch);
+    HolonCustomTask(QLoaderSettings *settings, HolonTaskFolder *folder);
     HolonCustomTask(QLoaderSettings *settings, HolonWorkflowModelBranch *workflowModelBranch);
     ~HolonCustomTask();
 

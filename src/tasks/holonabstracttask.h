@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONABSTRACTTASK_H
@@ -12,7 +12,7 @@ class HolonAbstractTaskPrivate;
 class HolonAbstractWidget;
 class HolonAbstractWindow;
 class HolonDesktop;
-class HolonTaskModelBranch;
+class HolonTaskFolder;
 class HolonWorkflowModelBranch;
 
 class Q_HOLON_EXPORT HolonAbstractTask : public QObject, public QLoaderSettings
@@ -24,7 +24,7 @@ class Q_HOLON_EXPORT HolonAbstractTask : public QObject, public QLoaderSettings
     const QScopedPointer<HolonAbstractTaskPrivate> d_ptr;
 
 protected:
-    HolonAbstractTask(QLoaderSettings *settings, HolonTaskModelBranch *taskModelBranch);
+    HolonAbstractTask(QLoaderSettings *settings, HolonTaskFolder *folder);
     HolonAbstractTask(QLoaderSettings *settings, HolonWorkflowModelBranch *workflowModelBranch);
 
 public:

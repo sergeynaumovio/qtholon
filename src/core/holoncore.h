@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONCORE_H
@@ -21,7 +21,6 @@ public:
     explicit HolonCore(QLoaderSettings *settings, QObject *parent);
     ~HolonCore();
 
-    void addTaskModel(HolonTaskModel *taskModel);
     void addWorkflowModel(HolonWorkflowModel *workflowModel);
 };
 

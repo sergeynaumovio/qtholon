@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONCORE_P_H
@@ -12,10 +12,7 @@ class HolonWorkflowModel;
 class HolonCorePrivate
 {
 public:
-    QList<HolonTaskModel *> taskModelList;
     QList<HolonWorkflowModel *> workflowModelList;
-
-    HolonTaskModel *currentTaskModel{};
     HolonWorkflowModel *currentWorkflowModel{};
 };
 

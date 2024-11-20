@@ -1,10 +1,9 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonabstracttask_p.h"
 #include "holonabstracttask.h"
-#include "holontaskmodel.h"
-#include "holontaskmodelbranch.h"
+#include "holontaskfolder.h"
 #include "holonworkflowmodel.h"
 #include "holonworkflowmodelbranch.h"
 #include <QApplication>
@@ -14,17 +13,17 @@
 using namespace Qt::Literals::StringLiterals;
 
 HolonAbstractTaskPrivate::HolonAbstractTaskPrivate(HolonAbstractTask *q,
-                                                   HolonTaskModelBranch *branch)
+                                                   HolonTaskFolder *f)
 :   q_ptr(q),
-    taskModelBranch(branch),
+    folder(f),
     workflowModelBranch(nullptr),
-    desktop(taskModelBranch->taskModel()->desktop())
+    desktop(folder->desktop())
 { }
 
 HolonAbstractTaskPrivate::HolonAbstractTaskPrivate(HolonAbstractTask *q,
                                                    HolonWorkflowModelBranch *branch)
 :   q_ptr(q),
-    taskModelBranch(nullptr),
+    folder(nullptr),
     workflowModelBranch(branch),
     desktop(workflowModelBranch->workflowModel()->desktop())
 { }

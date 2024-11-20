@@ -41,12 +41,10 @@ target_sources(${QT_HOLON_LIBRARY}
             src/core/holonid.cpp
             src/core/holonid.h
             src/core/holonnamespace.h
-            src/core/holontaskmodel.cpp
-            src/core/holontaskmodel.h
-            src/core/holontaskmodel_p.cpp
-            src/core/holontaskmodel_p.h
-            src/core/holontaskmodelbranch.cpp
-            src/core/holontaskmodelbranch.h
+            src/core/holontaskfolder.cpp
+            src/core/holontaskfolder.h
+            src/core/holontaskfoldermodel.cpp
+            src/core/holontaskfoldermodel.h
             src/core/holonworkflowitem.cpp
             src/core/holonworkflowitem.h
             src/core/holonworkflowmodel.cpp
@@ -147,11 +145,9 @@ target_include_directories(${QT_HOLON_LIBRARY}
 
 set(QT_HOLON_PUBLIC_HEADERS
     src/core/HolonCore
-    src/core/HolonTaskModel
     src/core/HolonWorkflowModel
     src/core/holoncore.h
     src/core/holonnamespace.h
-    src/core/holontaskmodel.h
     src/core/holonworkflowmodel.h
     src/core/qtholonglobal.h
     src/tasks/HolonAbstractTask

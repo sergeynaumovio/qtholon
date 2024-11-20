@@ -1,4 +1,4 @@
-#!/usr/bin/qtloader6
+#!/usr/bin/env qtloader6
 
 [holon]
 class = HolonDesktop
@@ -29,44 +29,40 @@ class = HolonMessagesWindow
 class = HolonTerminalWindow
 current = true
 
-[holon/task-model]
-class = HolonTaskModel
-current = true
-
-[holon/task-model/branch-a]
-class = HolonTaskModelBranch
+[holon/task-folder-a]
+class = HolonTaskFolder
 title = Branch A
 
-[holon/task-model/branch-a/custom-task1]
+[holon/task-folder-a/custom-task-1]
 class = HolonCustomTask
 title = Custom Task A
 
-[holon/task-model/branch-a/custom-task1/messages]
+[holon/task-folder-a/custom-task-1/messages]
 class = HolonMessagesWidget
 
-[holon/task-model/branch-a/custom-task1/0]
+[holon/task-folder-a/custom-task-1/0]
 class = HolonTerminalWindow
 current = true
 title = Terminal
 
-[holon/task-model/branch-b]
-class = HolonTaskModelBranch
+[holon/task-folder-b]
+class = HolonTaskFolder
 title = Branch B
 
-[holon/task-model/branch-b/custom-task2]
+[holon/task-folder-b/custom-task-2]
 class = HolonCustomTask
 title = Custom Task B
 
-[holon/task-model/branch-b/custom-task2/0]
+[holon/task-folder-b/custom-task-2/0]
 class = HolonTerminalWindow
 current = true
 title = Terminal
 
-[holon/task-model/branch-b/custom-task3]
+[holon/task-folder-b/custom-task-3]
 class = HolonCustomTask
 title = Custom Task C
 
-[holon/task-model/branch-b/custom-task3/0]
+[holon/task-folder-b/custom-task-3/0]
 class = HolonTerminalWindow
 current = true
 title = Terminal

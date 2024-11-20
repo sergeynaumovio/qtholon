@@ -1,15 +1,15 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holoncustomtask.h"
 #include "holondesktop.h"
-#include "holontaskmodelbranch.h"
+#include "holontaskfolder.h"
 #include "holonworkflowmodel.h"
 #include "holonworkflowmodelbranch.h"
 #include <QLabel>
 
-HolonCustomTask::HolonCustomTask(QLoaderSettings *settings, HolonTaskModelBranch *taskModelBranch)
-:   HolonAbstractTask(settings, taskModelBranch)
+HolonCustomTask::HolonCustomTask(QLoaderSettings *settings, HolonTaskFolder *folder)
+:   HolonAbstractTask(settings, folder)
 { }
 
 HolonCustomTask::HolonCustomTask(QLoaderSettings *settings, HolonWorkflowModelBranch *workflowModelBranch)
