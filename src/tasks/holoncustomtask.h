@@ -7,9 +7,6 @@
 #include "holonabstracttask.h"
 #include "holonnamespace.h"
 
-class HolonTaskFoler;
-class HolonWorkflowModelBranch;
-
 class HolonCustomTask : public HolonAbstractTask
 {
     Q_OBJECT
