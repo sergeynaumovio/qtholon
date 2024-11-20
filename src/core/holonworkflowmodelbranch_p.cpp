@@ -48,7 +48,10 @@ bool HolonWorkflowModelBranchPrivate::restoreTreeState()
 
     for (const QString &path : list)
         if (bool error = !restoreItemFromPath(path))
+        {
             isValid = false;
+            Q_UNUSED(error)
+        }
 
     return isValid;
 }

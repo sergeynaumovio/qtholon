@@ -157,7 +157,7 @@ HolonOpenTaskTreeView::HolonOpenTaskTreeView(HolonDesktop *desktop)
                 desktop->setCurrentTask(task);
         });
 
-        connect(this, &HolonOpenTaskTreeView::closeActivated, this, [=](const QModelIndex &index)
+        connect(this, &HolonOpenTaskTreeView::closeActivated, this, [=, this](const QModelIndex &index)
         {
             d_ptr->workflowModel->removeRow(index.row());
 
