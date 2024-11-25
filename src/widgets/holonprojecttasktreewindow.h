@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONPROJECTTASKTREEWINDOW_H
@@ -15,7 +15,8 @@ class HolonProjectTaskTreeWindow : public HolonAbstractWindow
 {
     Q_OBJECT
 
-    const QScopedStorage<HolonProjectTaskTreeWindowPrivate, 40> d_ptr;
+    friend class HolonDesktopPrivateData;
+    const QScopedStorage<HolonProjectTaskTreeWindowPrivate, 48> d_ptr;
 
 public:
     HolonProjectTaskTreeWindow(QLoaderSettings *settings, HolonDesktop *parent);

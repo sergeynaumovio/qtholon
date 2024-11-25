@@ -4,12 +4,11 @@
 #include "holonprojecttasktreewindow.h"
 #include "holonabstracttask.h"
 #include "holondesktop.h"
-#include "holonid.h"
+#include "holonprojecttasktreewindow_p.h"
 #include "holonsidebar.h"
 #include "holontaskfolder.h"
 #include "holontaskfoldermodel.h"
-#include "holonworkflowmodelbranch.h"
-#include "holonworkflowmodel.h"
+#include "holonworkflow.h"
 #include <QBoxLayout>
 #include <QHeaderView>
 #include <QIcon>
@@ -18,92 +17,6 @@
 #include <QTreeView>
 
 using namespace Qt::Literals::StringLiterals;
-
-class HolonProjectTaskTreeWindowPrivate
-{
-public:
-    HolonProjectTaskTreeWindow *const q_ptr;
-    QLoaderSettings *const settings;
-    HolonDesktop *const desktop;
-    HolonTaskFolderModel *const model;
-    QTreeView *view{};
-
-
-    HolonProjectTaskTreeWindowPrivate(HolonProjectTaskTreeWindow *q = nullptr,
-                                      QLoaderSettings *s = nullptr,
-                                      HolonDesktop *desk = nullptr)
-    :   q_ptr(q),
-        settings(s),
-        desktop(desk),
-        model(desktop ? new HolonTaskFolderModel(desktop, q) : nullptr)
-    { }
-
-    QWidget *widget()
-    {
-        if (!q_ptr)
-            return nullptr;
-
-        if (view)
-            return view;
-
-        view = new QTreeView;
-
-        view->setFrameStyle(QFrame::NoFrame);
-        view->setModel(model);
-        view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-        view->header()->hide();
-
-        QLoaderTree *const tree = settings->tree();
-
-        QTreeView::connect(view, &QTreeView::doubleClicked, view, [=, this](QModelIndex index)
-        {
-            QObject *clickedObject = static_cast<QObject *>(index.internalPointer());
-            if (!qobject_cast<HolonAbstractTask *>(clickedObject))
-                return;
-
-            QLoaderSettings *clickedObjectSettings = tree->settings(clickedObject);
-            if (!clickedObjectSettings)
-                return;
-
-            HolonWorkflowModel *workflowModel = desktop->currentWorkflowModel();
-            if (!workflowModel)
-                return;
-
-            QLoaderSettings *workflowModelSettings = tree->settings(workflowModel);
-            if (!workflowModelSettings)
-                return;
-
-            QList<HolonWorkflowModelBranch *>
-            branchList = workflowModel->findChildren<HolonWorkflowModelBranch *>(Qt::FindDirectChildrenOnly);
-
-            if (branchList.isEmpty())
-                return;
-
-            QStringList to = branchList.constFirst()->section();
-            HolonWorkflowModelBranch *branch = qobject_cast<HolonWorkflowModelBranch *>(tree->object(to));
-            if (!branch)
-                return;
-
-            to.append(QString::number(HolonId::createChildId(branch)));
-            tree->copy(clickedObjectSettings->section(), to);
-
-            workflowModel->insertRow(workflowModel->rowCount());
-        });
-
-        auto setExpanded = [](const QModelIndex &index, bool expanded)
-        {
-            QObject *object = static_cast<QObject *>(index.internalPointer());
-
-            if (HolonTaskFolder *folder = qobject_cast<HolonTaskFolder *>(object))
-                folder->setExpanded(expanded);
-        };
-
-        QTreeView::connect(view, &QTreeView::collapsed, view, [=](QModelIndex index){ setExpanded(index, false); });
-        QTreeView::connect(view, &QTreeView::expanded, view, [=](QModelIndex index){ setExpanded(index, true); });
-
-        return view;
-    }
-};
 
 HolonProjectTaskTreeWindow::HolonProjectTaskTreeWindow(QLoaderSettings *settings, HolonDesktop *parent)
 :   HolonAbstractWindow(settings, parent)

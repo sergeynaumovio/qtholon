@@ -4,8 +4,7 @@
 #include "holonabstracttask_p.h"
 #include "holonabstracttask.h"
 #include "holontaskfolder.h"
-#include "holonworkflowmodel.h"
-#include "holonworkflowmodelbranch.h"
+#include "holonworkflow.h"
 #include <QApplication>
 #include <QMap>
 #include <QStyle>
@@ -16,16 +15,16 @@ HolonAbstractTaskPrivate::HolonAbstractTaskPrivate(HolonAbstractTask *q,
                                                    HolonTaskFolder *f)
 :   q_ptr(q),
     folder(f),
-    workflowModelBranch(nullptr),
+    workflow(nullptr),
     desktop(folder->desktop())
 { }
 
 HolonAbstractTaskPrivate::HolonAbstractTaskPrivate(HolonAbstractTask *q,
-                                                   HolonWorkflowModelBranch *branch)
+                                                   HolonWorkflow *w)
 :   q_ptr(q),
     folder(nullptr),
-    workflowModelBranch(branch),
-    desktop(workflowModelBranch->workflowModel()->desktop())
+    workflow(w),
+    desktop(w->desktop())
 { }
 
 void HolonAbstractTaskPrivate::setCurrent(bool current)

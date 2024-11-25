@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONPARAMETERSWINDOW_H
@@ -15,7 +15,7 @@ class HolonParametersWindow : public HolonAbstractWindow
 {
     Q_OBJECT
 
-    const QScopedStorage<HolonParametersWindowPrivate, 40> d_ptr;
+    const QScopedStorage<HolonParametersWindowPrivate, 32> d_ptr;
 
 public:
     HolonParametersWindow(QLoaderSettings *settings, HolonDesktop *parent);

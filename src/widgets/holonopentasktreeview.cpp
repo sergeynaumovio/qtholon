@@ -1,12 +1,12 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonopentasktreeview.h"
 #include "holonabstracttask.h"
 #include "holondesktop.h"
+#include "holonopentasktreemodel.h"
 #include "holonthemeicons.h"
 #include "holontheme.h"
-#include "holonworkflowmodel.h"
 #include <QApplication>
 #include <QEvent>
 #include <QHeaderView>
@@ -58,13 +58,12 @@ class HolonOpenTaskTreeViewPrivate
 {
 public:
     HolonDesktop *const desktop;
-    HolonWorkflowModel *const workflowModel;
+    QAbstractItemModel *openTaskTreeModel;
     HolonTaskDelegate *const itemDelegate;
 
     HolonOpenTaskTreeViewPrivate(HolonDesktop *desk,
-                             HolonTaskDelegate *delegate)
+                                 HolonTaskDelegate *delegate)
     :   desktop(desk),
-        workflowModel(desktop->currentWorkflowModel()),
         itemDelegate(delegate)
     { }
 };
@@ -85,8 +84,9 @@ bool HolonOpenTaskTreeView::eventFilter(QObject *object, QEvent *event)
                 }
             }
         }
-        else if (event->type() == QEvent::Show && d_ptr->workflowModel)
-            setCurrentIndex(d_ptr->workflowModel->restoreCurrentIndex());
+        else if (event->type() == QEvent::Show && d_ptr->openTaskTreeModel)
+            if (HolonOpenTaskTreeModel *model = qobject_cast<HolonOpenTaskTreeModel *>(d_ptr->openTaskTreeModel))
+                setCurrentIndex(model->restoreCurrentIndex());
 
         return false;
     }
@@ -134,38 +134,6 @@ HolonOpenTaskTreeView::HolonOpenTaskTreeView(HolonDesktop *desktop)
     viewport()->installEventFilter(this);
 
     installEventFilter(this);
-
-    if (d_ptr->workflowModel)
-    {
-        HolonOpenTaskTreeView::setModel(d_ptr->workflowModel);
-
-        connect(d_ptr->workflowModel, &QAbstractItemModel::rowsInserted, this, [=, this](const QModelIndex &, int row)
-        {
-            QModelIndex index = d_ptr->workflowModel->index(row);
-            QObject *addedObject = static_cast<QObject *>(index.internalPointer());
-            if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(addedObject))
-            {
-                desktop->setCurrentTask(task);
-                setCurrentIndex(index);
-            }
-        });
-
-        connect(this, &QTreeView::clicked, this, [=](const QModelIndex &index)
-        {
-            QObject *clickedObject = static_cast<QObject *>(index.internalPointer());
-            if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(clickedObject))
-                desktop->setCurrentTask(task);
-        });
-
-        connect(this, &HolonOpenTaskTreeView::closeActivated, this, [=, this](const QModelIndex &index)
-        {
-            d_ptr->workflowModel->removeRow(index.row());
-
-            QObject *clickedObject = static_cast<QObject *>(index.internalPointer());
-            if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(clickedObject))
-                desktop->closeTask(task);
-        });
-    }
 }
 
 HolonOpenTaskTreeView::~HolonOpenTaskTreeView()
@@ -178,6 +146,8 @@ HolonDesktop *HolonOpenTaskTreeView::desktop() const
 
 void HolonOpenTaskTreeView::setModel(QAbstractItemModel *model)
 {
+    d_ptr->openTaskTreeModel = model;
+
     QTreeView::setModel(model);
     header()->hide();
     header()->setStretchLastSection(false);
@@ -185,4 +155,31 @@ void HolonOpenTaskTreeView::setModel(QAbstractItemModel *model)
     header()->setSectionResizeMode(1, QHeaderView::Fixed);
     header()->setMinimumSectionSize(1);
     header()->resizeSection(1, QApplication::style()->pixelMetric(QStyle::PM_ListViewIconSize));
+
+    connect(model, &QAbstractItemModel::rowsInserted, this, [=, this](const QModelIndex &, int row)
+    {
+        QModelIndex index = model->index(row, 0);
+        QObject *addedObject = static_cast<QObject *>(index.internalPointer());
+        if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(addedObject))
+        {
+            desktop()->setCurrentTask(task);
+            setCurrentIndex(index);
+        }
+    });
+
+    connect(this, &QTreeView::clicked, this, [=, this](const QModelIndex &index)
+    {
+        QObject *clickedObject = static_cast<QObject *>(index.internalPointer());
+        if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(clickedObject))
+            desktop()->setCurrentTask(task);
+    });
+
+    connect(this, &HolonOpenTaskTreeView::closeActivated, this, [=, this](const QModelIndex &index)
+    {
+        model->removeRow(index.row());
+
+        QObject *clickedObject = static_cast<QObject *>(index.internalPointer());
+        if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(clickedObject))
+            desktop()->closeTask(task);
+    });
 }

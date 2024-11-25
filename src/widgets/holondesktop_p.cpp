@@ -9,6 +9,10 @@
 #include "holoncore_p.h"
 #include "holondesktop.h"
 #include "holonmainwindow.h"
+#include "holonopentasktreemodel.h"
+#include "holonopentasktreeview.h"
+#include "holonprojecttasktreewindow.h"
+#include "holonprojecttasktreewindow_p.h"
 #include "holonsidebar.h"
 #include "holonsidebar_p.h"
 #include "holonsidebardockwidget.h"
@@ -21,8 +25,7 @@
 #include "holonthemestyle.h"
 #include "holonthemestyle_p.h"
 #include "holonwindowareaswitch.h"
-#include "holonworkflowmodel.h"
-#include "holonworkflowmodel_p.h"
+#include "holonworkflow.h"
 #include <QApplication>
 #include <QLayout>
 #include <QLoaderTree>
@@ -85,7 +88,8 @@ public:
     QHash<HolonAbstractTask *, HolonAbstractWindow *> currentTaskWindow;
     HolonAbstractWindow *currentWindow{};
     HolonWindowArea *currentWindowArea{};
-    HolonWorkflowModel *currentWorkflowModel{};
+    HolonWorkflow *currentWorkflow{};
+    HolonOpenTaskTreeModel *openTaskTreeModel{};
 
     HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDesktop *q);
     ~HolonDesktopPrivateData() { }
@@ -93,19 +97,17 @@ public:
     void addObject(auto *object, auto &list, auto *&current);
     void addSidebar(HolonSidebar *sidebar);
     void addTask(HolonAbstractTask *task);
-    void addTaskModel(HolonTaskModel *taskModel);
     void addTheme(HolonTheme *theme);
     void addWidget(QWidget *widget, QWidget *parent);
     void addWindow(HolonAbstractWindow *window);
     void addWindowArea(HolonWindowArea *windowArea);
-    void addWorkflowModel(HolonWorkflowModel *workflowModel);
+    void addWorkflow(HolonWorkflow *workflow);
     void closeTask(HolonAbstractTask *task);
     void closeWindow(HolonAbstractWindow *window);
     void removeUncheckedSidebars(HolonSidebarMainWindow *sidebarMainWindow);
     void setCurrentTask(HolonAbstractTask *task);
     void setCurrentWindow(HolonAbstractWindow *window);
     void setCurrentWindowArea(HolonWindowArea *windowArea);
-    void setCurrentWorkflowModel(HolonWorkflowModel *workflowModel);
     void setHBoxLayout(QWidget *&widget, const QString &name, QWidget *parent);
     void setLayout();
     void setMainWindow(HolonMainWindow *&widget, const QString &name, QWidget *parent);
@@ -119,7 +121,14 @@ void HolonDesktopPrivateData::addSidebarWindow(HolonAbstractWindow *window, Holo
     if (sidebars.byWindow.contains(window))
         return;
 
+    if (HolonProjectTaskTreeWindow *projectTaskTreeWindow = qobject_cast<HolonProjectTaskTreeWindow *>(window))
+        projectTaskTreeWindow->d_ptr->setOpenTaskTreeModel(openTaskTreeModel);
+
     QWidget *sidebarWidget = window->widget();
+
+    if (HolonOpenTaskTreeView *openTaskTreeView = qobject_cast<HolonOpenTaskTreeView *>(sidebarWidget))
+        openTaskTreeView->setModel(openTaskTreeModel);
+
     HolonStackedWidget *stackedWidget = qobject_cast<HolonStackedWidget *>(sidebarWidget);
     if (!sidebarWidget || taskStackedWidgetList.contains(stackedWidget))
         return;
@@ -278,8 +287,8 @@ void HolonDesktopPrivateData::addObject(auto *object, auto &list, auto *&current
             current = object;
         else if (qobject_cast<HolonTheme *>(object))
             desktop_d.emitWarning(u"current theme already set"_s);
-        else if (qobject_cast<HolonWorkflowModel *>(object))
-            desktop_d.emitWarning(u"current workflow model already set"_s);
+        else if (qobject_cast<HolonWorkflow *>(object))
+            desktop_d.emitWarning(u"current workflow already set"_s);
     }
 }
 
@@ -387,9 +396,12 @@ void HolonDesktopPrivateData::addWindowArea(HolonWindowArea *windowArea)
     }
 }
 
-void HolonDesktopPrivateData::addWorkflowModel(HolonWorkflowModel *workflowModel)
+void HolonDesktopPrivateData::addWorkflow(HolonWorkflow *workflow)
 {
-    addObject(workflowModel, workflowModelList, currentWorkflowModel);
+    if (!openTaskTreeModel)
+        openTaskTreeModel = new HolonOpenTaskTreeModel(q_ptr);
+
+    addObject(workflow, workflowList, currentWorkflow);
 }
 
 void HolonDesktopPrivateData::closeTask(HolonAbstractTask *task)
@@ -480,11 +492,6 @@ void HolonDesktopPrivateData::setCurrentWindowArea(HolonWindowArea *windowArea)
 {
     mainWindow->setCurrentWindowArea(windowArea);
     currentWindowArea = windowArea;
-}
-
-void HolonDesktopPrivateData::setCurrentWorkflowModel(HolonWorkflowModel *workflowModel)
-{
-    Q_UNUSED(workflowModel)
 }
 
 void HolonDesktopPrivateData::setHBoxLayout(QWidget *&widget, const QString &name, QWidget *parent)
@@ -605,9 +612,9 @@ void HolonDesktopPrivate::addWindowArea(HolonWindowArea *windowArea)
     d_ptr->addWindowArea(windowArea);
 }
 
-void HolonDesktopPrivate::addWorkflowModel(HolonWorkflowModel *workflowModel)
+void HolonDesktopPrivate::addWorkflow(HolonWorkflow *workflow)
 {
-    d_ptr->addWorkflowModel(workflowModel);
+    d_ptr->addWorkflow(workflow);
 }
 
 void HolonDesktopPrivate::closeTask(HolonAbstractTask *task)
@@ -639,11 +646,6 @@ HolonTheme *HolonDesktopPrivate::currentTheme() const
     }
 
     return d_ptr->currentTheme;
-}
-
-HolonWorkflowModel *HolonDesktopPrivate::currentWorkflowModel() const
-{
-    return d_ptr->currentWorkflowModel;
 }
 
 void HolonDesktopPrivate::emitWarning(const QString &warning) const
@@ -710,20 +712,6 @@ void HolonDesktopPrivate::setCurrentWindowArea(HolonWindowArea *windowArea)
         windowArea->d_ptr->setChecked(true);
 }
 
-void HolonDesktopPrivate::setCurrentWorkflowModel(HolonWorkflowModel *workflowModel)
-{
-    if (workflowModel == d_ptr->currentWorkflowModel)
-        return;
-
-    if (d_ptr->currentWorkflowModel)
-        d_ptr->currentWorkflowModel->d_ptr->setCurrent(false);
-
-    d_ptr->setCurrentWorkflowModel(workflowModel);
-
-    if (workflowModel)
-        workflowModel->d_ptr->setCurrent(true);
-}
-
 void HolonDesktopPrivate::setLayout()
 {
     d_ptr->setLayout();
@@ -750,6 +738,11 @@ HolonDesktopPrivate::TaskbarArea HolonDesktopPrivate::taskbarArea() const
 QList<HolonAbstractWindow *> HolonDesktopPrivate::windows() const
 {
     return d_ptr->windowList;
+}
+
+HolonWorkflow *HolonDesktopPrivate::workflow() const
+{
+    return d_ptr->currentWorkflow;
 }
 
 void HolonDesktopPrivate::removeSidebar(HolonSidebar *sidebar)

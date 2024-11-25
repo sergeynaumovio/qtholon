@@ -14,8 +14,7 @@
 #include "holontaskfolder.h"
 #include "holonterminalwindow.h"
 #include "holontheme.h"
-#include "holonworkflowmodel.h"
-#include "holonworkflowmodelbranch.h"
+#include "holonworkflow.h"
 #include "holonworkflowwindow.h"
 #include <QApplication>
 #include <QLoaderPluginInterface>
@@ -40,8 +39,8 @@ public:
             if (HolonTaskFolder *folder = qobject_cast<HolonTaskFolder *>(parent))
                 return new HolonCustomTask(settings, folder);
 
-            if (HolonWorkflowModelBranch *openTasksDir = qobject_cast<HolonWorkflowModelBranch *>(parent))
-                return new HolonCustomTask(settings, openTasksDir);
+            if (HolonWorkflow *workflow = qobject_cast<HolonWorkflow *>(parent))
+                return new HolonCustomTask(settings, workflow);
 
             return parent;
         }
@@ -200,26 +199,13 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "WorkflowModel"))
+        if (!qstrcmp(shortName, "Workflow"))
         {
             if (HolonCore *core = qobject_cast<HolonCore *>(parent))
-                return new HolonWorkflowModel(settings, core);
+                return new HolonWorkflow(settings, core);
 
             if (HolonDesktop *desktop = qobject_cast<HolonDesktop *>(parent))
-                return new HolonWorkflowModel(settings, desktop);
-
-            return parent;
-        }
-
-        if (!qstrcmp(shortName, "WorkflowModelBranch"))
-        {
-            if (HolonWorkflowModel *model = qobject_cast<HolonWorkflowModel *>(parent))
-            {
-                if (coreApp)
-                    return nullptr;
-
-                return new HolonWorkflowModelBranch(settings, model);
-            }
+                return new HolonWorkflow(settings, desktop);
 
             return parent;
         }

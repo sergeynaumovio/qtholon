@@ -41,20 +41,18 @@ target_sources(${QT_HOLON_LIBRARY}
             src/core/holonid.cpp
             src/core/holonid.h
             src/core/holonnamespace.h
+            src/core/holonopentasktreemodel.cpp
+            src/core/holonopentasktreemodel.h
             src/core/holontaskfolder.cpp
             src/core/holontaskfolder.h
             src/core/holontaskfoldermodel.cpp
             src/core/holontaskfoldermodel.h
+            src/core/holonworkflow.cpp
+            src/core/holonworkflow.h
+            src/core/holonworkflow_p.cpp
+            src/core/holonworkflow_p.h
             src/core/holonworkflowitem.cpp
             src/core/holonworkflowitem.h
-            src/core/holonworkflowmodel.cpp
-            src/core/holonworkflowmodel.h
-            src/core/holonworkflowmodel_p.cpp
-            src/core/holonworkflowmodel_p.h
-            src/core/holonworkflowmodelbranch.cpp
-            src/core/holonworkflowmodelbranch.h
-            src/core/holonworkflowmodelbranch_p.cpp
-            src/core/holonworkflowmodelbranch_p.h
             src/core/qtholonglobal.h
             src/tasks/holonabstracttask.cpp
             src/tasks/holonabstracttask.h
@@ -90,6 +88,8 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonparameterswindow.h
             src/widgets/holonprojecttasktreewindow.cpp
             src/widgets/holonprojecttasktreewindow.h
+            src/widgets/holonprojecttasktreewindow_p.cpp
+            src/widgets/holonprojecttasktreewindow_p.h
             src/widgets/holonsettingswindow.cpp
             src/widgets/holonsettingswindow.h
             src/widgets/holonsidebar.cpp
@@ -145,10 +145,8 @@ target_include_directories(${QT_HOLON_LIBRARY}
 
 set(QT_HOLON_PUBLIC_HEADERS
     src/core/HolonCore
-    src/core/HolonWorkflowModel
     src/core/holoncore.h
     src/core/holonnamespace.h
-    src/core/holonworkflowmodel.h
     src/core/qtholonglobal.h
     src/tasks/HolonAbstractTask
     src/tasks/holonabstracttask.h

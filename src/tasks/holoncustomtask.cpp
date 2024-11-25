@@ -4,22 +4,17 @@
 #include "holoncustomtask.h"
 #include "holondesktop.h"
 #include "holontaskfolder.h"
-#include "holonworkflowmodel.h"
-#include "holonworkflowmodelbranch.h"
+#include "holonworkflow.h"
 #include <QLabel>
 
 HolonCustomTask::HolonCustomTask(QLoaderSettings *settings, HolonTaskFolder *folder)
 :   HolonAbstractTask(settings, folder)
 { }
 
-HolonCustomTask::HolonCustomTask(QLoaderSettings *settings, HolonWorkflowModelBranch *workflowModelBranch)
-:   HolonAbstractTask(settings, workflowModelBranch)
+HolonCustomTask::HolonCustomTask(QLoaderSettings *settings, HolonWorkflow *workflow)
+:   HolonAbstractTask(settings, workflow)
 {
-    if (HolonWorkflowModel *workflowModel = workflowModelBranch->workflowModel())
-    {
-        if (HolonDesktop *desktop = workflowModel->desktop())
-            desktop->addTask(this);
-    }
+    workflow->desktop()->addTask(this);
 }
 
 HolonCustomTask::~HolonCustomTask()

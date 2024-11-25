@@ -9,8 +9,7 @@
 #include "holontaskfolder.h"
 #include "holontheme.h"
 #include "holonthemeicons.h"
-#include "holonworkflowmodel.h"
-#include "holonworkflowmodelbranch.h"
+#include "holonworkflow.h"
 #include <QLoaderTree>
 
 using namespace Qt::Literals::StringLiterals;
@@ -21,13 +20,18 @@ HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonTaskFolder 
     d_ptr(new HolonAbstractTaskPrivate(this, folder))
 { }
 
-HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonWorkflowModelBranch *workflowModelBranch)
-:   QObject(workflowModelBranch),
+HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonWorkflow *workflow)
+:   QObject(workflow),
     QLoaderSettings(this, settings),
-    d_ptr(new HolonAbstractTaskPrivate(this, workflowModelBranch))
+    d_ptr(new HolonAbstractTaskPrivate(this, workflow))
 {
     if (bool ok = (objectName().toUInt(&ok), ok))
-        workflowModelBranch->addTask(this);
+    {
+        if (!contains(u"open"_s))
+            setValue(u"open"_s, true);
+
+        workflow->addTask(this);
+    }
     else
         emitError(u"task id not valid"_s);
 }
@@ -50,10 +54,8 @@ void HolonAbstractTask::addWindow(HolonAbstractWindow *window)
 
     d_ptr->windowList[window->role()].append(window);
 
-    if (d_ptr->workflowModelBranch)
-        if (HolonWorkflowModel *workflowModel = d_ptr->workflowModelBranch->workflowModel())
-            if (HolonDesktop *desktop = workflowModel->desktop())
-                desktop->addWindow(window);
+    if (d_ptr->workflow)
+        d_ptr->workflow->desktop()->addWindow(window);
 }
 
 HolonDesktop *HolonAbstractTask::desktop() const
@@ -76,7 +78,8 @@ bool HolonAbstractTask::isCopyable(const QStringList &to) const
     {
         parentSection.removeLast();
         QObject *parent = tree()->object(parentSection);
-        if (qobject_cast<HolonWorkflowModelBranch *>(parent))
+
+        if (qobject_cast<HolonWorkflow *>(parent))
             return true;
     }
 
@@ -86,6 +89,11 @@ bool HolonAbstractTask::isCopyable(const QStringList &to) const
 bool HolonAbstractTask::isCurrent() const
 {
     return value(u"current"_s).toBool();
+}
+
+bool HolonAbstractTask::isOpen() const
+{
+    return value(u"open"_s).toBool();
 }
 
 int HolonAbstractTask::role() const

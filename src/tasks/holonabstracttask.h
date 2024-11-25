@@ -13,7 +13,7 @@ class HolonAbstractWidget;
 class HolonAbstractWindow;
 class HolonDesktop;
 class HolonTaskFolder;
-class HolonWorkflowModelBranch;
+class HolonWorkflow;
 
 class Q_HOLON_EXPORT HolonAbstractTask : public QObject, public QLoaderSettings
 {
@@ -25,7 +25,7 @@ class Q_HOLON_EXPORT HolonAbstractTask : public QObject, public QLoaderSettings
 
 protected:
     HolonAbstractTask(QLoaderSettings *settings, HolonTaskFolder *folder);
-    HolonAbstractTask(QLoaderSettings *settings, HolonWorkflowModelBranch *workflowModelBranch);
+    HolonAbstractTask(QLoaderSettings *settings, HolonWorkflow *workflow);
 
 public:
     ~HolonAbstractTask();
@@ -37,6 +37,7 @@ public:
     virtual QIcon icon() const;
     bool isCopyable(const QStringList &to) const override;
     bool isCurrent() const;
+    bool isOpen() const;
     virtual int role() const;
     virtual QString title() const;
     virtual QWidget *widget(int role = Holon::NoRole) const;

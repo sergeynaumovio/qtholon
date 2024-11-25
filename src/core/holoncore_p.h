@@ -6,14 +6,12 @@
 
 #include <QList>
 
-class HolonTaskModel;
-class HolonWorkflowModel;
+class HolonWorkflow;
 
 class HolonCorePrivate
 {
 public:
-    QList<HolonWorkflowModel *> workflowModelList;
-    HolonWorkflowModel *currentWorkflowModel{};
+    QList<HolonWorkflow *> workflowList;
 };
 
 #endif // HOLONDESKTOP_P_H

@@ -12,7 +12,7 @@ class HolonAbstractWidget;
 class HolonAbstractWindow;
 class HolonDesktop;
 class HolonTaskFolder;
-class HolonWorkflowModelBranch;
+class HolonWorkflow;
 
 using WidgetRole = int;
 
@@ -21,7 +21,7 @@ class HolonAbstractTaskPrivate
 public:
     HolonAbstractTask *const q_ptr;
     HolonTaskFolder *const folder;
-    HolonWorkflowModelBranch *const workflowModelBranch;
+    HolonWorkflow *const workflow;
     HolonDesktop *const desktop;
     QMap<WidgetRole, QList<HolonAbstractWindow *>> windowList;
     QMap<WidgetRole, HolonAbstractWidget *> widgetList;
@@ -30,7 +30,7 @@ public:
                              HolonTaskFolder *folder = nullptr);
 
     HolonAbstractTaskPrivate(HolonAbstractTask *q = nullptr,
-                             HolonWorkflowModelBranch *branch = nullptr);
+                             HolonWorkflow *workflow = nullptr);
 
     void setCurrent(bool current);
 };

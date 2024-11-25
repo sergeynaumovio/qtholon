@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONMESSAGESWINDOW_H
@@ -15,7 +15,7 @@ class HolonMessagesWindow : public HolonAbstractWindow
 {
     Q_OBJECT
 
-    const QScopedStorage<HolonMessagesWindowPrivate, 40> d_ptr;
+    const QScopedStorage<HolonMessagesWindowPrivate, 32> d_ptr;
 
 public:
     HolonMessagesWindow(QLoaderSettings *settings, HolonDesktop *parent);

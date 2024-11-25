@@ -1,11 +1,10 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonopentasktreewindow.h"
 #include "holondesktop.h"
 #include "holonsidebar.h"
 #include "holonopentasktreeview.h"
-#include "holonworkflowmodel.h"
 #include <QBoxLayout>
 #include <QHeaderView>
 #include <QIcon>
@@ -22,7 +21,6 @@ public:
     HolonOpenTaskTreeWindow *const q_ptr;
     QLoaderSettings *const settings;
     HolonDesktop *const desktop;
-    HolonWorkflowModel *workflowModel{};
     QTreeView *view{};
 
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONOPENTASKTREEVIEW_H
@@ -9,7 +9,6 @@
 
 class HolonDesktop;
 class HolonOpenTaskTreeViewPrivate;
-class HolonWorkflowModel;
 
 class HolonOpenTaskTreeView : public QTreeView
 {

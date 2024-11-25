@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonmessageswindow.h"
@@ -16,7 +16,6 @@ public:
     HolonMessagesWindow *const q_ptr;
     QLoaderSettings *const settings;
     HolonDesktop *const desktop;
-    HolonWorkflowModel *workflowModel{};
     HolonTaskStackedWidget *stackedWidget{};
 
     HolonMessagesWindowPrivate(HolonMessagesWindow *q = nullptr,

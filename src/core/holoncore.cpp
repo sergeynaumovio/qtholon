@@ -12,8 +12,3 @@ HolonCore::HolonCore(QLoaderSettings *settings, QObject *parent)
 
 HolonCore::~HolonCore()
 { }
-
-void HolonCore::addWorkflowModel(HolonWorkflowModel *workflowModel)
-{
-    d_ptr->workflowModelList.append(workflowModel);
-}

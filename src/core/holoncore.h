@@ -9,7 +9,6 @@
 
 class HolonCorePrivate;
 class HolonTaskModel;
-class HolonWorkflowModel;
 
 class Q_HOLON_EXPORT HolonCore : public QObject, public QLoaderSettings
 {
@@ -20,8 +19,6 @@ class Q_HOLON_EXPORT HolonCore : public QObject, public QLoaderSettings
 public:
     explicit HolonCore(QLoaderSettings *settings, QObject *parent);
     ~HolonCore();
-
-    void addWorkflowModel(HolonWorkflowModel *workflowModel);
 };
 
 #endif // HOLONCORE_H
