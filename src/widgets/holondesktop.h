@@ -35,7 +35,6 @@ public:
 
     void addSidebar(HolonSidebar *sidebar);
     void addTask(HolonAbstractTask *task);
-    void addTheme(HolonTheme *theme);
     void addWindow(HolonAbstractWindow *window);
     void addWindowArea(HolonWindowArea *windowArea);
     void addWorkflow(HolonWorkflow *workflow);
@@ -43,11 +42,11 @@ public:
     void closeWindow(HolonAbstractWindow *window);
     void closeWindowArea(HolonWindowArea *windowArea);
     HolonAbstractTask *currentTask() const;
-    HolonTheme *currentTheme() const;
     void setCurrentTask(HolonAbstractTask *task);
-    void setCurrentTheme(HolonTheme *theme);
     void setCurrentWindow(HolonAbstractWindow *window);
     void setCurrentWindowArea(HolonWindowArea *windowArea);
+    void setTheme(HolonTheme *theme);
+    HolonTheme *theme() const;
     QList<HolonAbstractWindow *> windows() const;
     HolonWorkflow *workflow() const;
 };

@@ -53,9 +53,9 @@ HolonDesktop *HolonTaskFolder::desktop() const
 QIcon HolonTaskFolder::icon(Holon::TreeItem state) const
 {
     if (state == Holon::Collapsed)
-        return desktop()->currentTheme()->icons()->dirClosedIcon();
+        return desktop()->theme()->icons()->dirClosedIcon();
 
-    return desktop()->currentTheme()->icons()->dirOpenIcon();
+    return desktop()->theme()->icons()->dirOpenIcon();
 }
 
 bool HolonTaskFolder::isExpanded() const

@@ -84,12 +84,12 @@ public:
     QHash<HolonAbstractWindow *, HolonWindowStackedWidget *> stackedWidgetByTaskWindow;
 
     HolonAbstractTask *currentTask{};
-    HolonTheme *currentTheme{};
     QHash<HolonAbstractTask *, HolonAbstractWindow *> currentTaskWindow;
     HolonAbstractWindow *currentWindow{};
     HolonWindowArea *currentWindowArea{};
     HolonWorkflow *currentWorkflow{};
     HolonOpenTaskTreeModel *openTaskTreeModel{};
+    HolonTheme *theme{};
 
     HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDesktop *q);
     ~HolonDesktopPrivateData() { }
@@ -97,7 +97,6 @@ public:
     void addObject(auto *object, auto &list, auto *&current);
     void addSidebar(HolonSidebar *sidebar);
     void addTask(HolonAbstractTask *task);
-    void addTheme(HolonTheme *theme);
     void addWidget(QWidget *widget, QWidget *parent);
     void addWindow(HolonAbstractWindow *window);
     void addWindowArea(HolonWindowArea *windowArea);
@@ -112,6 +111,7 @@ public:
     void setLayout();
     void setMainWindow(HolonMainWindow *&widget, const QString &name, QWidget *parent);
     void setTaskbar();
+    void setTheme(HolonTheme *theme);
     void setVBoxLayout();
     void setVBoxLayout(QWidget *&widget, const QString &name, QWidget *parent);
 };
@@ -350,11 +350,6 @@ void HolonDesktopPrivateData::addTask(HolonAbstractTask *task)
         currentTask = task;
 }
 
-void HolonDesktopPrivateData::addTheme(HolonTheme *theme)
-{
-    addObject(theme, themeList, currentTheme);
-}
-
 void HolonDesktopPrivateData::addWidget(QWidget *widget, QWidget *parent)
 {
     parent->layout()->addWidget(widget);
@@ -548,6 +543,14 @@ void HolonDesktopPrivateData::setTaskbar()
     addWidget(taskbar, parent);
 }
 
+void HolonDesktopPrivateData::setTheme(HolonTheme *theme)
+{
+    if (!this->theme)
+        this->theme = theme;
+    else
+        desktop_d.emitWarning(u"theme already set"_s);
+}
+
 void HolonDesktopPrivateData::setVBoxLayout()
 {
     q_ptr->setLayout(new QVBoxLayout(q_ptr));
@@ -590,18 +593,6 @@ void HolonDesktopPrivate::addTask(HolonAbstractTask *task)
     d_ptr->addTask(task);
 }
 
-void HolonDesktopPrivate::addTheme(HolonTheme *theme)
-{
-    d_ptr->addTheme(theme);
-    theme->d_ptr->desktop_d = this;
-
-    if (theme == d_ptr->currentTheme)
-    {
-        theme->d_ptr->style->d_ptr->desktop_d = this;
-        QApplication::setStyle(theme->d_ptr->style);
-    }
-}
-
 void HolonDesktopPrivate::addWindow(HolonAbstractWindow *window)
 {
     d_ptr->addWindow(window);
@@ -637,17 +628,6 @@ HolonAbstractTask *HolonDesktopPrivate::currentTask() const
     return d_ptr->currentTask;
 }
 
-HolonTheme *HolonDesktopPrivate::currentTheme() const
-{
-    if (!d_ptr->currentTheme)
-    {
-        d_ptr->currentTheme = new HolonTheme(q_ptr->tree()->settings(q_ptr), q_ptr);
-        q_ptr->emitWarning(u"create default theme"_s);
-    }
-
-    return d_ptr->currentTheme;
-}
-
 void HolonDesktopPrivate::emitWarning(const QString &warning) const
 {
     q_ptr->emitWarning(warning);
@@ -665,23 +645,6 @@ void HolonDesktopPrivate::setCurrentTask(HolonAbstractTask *task)
 
     if (task)
         task->d_ptr->setCurrent(true);
-}
-
-void HolonDesktopPrivate::setCurrentTheme(HolonTheme *theme)
-{
-    if (theme == d_ptr->currentTheme)
-        return;
-
-    if (d_ptr->currentTheme)
-    {
-        QLoaderSettings *themeSettings = q_ptr->tree()->settings(d_ptr->currentTheme);
-        if (themeSettings != q_ptr)
-        {
-            d_ptr->currentTheme->d_ptr->setCurrent(false);
-            theme->d_ptr->setCurrent(true);
-            q_ptr->emitWarning(u"theme change will take effect after restart"_s);
-        }
-    }
 }
 
 void HolonDesktopPrivate::setCurrentWindow(HolonAbstractWindow *window)
@@ -715,6 +678,29 @@ void HolonDesktopPrivate::setCurrentWindowArea(HolonWindowArea *windowArea)
 void HolonDesktopPrivate::setLayout()
 {
     d_ptr->setLayout();
+}
+
+void HolonDesktopPrivate::setTheme(HolonTheme *theme)
+{
+    d_ptr->setTheme(theme);
+    theme->d_ptr->desktop_d = this;
+
+    if (theme == d_ptr->theme)
+    {
+        theme->d_ptr->style->d_ptr->desktop_d = this;
+        QApplication::setStyle(theme->d_ptr->style);
+    }
+}
+
+HolonTheme *HolonDesktopPrivate::theme() const
+{
+    if (!d_ptr->theme)
+    {
+        d_ptr->theme = new HolonTheme(q_ptr->tree()->settings(q_ptr), q_ptr);
+        q_ptr->emitWarning(u"create default theme"_s);
+    }
+
+    return d_ptr->theme;
 }
 
 HolonDesktopPrivate::~HolonDesktopPrivate()

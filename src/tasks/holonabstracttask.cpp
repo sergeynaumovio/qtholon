@@ -68,7 +68,7 @@ HolonDesktop *HolonAbstractTask::desktop() const
 
 QIcon HolonAbstractTask::icon() const
 {
-    return desktop()->currentTheme()->icons()->taskIcon();
+    return desktop()->theme()->icons()->taskIcon();
 }
 
 bool HolonAbstractTask::isCopyable(const QStringList &to) const

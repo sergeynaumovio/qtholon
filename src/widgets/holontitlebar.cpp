@@ -169,7 +169,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
                 });
             }
 
-            d_ptr->splitButton = addButton(desktop->currentTheme()->icons()->splitButtonHorizontalIcon());
+            d_ptr->splitButton = addButton(desktop->theme()->icons()->splitButtonHorizontalIcon());
             d_ptr->splitButton->show();
             d_ptr->splitButton->setMenu(menu);
             d_ptr->splitButton->setPopupMode(QToolButton::InstantPopup);
@@ -177,20 +177,20 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
 
         if (window->flags().testFlag(Holon::WindowMinMaxButtonsHint))
         {
-            d_ptr->maximizeButton = addButton(desktop->currentTheme()->icons()->maximizeIcon());
+            d_ptr->maximizeButton = addButton(desktop->theme()->icons()->maximizeIcon());
             {
                 connect(d_ptr->maximizeButton, &QToolButton::clicked, this, [=, this]()
                 {
                     windowarea_d_ptr->maximized = !windowarea_d_ptr->maximized;
                     if (windowarea_d_ptr->maximized)
                     {
-                        d_ptr->maximizeButton->setIcon(desktop->currentTheme()->icons()->minimizeIcon());
+                        d_ptr->maximizeButton->setIcon(desktop->theme()->icons()->minimizeIcon());
                         d_ptr->splitButton->setDisabled(true);
                         d_ptr->closeButton->setDisabled(true);
                     }
                     else
                     {
-                        d_ptr->maximizeButton->setIcon(desktop->currentTheme()->icons()->maximizeIcon());
+                        d_ptr->maximizeButton->setIcon(desktop->theme()->icons()->maximizeIcon());
                         d_ptr->splitButton->setDisabled(false);
                         d_ptr->closeButton->setDisabled(false);
                     }
@@ -205,7 +205,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
 
         if (area)
         {
-            HolonThemeIcons *icons = desktop->currentTheme()->icons();
+            HolonThemeIcons *icons = desktop->theme()->icons();
             icon = area == Qt::LeftDockWidgetArea ? icons->splitButtonCloseLeftIcon() :
                    area == Qt::RightDockWidgetArea ? icons->splitButtonCloseRightIcon() :
                    area == Qt::TopDockWidgetArea ? icons->splitButtonCloseTopIcon() :
@@ -264,7 +264,7 @@ void HolonTitleBar::setDockWidgetArea(Qt::DockWidgetArea area)
     if (!d_ptr->closeButton)
         return;
 
-    HolonThemeIcons *icons = d_ptr->desktop->currentTheme()->icons();
+    HolonThemeIcons *icons = d_ptr->desktop->theme()->icons();
 
     if (area == Qt::LeftDockWidgetArea)
         return d_ptr->closeButton->setIcon(icons->splitButtonCloseLeftIcon());

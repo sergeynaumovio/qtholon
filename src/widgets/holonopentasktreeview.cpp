@@ -45,7 +45,7 @@ void HolonTaskDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
 
     if (isMouseOver && index.column() == 1)
     {
-        HolonThemeIcons *icons = view->desktop()->currentTheme()->icons();
+        HolonThemeIcons *icons = view->desktop()->theme()->icons();
         QIcon icon = (option.state.testAnyFlag(QStyle::State_Selected) ? icons->closeBackgroundIcon()
                                                                        : icons->closeForegroundIcon());
         int voffset = (option.rect.height() - iconsSize) / 2;
