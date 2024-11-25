@@ -47,7 +47,7 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
                 if (HolonDockWidget *dockWidget = qobject_cast<HolonDockWidget *>(object->parent()))
                     if (HolonAbstractWindow *window = dockWidget->window())
                         if (qobject_cast<HolonAbstractTask *>(window->parent()))
-                            setCurrentWindow(window);
+                            setWindow(window);
         });
     }
 
@@ -121,24 +121,9 @@ void HolonDesktop::closeWindowArea(HolonWindowArea *windowArea)
     d_ptr->closeWindowArea(windowArea);
 }
 
-HolonAbstractTask *HolonDesktop::currentTask() const
+void HolonDesktop::setTask(HolonAbstractTask *task)
 {
-    return d_ptr->currentTask();
-}
-
-void HolonDesktop::setCurrentTask(HolonAbstractTask *task)
-{
-    d_ptr->setCurrentTask(task);
-}
-
-void HolonDesktop::setCurrentWindow(HolonAbstractWindow *window)
-{
-    d_ptr->setCurrentWindow(window);
-}
-
-void HolonDesktop::setCurrentWindowArea(HolonWindowArea *windowArea)
-{
-    d_ptr->setCurrentWindowArea(windowArea);
+    d_ptr->setTask(task);
 }
 
 void HolonDesktop::setTheme(HolonTheme *theme)
@@ -146,14 +131,24 @@ void HolonDesktop::setTheme(HolonTheme *theme)
     d_ptr->setTheme(theme);
 }
 
+void HolonDesktop::setWindow(HolonAbstractWindow *window)
+{
+    d_ptr->setWindow(window);
+}
+
+void HolonDesktop::setWindowArea(HolonWindowArea *windowArea)
+{
+    d_ptr->setWindowArea(windowArea);
+}
+
+HolonAbstractTask *HolonDesktop::task() const
+{
+    return d_ptr->task();
+}
+
 HolonTheme *HolonDesktop::theme() const
 {
     return d_ptr->theme();
-}
-
-QList<HolonAbstractWindow *> HolonDesktop::windows() const
-{
-    return d_ptr->windows();
 }
 
 HolonWorkflow *HolonDesktop::workflow() const

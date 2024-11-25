@@ -177,7 +177,7 @@ HolonWindowAreaButton::HolonWindowAreaButton(HolonWindowAreaSwitchPrivate &swtch
     {
         if (checked)
         {
-            desktop_d.q_ptr->setCurrentWindowArea(windowArea);
+            desktop_d.q_ptr->setWindowArea(windowArea);
 
             for (QAbstractButton *button : switch_d.windowAreaButtonGroup->buttons())
             {
@@ -186,6 +186,6 @@ HolonWindowAreaButton::HolonWindowAreaButton(HolonWindowAreaSwitchPrivate &swtch
             }
         }
         else if (!switch_d.windowAreaButtonGroup->checkedButton())
-            desktop_d.q_ptr->setCurrentWindowArea(nullptr);
+            desktop_d.q_ptr->setWindowArea(nullptr);
     });
 }

@@ -61,7 +61,7 @@ QList<HolonAbstractWindow *> HolonTitleBar::siblingWindows(HolonAbstractWindow *
 {
     QList<HolonAbstractWindow *> windowList;
 
-    for (HolonAbstractWindow *second : window->desktop()->windows())
+    for (HolonAbstractWindow *second : window->desktop()->findChildren<HolonAbstractWindow *>(Qt::FindDirectChildrenOnly))
     {
         Holon::WindowFlags taskWindow = Holon::TaskWindow | Holon::WindowSplitButtonHint;
         Holon::WindowFlags sidebarWindow = Holon::SidebarWindow | Holon::WindowSplitButtonHint;

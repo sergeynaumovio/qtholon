@@ -63,7 +63,6 @@ public:
 
     QList<HolonAbstractTask *> taskList;
     QList<HolonTheme *> themeList;
-    QList<HolonAbstractWindow *> windowList;
 
     struct
     {
@@ -357,16 +356,6 @@ void HolonDesktopPrivateData::addWidget(QWidget *widget, QWidget *parent)
 
 void HolonDesktopPrivateData::addWindow(HolonAbstractWindow *window)
 {
-    if (window->parent() == q_ptr)
-    {
-        if (windowList.contains(window))
-            return;
-
-        windowList.append(window);
-
-        return;
-    }
-
     if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(window->parent()))
     {
         if (window->role() == Holon::NoRole)
@@ -623,17 +612,17 @@ void HolonDesktopPrivate::closeWindowArea(HolonWindowArea *windowArea)
     taskbar()->sidebarSwitch()->closeWindowArea(windowArea);
 }
 
-HolonAbstractTask *HolonDesktopPrivate::currentTask() const
-{
-    return d_ptr->currentTask;
-}
-
 void HolonDesktopPrivate::emitWarning(const QString &warning) const
 {
     q_ptr->emitWarning(warning);
 }
 
-void HolonDesktopPrivate::setCurrentTask(HolonAbstractTask *task)
+void HolonDesktopPrivate::setLayout()
+{
+    d_ptr->setLayout();
+}
+
+void HolonDesktopPrivate::setTask(HolonAbstractTask *task)
 {
     if (task == d_ptr->currentTask)
         return;
@@ -647,7 +636,7 @@ void HolonDesktopPrivate::setCurrentTask(HolonAbstractTask *task)
         task->d_ptr->setCurrent(true);
 }
 
-void HolonDesktopPrivate::setCurrentWindow(HolonAbstractWindow *window)
+void HolonDesktopPrivate::setWindow(HolonAbstractWindow *window)
 {
     if (window == d_ptr->currentWindow)
         return;
@@ -661,7 +650,7 @@ void HolonDesktopPrivate::setCurrentWindow(HolonAbstractWindow *window)
         window->d_ptr->setCurrent(true);
 }
 
-void HolonDesktopPrivate::setCurrentWindowArea(HolonWindowArea *windowArea)
+void HolonDesktopPrivate::setWindowArea(HolonWindowArea *windowArea)
 {
     if (windowArea == d_ptr->currentWindowArea)
         return;
@@ -675,11 +664,6 @@ void HolonDesktopPrivate::setCurrentWindowArea(HolonWindowArea *windowArea)
         windowArea->d_ptr->setChecked(true);
 }
 
-void HolonDesktopPrivate::setLayout()
-{
-    d_ptr->setLayout();
-}
-
 void HolonDesktopPrivate::setTheme(HolonTheme *theme)
 {
     d_ptr->setTheme(theme);
@@ -690,6 +674,11 @@ void HolonDesktopPrivate::setTheme(HolonTheme *theme)
         theme->d_ptr->style->d_ptr->desktop_d = this;
         QApplication::setStyle(theme->d_ptr->style);
     }
+}
+
+HolonAbstractTask *HolonDesktopPrivate::task() const
+{
+    return d_ptr->currentTask;
 }
 
 HolonTheme *HolonDesktopPrivate::theme() const
@@ -719,11 +708,6 @@ HolonTaskbar *HolonDesktopPrivate::taskbar() const
 HolonDesktopPrivate::TaskbarArea HolonDesktopPrivate::taskbarArea() const
 {
     return d_ptr->taskbarArea;
-}
-
-QList<HolonAbstractWindow *> HolonDesktopPrivate::windows() const
-{
-    return d_ptr->windowList;
 }
 
 HolonWorkflow *HolonDesktopPrivate::workflow() const

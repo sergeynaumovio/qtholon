@@ -162,7 +162,7 @@ void HolonOpenTaskTreeView::setModel(QAbstractItemModel *model)
         QObject *addedObject = static_cast<QObject *>(index.internalPointer());
         if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(addedObject))
         {
-            desktop()->setCurrentTask(task);
+            desktop()->setTask(task);
             setCurrentIndex(index);
         }
     });
@@ -171,7 +171,7 @@ void HolonOpenTaskTreeView::setModel(QAbstractItemModel *model)
     {
         QObject *clickedObject = static_cast<QObject *>(index.internalPointer());
         if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(clickedObject))
-            desktop()->setCurrentTask(task);
+            desktop()->setTask(task);
     });
 
     connect(this, &HolonOpenTaskTreeView::closeActivated, this, [=, this](const QModelIndex &index)

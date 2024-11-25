@@ -41,13 +41,12 @@ public:
     void closeTask(HolonAbstractTask *task);
     void closeWindow(HolonAbstractWindow *window);
     void closeWindowArea(HolonWindowArea *windowArea);
-    HolonAbstractTask *currentTask() const;
-    void setCurrentTask(HolonAbstractTask *task);
-    void setCurrentWindow(HolonAbstractWindow *window);
-    void setCurrentWindowArea(HolonWindowArea *windowArea);
+    void setTask(HolonAbstractTask *task);
     void setTheme(HolonTheme *theme);
+    void setWindow(HolonAbstractWindow *window);
+    void setWindowArea(HolonWindowArea *windowArea);
+    HolonAbstractTask *task() const;
     HolonTheme *theme() const;
-    QList<HolonAbstractWindow *> windows() const;
     HolonWorkflow *workflow() const;
 };
 
