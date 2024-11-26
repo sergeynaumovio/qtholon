@@ -158,6 +158,7 @@ set(QT_HOLON_PUBLIC_HEADERS
     src/widgets/HolonTheme
     src/widgets/HolonThemeColors
     src/widgets/HolonThemeIcons
+    src/widgets/HolonThemeStyle
     src/widgets/holonabstractwidget.h
     src/widgets/holonabstractwindow.h
     src/widgets/holondesktop.h
@@ -166,6 +167,7 @@ set(QT_HOLON_PUBLIC_HEADERS
     src/widgets/holontheme.h
     src/widgets/holonthemecolors.h
     src/widgets/holonthemeicons.h
+    src/widgets/holonthemestyle.h
 )
 
 set_target_properties(${QT_HOLON_LIBRARY} PROPERTIES
