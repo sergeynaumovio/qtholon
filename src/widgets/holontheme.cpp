@@ -149,8 +149,3 @@ HolonThemeIcons *HolonTheme::icons() const
 {
     return d_ptr->icons;
 }
-
-bool HolonTheme::isCurrent() const
-{
-    return value(u"current"_s).toBool();
-}
