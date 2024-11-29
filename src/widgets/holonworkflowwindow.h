@@ -16,7 +16,7 @@ class HolonWorkflowWindow : public HolonAbstractWindow
 {
     Q_OBJECT
 
-    const QScopedStorage<HolonWorkflowWindowPrivate, 16> d_ptr;
+    const QScopedStorage<HolonWorkflowWindowPrivate, 24> d_ptr;
 
 public:
     HolonWorkflowWindow(QLoaderSettings *settings, HolonDesktop *parent);

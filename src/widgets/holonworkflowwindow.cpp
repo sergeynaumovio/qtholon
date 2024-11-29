@@ -4,10 +4,13 @@
 #include "holonworkflowwindow.h"
 #include "holondesktop.h"
 #include "holonwindowarea.h"
+#include "holonworkflowscene.h"
 #include <QBoxLayout>
+#include <QGraphicsView>
 #include <QIcon>
 #include <QLabel>
 #include <QLoaderTree>
+#include <QScrollBar>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -15,26 +18,27 @@ class HolonWorkflowWindowPrivate
 {
 public:
     HolonWorkflowWindow *const q_ptr;
-    QWidget *central{};
+    HolonWorkflowScene *scene;
+    QGraphicsView *view{};
 
     HolonWorkflowWindowPrivate(HolonWorkflowWindow *q = nullptr)
     :   q_ptr(q)
     { }
-
 
     QWidget *widget()
     {
         if (!q_ptr)
             return nullptr;
 
-        if (central)
-            return central;
+        if (view)
+            return view;
 
-        central = new QWidget;
-        central->setLayout(new QVBoxLayout(central));
-        central->layout()->addWidget(new QLabel(u"Workflows"_s, central));
+        scene = new HolonWorkflowScene(q_ptr);
+        view = new QGraphicsView(scene);
+        view->setFrameStyle(QFrame::NoFrame);
+        view->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 
-        return central;
+        return view;
     }
 };
 
