@@ -21,9 +21,6 @@ public:
     QList<HolonAbstractTask *> taskList;
     QModelIndex currentIndex;
 
-    HolonWorkflowItem *rootItem;
-    QHash<uint, HolonWorkflowItem *> children;
-
     HolonWorkflowPrivate(HolonWorkflow *q, HolonCore *core, HolonDesktop *desktop);
     ~HolonWorkflowPrivate();
 

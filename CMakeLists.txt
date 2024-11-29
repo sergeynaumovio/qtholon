@@ -51,8 +51,6 @@ target_sources(${QT_HOLON_LIBRARY}
             src/core/holonworkflow.h
             src/core/holonworkflow_p.cpp
             src/core/holonworkflow_p.h
-            src/core/holonworkflowitem.cpp
-            src/core/holonworkflowitem.h
             src/core/qtholonglobal.h
             src/tasks/holonabstracttask.cpp
             src/tasks/holonabstracttask.h

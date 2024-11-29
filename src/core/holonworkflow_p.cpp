@@ -4,36 +4,21 @@
 #include "holonworkflow_p.h"
 #include "holonabstracttask.h"
 #include "holonworkflow.h"
-#include "holonworkflowitem.h"
 
 using namespace Qt::Literals::StringLiterals;
 
 HolonWorkflowPrivate::HolonWorkflowPrivate(HolonWorkflow *q, HolonCore *c, HolonDesktop *desk)
 :   q_ptr(q),
     core(c),
-    desktop(desk),
-    rootItem(new HolonWorkflowItem)
+    desktop(desk)
 { }
 
 HolonWorkflowPrivate::~HolonWorkflowPrivate()
-{
-    delete rootItem;
-}
+{ }
 
 void HolonWorkflowPrivate::addTask(HolonAbstractTask *task)
 {
-    uint id = task->objectName().toUInt();
-
-    if (children.contains(id))
-        children.value(id)->task = task;
-    else
-    {
-        HolonWorkflowItem *item = new HolonWorkflowItem;
-        item->task = task;
-
-        rootItem->children.append(item);
-        children.insert(id, item);
-    }
+    Q_UNUSED(task)
 }
 
 QObject *HolonWorkflowPrivate::object(const QModelIndex &index) const
