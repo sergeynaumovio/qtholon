@@ -9,6 +9,14 @@
 
 using namespace Qt::Literals::StringLiterals;
 
+QIcon HolonThemeIconsPrivate::icon(const QList<HolonMaskColor<FileName> > &masks, QIcon &value)
+{
+    if (value.isNull())
+        value = theme->createIcon(masks);
+
+    return value;
+}
+
 HolonThemeIconsPrivate::HolonThemeIconsPrivate(HolonThemeIcons *q, HolonTheme *t)
 :   q_ptr(q),
     theme(t)
@@ -16,20 +24,14 @@ HolonThemeIconsPrivate::HolonThemeIconsPrivate(HolonThemeIcons *q, HolonTheme *t
 
 QIcon HolonThemeIconsPrivate::closeBackgroundIcon()
 {
-    if (closeBackground.isNull())
-        closeBackground = theme->createIcon({{u":/holon/close.xpm"_s,
-                                              theme->colors()->panelTextColorLight()}});
-
-    return closeBackground;
+    return icon({{u":/holon/close.xpm"_s,
+                  theme->colors()->panelTextColorLight()}}, closeBackground);
 }
 
 QIcon HolonThemeIconsPrivate::closeForegroundIcon()
 {
-    if (closeForeground.isNull())
-        closeForeground = theme->createIcon({{u":/holon/close.xpm"_s,
-                                              theme->colors()->panelTextColorDark()}});
-
-    return closeForeground;
+    return icon({{u":/holon/close.xpm"_s,
+                  theme->colors()->panelTextColorDark()}}, closeForeground);
 }
 
 QIcon HolonThemeIconsPrivate::dirClosedIcon()
@@ -70,92 +72,62 @@ QIcon HolonThemeIconsPrivate::dirOpenIcon()
 
 QIcon HolonThemeIconsPrivate::indicatorArrowDownIcon()
 {
-    if (indicatorArrowDown.isNull())
-        indicatorArrowDown = theme->createIcon({{u":/holon/indicator_arrowdown.xpm"_s,
-                                                 theme->colors()->iconsBaseColor()}});
-
-    return indicatorArrowDown;
+    return icon({{u":/holon/indicator_arrowdown.xpm"_s,
+                  theme->colors()->iconsBaseColor()}}, indicatorArrowDown);
 }
 
 QIcon HolonThemeIconsPrivate::indicatorArrowUpIcon()
 {
-    if (indicatorArrowUp.isNull())
-        indicatorArrowUp = theme->createIcon({{u":/holon/indicator_arrowup.xpm"_s,
-                                               theme->colors()->iconsBaseColor()}});
-
-    return indicatorArrowUp;
+    return icon({{u":/holon/indicator_arrowup.xpm"_s,
+                  theme->colors()->iconsBaseColor()}}, indicatorArrowUp);
 }
 
 QIcon HolonThemeIconsPrivate::maximizeIcon()
 {
-    if (maximize.isNull())
-        maximize = theme->createIcon({{u":/holon/maximize.xpm"_s,
-                                       theme->colors()->iconsBaseColor()}});
-
-    return maximize;
+    return icon({{u":/holon/maximize.xpm"_s,
+                  theme->colors()->iconsBaseColor()}}, maximize);
 }
 
 QIcon HolonThemeIconsPrivate::minimizeIcon()
 {
-    if (minimize.isNull())
-        minimize = theme->createIcon({{u":/holon/minimize.xpm"_s,
-                                       theme->colors()->iconsBaseColor()}});
-
-    return minimize;
+    return icon({{u":/holon/minimize.xpm"_s,
+                  theme->colors()->iconsBaseColor()}}, minimize);
 }
 
 QIcon HolonThemeIconsPrivate::splitButtonCloseBottomIcon()
 {
-    if (splitButtonCloseBottom.isNull())
-        splitButtonCloseBottom = theme->createIcon({{u":/holon/splitbutton_closebottom.xpm"_s,
-                                                     theme->colors()->iconsBaseColor()}});
-
-    return splitButtonCloseBottom;
+    return icon({{u":/holon/splitbutton_closebottom.xpm"_s,
+                  theme->colors()->iconsBaseColor()}}, splitButtonCloseBottom);
 }
 
 QIcon HolonThemeIconsPrivate::splitButtonCloseLeftIcon()
 {
-    if (splitButtonCloseLeft.isNull())
-        splitButtonCloseLeft = theme->createIcon({{u":/holon/splitbutton_closeleft.xpm"_s,
-                                                   theme->colors()->iconsBaseColor()}});
-
-    return splitButtonCloseLeft;
+    return icon({{u":/holon/splitbutton_closeleft.xpm"_s,
+                  theme->colors()->iconsBaseColor()}}, splitButtonCloseLeft);
 }
 
 QIcon HolonThemeIconsPrivate::splitButtonCloseRightIcon()
 {
-    if (splitButtonCloseRight.isNull())
-        splitButtonCloseRight = theme->createIcon({{u":/holon/splitbutton_closeright.xpm"_s,
-                                                    theme->colors()->iconsBaseColor()}});
-
-    return splitButtonCloseRight;
+    return icon({{u":/holon/splitbutton_closeright.xpm"_s,
+                  theme->colors()->iconsBaseColor()}}, splitButtonCloseRight);
 }
 
 QIcon HolonThemeIconsPrivate::splitButtonCloseTopIcon()
 {
-    if (splitButtonCloseTop.isNull())
-        splitButtonCloseTop = theme->createIcon({{u":/holon/splitbutton_closetop.xpm"_s,
-                                                  theme->colors()->iconsBaseColor()}});
-
-    return splitButtonCloseTop;
+    return icon({{u":/holon/splitbutton_closetop.xpm"_s,
+                  theme->colors()->iconsBaseColor()}}, splitButtonCloseTop);
 }
 
 QIcon HolonThemeIconsPrivate::splitButtonHorizontalIcon()
 {
-    if (splitHorizontal.isNull())
-        splitHorizontal = theme->createIcon({{u":/holon/splitbutton_horizontal.xpm"_s,
-                                              theme->colors()->iconsBaseColor()}});
-
-    return splitHorizontal;
+    return icon({{u":/holon/splitbutton_horizontal.xpm"_s,
+                  theme->colors()->iconsBaseColor()}}, splitHorizontal);
 }
 
 QIcon HolonThemeIconsPrivate::splitButtonVerticalIcon()
 {
-    if (splitVertical.isNull())
-        splitVertical = theme->createIcon({{u":/holon/splitbutton_vertical.xpm"_s,
-                                            theme->colors()->iconsBaseColor()}});
-
-    return splitVertical;
+    return icon({{u":/holon/splitbutton_vertical.xpm"_s,
+                  theme->colors()->iconsBaseColor()}}, splitVertical);
 }
 
 QIcon HolonThemeIconsPrivate::taskIcon()
@@ -170,4 +142,3 @@ QIcon HolonThemeIconsPrivate::taskIcon()
 
     return task;
 }
-

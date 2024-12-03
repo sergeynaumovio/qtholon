@@ -4,9 +4,9 @@
 #ifndef HOLONTHEMEICONS_P_H
 #define HOLONTHEMEICONS_P_H
 
+#include "holontheme.h"
 #include <QIcon>
 
-class HolonTheme;
 class HolonThemeColors;
 class HolonThemeIcons;
 class HolonThemeStyleSheets;
@@ -30,6 +30,8 @@ class HolonThemeIconsPrivate
     QIcon splitHorizontal;
     QIcon splitVertical;
     QIcon task;
+
+    QIcon icon(const QList<HolonMaskColor<FileName>> &masks, QIcon &value);
 
 public:
     HolonTheme *const theme;
