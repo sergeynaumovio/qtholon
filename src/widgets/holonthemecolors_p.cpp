@@ -6,6 +6,19 @@
 
 using namespace Qt::Literals::StringLiterals;
 
+QColor HolonThemeColorsPrivate::color(const QString &key, QColor &value, const QColor &defaultValue)
+{
+    if (value.isValid())
+        return value;
+
+    if ((value = q_ptr->value(key).value<QColor>()).isValid())
+        return value;
+
+    value = defaultValue;
+
+    return value;
+}
+
 HolonThemeColorsPrivate::HolonThemeColorsPrivate(HolonThemeColors *q, HolonTheme *t)
 :   q_ptr(q),
     theme(t)
@@ -13,130 +26,50 @@ HolonThemeColorsPrivate::HolonThemeColorsPrivate(HolonThemeColors *q, HolonTheme
 
 QColor HolonThemeColorsPrivate::baseColor()
 {
-    if (base.isValid())
-        return base;
-
-    if ((base = q_ptr->value(u"baseColor"_s).value<QColor>()).isValid())
-        return base;
-
-    base = QColor(54, 56, 58);
-
-    return base;
+    return color(u"baseColor"_s, base, {54, 56, 58});
 }
 
 QColor HolonThemeColorsPrivate::buttonHoveredColor()
 {
-    if (buttonHovered.isValid())
-        return buttonHovered;
-
-    if ((buttonHovered = q_ptr->value(u"buttonHoveredColor"_s).value<QColor>()).isValid())
-        return buttonHovered;
-
-    buttonHovered = QColor(74, 76, 78);
-
-    return buttonHovered;
+    return color(u"buttonHoveredColor"_s, buttonHovered, {74, 76, 78});
 }
 
 QColor HolonThemeColorsPrivate::buttonPressedColor()
 {
-    if (buttonPressed.isValid())
-        return buttonPressed;
-
-    if ((buttonPressed = q_ptr->value(u"buttonPressedColor"_s).value<QColor>()).isValid())
-        return buttonPressed;
-
-    buttonPressed = QColor(44, 46, 48);
-
-    return buttonPressed;
+    return color(u"buttonPressedColor"_s, buttonPressed, {44, 46, 48});
 }
 
 QColor HolonThemeColorsPrivate::buttonPressedHoveredColor()
 {
-    if (buttonPressedHovered.isValid())
-        return buttonPressedHovered;
-
-    if ((buttonPressedHovered = q_ptr->value(u"buttonPressedHoveredColor"_s).value<QColor>()).isValid())
-        return buttonPressedHovered;
-
-    buttonPressedHovered = QColor(24, 26, 28);
-
-    return buttonPressedHovered;
+    return color(u"buttonPressedHoveredColor"_s, buttonPressedHovered, {24, 26, 28});
 }
 
 QColor HolonThemeColorsPrivate::iconsBaseColor()
 {
-    if (iconsBase.isValid())
-        return iconsBase;
-
-    if ((iconsBase = q_ptr->value(u"iconsBaseColor"_s).value<QColor>()).isValid())
-        return iconsBase;
-
-    iconsBase = QColor(200, 200, 200);
-
-    return iconsBase;
+    return color(u"iconsBaseColor"_s, iconsBase, {200, 200, 200});
 }
 
 QColor HolonThemeColorsPrivate::iconsDisabledColor()
 {
-    if (iconsDisabled.isValid())
-        return iconsDisabled;
-
-    if ((iconsDisabled = q_ptr->value(u"iconsDisabledColor"_s).value<QColor>()).isValid())
-        return iconsDisabled;
-
-    iconsDisabled = QColor(100, 100, 100);
-
-    return iconsDisabled;
+    return color(u"iconsDisabledColor"_s, iconsDisabled, {100, 100, 100});
 }
 
 QColor HolonThemeColorsPrivate::mainWindowSeparatorColor()
 {
-    if (mainWindowSeparator.isValid())
-        return mainWindowSeparator;
-
-    if ((mainWindowSeparator = q_ptr->value(u"mainWindowSeparatorColor"_s).value<QColor>()).isValid())
-        return mainWindowSeparator;
-
-    mainWindowSeparator = QColor(34, 36, 38);
-
-    return mainWindowSeparator;
+    return color(u"mainWindowSeparatorColor"_s, mainWindowSeparator, {34, 36, 38});
 }
 
 QColor HolonThemeColorsPrivate::panelTextColorDark()
 {
-    if (panelTextDark.isValid())
-        return panelTextDark;
-
-    if ((panelTextDark = q_ptr->value(u"panelTextColorDark"_s).value<QColor>()).isValid())
-        return panelTextDark;
-
-    panelTextDark = QColor(50, 50, 50);
-
-    return panelTextDark;
+    return color(u"panelTextColorDark"_s, panelTextDark, {50, 50, 50});
 }
 
 QColor HolonThemeColorsPrivate::panelTextColorLight()
 {
-    if (panelTextLight.isValid())
-        return panelTextLight;
-
-    if ((panelTextLight = q_ptr->value(u"panelTextColorLight"_s).value<QColor>()).isValid())
-        return panelTextLight;
-
-    panelTextLight = QColor(255, 255, 255);
-
-    return panelTextLight;
+    return color(u"panelTextColorLight"_s, panelTextLight, {255, 255, 255});
 }
 
 QColor HolonThemeColorsPrivate::toolButtonSeparatorColor()
 {
-    if (toolButtonSeparator.isValid())
-        return toolButtonSeparator;
-
-    if ((toolButtonSeparator = q_ptr->value(u"toolButtonSeparatorColor"_s).value<QColor>()).isValid())
-        return toolButtonSeparator;
-
-    toolButtonSeparator = QColor(200, 200, 200, 60);
-
-    return toolButtonSeparator;
+    return color(u"toolButtonSeparatorColor"_s, toolButtonSeparator, {200, 200, 200, 60});
 }

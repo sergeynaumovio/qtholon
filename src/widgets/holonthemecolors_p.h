@@ -26,6 +26,8 @@ class HolonThemeColorsPrivate
     QColor panelTextLight;
     QColor toolButtonSeparator;
 
+    QColor color(const QString &key, QColor &value, const QColor &defaultValue);
+
 public:
     HolonTheme *const theme;
 
