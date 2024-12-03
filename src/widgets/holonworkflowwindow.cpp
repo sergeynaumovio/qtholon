@@ -60,7 +60,7 @@ HolonWorkflowWindow::~HolonWorkflowWindow()
 
 Holon::WindowFlags HolonWorkflowWindow::flags() const
 {
-    return {};
+    return Holon::WindowAllButtonsHint;
 }
 
 QIcon HolonWorkflowWindow::icon() const
