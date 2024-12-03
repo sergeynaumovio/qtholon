@@ -160,6 +160,11 @@ void HolonWindowAreaPrivate::setValue(const QString &key, const QVariant &value)
     q_ptr->setValue(key, value);
 }
 
+void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *window, Qt::Orientation orientation)
+{
+    splitWindow(window, window, orientation);
+}
+
 void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first,
                                          HolonAbstractWindow *second,
                                          Qt::Orientation splitOrientation)
