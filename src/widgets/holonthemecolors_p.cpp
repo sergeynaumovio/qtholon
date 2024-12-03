@@ -54,6 +54,11 @@ QColor HolonThemeColorsPrivate::iconsDisabledColor()
     return color(u"iconsDisabledColor"_s, iconsDisabled, {100, 100, 100});
 }
 
+QColor HolonThemeColorsPrivate::iconsMenuColor()
+{
+    return color(u"iconsMenuColor"_s, iconsMenu, {84, 86, 88});
+}
+
 QColor HolonThemeColorsPrivate::mainWindowSeparatorColor()
 {
     return color(u"mainWindowSeparatorColor"_s, mainWindowSeparator, {34, 36, 38});

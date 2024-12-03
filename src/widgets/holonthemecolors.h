@@ -29,6 +29,7 @@ public:
     virtual QColor buttonPressedHoveredColor() const;
     virtual QColor iconsBaseColor() const;
     virtual QColor iconsDisabledColor() const;
+    virtual QColor iconsMenuColor() const;
     virtual QColor mainWindowSeparatorColor() const;
     virtual QColor panelTextColorDark() const;
     virtual QColor panelTextColorLight() const;

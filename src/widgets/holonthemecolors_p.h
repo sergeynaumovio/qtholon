@@ -21,6 +21,7 @@ class HolonThemeColorsPrivate
     QColor buttonPressedHovered;
     QColor iconsBase;
     QColor iconsDisabled;
+    QColor iconsMenu;
     QColor mainWindowSeparator;
     QColor panelTextDark;
     QColor panelTextLight;
@@ -39,6 +40,7 @@ public:
     QColor buttonPressedHoveredColor();
     QColor iconsBaseColor();
     QColor iconsDisabledColor();
+    QColor iconsMenuColor();
     QColor mainWindowSeparatorColor();
     QColor panelTextColorDark();
     QColor panelTextColorLight();

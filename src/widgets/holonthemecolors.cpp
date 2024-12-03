@@ -45,6 +45,11 @@ QColor HolonThemeColors::iconsDisabledColor() const
     return d_ptr->iconsDisabledColor();
 }
 
+QColor HolonThemeColors::iconsMenuColor() const
+{
+    return d_ptr->iconsMenuColor();
+}
+
 QColor HolonThemeColors::mainWindowSeparatorColor() const
 {
     return d_ptr->mainWindowSeparatorColor();
