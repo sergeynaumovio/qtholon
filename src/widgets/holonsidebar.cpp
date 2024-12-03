@@ -62,3 +62,9 @@ QByteArray HolonSidebar::mainWindowState() const
 {
     return value(u"mainWindowState"_s).toByteArray();
 }
+
+Qt::Orientation HolonSidebar::orientation() const
+{
+    QByteArray area = value(u"area"_s).toByteArray();
+    return (area == "left" || area == "right" ? Qt::Vertical : Qt::Horizontal);
+}

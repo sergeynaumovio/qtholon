@@ -26,6 +26,7 @@ public:
     QString group() const;
     int mainWindowNestingIndex() const;
     QByteArray mainWindowState() const;
+    Qt::Orientation orientation() const;
 };
 
 #endif // HOLONSIDEBAR_H
