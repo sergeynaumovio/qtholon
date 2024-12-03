@@ -124,10 +124,22 @@ QIcon HolonThemeIconsPrivate::splitButtonHorizontalIcon()
                   theme->colors()->iconsBaseColor()}}, splitHorizontal);
 }
 
+QIcon HolonThemeIconsPrivate::splitButtonHorizontalMenuIcon()
+{
+    return icon({{u":/holon/splitbutton_horizontal.xpm"_s,
+                  theme->colors()->iconsMenuColor()}}, splitHorizontalMenu);
+}
+
 QIcon HolonThemeIconsPrivate::splitButtonVerticalIcon()
 {
     return icon({{u":/holon/splitbutton_vertical.xpm"_s,
                   theme->colors()->iconsBaseColor()}}, splitVertical);
+}
+
+QIcon HolonThemeIconsPrivate::splitButtonVerticalMenuIcon()
+{
+    return icon({{u":/holon/splitbutton_vertical.xpm"_s,
+                  theme->colors()->iconsMenuColor()}}, splitVerticalMenu);
 }
 
 QIcon HolonThemeIconsPrivate::taskIcon()

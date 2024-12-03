@@ -28,7 +28,9 @@ class HolonThemeIconsPrivate
     QIcon splitButtonCloseRight;
     QIcon splitButtonCloseTop;
     QIcon splitHorizontal;
+    QIcon splitHorizontalMenu;
     QIcon splitVertical;
+    QIcon splitVerticalMenu;
     QIcon task;
 
     QIcon icon(const QList<HolonMaskColor<FileName>> &masks, QIcon &value);
@@ -51,7 +53,9 @@ public:
     QIcon splitButtonCloseRightIcon();
     QIcon splitButtonCloseTopIcon();
     QIcon splitButtonHorizontalIcon();
+    QIcon splitButtonHorizontalMenuIcon();
     QIcon splitButtonVerticalIcon();
+    QIcon splitButtonVerticalMenuIcon();
     QIcon taskIcon();
 };
 

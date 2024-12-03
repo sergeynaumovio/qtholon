@@ -80,9 +80,19 @@ QIcon HolonThemeIcons::splitButtonHorizontalIcon() const
     return d_ptr->splitButtonHorizontalIcon();
 }
 
+QIcon HolonThemeIcons::splitButtonHorizontalMenuIcon() const
+{
+    return d_ptr->splitButtonHorizontalMenuIcon();
+}
+
 QIcon HolonThemeIcons::splitButtonVerticalIcon() const
 {
     return d_ptr->splitButtonVerticalIcon();
+}
+
+QIcon HolonThemeIcons::splitButtonVerticalMenuIcon() const
+{
+    return d_ptr->splitButtonVerticalMenuIcon();
 }
 
 QIcon HolonThemeIcons::taskIcon() const

@@ -39,7 +39,9 @@ public:
     virtual QIcon splitButtonCloseRightIcon() const;
     virtual QIcon splitButtonCloseTopIcon() const;
     virtual QIcon splitButtonHorizontalIcon() const;
+    virtual QIcon splitButtonHorizontalMenuIcon() const;
     virtual QIcon splitButtonVerticalIcon() const;
+    virtual QIcon splitButtonVerticalMenuIcon() const;
     virtual QIcon taskIcon() const;
     HolonTheme *theme() const;
 };
