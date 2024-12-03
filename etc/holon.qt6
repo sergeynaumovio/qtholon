@@ -6,9 +6,8 @@ geometry = QByteArray(AdnQywADAAAAAAAAAAAAFAAABVEAAAFxAAAAAAAAABQAAAVRAAABcQAAAA
 saveShortcut = Ctrl+S
 sidebarMoveShortcut = Alt+M
 
-[holon/default-theme]
+[holon/theme]
 class = HolonTheme
-current = true
 
 [holon/project-task-tree-window]
 class = HolonProjectTaskTreeWindow
@@ -171,7 +170,7 @@ checked = false
 shortcut = Alt+3
 title = 3  Workflows
 
-[holon/workflows/workflow-window]
+[holon/workflows/0]
 class = HolonWorkflowWindow
 
 [holon/messages]
