@@ -5,6 +5,7 @@
 #include "holonabstractwindow.h"
 #include "holondesktop.h"
 #include "holondockwidget.h"
+#include "holonsidebar.h"
 #include "holontheme.h"
 #include "holonthemeicons.h"
 #include "holonthemestyle.h"
@@ -97,6 +98,8 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
     {
         layout()->setSpacing(0);
 
+        HolonThemeIcons *icons = desktop->theme()->icons();
+
         if (window->flags().testFlag(Holon::WindowSplitButtonHint))
         {
             layout()->setContentsMargins({});
@@ -133,43 +136,46 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
         {
             QMenu *menu = new QMenu(parent);
 
-            QAction *split = new QAction(menu);
-            split->setText(u"Split"_s);
-            split->setCheckable(true);
-            split->setChecked(true);
-
-            QAction *splitSideBySide = new QAction(menu);
-            splitSideBySide->setText(u"Split Side By Side"_s);
-            splitSideBySide->setCheckable(true);
-
-            QAction *openNewWidnow = new QAction(menu);
-            openNewWidnow->setText(u"Open in New Window"_s);
-            openNewWidnow->setCheckable(true);
-            openNewWidnow->setDisabled(true);
-
-            QActionGroup *group = new QActionGroup(menu);
-            group->addAction(split);
-            group->addAction(splitSideBySide);
-            group->addAction(openNewWidnow);
-
-            menu->addActions({split, splitSideBySide, openNewWidnow});
-            menu->installEventFilter(new MenuEventFilter(menu));
-
-            menu->addSeparator();
-
-            QList<HolonAbstractWindow *> siblingWindowList = siblingWindows(window);
-            for (HolonAbstractWindow *siblingWindow : siblingWindowList)
+            if (HolonSidebar *sidebar = qobject_cast<HolonSidebar *>(window->parent()))
             {
-                QAction *action = new QAction(siblingWindow->icon(), siblingWindow->title(), menu);
-                menu->addAction(action);
-                connect(action, &QAction::triggered, parent, [=]
+                Qt::Orientation orientation = sidebar->orientation();
+                QList<HolonAbstractWindow *> siblingWindowList = siblingWindows(window);
+                for (HolonAbstractWindow *siblingWindow : siblingWindowList)
                 {
-                    Qt::Orientation orientation = (split->isChecked() ? Qt::Vertical : Qt::Horizontal);
-                    windowarea_d_ptr->splitWindow(window, siblingWindow, orientation);
+                    QAction *action = new QAction(siblingWindow->icon(), siblingWindow->title(), menu);
+                    menu->addAction(action);
+                    connect(action, &QAction::triggered, parent, [=]
+                    {
+                        windowarea_d_ptr->splitWindow(window, siblingWindow, orientation);
+                    });
+                }
+            }
+            else
+            {
+                QAction *split = new QAction(menu);
+                split->setText(u"Split"_s);
+                split->setIcon(icons->splitButtonVerticalMenuIcon());
+                connect(split, &QAction::triggered, parent, [=]
+                {
+                    windowarea_d_ptr->splitWindow(window, Qt::Vertical);
                 });
+
+                QAction *splitSideBySide = new QAction(menu);
+                splitSideBySide->setText(u"Split Side By Side"_s);
+                splitSideBySide->setIcon(icons->splitButtonHorizontalMenuIcon());
+                connect(splitSideBySide, &QAction::triggered, parent, [=]
+                {
+                    windowarea_d_ptr->splitWindow(window, Qt::Horizontal);
+                });
+
+                QAction *openNewWidnow = new QAction(menu);
+                openNewWidnow->setText(u"Open in New Window"_s);
+                openNewWidnow->setDisabled(true);
+
+                menu->addActions({split, splitSideBySide, openNewWidnow});
             }
 
-            d_ptr->splitButton = addButton(desktop->theme()->icons()->splitButtonHorizontalIcon());
+            d_ptr->splitButton = addButton(icons->splitButtonVerticalIcon());
             d_ptr->splitButton->show();
             d_ptr->splitButton->setMenu(menu);
             d_ptr->splitButton->setPopupMode(QToolButton::InstantPopup);
@@ -177,20 +183,20 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
 
         if (window->flags().testFlag(Holon::WindowMinMaxButtonsHint))
         {
-            d_ptr->maximizeButton = addButton(desktop->theme()->icons()->maximizeIcon());
+            d_ptr->maximizeButton = addButton(icons->maximizeIcon());
             {
                 connect(d_ptr->maximizeButton, &QToolButton::clicked, this, [=, this]()
                 {
                     windowarea_d_ptr->maximized = !windowarea_d_ptr->maximized;
                     if (windowarea_d_ptr->maximized)
                     {
-                        d_ptr->maximizeButton->setIcon(desktop->theme()->icons()->minimizeIcon());
+                        d_ptr->maximizeButton->setIcon(icons->minimizeIcon());
                         d_ptr->splitButton->setDisabled(true);
                         d_ptr->closeButton->setDisabled(true);
                     }
                     else
                     {
-                        d_ptr->maximizeButton->setIcon(desktop->theme()->icons()->maximizeIcon());
+                        d_ptr->maximizeButton->setIcon(icons->maximizeIcon());
                         d_ptr->splitButton->setDisabled(false);
                         d_ptr->closeButton->setDisabled(false);
                     }
@@ -205,7 +211,6 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
 
         if (area)
         {
-            HolonThemeIcons *icons = desktop->theme()->icons();
             icon = area == Qt::LeftDockWidgetArea ? icons->splitButtonCloseLeftIcon() :
                    area == Qt::RightDockWidgetArea ? icons->splitButtonCloseRightIcon() :
                    area == Qt::TopDockWidgetArea ? icons->splitButtonCloseTopIcon() :
