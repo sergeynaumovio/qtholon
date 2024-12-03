@@ -26,6 +26,7 @@
 #include "holonthemestyle_p.h"
 #include "holonwindowareaswitch.h"
 #include "holonworkflow.h"
+#include "holonworkflowwindow.h"
 #include <QApplication>
 #include <QLayout>
 #include <QLoaderTree>
@@ -399,6 +400,14 @@ void HolonDesktopPrivateData::closeWindow(HolonAbstractWindow *window)
     {
         sidebar->closeWindow(window);
         sidebars.byWindow.remove(window);
+
+        return;
+    }
+
+    if (qobject_cast<HolonWorkflowWindow *>(window))
+    {
+        HolonWindowArea *windowArea = qobject_cast<HolonWindowArea *>(window->parent());
+        windowArea->closeWindow(window);
 
         return;
     }
