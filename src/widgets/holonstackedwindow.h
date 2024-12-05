@@ -1,0 +1,31 @@
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// SPDX-License-Identifier: 0BSD
+
+#ifndef HOLONSTACKEDWINDOW_H
+#define HOLONSTACKEDWINDOW_H
+
+#include "holonabstractwindow.h"
+
+class HolonStackedWindowPrivate;
+
+class Q_HOLON_EXPORT HolonStackedWindow : public HolonAbstractWindow
+{
+    Q_OBJECT
+
+    friend class HolonWindowAreaPrivate;
+    const QScopedPointer<HolonStackedWindowPrivate> d_ptr;
+
+public:
+    HolonStackedWindow(QLoaderSettings *settings, HolonAbstractTask *parent);
+    HolonStackedWindow(QLoaderSettings *settings, HolonWindowArea *parent);
+
+    ~HolonStackedWindow();
+
+    void addWindow(HolonAbstractWindow *window);
+    HolonDesktop *desktop() const;
+    Holon::WindowFlags flags() const override;
+    void setWindow(HolonAbstractWindow *window);
+    QWidget *widget(int role = Holon::NoRole) const override;
+};
+
+#endif // HOLONSTACKEDWINDOW_H
