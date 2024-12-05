@@ -5,6 +5,7 @@
 #include "holondesktop.h"
 #include "holonsidebar.h"
 #include "holonopentasktreeview.h"
+#include "holonstackedwindow.h"
 #include <QBoxLayout>
 #include <QHeaderView>
 #include <QIcon>
@@ -57,6 +58,13 @@ HolonOpenTaskTreeWindow::HolonOpenTaskTreeWindow(QLoaderSettings *settings, Holo
     parent->addWindow(this);
 }
 
+HolonOpenTaskTreeWindow::HolonOpenTaskTreeWindow(QLoaderSettings *settings, HolonStackedWindow *parent)
+:   HolonAbstractWindow(settings, parent),
+    d_ptr(this, settings, parent->desktop())
+{
+    parent->addWindow(this);
+}
+
 HolonOpenTaskTreeWindow::~HolonOpenTaskTreeWindow()
 { }
 
@@ -77,7 +85,7 @@ bool HolonOpenTaskTreeWindow::isCopyable(const QStringList &to) const
     {
         parentSection.removeLast();
         QObject *parent = tree()->object(parentSection);
-        if (qobject_cast<HolonSidebar *>(parent))
+        if (qobject_cast<HolonSidebar *>(parent) || qobject_cast<HolonStackedWindow *>(parent))
             return true;
     }
 

@@ -11,7 +11,6 @@
 class HolonAbstractWindow;
 class HolonDesktop;
 class HolonWindowAreaPrivate;
-class QStackedWidget;
 
 class Q_HOLON_EXPORT HolonWindowArea : public QWidget, public QLoaderSettings
 {

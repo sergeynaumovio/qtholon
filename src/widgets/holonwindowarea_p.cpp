@@ -8,6 +8,8 @@
 #include "holondockwidget.h"
 #include "holondockwidgetsplitstate.h"
 #include "holonid.h"
+#include "holonstackedwindow.h"
+#include "holonstackedwindow_p.h"
 #include "holontitlebar.h"
 #include "holonwindowarea.h"
 #include <QLoaderTree>
@@ -57,7 +59,7 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
         desktop->addWindow(window);
 
     if (dockByWindow.count() > 1)
-        for (const HolonDockWidget *dockWidget: std::as_const(dockByWindow))
+        for (const HolonDockWidget *dockWidget : dockByWindow)
         {
             dockWidget->titleBar()->showControlButtons();
             dockWidget->titleBar()->hideSidebarButton();
@@ -67,6 +69,9 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
         restoreMainWindowStateFromCache();
 
     dockWidgetSplitState->setSplitItemDock(dock);
+
+    if (HolonStackedWindow *stacked = qobject_cast<HolonStackedWindow *>(window))
+        stacked->d_ptr->titleBar = dock->titleBar();
 }
 
 Qt::DockWidgetArea HolonWindowAreaPrivate::area() const

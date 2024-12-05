@@ -10,6 +10,7 @@
 class HolonDesktop;
 class HolonOpenTaskTreeWindowPrivate;
 class HolonSidebar;
+class HolonStackedWindow;
 
 class HolonOpenTaskTreeWindow : public HolonAbstractWindow
 {
@@ -20,6 +21,7 @@ class HolonOpenTaskTreeWindow : public HolonAbstractWindow
 public:
     HolonOpenTaskTreeWindow(QLoaderSettings *settings, HolonDesktop *parent);
     HolonOpenTaskTreeWindow(QLoaderSettings *settings, HolonSidebar *parent);
+    HolonOpenTaskTreeWindow(QLoaderSettings *settings, HolonStackedWindow *parent);
     ~HolonOpenTaskTreeWindow();
 
     Holon::WindowFlags flags() const override;

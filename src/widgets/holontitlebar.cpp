@@ -2,13 +2,16 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holontitlebar.h"
+#include "holonabstracttask.h"
 #include "holonabstractwindow.h"
 #include "holondesktop.h"
 #include "holondockwidget.h"
+#include "holonid.h"
 #include "holonsidebar.h"
 #include "holontheme.h"
 #include "holonthemeicons.h"
 #include "holonthemestyle.h"
+#include "holonstackedwindow.h"
 #include "holonwindowarea.h"
 #include "holonwindowarea_p.h"
 #include <QActionGroup>
@@ -17,6 +20,7 @@
 #include <QComboBox>
 #include <QEvent>
 #include <QLabel>
+#include <QLoaderTree>
 #include <QMenu>
 #include <QStyleOption>
 #include <QStylePainter>
@@ -28,6 +32,7 @@ class HolonTitleBarPrivate
 {
 public:
     HolonDesktop *const desktop;
+    QComboBox *windowCombobox{};
     QToolButton *splitButton{};
     QToolButton *maximizeButton{};
     QToolButton *closeButton{};
@@ -36,6 +41,25 @@ public:
     HolonTitleBarPrivate(HolonDesktop *desk)
     :   desktop(desk)
     { }
+
+    void addWindow(HolonAbstractWindow *window)
+    {
+        int windowTypeId = window->metaObject()->metaType().id();
+
+        for (int index{}; index < windowCombobox->count(); ++index)
+        {
+            QStringList section = windowCombobox->itemData(index).toStringList();
+            int itemTypeId = window->tree()->object(section)->metaObject()->metaType().id();
+
+            if (windowTypeId == itemTypeId)
+            {
+                // fix addToolbar(window);
+
+                if (window->isCurrent())
+                    windowCombobox->setCurrentIndex(index);
+            }
+        }
+    }
 };
 
 class MenuEventFilter : public QObject
@@ -61,14 +85,14 @@ public:
 QList<HolonAbstractWindow *> HolonTitleBar::siblingWindows(HolonAbstractWindow *window)
 {
     QList<HolonAbstractWindow *> windowList;
+    Holon::WindowType unknown{};
+    Holon::WindowType type = (qobject_cast<HolonSidebar *>(window->parent()) ? Holon::SidebarWindow :
+                              qobject_cast<HolonAbstractTask *>(window->parent()) ? Holon::TaskWindow : unknown);
 
     for (HolonAbstractWindow *second : window->desktop()->findChildren<HolonAbstractWindow *>(Qt::FindDirectChildrenOnly))
     {
-        Holon::WindowFlags taskWindow = Holon::TaskWindow | Holon::WindowSplitButtonHint;
-        Holon::WindowFlags sidebarWindow = Holon::SidebarWindow | Holon::WindowSplitButtonHint;
-
-        if ((window->flags().testFlags(taskWindow) && second->flags().testFlags(taskWindow)) ||
-            (window->flags().testFlags(sidebarWindow) && second->flags().testFlags(sidebarWindow)))
+        if (window->flags().testFlags(Holon::WindowSplitButtonHint) && type &&
+            second->flags().testFlags(Holon::WindowSplitButtonHint | type))
         {
             windowList.append(second);
         }
@@ -100,17 +124,42 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
 
         HolonThemeIcons *icons = desktop->theme()->icons();
 
-        if (window->flags().testFlag(Holon::WindowSplitButtonHint))
+        if (HolonStackedWindow *stacked = qobject_cast<HolonStackedWindow *>(window))
         {
             layout()->setContentsMargins({});
-            QComboBox *combobox = new QComboBox(this);
+
+            QComboBox *&combobox = d_ptr->windowCombobox;
+            combobox = new QComboBox(this);
             {
                 QList<HolonAbstractWindow *> siblingWindowList = siblingWindows(window);
                 for (const HolonAbstractWindow *siblingWindow : siblingWindowList)
-                    combobox->addItem(siblingWindow->icon(), siblingWindow->title());
+                    combobox->addItem(siblingWindow->icon(), siblingWindow->title(), siblingWindow->section());
+
+                combobox->setCurrentIndex(-1);
+
+                connect(combobox, &QComboBox::currentIndexChanged, parent, [=](int index)
+                {
+                    QStringList section = combobox->itemData(index).toStringList();
+                    int typeId = window->tree()->object(section)->metaObject()->metaType().id();
+                    for (HolonAbstractWindow *child : window->findChildren<HolonAbstractWindow *>(Qt::FindDirectChildrenOnly))
+                    {
+                        if (typeId == child->metaObject()->metaType().id())
+                        {
+                            stacked->setWindow(child);
+                            // fix setToolbar(window)
+
+                            return;
+                        }
+                    }
+
+                    QStringList to = window->section();
+                    to.append(QString::number(HolonId::createChildId(window)));
+                    window->tree()->copy(section, to);
+                    HolonAbstractWindow *child = qobject_cast<HolonAbstractWindow *>(window->tree()->object(to));
+                    stacked->setWindow(child);
+                });
 
                 layout()->addWidget(combobox);
-                combobox->setCurrentText(window->title());
             }
         }
         else
@@ -207,15 +256,10 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
         }
 
         Qt::DockWidgetArea area = windowarea_d_ptr->area();
-        QIcon icon;
-
-        if (area)
-        {
-            icon = area == Qt::LeftDockWidgetArea ? icons->splitButtonCloseLeftIcon() :
-                   area == Qt::RightDockWidgetArea ? icons->splitButtonCloseRightIcon() :
-                   area == Qt::TopDockWidgetArea ? icons->splitButtonCloseTopIcon() :
-                                                   icons->splitButtonCloseBottomIcon();
-        }
+        QIcon icon = area == Qt::LeftDockWidgetArea ? icons->splitButtonCloseLeftIcon() :
+                     area == Qt::RightDockWidgetArea ? icons->splitButtonCloseRightIcon() :
+                     area == Qt::TopDockWidgetArea ? icons->splitButtonCloseTopIcon() :
+                                                     icons->splitButtonCloseBottomIcon();
 
         if (window->flags().testAnyFlag(Holon::WindowCloseButtonHint))
         {
@@ -242,6 +286,11 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
 
 HolonTitleBar::~HolonTitleBar()
 { }
+
+void HolonTitleBar::addWindow(HolonAbstractWindow *window)
+{
+    d_ptr->addWindow(window);
+}
 
 void HolonTitleBar::hideControlButtons()
 {

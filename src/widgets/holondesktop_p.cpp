@@ -19,6 +19,7 @@
 #include "holonsidebardockwidget_p.h"
 #include "holonsidebarmainwindow.h"
 #include "holonstackedwidget.h"
+#include "holonstackedwindow.h"
 #include "holontaskbar.h"
 #include "holontheme.h"
 #include "holontheme_p.h"
@@ -40,7 +41,7 @@ using MainWindowNestingIndex = int;
 
 class HolonDesktopPrivateData : public HolonCorePrivate
 {
-    void addSidebarWindow(HolonAbstractWindow *window, HolonSidebar *sidebar);
+    void addSidebarWindow(HolonAbstractWindow *window);
     void addTaskStackedWidget(HolonTaskStackedWidget *taskStackedWidget, int role);
     void addTaskWindow(HolonAbstractTask *task, HolonAbstractWindow *window);
     void addWindowAreaStackedWidget(HolonWindowAreaStackedWidget *windowAreaStackedWidget);
@@ -67,7 +68,6 @@ public:
 
     struct
     {
-        QMap<HolonAbstractWindow *, HolonSidebar *> byWindow;
         QMap<HolonSidebarDockWidget *, HolonSidebarMainWindow *> mainWindowByDock;
         QMap<MainWindowNestingIndex, HolonSidebarMainWindow *> mainWindowByNestingIndex;
         QSet<HolonSidebarDockWidget *> docks;
@@ -116,30 +116,25 @@ public:
     void setVBoxLayout(QWidget *&widget, const QString &name, QWidget *parent);
 };
 
-void HolonDesktopPrivateData::addSidebarWindow(HolonAbstractWindow *window, HolonSidebar *sidebar)
+void HolonDesktopPrivateData::addSidebarWindow(HolonAbstractWindow *window)
 {
-    if (sidebars.byWindow.contains(window))
-        return;
-
     if (HolonProjectTaskTreeWindow *projectTaskTreeWindow = qobject_cast<HolonProjectTaskTreeWindow *>(window))
         projectTaskTreeWindow->d_ptr->setOpenTaskTreeModel(openTaskTreeModel);
 
-    QWidget *sidebarWidget = window->widget();
+    if (QWidget *widget = window->widget())
+    {
+        if (HolonOpenTaskTreeView *openTaskTreeView = qobject_cast<HolonOpenTaskTreeView *>(widget))
+            openTaskTreeView->setModel(openTaskTreeModel);
 
-    if (HolonOpenTaskTreeView *openTaskTreeView = qobject_cast<HolonOpenTaskTreeView *>(sidebarWidget))
-        openTaskTreeView->setModel(openTaskTreeModel);
+        if (HolonStackedWidget *stackedWidget = qobject_cast<HolonStackedWidget *>(widget))
+        {
+            if (HolonTaskStackedWidget *taskStackedWidget = qobject_cast<HolonTaskStackedWidget *>(stackedWidget))
+                return addTaskStackedWidget(taskStackedWidget, window->role());
 
-    HolonStackedWidget *stackedWidget = qobject_cast<HolonStackedWidget *>(sidebarWidget);
-    if (!sidebarWidget || taskStackedWidgetList.contains(stackedWidget))
-        return;
-
-    sidebars.byWindow.insert(window, sidebar);
-
-    if (HolonTaskStackedWidget *taskStackedWidget = qobject_cast<HolonTaskStackedWidget *>(stackedWidget))
-        return addTaskStackedWidget(taskStackedWidget, window->role());
-
-    if (HolonWindowAreaStackedWidget *windowAreaStackedWidget = qobject_cast<HolonWindowAreaStackedWidget *>(stackedWidget))
-        return addWindowAreaStackedWidget(windowAreaStackedWidget);
+            if (HolonWindowAreaStackedWidget *windowAreaStackedWidget = qobject_cast<HolonWindowAreaStackedWidget *>(stackedWidget))
+                return addWindowAreaStackedWidget(windowAreaStackedWidget);
+        }
+    }
 }
 
 void HolonDesktopPrivateData::addTaskStackedWidget(HolonTaskStackedWidget *taskStackedWidget, int role)
@@ -365,8 +360,12 @@ void HolonDesktopPrivateData::addWindow(HolonAbstractWindow *window)
         return addTaskWindow(task, window);
     }
 
-    if (HolonSidebar *sidebar = qobject_cast<HolonSidebar *>(window->parent()))
-        return addSidebarWindow(window, sidebar);
+    if (qobject_cast<HolonSidebar *>(window->parent()))
+        return addSidebarWindow(window);
+
+    if (HolonStackedWindow *stacked = qobject_cast<HolonStackedWindow *>(window->parent()))
+        if (qobject_cast<HolonSidebar *>(stacked->parent()))
+            return addSidebarWindow(window);
 }
 
 void HolonDesktopPrivateData::addWindowArea(HolonWindowArea *windowArea)
@@ -396,10 +395,9 @@ void HolonDesktopPrivateData::closeTask(HolonAbstractTask *task)
 
 void HolonDesktopPrivateData::closeWindow(HolonAbstractWindow *window)
 {
-    if (HolonSidebar *sidebar = sidebars.byWindow.value(window))
+    if (HolonSidebar *sidebar = qobject_cast<HolonSidebar *>(window->parent()))
     {
         sidebar->closeWindow(window);
-        sidebars.byWindow.remove(window);
 
         return;
     }
@@ -757,7 +755,7 @@ void HolonDesktopPrivate::saveSidebarMainWindowState(HolonSidebarMainWindow *sid
 
 void HolonDesktopPrivate::saveSidebarState(HolonAbstractWindow *firstSidebarWindow)
 {
-    HolonSidebar *sidebar = d_ptr->sidebars.byWindow.value(firstSidebarWindow);
+    HolonSidebar *sidebar = qobject_cast<HolonSidebar *>(firstSidebarWindow->parent());
     firstSidebarWindow->d_ptr->saveSidebarState(sidebar->d_func()->mainWindow->saveState());
 }
 

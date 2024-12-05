@@ -9,22 +9,24 @@
 #include <QLoaderSettings>
 
 class HolonAbstractTask;
-class HolonDesktop;
-class HolonWindowArea;
 class HolonAbstractWindowPrivate;
+class HolonDesktop;
+class HolonStackedWindow;
+class HolonWindowArea;
 
 class Q_HOLON_EXPORT HolonAbstractWindow : public QObject, public QLoaderSettings
-
 {
     Q_OBJECT
 
     friend class HolonAbstractWindowPrivate;
     friend class HolonDesktopPrivate;
+    friend class HolonStackedWindowPrivate;
     const QScopedPointer<HolonAbstractWindowPrivate> d_ptr;
 
 protected:
     HolonAbstractWindow(QLoaderSettings *settings, HolonAbstractTask *parent);
     HolonAbstractWindow(QLoaderSettings *settings, HolonDesktop *parent);
+    HolonAbstractWindow(QLoaderSettings *settings, HolonStackedWindow *parent);
     HolonAbstractWindow(QLoaderSettings *settings, HolonWindowArea *parent);
 
 public:

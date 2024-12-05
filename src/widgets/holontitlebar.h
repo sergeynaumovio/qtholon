@@ -17,7 +17,7 @@ class HolonTitleBar : public QWidget
 {
     Q_OBJECT
 
-    const QScopedStorage<HolonTitleBarPrivate, 40> d_ptr;
+    const QScopedStorage<HolonTitleBarPrivate, 48> d_ptr;
 
     QList<HolonAbstractWindow *> siblingWindows(HolonAbstractWindow *window);
 
@@ -32,6 +32,7 @@ public:
 
     ~HolonTitleBar();
 
+    void addWindow(HolonAbstractWindow *window);
     void hideControlButtons();
     void hideSidebarButton();
     void hideSplitButton();

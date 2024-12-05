@@ -5,6 +5,7 @@
 #include "holonabstractwindow_p.h"
 #include "holonabstracttask.h"
 #include "holondesktop.h"
+#include "holonstackedwindow.h"
 #include "holonwindowarea.h"
 #include <QIcon>
 
@@ -20,6 +21,12 @@ HolonAbstractWindow::HolonAbstractWindow(QLoaderSettings *settings, HolonDesktop
 :   QObject(parent),
     QLoaderSettings(this, settings),
     d_ptr(new HolonAbstractWindowPrivate(this, parent))
+{ }
+
+HolonAbstractWindow::HolonAbstractWindow(QLoaderSettings *settings, HolonStackedWindow *parent)
+:   QObject(parent),
+    QLoaderSettings(this, settings),
+    d_ptr(new HolonAbstractWindowPrivate(this, parent->desktop()))
 { }
 
 HolonAbstractWindow::HolonAbstractWindow(QLoaderSettings *settings, HolonWindowArea *parent)
