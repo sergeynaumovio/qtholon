@@ -539,10 +539,10 @@ void HolonDesktopPrivateData::setTaskbar()
     addWidget(taskbar, parent);
 }
 
-void HolonDesktopPrivateData::setTheme(HolonTheme *theme)
+void HolonDesktopPrivateData::setTheme(HolonTheme *thm)
 {
-    if (!this->theme)
-        this->theme = theme;
+    if (!theme)
+        theme = thm;
     else
         desktop_d.emitWarning(u"theme already set"_s);
 }

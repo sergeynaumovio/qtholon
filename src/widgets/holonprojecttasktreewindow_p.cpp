@@ -78,7 +78,7 @@ QWidget *HolonProjectTaskTreeWindowPrivate::widget()
     return view;
 }
 
-void HolonProjectTaskTreeWindowPrivate::setOpenTaskTreeModel(HolonOpenTaskTreeModel *model)
+void HolonProjectTaskTreeWindowPrivate::setOpenTaskTreeModel(HolonOpenTaskTreeModel *treeModel)
 {
-    openTaskTreeModel = model;
+    openTaskTreeModel = treeModel;
 }
