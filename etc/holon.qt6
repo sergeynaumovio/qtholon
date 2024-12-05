@@ -145,8 +145,12 @@ shortcut = Alt+1
 title = 1  Tasks
 
 [holon/tasks/0]
-class = HolonProjectTaskTreeWindow
+class = HolonStackedWindow
 mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAADCAAABRPwCAAAAAvsAAAACADABAAAAAAAAAMQAAABcAP////sAAAACADEBAAAAxQAAAH8AAABcAP///wAAAAAAAAFEAAAABAAAAAQAAAAIAAAACPwAAAAA)
+
+[holon/tasks/0/0]
+class = HolonProjectTaskTreeWindow
+current = true
 
 [holon/tasks/1]
 class = HolonOpenTaskTreeWindow
