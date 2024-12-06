@@ -56,7 +56,7 @@ HolonSidebarDockWidget *HolonSidebarMainWindow::addSidebar(HolonSidebar *sidebar
     sidebarDock->addSidebar(sidebar);
 
     if (d_ptr->state.isNull())
-        d_ptr->state = sidebar->mainWindowState();
+        d_ptr->state = sidebar->mainWindowNestingState();
 
     restoreState(d_ptr->state);
 

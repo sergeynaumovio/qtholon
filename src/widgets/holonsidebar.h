@@ -25,7 +25,7 @@ public:
     HolonDesktop *desktop() const;
     QString group() const;
     int mainWindowNestingIndex() const;
-    QByteArray mainWindowState() const;
+    QByteArray mainWindowNestingState() const;
     Qt::Orientation orientation() const;
 };
 

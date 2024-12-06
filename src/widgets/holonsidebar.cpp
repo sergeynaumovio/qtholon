@@ -58,9 +58,9 @@ int HolonSidebar::mainWindowNestingIndex() const
     return d->mainWindowNestingIndex;
 }
 
-QByteArray HolonSidebar::mainWindowState() const
+QByteArray HolonSidebar::mainWindowNestingState() const
 {
-    return value(u"mainWindowState"_s).toByteArray();
+    return value(u"mainWindowNestingState"_s).toByteArray();
 }
 
 Qt::Orientation HolonSidebar::orientation() const

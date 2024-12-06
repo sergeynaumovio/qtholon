@@ -10,15 +10,9 @@ HolonSidebarPrivate::HolonSidebarPrivate(HolonDesktop *desktop, HolonSidebar *q)
 :   HolonWindowAreaPrivate(desktop, q, Holon::SidebarWindow)
 { }
 
-void HolonSidebarPrivate::saveWindowAreaState()
-{
-    HolonAbstractWindow *firstSidebarWindow = dockByWindow.firstKey();
-    desktop_d->saveSidebarState(firstSidebarWindow);
-}
-
-void HolonSidebarPrivate::saveSidebarMainWindowState(const QByteArray &state)
+void HolonSidebarPrivate::saveSidebarMainWindowNestingState(const QByteArray &state)
 {
     Q_Q(HolonSidebar);
-    q->setValue(u"mainWindowState"_s, state);
+    q->setValue(u"mainWindowNestingState"_s, state);
 }
 

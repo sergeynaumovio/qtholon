@@ -20,8 +20,7 @@ public:
     HolonDesktopPrivate *desktop_d;
 
     HolonSidebarPrivate(HolonDesktop *desktop, HolonSidebar *q);
-    void saveSidebarMainWindowState(const QByteArray &state);
-    void saveWindowAreaState() override;
+    void saveSidebarMainWindowNestingState(const QByteArray &state);
 };
 
 #endif // HOLONSIDEBAR_P_H

@@ -20,7 +20,6 @@ public:
                                HolonDesktop *desktop,
                                HolonAbstractTask *task = nullptr);
 
-    void saveSidebarState(const QByteArray &state);
     void setCurrent(bool current);
 };
 

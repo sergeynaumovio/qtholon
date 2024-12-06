@@ -41,7 +41,7 @@ public:
     void closeWindow(HolonAbstractWindow *window);
     void maximizeWindow(HolonDockWidget *dock);
     void restoreMainWindowStateFromCache();
-    virtual void saveWindowAreaState();
+    void saveWindowAreaState();
     void setChecked(bool checked);
     void setValue(const QString &key, const QVariant &value);
     void splitWindow(HolonAbstractWindow *window, Qt::Orientation orientation);

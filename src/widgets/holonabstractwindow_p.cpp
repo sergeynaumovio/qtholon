@@ -14,11 +14,6 @@ HolonAbstractWindowPrivate::HolonAbstractWindowPrivate(HolonAbstractWindow *q,
     task(t)
 { }
 
-void HolonAbstractWindowPrivate::saveSidebarState(const QByteArray &state)
-{
-    q_ptr->setValue(u"mainWindowState"_s, state);
-}
-
 void HolonAbstractWindowPrivate::setCurrent(bool current)
 {
     q_ptr->setValue(u"current"_s, current);

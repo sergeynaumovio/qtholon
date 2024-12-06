@@ -70,7 +70,6 @@ public:
     void restoreSidebar(HolonSidebar *sidebar);
     void restoreMainWindowStateFromCache(HolonWindowArea *windowArea);
     void saveSidebarMainWindowState(HolonSidebarMainWindow *sidebarMainWindow);
-    void saveSidebarState(HolonAbstractWindow *firstSidebarWindow);
     HolonSidebarDockWidget *sidebarDockWidget(HolonSidebar *sidebar) const;
     HolonTaskbar *taskbar() const;
     HolonDesktopPrivate::TaskbarArea taskbarArea() const;

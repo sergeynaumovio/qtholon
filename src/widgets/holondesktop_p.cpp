@@ -750,13 +750,7 @@ void HolonDesktopPrivate::restoreMainWindowStateFromCache(HolonWindowArea *windo
 void HolonDesktopPrivate::saveSidebarMainWindowState(HolonSidebarMainWindow *sidebarMainWindow)
 {
     HolonSidebar *firstSidebar = sidebarMainWindow->sidebars().constFirst();
-    firstSidebar->d_func()->saveSidebarMainWindowState(sidebarMainWindow->saveState());
-}
-
-void HolonDesktopPrivate::saveSidebarState(HolonAbstractWindow *firstSidebarWindow)
-{
-    HolonSidebar *sidebar = qobject_cast<HolonSidebar *>(firstSidebarWindow->parent());
-    firstSidebarWindow->d_ptr->saveSidebarState(sidebar->d_func()->mainWindow->saveState());
+    firstSidebar->d_func()->saveSidebarMainWindowNestingState(sidebarMainWindow->saveState());
 }
 
 HolonSidebarDockWidget *HolonDesktopPrivate::sidebarDockWidget(HolonSidebar *sidebar) const
