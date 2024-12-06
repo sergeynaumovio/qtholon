@@ -11,9 +11,7 @@
 #include <QObject>
 
 class HolonTheme;
-class HolonThemeColors;
 class HolonThemeIconsPrivate;
-class HolonThemeStyleSheets;
 
 class Q_HOLON_EXPORT HolonThemeIcons : public QObject, public QLoaderSettings
 {
