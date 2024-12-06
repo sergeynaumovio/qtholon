@@ -45,7 +45,11 @@ public:
     void setChecked(bool checked);
     void setValue(const QString &key, const QVariant &value);
     void splitWindow(HolonAbstractWindow *window, Qt::Orientation orientation);
-    void splitWindow(HolonAbstractWindow *first, HolonAbstractWindow *second, Qt::Orientation orientation);
+
+    void splitWindow(HolonAbstractWindow *first,
+                     HolonAbstractWindow *second,
+                     Qt::Orientation orientation,
+                     int secondWindowComboboxIndex = 0);
 };
 
 #endif // HOLONWINDOWAREA_P_H

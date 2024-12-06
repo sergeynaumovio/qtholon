@@ -37,6 +37,7 @@ public:
     void hideSidebarButton();
     void hideSplitButton();
     void setDockWidgetArea(Qt::DockWidgetArea area);
+    void setWindowComboboxIndex(int index);
     void showControlButtons();
     void showSidebarButton();
     void showSplitButton();

@@ -167,7 +167,8 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *window, Qt::Orient
 
 void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first,
                                          HolonAbstractWindow *second,
-                                         Qt::Orientation splitOrientation)
+                                         Qt::Orientation splitOrientation,
+                                         int secondWindowComboboxIndex)
 {
     if (HolonDockWidget *firstDock = dockByWindow.value(first))
     {
@@ -188,8 +189,13 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first,
         else
             return;
 
+        QStringList fromSection;
+        if (qobject_cast<HolonStackedWindow *>(first))
+            fromSection = first->section();
+        else
+            fromSection = second->section();
+
         QLoaderTree *tree = second->tree();
-        QStringList fromSection = second->section();
         tree->copy(fromSection, toSection);
 
         if ((second = qobject_cast<HolonAbstractWindow *>(tree->object(toSection))))
@@ -217,6 +223,9 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first,
 
                 dockWidgetSplitState->addSplit(firstDock, secondDock, splitOrientation);
             }
+
+            if (HolonStackedWindow *stacked = qobject_cast<HolonStackedWindow *>(second))
+                stacked->d_func()->titleBar->setWindowComboboxIndex(secondWindowComboboxIndex);
         }
     }
 }

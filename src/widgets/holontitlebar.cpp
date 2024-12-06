@@ -189,13 +189,14 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
             {
                 Qt::Orientation orientation = sidebar->orientation();
                 QList<HolonAbstractWindow *> siblingWindowList = siblingWindows(window);
-                for (HolonAbstractWindow *siblingWindow : siblingWindowList)
+                for (int index = 0; index < siblingWindowList.count(); ++index)
                 {
+                    HolonAbstractWindow *siblingWindow = siblingWindowList[index];
                     QAction *action = new QAction(siblingWindow->icon(), siblingWindow->title(), menu);
                     menu->addAction(action);
                     connect(action, &QAction::triggered, parent, [=]
                     {
-                        windowarea_d_ptr->splitWindow(window, siblingWindow, orientation);
+                        windowarea_d_ptr->splitWindow(window, siblingWindow, orientation, index);
                     });
                 }
             }
@@ -331,6 +332,11 @@ void HolonTitleBar::setDockWidgetArea(Qt::DockWidgetArea area)
 
     if (area == Qt::BottomDockWidgetArea)
         return d_ptr->closeButton->setIcon(icons->splitButtonCloseBottomIcon());
+}
+
+void HolonTitleBar::setWindowComboboxIndex(int index)
+{
+    d_ptr->windowCombobox->setCurrentIndex(index);
 }
 
 void HolonTitleBar::showControlButtons()
