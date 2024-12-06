@@ -24,6 +24,7 @@ public:
     void addWindow(HolonAbstractWindow *window);
     HolonDesktop *desktop() const;
     Holon::WindowFlags flags() const override;
+    bool isCopyable(const QStringList &to) const override;
     void setWindow(HolonAbstractWindow *window);
     QWidget *widget(int role = Holon::NoRole) const override;
 };

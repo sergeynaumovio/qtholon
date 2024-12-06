@@ -5,10 +5,12 @@
 #include "holonabstractwindow_p.h"
 #include "holonabstracttask.h"
 #include "holondesktop.h"
+#include "holonsidebar.h"
 #include "holonstackedwidget.h"
 #include "holonstackedwindow_p.h"
 #include "holonwindowarea.h"
 #include <QIcon>
+#include <QLoaderTree>
 
 HolonStackedWindow::HolonStackedWindow(QLoaderSettings *settings, HolonAbstractTask *parent)
 :   HolonAbstractWindow(*new HolonStackedWindowPrivate(this, parent->desktop()), settings, parent)
@@ -39,6 +41,20 @@ HolonDesktop *HolonStackedWindow::desktop() const
 Holon::WindowFlags HolonStackedWindow::flags() const
 {
     return Holon::WindowAllButtonsHint;
+}
+
+bool HolonStackedWindow::isCopyable(const QStringList &to) const
+{
+    QStringList parentSection = to;
+    if (to.size() > 1)
+    {
+        parentSection.removeLast();
+        QObject *parent = tree()->object(parentSection);
+        if (qobject_cast<HolonAbstractTask *>(parent) || qobject_cast<HolonSidebar *>(parent))
+            return true;
+    }
+
+    return false;
 }
 
 void HolonStackedWindow::setWindow(HolonAbstractWindow *window)
