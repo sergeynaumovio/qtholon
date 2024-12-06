@@ -17,9 +17,8 @@ QIcon HolonThemeIconsPrivate::icon(const QList<HolonMaskColor<FileName> > &masks
     return value;
 }
 
-HolonThemeIconsPrivate::HolonThemeIconsPrivate(HolonThemeIcons *q, HolonTheme *t)
-:   q_ptr(q),
-    theme(t)
+HolonThemeIconsPrivate::HolonThemeIconsPrivate(HolonTheme *t)
+:   theme(t)
 { }
 
 QIcon HolonThemeIconsPrivate::closeBackgroundIcon()

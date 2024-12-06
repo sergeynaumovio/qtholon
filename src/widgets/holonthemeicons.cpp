@@ -9,7 +9,7 @@
 HolonThemeIcons::HolonThemeIcons(QLoaderSettings *settings, HolonTheme *theme)
 :   QObject(theme),
     QLoaderSettings(this, settings),
-    d_ptr(new HolonThemeIconsPrivate(this, theme))
+    d_ptr(new HolonThemeIconsPrivate(theme))
 { }
 
 HolonThemeIcons::~HolonThemeIcons()
