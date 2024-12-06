@@ -4,17 +4,20 @@
 #ifndef HOLONSTACKEDWINDOW_P_H
 #define HOLONSTACKEDWINDOW_P_H
 
+#include "holonabstractwindow_p.h"
+#include "holonstackedwindow.h"
+
 class HolonAbstractWindow;
 class HolonDesktop;
 class HolonStackedWindow;
 class HolonTitleBar;
 class HolonWindowStackedWidget;
 
-class HolonStackedWindowPrivate
+class HolonStackedWindowPrivate : public HolonAbstractWindowPrivate
 {
+    Q_DECLARE_PUBLIC(HolonStackedWindow)
+
 public:
-    HolonStackedWindow *const q_ptr;
-    HolonDesktop *const desktop;
     HolonWindowStackedWidget *const stackedWidget;
     HolonTitleBar *titleBar;
     HolonAbstractWindow *currentWindow{};

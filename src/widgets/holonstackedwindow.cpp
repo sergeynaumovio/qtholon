@@ -11,15 +11,13 @@
 #include <QIcon>
 
 HolonStackedWindow::HolonStackedWindow(QLoaderSettings *settings, HolonAbstractTask *parent)
-:   HolonAbstractWindow(settings, parent),
-    d_ptr(new HolonStackedWindowPrivate(this, parent->desktop()))
+:   HolonAbstractWindow(*new HolonStackedWindowPrivate(this, parent->desktop()), settings, parent)
 {
     parent->addWindow(this);
 }
 
 HolonStackedWindow::HolonStackedWindow(QLoaderSettings *settings, HolonWindowArea *parent)
-:   HolonAbstractWindow(settings, parent),
-    d_ptr(new HolonStackedWindowPrivate(this, parent->desktop()))
+:   HolonAbstractWindow(*new HolonStackedWindowPrivate(this, parent->desktop()), settings, parent)
 {
     parent->addWindow(this);
 }
@@ -29,7 +27,8 @@ HolonStackedWindow::~HolonStackedWindow()
 
 void HolonStackedWindow::addWindow(HolonAbstractWindow *window)
 {
-    d_ptr->addWindow(window);
+    Q_D(HolonStackedWindow);
+    d->addWindow(window);
 }
 
 HolonDesktop *HolonStackedWindow::desktop() const
@@ -44,10 +43,12 @@ Holon::WindowFlags HolonStackedWindow::flags() const
 
 void HolonStackedWindow::setWindow(HolonAbstractWindow *window)
 {
-    d_ptr->setWindow(window);
+    Q_D(HolonStackedWindow);
+    d->setWindow(window);
 }
 
 QWidget *HolonStackedWindow::widget(int /*role*/) const
 {
-    return d_ptr->stackedWidget;
+    Q_D(const HolonStackedWindow);
+    return d->stackedWidget;
 }

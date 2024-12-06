@@ -11,9 +11,9 @@ class HolonStackedWindowPrivate;
 class Q_HOLON_EXPORT HolonStackedWindow : public HolonAbstractWindow
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(HolonStackedWindow)
 
     friend class HolonWindowAreaPrivate;
-    const QScopedPointer<HolonStackedWindowPrivate> d_ptr;
 
 public:
     HolonStackedWindow(QLoaderSettings *settings, HolonAbstractTask *parent);

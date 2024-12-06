@@ -11,8 +11,7 @@
 using namespace Qt::Literals::StringLiterals;
 
 HolonStackedWindowPrivate::HolonStackedWindowPrivate(HolonStackedWindow *q, HolonDesktop *desk)
-:   q_ptr(q),
-    desktop(desk),
+:   HolonAbstractWindowPrivate(q, desk),
     stackedWidget(new HolonWindowStackedWidget)
 { }
 

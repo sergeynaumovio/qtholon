@@ -71,7 +71,7 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
     dockWidgetSplitState->setSplitItemDock(dock);
 
     if (HolonStackedWindow *stacked = qobject_cast<HolonStackedWindow *>(window))
-        stacked->d_ptr->titleBar = dock->titleBar();
+        stacked->d_func()->titleBar = dock->titleBar();
 }
 
 Qt::DockWidgetArea HolonWindowAreaPrivate::area() const
