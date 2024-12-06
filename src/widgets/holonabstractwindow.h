@@ -21,9 +21,11 @@ class Q_HOLON_EXPORT HolonAbstractWindow : public QObject, public QLoaderSetting
     friend class HolonAbstractWindowPrivate;
     friend class HolonDesktopPrivate;
     friend class HolonStackedWindowPrivate;
-    const QScopedPointer<HolonAbstractWindowPrivate> d_ptr;
 
 protected:
+    const QScopedPointer<HolonAbstractWindowPrivate> d_ptr;
+
+    HolonAbstractWindow(HolonAbstractWindowPrivate &d, QLoaderSettings *settings, QObject *parent);
     HolonAbstractWindow(QLoaderSettings *settings, HolonAbstractTask *parent);
     HolonAbstractWindow(QLoaderSettings *settings, HolonDesktop *parent);
     HolonAbstractWindow(QLoaderSettings *settings, HolonStackedWindow *parent);

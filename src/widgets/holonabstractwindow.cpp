@@ -11,6 +11,12 @@
 
 using namespace Qt::Literals::StringLiterals;
 
+HolonAbstractWindow::HolonAbstractWindow(HolonAbstractWindowPrivate &d, QLoaderSettings *settings, QObject *parent)
+:   QObject(parent),
+    QLoaderSettings(this, settings),
+    d_ptr(&d)
+{ }
+
 HolonAbstractWindow::HolonAbstractWindow(QLoaderSettings *settings, HolonAbstractTask *parent)
 :   QObject(parent),
     QLoaderSettings(this, settings),
