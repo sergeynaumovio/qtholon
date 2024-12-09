@@ -22,16 +22,19 @@ void HolonParametersWindowPrivate::setOpenTaskTreeModel(HolonOpenTaskTreeModel *
 
     for (int index{}; index < combobox->count(); ++index)
     {
-        HolonAbstractTask *task = static_cast<HolonAbstractTask *>(combobox->model()->index(index, 0).internalPointer());
+        HolonAbstractTask *tsk = static_cast<HolonAbstractTask *>(combobox->model()->index(index, 0).internalPointer());
 
-        if (task == desktop->task())
+        if (tsk == desktop->task())
+        {
             combobox->setCurrentIndex(index);
+            break;
+        }
     }
 
     combobox->connect(combobox, &QComboBox::currentIndexChanged, combobox->parent(), [=, this](int index)
     {
-        HolonAbstractTask *task = static_cast<HolonAbstractTask *>(combobox->model()->index(index, 0).internalPointer());
-        desktop->setTask(task);
+        HolonAbstractTask *tsk = static_cast<HolonAbstractTask *>(combobox->model()->index(index, 0).internalPointer());
+        desktop->setTask(tsk);
     });
 }
 
