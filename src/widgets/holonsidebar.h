@@ -9,7 +9,6 @@
 
 class HolonDesktop;
 class HolonSidebarPrivate;
-class QDockWidget;
 
 class Q_HOLON_EXPORT HolonSidebar : public HolonWindowArea
 {
