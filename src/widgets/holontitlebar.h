@@ -12,6 +12,7 @@ class HolonDesktop;
 class HolonDockWidget;
 class HolonTitleBarPrivate;
 class HolonWindowAreaPrivate;
+class QComboBox;
 
 class HolonTitleBar : public QWidget
 {
@@ -37,10 +38,10 @@ public:
     void hideSidebarButton();
     void hideSplitButton();
     void setDockWidgetArea(Qt::DockWidgetArea area);
-    void setWindowComboboxIndex(int index);
     void showControlButtons();
     void showSidebarButton();
     void showSplitButton();
+    QComboBox *windowComboBox() const;
 };
 
 #endif // HOLONTITLEBAR_H

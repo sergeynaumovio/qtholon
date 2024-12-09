@@ -7,6 +7,7 @@
 class HolonAbstractTask;
 class HolonAbstractWindow;
 class HolonDesktop;
+class HolonTitleBar;
 class QByteArray;
 
 class HolonAbstractWindowPrivate
@@ -15,6 +16,7 @@ public:
     HolonAbstractWindow *const q_ptr;
     HolonDesktop *const desktop;
     HolonAbstractTask *const task;
+    HolonTitleBar *titleBar;
 
     HolonAbstractWindowPrivate(HolonAbstractWindow *q,
                                HolonDesktop *desktop,

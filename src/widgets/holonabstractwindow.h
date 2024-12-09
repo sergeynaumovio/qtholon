@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONABSTRACTWINDOW_H
@@ -21,6 +21,7 @@ class Q_HOLON_EXPORT HolonAbstractWindow : public QObject, public QLoaderSetting
     friend class HolonAbstractWindowPrivate;
     friend class HolonDesktopPrivate;
     friend class HolonStackedWindowPrivate;
+    friend class HolonWindowAreaPrivate;
 
 protected:
     const QScopedPointer<HolonAbstractWindowPrivate> d_ptr;

@@ -14,8 +14,9 @@ class HolonSidebar;
 class HolonParametersWindow : public HolonAbstractWindow
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(HolonParametersWindow)
 
-    const QScopedStorage<HolonParametersWindowPrivate, 32> d_ptr;
+    friend class HolonDesktopPrivateData;
 
 public:
     HolonParametersWindow(QLoaderSettings *settings, HolonDesktop *parent);

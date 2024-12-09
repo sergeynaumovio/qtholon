@@ -12,6 +12,7 @@
 #include "holonstackedwindow_p.h"
 #include "holontitlebar.h"
 #include "holonwindowarea.h"
+#include <QComboBox>
 #include <QLoaderTree>
 #include <QMainWindow>
 
@@ -34,7 +35,7 @@ HolonWindowAreaPrivate::~HolonWindowAreaPrivate()
 void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
 {
     HolonDockWidget *dock = new HolonDockWidget(desktop, mainWindow, window, this);
-    dockList.append(dock);
+    window->d_ptr->titleBar = dock->titleBar();
 
     if (!dockWidgetSplitState)
     {
@@ -46,6 +47,7 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
     }
 
     dockByWindow.insert(window, dock);
+    dockList.append(dock);
 
     if (mainWindowStateCache.isNull())
         mainWindowStateCache = q_ptr->value(u"mainWindowState"_s).toByteArray();
@@ -64,9 +66,6 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
         restoreMainWindowStateFromCache();
 
     dockWidgetSplitState->setSplitItemDock(dock);
-
-    if (HolonStackedWindow *stacked = qobject_cast<HolonStackedWindow *>(window))
-        stacked->d_func()->titleBar = dock->titleBar();
 }
 
 Qt::DockWidgetArea HolonWindowAreaPrivate::area() const
@@ -224,8 +223,8 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first,
                 dockWidgetSplitState->addSplit(firstDock, secondDock, splitOrientation);
             }
 
-            if (HolonStackedWindow *stacked = qobject_cast<HolonStackedWindow *>(second))
-                stacked->d_func()->titleBar->setWindowComboboxIndex(secondWindowComboboxIndex);
+            if (qobject_cast<HolonStackedWindow *>(second))
+                second->d_ptr->titleBar->windowComboBox()->setCurrentIndex(secondWindowComboboxIndex);
         }
     }
 }

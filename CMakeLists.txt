@@ -84,6 +84,8 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonopentasktreewindow.h
             src/widgets/holonparameterswindow.cpp
             src/widgets/holonparameterswindow.h
+            src/widgets/holonparameterswindow_p.cpp
+            src/widgets/holonparameterswindow_p.h
             src/widgets/holonprojecttasktreewindow.cpp
             src/widgets/holonprojecttasktreewindow.h
             src/widgets/holonprojecttasktreewindow_p.cpp

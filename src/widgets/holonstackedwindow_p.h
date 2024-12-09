@@ -10,7 +10,6 @@
 class HolonAbstractWindow;
 class HolonDesktop;
 class HolonStackedWindow;
-class HolonTitleBar;
 class HolonWindowStackedWidget;
 
 class HolonStackedWindowPrivate : public HolonAbstractWindowPrivate
@@ -19,7 +18,6 @@ class HolonStackedWindowPrivate : public HolonAbstractWindowPrivate
 
 public:
     HolonWindowStackedWidget *const stackedWidget;
-    HolonTitleBar *titleBar;
     HolonAbstractWindow *currentWindow{};
 
     HolonStackedWindowPrivate(HolonStackedWindow *q, HolonDesktop *desk);

@@ -7,6 +7,7 @@
 #include "holondesktop.h"
 #include "holondockwidget.h"
 #include "holonid.h"
+#include "holonparameterswindow.h"
 #include "holonsidebar.h"
 #include "holontheme.h"
 #include "holonthemeicons.h"
@@ -161,6 +162,15 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
 
                 layout()->addWidget(combobox);
             }
+        }
+        else if (qobject_cast<HolonParametersWindow *>(window))
+        {
+            layout()->setContentsMargins({});
+
+            QComboBox *&combobox = d_ptr->windowCombobox;
+            combobox = new QComboBox(this);
+
+            layout()->addWidget(combobox);
         }
         else
         {
@@ -334,11 +344,6 @@ void HolonTitleBar::setDockWidgetArea(Qt::DockWidgetArea area)
         return d_ptr->closeButton->setIcon(icons->splitButtonCloseBottomIcon());
 }
 
-void HolonTitleBar::setWindowComboboxIndex(int index)
-{
-    d_ptr->windowCombobox->setCurrentIndex(index);
-}
-
 void HolonTitleBar::showControlButtons()
 {
     if (d_ptr->maximizeButton)
@@ -358,4 +363,9 @@ void HolonTitleBar::showSplitButton()
 {
     if (d_ptr->splitButton)
         d_ptr->splitButton->show();
+}
+
+QComboBox *HolonTitleBar::windowComboBox() const
+{
+    return d_ptr->windowCombobox;
 }

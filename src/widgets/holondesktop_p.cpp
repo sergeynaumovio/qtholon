@@ -11,6 +11,8 @@
 #include "holonmainwindow.h"
 #include "holonopentasktreemodel.h"
 #include "holonopentasktreeview.h"
+#include "holonparameterswindow.h"
+#include "holonparameterswindow_p.h"
 #include "holonprojecttasktreewindow.h"
 #include "holonprojecttasktreewindow_p.h"
 #include "holonsidebar.h"
@@ -120,6 +122,9 @@ void HolonDesktopPrivateData::addSidebarWindow(HolonAbstractWindow *window)
 {
     if (HolonProjectTaskTreeWindow *projectTaskTreeWindow = qobject_cast<HolonProjectTaskTreeWindow *>(window))
         projectTaskTreeWindow->d_ptr->setOpenTaskTreeModel(openTaskTreeModel);
+
+    if (HolonParametersWindow *parametersWindow = qobject_cast<HolonParametersWindow *>(window))
+        parametersWindow->d_func()->setOpenTaskTreeModel(openTaskTreeModel);
 
     if (QWidget *widget = window->widget())
     {

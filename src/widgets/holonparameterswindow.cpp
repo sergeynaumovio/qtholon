@@ -3,6 +3,7 @@
 
 #include "holonparameterswindow.h"
 #include "holondesktop.h"
+#include "holonparameterswindow_p.h"
 #include "holonsidebar.h"
 #include "holonstackedwidget.h"
 #include <QBoxLayout>
@@ -15,36 +16,6 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-class HolonParametersWindowPrivate
-{
-public:
-    HolonParametersWindow *const q_ptr;
-    QLoaderSettings *const settings;
-    HolonDesktop *const desktop;
-    HolonTaskStackedWidget *stackedWidget{};
-
-
-    HolonParametersWindowPrivate(HolonParametersWindow *q = nullptr,
-                                 QLoaderSettings *s = nullptr,
-                                 HolonDesktop *desk = nullptr)
-    :   q_ptr(q),
-        settings(s),
-        desktop(desk)
-    { }
-
-    QWidget *widget()
-    {
-        if (!q_ptr)
-            return nullptr;
-
-        if (stackedWidget)
-            return stackedWidget;
-
-        stackedWidget = new HolonTaskStackedWidget(q_ptr->role());
-
-        return stackedWidget;
-    }
-};
 
 HolonParametersWindow::HolonParametersWindow(QLoaderSettings *settings, HolonDesktop *parent)
 :   HolonAbstractWindow(settings, parent)
@@ -53,8 +24,7 @@ HolonParametersWindow::HolonParametersWindow(QLoaderSettings *settings, HolonDes
 }
 
 HolonParametersWindow::HolonParametersWindow(QLoaderSettings *settings, HolonSidebar *parent)
-:   HolonAbstractWindow(settings, parent),
-    d_ptr(this, settings, parent->desktop())
+:   HolonAbstractWindow(*new HolonParametersWindowPrivate(this, parent->desktop()), settings, parent)
 {
     parent->addWindow(this);
 }
@@ -104,7 +74,7 @@ QWidget *HolonParametersWindow::toolbar() const
 QWidget *HolonParametersWindow::widget(int widgetRole) const
 {
     if (widgetRole == Holon::NoRole)
-        return d_ptr->widget();
+        return static_cast<HolonParametersWindowPrivate *>(d_ptr.get())->widget();
 
     return {};
 }
