@@ -159,27 +159,22 @@ void HolonOpenTaskTreeView::setModel(QAbstractItemModel *model)
     connect(model, &QAbstractItemModel::rowsInserted, this, [=, this](const QModelIndex &, int row)
     {
         QModelIndex index = model->index(row, 0);
-        QObject *addedObject = static_cast<QObject *>(index.internalPointer());
-        if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(addedObject))
-        {
-            desktop()->setTask(task);
-            setCurrentIndex(index);
-        }
+        HolonAbstractTask *addedTask = static_cast<HolonAbstractTask *>(index.internalPointer());
+        desktop()->setTask(addedTask);
+        setCurrentIndex(index);
     });
 
     connect(this, &QTreeView::clicked, this, [=, this](const QModelIndex &index)
     {
-        QObject *clickedObject = static_cast<QObject *>(index.internalPointer());
-        if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(clickedObject))
-            desktop()->setTask(task);
+        HolonAbstractTask *clickedTask = static_cast<HolonAbstractTask *>(index.internalPointer());
+        desktop()->setTask(clickedTask);
     });
 
     connect(this, &HolonOpenTaskTreeView::closeActivated, this, [=, this](const QModelIndex &index)
     {
         model->removeRow(index.row());
 
-        QObject *clickedObject = static_cast<QObject *>(index.internalPointer());
-        if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(clickedObject))
-            desktop()->closeTask(task);
+        HolonAbstractTask *clickedTask = static_cast<HolonAbstractTask *>(index.internalPointer());
+        desktop()->closeTask(clickedTask);
     });
 }
