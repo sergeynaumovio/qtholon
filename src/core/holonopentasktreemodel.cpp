@@ -77,7 +77,7 @@ QModelIndex HolonOpenTaskTreeModel::index(int row, int column, const QModelIndex
     QModelIndex index = createIndex(row, column, d_ptr->openTaskList.at(row));
 
     HolonAbstractTask *task = d_ptr->openTaskList.at(row);
-    if (task->isCurrent())
+    if (task->isCurrent() && !d_ptr->currentIndex.isValid())
         d_ptr->currentIndex = index;
 
     return index;
