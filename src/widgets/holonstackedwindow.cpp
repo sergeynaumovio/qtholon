@@ -13,7 +13,7 @@
 #include <QLoaderTree>
 
 HolonStackedWindow::HolonStackedWindow(QLoaderSettings *settings, HolonAbstractTask *parent)
-:   HolonAbstractWindow(*new HolonStackedWindowPrivate(this, parent->desktop()), settings, parent)
+:   HolonAbstractWindow(*new HolonStackedWindowPrivate(this, parent->desktop(), parent), settings, parent)
 {
     parent->addWindow(this);
 }
@@ -26,6 +26,11 @@ HolonStackedWindow::HolonStackedWindow(QLoaderSettings *settings, HolonWindowAre
 
 HolonStackedWindow::~HolonStackedWindow()
 { }
+
+QWidget *HolonStackedWindow::centralWidget() const
+{
+    return d_func()->stackedWidget;
+}
 
 void HolonStackedWindow::addWindow(HolonAbstractWindow *window)
 {
@@ -61,6 +66,11 @@ void HolonStackedWindow::setWindow(HolonAbstractWindow *window)
 {
     Q_D(HolonStackedWindow);
     d->setWindow(window);
+}
+
+QWidget *HolonStackedWindow::toolbarWidget() const
+{
+    return {};
 }
 
 QWidget *HolonStackedWindow::widget(int /*role*/) const

@@ -32,6 +32,11 @@ HolonParametersWindow::HolonParametersWindow(QLoaderSettings *settings, HolonSid
 HolonParametersWindow::~HolonParametersWindow()
 { }
 
+QWidget *HolonParametersWindow::centralWidget() const
+{
+    return static_cast<HolonParametersWindowPrivate *>(d_ptr.get())->widget();
+}
+
 Holon::WindowFlags HolonParametersWindow::flags() const
 {
     return Holon::SidebarWindow;
@@ -66,7 +71,7 @@ QString HolonParametersWindow::title() const
     return u"Parameters"_s;
 }
 
-QWidget *HolonParametersWindow::toolbar() const
+QWidget *HolonParametersWindow::toolbarWidget() const
 {
     return {};
 }

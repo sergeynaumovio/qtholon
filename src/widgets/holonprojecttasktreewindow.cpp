@@ -42,6 +42,11 @@ HolonProjectTaskTreeWindow::HolonProjectTaskTreeWindow(QLoaderSettings *settings
 HolonProjectTaskTreeWindow::~HolonProjectTaskTreeWindow()
 { }
 
+QWidget *HolonProjectTaskTreeWindow::centralWidget() const
+{
+    return d_ptr->widget();
+}
+
 Holon::WindowFlags HolonProjectTaskTreeWindow::flags() const
 {
     return Holon::SidebarWindow | Holon::WindowAllButtonsHint;
@@ -71,7 +76,7 @@ QString HolonProjectTaskTreeWindow::title() const
     return u"Project Tasks"_s;
 }
 
-QWidget *HolonProjectTaskTreeWindow::toolbar() const
+QWidget *HolonProjectTaskTreeWindow::toolbarWidget() const
 {
     return {};
 }

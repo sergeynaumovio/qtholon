@@ -1,8 +1,10 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonterminalwindow.h"
 #include "holonabstracttask.h"
+#include "holonabstracttaskwindow_p.h"
+#include "holonstackedwindow.h"
 #include "holondesktop.h"
 #include <QBoxLayout>
 #include <QIcon>
@@ -12,17 +14,23 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-class HolonTerminalWindowPrivate
+static HolonAbstractTask *task(HolonStackedWindow *parent)
+{
+    return qobject_cast<HolonAbstractTask *>(parent->parent());
+}
+
+class HolonTerminalWindowPrivate : public HolonAbstractTaskWindowPrivate
 {
 public:
-    HolonTerminalWindow *const q_ptr;
     QLoaderSettings *const settings;
     bool close{true};
     QWidget *terminal{};
 
     HolonTerminalWindowPrivate(HolonTerminalWindow *q = nullptr,
+                               HolonDesktop *desk = nullptr,
+                               HolonAbstractTask *t = nullptr,
                                QLoaderSettings *s = nullptr)
-    :   q_ptr(q),
+    :   HolonAbstractTaskWindowPrivate(q, desk, t),
         settings(s)
     { }
 
@@ -48,20 +56,30 @@ public:
 };
 
 HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonAbstractTask *parent)
-:   HolonAbstractWindow(settings, parent),
-    d_ptr(this, settings)
+:   HolonAbstractTaskWindow(*new HolonTerminalWindowPrivate(this, parent->desktop(), parent, settings), settings, parent)
 {
     parent->addWindow(this);
 }
 
 HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonDesktop *parent)
-:   HolonAbstractWindow(settings, parent)
+:   HolonAbstractTaskWindow(settings, parent)
+{
+    parent->addWindow(this);
+}
+
+HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonStackedWindow *parent)
+    :   HolonAbstractTaskWindow(*new HolonTerminalWindowPrivate(this, parent->desktop(), ::task(parent), settings), settings, parent)
 {
     parent->addWindow(this);
 }
 
 HolonTerminalWindow::~HolonTerminalWindow()
 { }
+
+QWidget *HolonTerminalWindow::centralWidget() const
+{
+    return static_cast<HolonTerminalWindowPrivate *>(d_ptr.get())->widget();
+}
 
 Holon::WindowFlags HolonTerminalWindow::flags() const
 {
@@ -93,12 +111,17 @@ int HolonTerminalWindow::role() const
     return Holon::SettingsRole;
 }
 
+QWidget *HolonTerminalWindow::settingsWidget() const
+{
+    return new QLabel(section().constLast());
+}
+
 QString HolonTerminalWindow::title() const
 {
     return u"Terminal"_s;
 }
 
-QWidget *HolonTerminalWindow::toolbar() const
+QWidget *HolonTerminalWindow::toolbarWidget() const
 {
     return {};
 }
@@ -106,7 +129,7 @@ QWidget *HolonTerminalWindow::toolbar() const
 QWidget *HolonTerminalWindow::widget(int widgetRole) const
 {
     if (widgetRole == Holon::NoRole)
-        return d_ptr->widget();
+        return static_cast<HolonTerminalWindowPrivate *>(d_ptr.get())->widget();
 
     if (widgetRole == role())
         return new QLabel(section().constLast());

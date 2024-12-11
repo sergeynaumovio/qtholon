@@ -34,13 +34,14 @@ protected:
 public:
     ~HolonAbstractWindow();
 
+    virtual QWidget *centralWidget() const = 0;
     HolonDesktop *desktop() const;
     virtual Holon::WindowFlags flags() const = 0;
     virtual QIcon icon() const;
     bool isCurrent() const;
     virtual int role() const;
     virtual QString title() const;
-    virtual QWidget *toolbar() const;
+    virtual QWidget *toolbarWidget() const = 0;
     virtual QWidget *widget(int role = Holon::NoRole) const = 0;
 };
 

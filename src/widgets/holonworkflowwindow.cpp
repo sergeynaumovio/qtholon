@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonworkflowwindow.h"
@@ -58,6 +58,11 @@ HolonWorkflowWindow::HolonWorkflowWindow(QLoaderSettings *settings, HolonWindowA
 HolonWorkflowWindow::~HolonWorkflowWindow()
 { }
 
+QWidget *HolonWorkflowWindow::centralWidget() const
+{
+    return d_ptr->widget();
+}
+
 Holon::WindowFlags HolonWorkflowWindow::flags() const
 {
     return Holon::WindowAllButtonsHint;
@@ -92,7 +97,7 @@ QString HolonWorkflowWindow::title() const
     return u"Workflow"_s;
 }
 
-QWidget *HolonWorkflowWindow::toolbar() const
+QWidget *HolonWorkflowWindow::toolbarWidget() const
 {
     return {};
 }

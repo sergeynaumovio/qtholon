@@ -62,8 +62,3 @@ QString HolonAbstractWindow::title() const
 {
     return {};
 }
-
-QWidget *HolonAbstractWindow::toolbar() const
-{
-    return {};
-}

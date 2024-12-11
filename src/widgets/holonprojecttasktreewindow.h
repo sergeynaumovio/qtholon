@@ -25,11 +25,12 @@ public:
     HolonProjectTaskTreeWindow(QLoaderSettings *settings, HolonStackedWindow *parent);
     ~HolonProjectTaskTreeWindow();
 
+    QWidget *centralWidget() const override;
     Holon::WindowFlags flags() const override;
     QIcon icon() const override;
     bool isCopyable(const QStringList &to) const override;
     QString title() const override;
-    QWidget *toolbar() const override;
+    QWidget *toolbarWidget() const override;
     QWidget *widget(int role = Holon::NoRole) const override;
 };
 

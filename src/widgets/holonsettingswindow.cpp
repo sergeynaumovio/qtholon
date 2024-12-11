@@ -62,6 +62,11 @@ HolonSettingsWindow::HolonSettingsWindow(QLoaderSettings *settings, HolonSidebar
 HolonSettingsWindow::~HolonSettingsWindow()
 { }
 
+QWidget *HolonSettingsWindow::centralWidget() const
+{
+    return d_ptr->widget();
+}
+
 Holon::WindowFlags HolonSettingsWindow::flags() const
 {
     return Holon::SidebarWindow;
@@ -96,7 +101,7 @@ QString HolonSettingsWindow::title() const
     return u"Settings"_s;
 }
 
-QWidget *HolonSettingsWindow::toolbar() const
+QWidget *HolonSettingsWindow::toolbarWidget() const
 {
     return {};
 }
