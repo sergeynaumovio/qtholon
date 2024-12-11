@@ -17,6 +17,7 @@ public:
     ~HolonCustomTask();
 
     int exec() override;
+    QWidget *parametersWidget() const override;
     QWidget *widget(int role = Holon::NoRole) const override;
 };
 

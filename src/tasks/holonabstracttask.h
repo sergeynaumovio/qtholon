@@ -38,6 +38,7 @@ public:
     bool isCopyable(const QStringList &to) const override;
     bool isCurrent() const;
     bool isOpen() const;
+    virtual QWidget *parametersWidget() const = 0;
     virtual int role() const;
     virtual QString title() const;
     virtual QWidget *widget(int role = Holon::NoRole) const;

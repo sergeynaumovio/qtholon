@@ -25,6 +25,11 @@ int HolonCustomTask::exec()
     return 0;
 }
 
+QWidget *HolonCustomTask::parametersWidget() const
+{
+    return new QLabel(title());
+}
+
 QWidget *HolonCustomTask::widget(int widgetRole) const
 {
     if (widgetRole == role())
