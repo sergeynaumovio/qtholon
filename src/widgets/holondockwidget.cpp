@@ -3,7 +3,7 @@
 
 #include "holondockwidget.h"
 #include "holonabstracttask.h"
-#include "holonabstractwindow.h"
+#include "holonabstracttaskwindow.h"
 #include "holontitlebar.h"
 #include "holonwindowarea.h"
 #include "holonwindowarea_p.h"
@@ -50,9 +50,10 @@ HolonDockWidget::HolonDockWidget(HolonDesktop *desktop,
     setObjectName(std::as_const(window)->section().last());
     setWidget(window->widget());
 
-    if (HolonAbstractTask *task = window->task())
-        if (task->isCurrent() && window->isCurrent())
-            widget()->setFocus();
+    if (HolonAbstractTaskWindow *taskWindow = qobject_cast<HolonAbstractTaskWindow *>(window))
+        if (HolonAbstractTask *task = taskWindow->task())
+            if (task->isCurrent() && window->isCurrent())
+                widget()->setFocus();
 }
 
 HolonDockWidget::~HolonDockWidget()
