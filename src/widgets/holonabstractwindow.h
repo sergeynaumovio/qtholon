@@ -27,7 +27,6 @@ protected:
     const QScopedPointer<HolonAbstractWindowPrivate> d_ptr;
 
     HolonAbstractWindow(HolonAbstractWindowPrivate &d, QLoaderSettings *settings, QObject *parent);
-    HolonAbstractWindow(QLoaderSettings *settings, HolonAbstractTask *parent);
     HolonAbstractWindow(QLoaderSettings *settings, HolonDesktop *parent);
     HolonAbstractWindow(QLoaderSettings *settings, HolonStackedWindow *parent);
     HolonAbstractWindow(QLoaderSettings *settings, HolonWindowArea *parent);
@@ -40,7 +39,6 @@ public:
     virtual QIcon icon() const;
     bool isCurrent() const;
     virtual int role() const;
-    HolonAbstractTask *task() const;
     virtual QString title() const;
     virtual QWidget *toolbar() const;
     virtual QWidget *widget(int role = Holon::NoRole) const = 0;
