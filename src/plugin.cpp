@@ -192,6 +192,9 @@ public:
             if (HolonDesktop *desktop = qobject_cast<HolonDesktop *>(parent))
                 return new HolonTerminalWindow(settings, desktop);
 
+            if (HolonStackedWindow *stacked = qobject_cast<HolonStackedWindow *>(parent))
+                return new HolonTerminalWindow(settings, stacked);
+
             if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(parent))
                 return new HolonTerminalWindow(settings, task);
 
