@@ -36,7 +36,6 @@ public:
 
     virtual QWidget *centralWidget() const = 0;
     HolonDesktop *desktop() const;
-    virtual Holon::WindowFlags flags() const = 0;
     virtual QIcon icon() const;
     bool isCurrent() const;
     virtual int role() const;

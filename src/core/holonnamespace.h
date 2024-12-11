@@ -28,21 +28,6 @@ namespace Holon
         MessagesRole = 3
     };
     Q_ENUM_NS(WidgetRole)
-
-    enum WindowType
-    {
-        SidebarWindow = 0x0001,
-        TaskWindow = 0x0002,
-        WindowSplitButtonHint = 0x0004,
-        WindowMinMaxButtonsHint = 0x0008,
-        WindowCloseButtonHint = 0x0010,
-        WindowAllButtonsHint = WindowSplitButtonHint |
-                               WindowMinMaxButtonsHint |
-                               WindowCloseButtonHint
-    };
-    Q_DECLARE_FLAGS(WindowFlags, WindowType)
-    Q_DECLARE_OPERATORS_FOR_FLAGS(WindowFlags)
-    Q_FLAG_NS(WindowFlags)
 };
 
 #endif // HOLONNAMESPACE_H

@@ -81,11 +81,6 @@ QWidget *HolonTerminalWindow::centralWidget() const
     return static_cast<HolonTerminalWindowPrivate *>(d_ptr.get())->widget();
 }
 
-Holon::WindowFlags HolonTerminalWindow::flags() const
-{
-    return Holon::TaskWindow | Holon::WindowAllButtonsHint;
-}
-
 QIcon HolonTerminalWindow::icon() const
 {
     return {};

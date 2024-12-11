@@ -18,13 +18,10 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-HolonWindowAreaPrivate::HolonWindowAreaPrivate(HolonDesktop *desk,
-                                               HolonWindowArea *q,
-                                               Holon::WindowType winType)
-:   desktop(desk),
-    q_ptr(q),
-    mainWindow(new QMainWindow),
-    windowType(winType)
+HolonWindowAreaPrivate::HolonWindowAreaPrivate(HolonWindowArea *q, HolonDesktop *desk)
+:   q_ptr(q),
+    desktop(desk),
+    mainWindow(new QMainWindow)
 {
     mainWindow->setDockOptions(QMainWindow::AllowNestedDocks);
 }
@@ -52,7 +49,7 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
     if (mainWindowStateCache.isNull())
         mainWindowStateCache = q_ptr->value(u"mainWindowState"_s).toByteArray();
 
-    if (windowType == Holon::SidebarWindow)
+    if (!qobject_cast<HolonAbstractTaskWindow *>(window))
         desktop->addWindow(window);
 
     if (dockByWindow.count() > 1)

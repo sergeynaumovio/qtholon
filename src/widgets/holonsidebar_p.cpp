@@ -6,8 +6,8 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-HolonSidebarPrivate::HolonSidebarPrivate(HolonDesktop *desktop, HolonSidebar *q)
-:   HolonWindowAreaPrivate(desktop, q, Holon::SidebarWindow)
+HolonSidebarPrivate::HolonSidebarPrivate(HolonSidebar *q, HolonDesktop *desktop)
+:   HolonWindowAreaPrivate(q, desktop)
 { }
 
 void HolonSidebarPrivate::saveSidebarMainWindowNestingState(const QByteArray &state)

@@ -24,7 +24,7 @@ HolonWindowArea::HolonWindowArea(HolonWindowAreaPrivate &d, QLoaderSettings *set
 }
 
 HolonWindowArea::HolonWindowArea(QLoaderSettings *settings, HolonDesktop *desktop)
-:   HolonWindowArea(*new HolonWindowAreaPrivate(desktop, this), settings)
+:   HolonWindowArea(*new HolonWindowAreaPrivate(this, desktop), settings)
 {
     d_ptr->mainWindow->setParent(this);
 

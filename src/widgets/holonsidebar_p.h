@@ -19,7 +19,7 @@ class HolonSidebarPrivate : public HolonWindowAreaPrivate
 public:
     HolonDesktopPrivate *desktop_d;
 
-    HolonSidebarPrivate(HolonDesktop *desktop, HolonSidebar *q);
+    HolonSidebarPrivate(HolonSidebar *q, HolonDesktop *desktop);
     void saveSidebarMainWindowNestingState(const QByteArray &state);
 };
 

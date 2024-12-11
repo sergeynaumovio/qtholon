@@ -22,11 +22,10 @@ class HolonProjectTaskTreeWindow : public HolonAbstractWindow
 public:
     HolonProjectTaskTreeWindow(QLoaderSettings *settings, HolonDesktop *parent);
     HolonProjectTaskTreeWindow(QLoaderSettings *settings, HolonSidebar *parent);
-    HolonProjectTaskTreeWindow(QLoaderSettings *settings, HolonStackedWindow *parent);
+    Q_INVOKABLE HolonProjectTaskTreeWindow(QLoaderSettings *settings, HolonStackedWindow *parent);
     ~HolonProjectTaskTreeWindow();
 
     QWidget *centralWidget() const override;
-    Holon::WindowFlags flags() const override;
     QIcon icon() const override;
     bool isCopyable(const QStringList &to) const override;
     QString title() const override;

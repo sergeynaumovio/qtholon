@@ -9,7 +9,7 @@
 using namespace Qt::Literals::StringLiterals;
 
 HolonSidebar::HolonSidebar(QLoaderSettings *settings, HolonDesktop *desktop)
-:   HolonWindowArea(*new HolonSidebarPrivate(desktop, this), settings)
+:   HolonWindowArea(*new HolonSidebarPrivate(this, desktop), settings)
 {
     d_ptr->mainWindow->setParent(this);
 

@@ -63,11 +63,6 @@ QWidget *HolonWorkflowWindow::centralWidget() const
     return d_ptr->widget();
 }
 
-Holon::WindowFlags HolonWorkflowWindow::flags() const
-{
-    return Holon::WindowAllButtonsHint;
-}
-
 QIcon HolonWorkflowWindow::icon() const
 {
     return {};

@@ -4,7 +4,6 @@
 #ifndef HOLONWINDOWAREA_P_H
 #define HOLONWINDOWAREA_P_H
 
-#include "holonnamespace.h"
 #include <QMap>
 
 class HolonAbstractWindow;
@@ -20,18 +19,15 @@ class HolonWindowAreaPrivate
     QByteArray mainWindowStateCache;
 
 public:
-    HolonDesktop *const desktop;
     HolonWindowArea *const q_ptr;
+    HolonDesktop *const desktop;
     QMainWindow *const mainWindow;
 
-    Holon::WindowType windowType;
     QList<HolonDockWidget *> dockList;
     QMap<HolonAbstractWindow *, HolonDockWidget *> dockByWindow;
     bool maximized{};
 
-    HolonWindowAreaPrivate(HolonDesktop *desktop,
-                           HolonWindowArea *q,
-                           Holon::WindowType winType = Holon::TaskWindow);
+    HolonWindowAreaPrivate(HolonWindowArea *q, HolonDesktop *desktop);
 
     virtual ~HolonWindowAreaPrivate();
 

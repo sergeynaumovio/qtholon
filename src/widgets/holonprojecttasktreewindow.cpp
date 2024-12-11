@@ -47,11 +47,6 @@ QWidget *HolonProjectTaskTreeWindow::centralWidget() const
     return d_ptr->widget();
 }
 
-Holon::WindowFlags HolonProjectTaskTreeWindow::flags() const
-{
-    return Holon::SidebarWindow | Holon::WindowAllButtonsHint;
-}
-
 QIcon HolonProjectTaskTreeWindow::icon() const
 {
     return {};

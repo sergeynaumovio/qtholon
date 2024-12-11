@@ -61,11 +61,6 @@ QWidget *HolonMessagesWindow::centralWidget() const
     return d_ptr->widget();
 }
 
-Holon::WindowFlags HolonMessagesWindow::flags() const
-{
-    return Holon::SidebarWindow;
-}
-
 QIcon HolonMessagesWindow::icon() const
 {
     return {};

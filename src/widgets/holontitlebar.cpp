@@ -3,7 +3,7 @@
 
 #include "holontitlebar.h"
 #include "holonabstracttask.h"
-#include "holonabstractwindow.h"
+#include "holonabstracttaskwindow.h"
 #include "holondesktop.h"
 #include "holondockwidget.h"
 #include "holonid.h"
@@ -22,12 +22,28 @@
 #include <QEvent>
 #include <QLabel>
 #include <QLoaderTree>
+#include <QMetaMethod>
 #include <QMenu>
 #include <QStyleOption>
 #include <QStylePainter>
 #include <QToolButton>
 
 using namespace Qt::Literals::StringLiterals;
+
+bool static canSplit(HolonAbstractWindow *window)
+{
+    int settingsTypeId = QMetaType::fromType<QLoaderSettings *>().id();
+    int stackedWindowTypeId = QMetaType::fromType<HolonStackedWindow *>().id();
+
+    for (int c{}; c < window->metaObject()->constructorCount(); ++c)
+    {
+        QMetaMethod ctor = window->metaObject()->constructor(c);
+        if (ctor.parameterType(0) == settingsTypeId && ctor.parameterType(1) == stackedWindowTypeId)
+            return true;
+    }
+
+    return false;
+}
 
 class HolonTitleBarPrivate
 {
@@ -86,18 +102,13 @@ public:
 QList<HolonAbstractWindow *> HolonTitleBar::siblingWindows(HolonAbstractWindow *window)
 {
     QList<HolonAbstractWindow *> windowList;
-    Holon::WindowType unknown{};
-    Holon::WindowType type = (qobject_cast<HolonSidebar *>(window->parent()) ? Holon::SidebarWindow :
-                              qobject_cast<HolonAbstractTask *>(window->parent()) ? Holon::TaskWindow : unknown);
+
+    bool isSidebarWindow = qobject_cast<HolonSidebar *>(window->parent());
+    bool isTaskWindow = qobject_cast<HolonAbstractTask *>(window->parent());
 
     for (HolonAbstractWindow *second : window->desktop()->findChildren<HolonAbstractWindow *>(Qt::FindDirectChildrenOnly))
-    {
-        if (window->flags().testFlags(Holon::WindowSplitButtonHint) && type &&
-            second->flags().testFlags(Holon::WindowSplitButtonHint | type))
-        {
+        if ((isSidebarWindow && canSplit(second)) || isTaskWindow)
             windowList.append(second);
-        }
-    }
 
     return windowList;
 }
@@ -191,7 +202,10 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
             return button;
         };
 
-        if (window->flags().testFlag(Holon::WindowSplitButtonHint))
+        bool isStackedSidebarWindow = qobject_cast<HolonStackedWindow *>(window);
+        bool isTaskWindow = qobject_cast<HolonAbstractTask *>(window->parent());
+
+        if (isStackedSidebarWindow || isTaskWindow)
         {
             QMenu *menu = new QMenu(parent);
 
@@ -241,7 +255,7 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
             d_ptr->splitButton->setPopupMode(QToolButton::InstantPopup);
         }
 
-        if (window->flags().testFlag(Holon::WindowMinMaxButtonsHint))
+        if (isStackedSidebarWindow || isTaskWindow)
         {
             d_ptr->maximizeButton = addButton(icons->maximizeIcon());
             {
@@ -272,12 +286,9 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
                      area == Qt::TopDockWidgetArea ? icons->splitButtonCloseTopIcon() :
                                                      icons->splitButtonCloseBottomIcon();
 
-        if (window->flags().testAnyFlag(Holon::WindowCloseButtonHint))
+        d_ptr->closeButton = addButton(icon);
         {
-            d_ptr->closeButton = addButton(icon);
-            {
-                connect(d_ptr->closeButton, &QToolButton::clicked, this, [=](){ desktop->closeWindow(window); });
-            }
+            connect(d_ptr->closeButton, &QToolButton::clicked, this, [=](){ desktop->closeWindow(window); });
         }
 
         if (qobject_cast<HolonWindowArea *>(window->parent()))

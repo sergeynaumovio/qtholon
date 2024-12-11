@@ -73,11 +73,6 @@ QWidget *HolonOpenTaskTreeWindow::centralWidget() const
     return d_ptr->widget();
 }
 
-Holon::WindowFlags HolonOpenTaskTreeWindow::flags() const
-{
-    return Holon::SidebarWindow | Holon::WindowAllButtonsHint;
-}
-
 QIcon HolonOpenTaskTreeWindow::icon() const
 {
     return {};

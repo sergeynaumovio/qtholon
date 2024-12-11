@@ -43,11 +43,6 @@ HolonDesktop *HolonStackedWindow::desktop() const
     return d_ptr->desktop;
 }
 
-Holon::WindowFlags HolonStackedWindow::flags() const
-{
-    return Holon::WindowAllButtonsHint;
-}
-
 bool HolonStackedWindow::isCopyable(const QStringList &to) const
 {
     QStringList parentSection = to;

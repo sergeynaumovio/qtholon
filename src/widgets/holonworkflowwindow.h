@@ -24,7 +24,6 @@ public:
     ~HolonWorkflowWindow();
 
     QWidget *centralWidget() const override;
-    Holon::WindowFlags flags() const override;
     QIcon icon() const override;
     bool isCopyable(const QStringList &to) const override;
     int role() const override;

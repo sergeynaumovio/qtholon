@@ -37,11 +37,6 @@ QWidget *HolonParametersWindow::centralWidget() const
     return static_cast<HolonParametersWindowPrivate *>(d_ptr.get())->widget();
 }
 
-Holon::WindowFlags HolonParametersWindow::flags() const
-{
-    return Holon::SidebarWindow;
-}
-
 QIcon HolonParametersWindow::icon() const
 {
     return {};
