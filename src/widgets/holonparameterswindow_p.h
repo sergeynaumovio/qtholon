@@ -16,8 +16,7 @@ class HolonParametersWindowPrivate : public HolonAbstractWindowPrivate
 
 public:
     HolonParametersWindowPrivate(HolonAbstractWindow *q,
-                                 HolonDesktop *desktop,
-                                 HolonAbstractTask *task = nullptr);
+                                 HolonDesktop *desktop);
 
     void setOpenTaskTreeModel(HolonOpenTaskTreeModel *openTaskTreeModel);
     QWidget *widget();
