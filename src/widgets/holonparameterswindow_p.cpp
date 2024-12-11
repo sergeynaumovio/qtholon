@@ -29,7 +29,7 @@ void HolonParametersWindowPrivate::setOpenTaskTreeModel(HolonOpenTaskTreeModel *
         }
     }
 
-    combobox->connect(combobox, &QComboBox::currentIndexChanged, combobox->parent(), [=, this](int index)
+    QObject::connect(combobox, &QComboBox::currentIndexChanged, combobox->parent(), [=, this](int index)
     {
         HolonAbstractTask *tsk = static_cast<HolonAbstractTask *>(combobox->model()->index(index, 0).internalPointer());
         desktop->setTask(tsk);
