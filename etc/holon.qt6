@@ -36,9 +36,6 @@ title = Branch A
 class = HolonCustomTask
 title = Custom Task A
 
-[holon/task-folder-a/custom-task-1/messages]
-class = HolonMessagesWidget
-
 [holon/task-folder-a/custom-task-1/0]
 class = HolonTerminalWindow
 current = true
@@ -81,7 +78,6 @@ title = Custom Task A
 
 [holon/workflow-1/0/0]
 class = HolonTerminalWindow
-current = true
 
 [holon/workflow-1/1]
 class = HolonCustomTask
