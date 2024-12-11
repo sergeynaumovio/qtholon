@@ -2,16 +2,17 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holonstackedwindow_p.h"
-#include "holonabstractwindow.h"
-#include "holonabstractwindow_p.h"
+#include "holonabstracttaskwindow_p.h"
 #include "holondesktop.h"
 #include "holonstackedwidget.h"
 #include "holontitlebar.h"
 
 using namespace Qt::Literals::StringLiterals;
 
-HolonStackedWindowPrivate::HolonStackedWindowPrivate(HolonStackedWindow *q, HolonDesktop *desk)
-:   HolonAbstractWindowPrivate(q, desk),
+HolonStackedWindowPrivate::HolonStackedWindowPrivate(HolonStackedWindow *q,
+                                                     HolonDesktop *desk,
+                                                     HolonAbstractTask *task)
+:   HolonAbstractTaskWindowPrivate(q, desk, task),
     stackedWidget(new HolonWindowStackedWidget)
 { }
 
