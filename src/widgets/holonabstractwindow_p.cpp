@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonabstractwindow_p.h"
@@ -6,12 +6,9 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-HolonAbstractWindowPrivate::HolonAbstractWindowPrivate(HolonAbstractWindow *q,
-                                                       HolonDesktop *desk,
-                                                       HolonAbstractTask *t)
+HolonAbstractWindowPrivate::HolonAbstractWindowPrivate(HolonAbstractWindow *q, HolonDesktop *desk)
 :   q_ptr(q),
-    desktop(desk),
-    task(t)
+    desktop(desk)
 { }
 
 void HolonAbstractWindowPrivate::setCurrent(bool current)

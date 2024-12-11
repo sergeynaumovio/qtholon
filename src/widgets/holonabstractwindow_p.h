@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONABSTRACTWINDOW_P_H
@@ -8,19 +8,15 @@ class HolonAbstractTask;
 class HolonAbstractWindow;
 class HolonDesktop;
 class HolonTitleBar;
-class QByteArray;
 
 class HolonAbstractWindowPrivate
 {
 public:
     HolonAbstractWindow *const q_ptr;
     HolonDesktop *const desktop;
-    HolonAbstractTask *const task;
     HolonTitleBar *titleBar;
 
-    HolonAbstractWindowPrivate(HolonAbstractWindow *q,
-                               HolonDesktop *desktop,
-                               HolonAbstractTask *task = nullptr);
+    HolonAbstractWindowPrivate(HolonAbstractWindow *q, HolonDesktop *desktop);
 
     void setCurrent(bool current);
 };
