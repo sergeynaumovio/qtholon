@@ -3,7 +3,7 @@
 
 #include "holonwindowarea_p.h"
 #include "holonabstracttask.h"
-#include "holonabstractwindow.h"
+#include "holonabstracttaskwindow.h"
 #include "holondesktop.h"
 #include "holondockwidget.h"
 #include "holondockwidgetsplitstate.h"
@@ -181,8 +181,8 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first,
         };
 
         QStringList toSection;
-        if (HolonAbstractTask *task = first->task())
-            toSection = to(task);
+        if (HolonAbstractTaskWindow *taskWindow = qobject_cast<HolonAbstractTaskWindow *>(first))
+            toSection = to(taskWindow->task());
         else if (HolonWindowArea *windowarea = qobject_cast<HolonWindowArea *>(first->parent()))
             toSection = to(windowarea);
         else
