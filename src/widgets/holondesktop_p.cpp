@@ -44,7 +44,9 @@ using MainWindowNestingIndex = int;
 class HolonDesktopPrivateData : public HolonCorePrivate
 {
     void addSidebarWindow(HolonAbstractWindow *window);
-    void addTaskStackedWidget(HolonTaskStackedWidget *taskStackedWidget, int role);
+    void addTasksCustomWidgets(HolonTaskStackedWidget *taskStackedWidget, QMetaType sidebarWindow);
+    void addTasksParametersWidgets(HolonTaskStackedWidget *taskStackedWidget);
+    void addTasksWidgets(HolonTaskStackedWidget *taskStackedWidget, auto widgetFrom);
     void addTaskWindow(HolonAbstractTask *task, HolonAbstractWindow *window);
     void addWindowAreaStackedWidget(HolonWindowAreaStackedWidget *windowAreaStackedWidget);
 
@@ -124,7 +126,12 @@ void HolonDesktopPrivateData::addSidebarWindow(HolonAbstractWindow *window)
         projectTaskTreeWindow->d_ptr->setOpenTaskTreeModel(openTaskTreeModel);
 
     if (HolonParametersWindow *parametersWindow = qobject_cast<HolonParametersWindow *>(window))
+    {
         parametersWindow->d_func()->setOpenTaskTreeModel(openTaskTreeModel);
+        HolonTaskStackedWidget *taskStackedWidget = static_cast<HolonTaskStackedWidget *>(window->centralWidget());
+        addTasksParametersWidgets(taskStackedWidget);
+        return;
+    }
 
     if (QWidget *widget = window->widget())
     {
@@ -134,7 +141,7 @@ void HolonDesktopPrivateData::addSidebarWindow(HolonAbstractWindow *window)
         if (HolonStackedWidget *stackedWidget = qobject_cast<HolonStackedWidget *>(widget))
         {
             if (HolonTaskStackedWidget *taskStackedWidget = qobject_cast<HolonTaskStackedWidget *>(stackedWidget))
-                return addTaskStackedWidget(taskStackedWidget, window->role());
+                return addTasksCustomWidgets(taskStackedWidget, window->metaObject()->metaType());
 
             if (HolonWindowAreaStackedWidget *windowAreaStackedWidget = qobject_cast<HolonWindowAreaStackedWidget *>(stackedWidget))
                 return addWindowAreaStackedWidget(windowAreaStackedWidget);
@@ -142,13 +149,23 @@ void HolonDesktopPrivateData::addSidebarWindow(HolonAbstractWindow *window)
     }
 }
 
-void HolonDesktopPrivateData::addTaskStackedWidget(HolonTaskStackedWidget *taskStackedWidget, int role)
+void HolonDesktopPrivateData::addTasksCustomWidgets(HolonTaskStackedWidget *taskStackedWidget, QMetaType sidebarWindow)
+{
+    addTasksWidgets(taskStackedWidget, [=](HolonAbstractTask *task){ return task->customWidget(sidebarWindow); });
+}
+
+void HolonDesktopPrivateData::addTasksParametersWidgets(HolonTaskStackedWidget *taskStackedWidget)
+{
+    addTasksWidgets(taskStackedWidget, [](HolonAbstractTask *task){ return task->parametersWidget(); });
+}
+
+void HolonDesktopPrivateData::addTasksWidgets(HolonTaskStackedWidget *taskStackedWidget, auto widgetFrom)
 {
     taskStackedWidgetList.append(taskStackedWidget);
 
     for (HolonAbstractTask *task : taskList)
     {
-        if (QWidget *widget = task->widget(role))
+        if (QWidget *widget = widgetFrom(task))
         {
             taskStackedWidget->addTaskWidget(task, widget);
 
@@ -342,8 +359,11 @@ void HolonDesktopPrivateData::addTask(HolonAbstractTask *task)
 
     for (HolonTaskStackedWidget *taskStackedWidget : taskStackedWidgetList)
     {
-        if (QWidget *widget = task->widget(taskStackedWidget->role()))
-            taskStackedWidget->addTaskWidget(task, widget);
+        // fix custom widgets
+        // if (QWidget *widget = task->widget(taskStackedWidget->role()))
+        if (taskStackedWidget->role() == Holon::ParametersRole)
+            if (QWidget *widget = task->parametersWidget())
+                taskStackedWidget->addTaskWidget(task, widget);
     }
 
     if (task->isCurrent())
