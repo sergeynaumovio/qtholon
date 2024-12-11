@@ -58,6 +58,11 @@ void HolonAbstractTask::addWindow(HolonAbstractWindow *window)
         d_ptr->workflow->desktop()->addWindow(window);
 }
 
+QWidget *HolonAbstractTask::customWidget(QMetaType /*sidebarWindow*/) const
+{
+    return {};
+}
+
 HolonDesktop *HolonAbstractTask::desktop() const
 {
     if (d_ptr)
@@ -104,16 +109,6 @@ int HolonAbstractTask::role() const
 QString HolonAbstractTask::title() const
 {
     return value(u"title"_s, section().constLast()).toString();
-}
-
-QWidget *HolonAbstractTask::widget(int widgetRole) const
-{
-    QWidget *widget{};
-
-    if (d_ptr->widgetList.contains(widgetRole))
-        widget = d_ptr->widgetList.value(widgetRole)->widget();
-
-    return widget;
 }
 
 QList<HolonAbstractWindow *> HolonAbstractTask::windows(int windowRole) const

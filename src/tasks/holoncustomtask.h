@@ -5,7 +5,6 @@
 #define HOLONCUSTOMTASK_H
 
 #include "holonabstracttask.h"
-#include "holonnamespace.h"
 
 class HolonCustomTask : public HolonAbstractTask
 {
@@ -18,7 +17,6 @@ public:
 
     int exec() override;
     QWidget *parametersWidget() const override;
-    QWidget *widget(int role = Holon::NoRole) const override;
 };
 
 #endif // HOLONCUSTOMTASK_H

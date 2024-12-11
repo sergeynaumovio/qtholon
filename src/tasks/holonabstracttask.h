@@ -32,6 +32,7 @@ public:
 
     void addWidget(HolonAbstractWidget *widget);
     void addWindow(HolonAbstractWindow *window);
+    virtual QWidget *customWidget(QMetaType sidebarWindow) const;
     HolonDesktop *desktop() const;
     virtual int exec() = 0;
     virtual QIcon icon() const;
@@ -41,7 +42,6 @@ public:
     virtual QWidget *parametersWidget() const = 0;
     virtual int role() const;
     virtual QString title() const;
-    virtual QWidget *widget(int role = Holon::NoRole) const;
     QList<HolonAbstractWindow *> windows(int role = Holon::NoRole) const;
 };
 
