@@ -4,7 +4,6 @@
 #ifndef HOLONSTACKEDWIDGET_H
 #define HOLONSTACKEDWIDGET_H
 
-#include "qtholonglobal.h"
 #include "holonnamespace.h"
 #include <QStackedWidget>
 
@@ -16,7 +15,7 @@ class HolonWindowArea;
 class HolonWindowAreaStackedWidgetPrivate;
 class HolonWindowStackedWidgetPrivate;
 
-class Q_HOLON_EXPORT HolonStackedWidget : public QStackedWidget
+class HolonStackedWidget : public QStackedWidget
 {
     Q_OBJECT
 
@@ -32,7 +31,7 @@ public:
 };
 
 
-class Q_HOLON_EXPORT HolonTaskStackedWidget : public HolonStackedWidget
+class HolonTaskStackedWidget : public HolonStackedWidget
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(HolonTaskStackedWidget)
@@ -47,7 +46,7 @@ public:
 };
 
 
-class Q_HOLON_EXPORT HolonWindowStackedWidget : public HolonStackedWidget
+class HolonWindowStackedWidget : public HolonStackedWidget
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(HolonWindowStackedWidget)
@@ -62,7 +61,7 @@ public:
 };
 
 
-class Q_HOLON_EXPORT HolonWindowAreaStackedWidget : public HolonStackedWidget
+class HolonWindowAreaStackedWidget : public HolonStackedWidget
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(HolonWindowAreaStackedWidget)

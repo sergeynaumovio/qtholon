@@ -174,7 +174,6 @@ set(QT_HOLON_PUBLIC_HEADERS
     src/widgets/HolonAbstractWindow
     src/widgets/HolonDesktop
     src/widgets/HolonSidebar
-    src/widgets/HolonStackedWidget
     src/widgets/HolonStackedWindow
     src/widgets/HolonTaskAttributesWindow
     src/widgets/HolonTaskWindowAttributesWindow
@@ -186,7 +185,6 @@ set(QT_HOLON_PUBLIC_HEADERS
     src/widgets/holonabstractwindow.h
     src/widgets/holondesktop.h
     src/widgets/holonsidebar.h
-    src/widgets/holonstackedwidget.h
     src/widgets/holonstackedwindow.h
     src/widgets/holontaskattributeswindow.h
     src/widgets/holontaskwindowattributeswindow.h
