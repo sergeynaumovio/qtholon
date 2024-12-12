@@ -4,31 +4,27 @@
 #ifndef HOLONSETTINGSWINDOW_H
 #define HOLONSETTINGSWINDOW_H
 
-#include "holonabstractwindow.h"
-#include <QScopedStorage>
+#include "holontaskwindowattributeswindow.h"
 
 class HolonDesktop;
 class HolonSettingsWindowPrivate;
 class HolonSidebar;
 
-class HolonSettingsWindow : public HolonAbstractWindow
+class HolonSettingsWindow : public HolonTaskWindowAttributesWindow
 {
     Q_OBJECT
-
-    const QScopedStorage<HolonSettingsWindowPrivate, 32> d_ptr;
+    Q_DECLARE_PRIVATE(HolonSettingsWindow)
 
 public:
     HolonSettingsWindow(QLoaderSettings *settings, HolonDesktop *parent);
     HolonSettingsWindow(QLoaderSettings *settings, HolonSidebar *parent);
     ~HolonSettingsWindow();
 
-    QWidget *centralWidget() const override;
     QIcon icon() const override;
     bool isCopyable(const QStringList &to) const override;
     int role() const override;
     QString title() const override;
     QWidget *toolbarWidget() const override;
-    QWidget *widget(int role = Holon::NoRole) const override;
 };
 
 #endif // HOLONSETTINGSWINDOW_H

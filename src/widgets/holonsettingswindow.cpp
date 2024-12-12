@@ -4,68 +4,24 @@
 #include "holonsettingswindow.h"
 #include "holondesktop.h"
 #include "holonsidebar.h"
-#include "holonstackedwidget.h"
-#include <QBoxLayout>
-#include <QHeaderView>
-#include <QIcon>
-#include <QLabel>
-#include <QStackedWidget>
 #include <QLoaderTree>
-#include <QUuid>
 
 using namespace Qt::Literals::StringLiterals;
 
-class HolonSettingsWindowPrivate
-{
-public:
-    HolonSettingsWindow *const q_ptr;
-    QLoaderSettings *const settings;
-    HolonDesktop *const desktop;
-    HolonWindowAreaStackedWidget *stackedWidget{};
-
-
-    HolonSettingsWindowPrivate(HolonSettingsWindow *q = nullptr,
-                               QLoaderSettings *s = nullptr,
-                               HolonDesktop *desk = nullptr)
-    :   q_ptr(q),
-        settings(s),
-        desktop(desk)
-    { }
-
-    QWidget *widget()
-    {
-        if (!q_ptr)
-            return nullptr;
-
-        if (stackedWidget)
-            return stackedWidget;
-
-        stackedWidget = new HolonWindowAreaStackedWidget(q_ptr->role());
-
-        return stackedWidget;
-    }
-};
-
 HolonSettingsWindow::HolonSettingsWindow(QLoaderSettings *settings, HolonDesktop *parent)
-:   HolonAbstractWindow(settings, parent)
+:   HolonTaskWindowAttributesWindow(settings, parent)
 {
     parent->addWindow(this);
 }
 
 HolonSettingsWindow::HolonSettingsWindow(QLoaderSettings *settings, HolonSidebar *parent)
-:   HolonAbstractWindow(settings, parent),
-    d_ptr(this, settings, parent->desktop())
+:   HolonTaskWindowAttributesWindow(settings, parent)
 {
     parent->addWindow(this);
 }
 
 HolonSettingsWindow::~HolonSettingsWindow()
 { }
-
-QWidget *HolonSettingsWindow::centralWidget() const
-{
-    return d_ptr->widget();
-}
 
 QIcon HolonSettingsWindow::icon() const
 {
@@ -98,13 +54,5 @@ QString HolonSettingsWindow::title() const
 
 QWidget *HolonSettingsWindow::toolbarWidget() const
 {
-    return {};
-}
-
-QWidget *HolonSettingsWindow::widget(int widgetRole) const
-{
-    if (widgetRole == Holon::NoRole)
-        return d_ptr->widget();
-
     return {};
 }
