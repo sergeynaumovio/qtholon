@@ -40,7 +40,6 @@ public:
     bool isCurrent() const;
     bool isOpen() const;
     virtual QWidget *parametersWidget() const = 0;
-    virtual int role() const;
     virtual QString title() const;
     QList<HolonAbstractWindow *> windows(int role = Holon::NoRole) const;
 };

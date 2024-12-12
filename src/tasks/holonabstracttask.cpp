@@ -101,11 +101,6 @@ bool HolonAbstractTask::isOpen() const
     return value(u"open"_s).toBool();
 }
 
-int HolonAbstractTask::role() const
-{
-    return Holon::ParametersRole;
-}
-
 QString HolonAbstractTask::title() const
 {
     return value(u"title"_s, section().constLast()).toString();
