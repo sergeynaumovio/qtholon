@@ -32,7 +32,7 @@ public:
 
     void addWidget(HolonAbstractWidget *widget);
     void addWindow(HolonAbstractWindow *window);
-    virtual QWidget *customWidget(QMetaType sidebarWindow) const;
+    virtual QWidget *customWidget(QMetaType taskAttributesWindow) const;
     HolonDesktop *desktop() const;
     virtual int exec() = 0;
     virtual QIcon icon() const;
