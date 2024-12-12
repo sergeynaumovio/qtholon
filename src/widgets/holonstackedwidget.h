@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONSTACKEDWIDGET_H
@@ -28,6 +28,7 @@ public:
     ~HolonStackedWidget();
 
     int role() const;
+    QMetaType windowType() const;
 };
 
 
@@ -38,6 +39,7 @@ class HolonTaskStackedWidget : public HolonStackedWidget
 
 public:
     explicit HolonTaskStackedWidget(int role = Holon::NoRole);
+    explicit HolonTaskStackedWidget(QMetaType windowType = {});
     ~HolonTaskStackedWidget();
 
     void addTaskWidget(HolonAbstractTask *task, QWidget *widget);
@@ -53,6 +55,7 @@ class HolonWindowStackedWidget : public HolonStackedWidget
 
 public:
     explicit HolonWindowStackedWidget(int role = Holon::NoRole);
+    explicit HolonWindowStackedWidget(QMetaType windowType = {});
     ~HolonWindowStackedWidget();
 
     void addWindowWidget(HolonAbstractWindow *window, QWidget *widget);
@@ -68,6 +71,7 @@ class HolonWindowAreaStackedWidget : public HolonStackedWidget
 
 public:
     explicit HolonWindowAreaStackedWidget(int role = Holon::NoRole);
+    explicit HolonWindowAreaStackedWidget(QMetaType windowType = {});
     ~HolonWindowAreaStackedWidget();
 
     void addWindowAreaWidget(HolonWindowArea *windowArea, QWidget *widget);

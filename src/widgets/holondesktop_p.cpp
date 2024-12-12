@@ -219,7 +219,7 @@ void HolonDesktopPrivateData::addTaskWindow(HolonAbstractTask *task, HolonAbstra
 
         if (!widget)
         {
-            windowStackedWidget = new HolonWindowStackedWidget;
+            windowStackedWidget = new HolonWindowStackedWidget(0);
             taskStackedWidget->addTaskWidget(task, windowStackedWidget);
         }
 
@@ -247,7 +247,7 @@ void HolonDesktopPrivateData::addWindowAreaStackedWidget(HolonWindowAreaStackedW
         QList<HolonAbstractWindow *> taskWindowList = task->windows(taskStackedWidget->role());
         if (taskWindowList.size())
         {
-            HolonWindowStackedWidget *windowStackedWidget = new HolonWindowStackedWidget;
+            HolonWindowStackedWidget *windowStackedWidget = new HolonWindowStackedWidget(0);
             taskStackedWidget->addTaskWidget(task, windowStackedWidget);
 
             if (task->isCurrent())
@@ -359,11 +359,13 @@ void HolonDesktopPrivateData::addTask(HolonAbstractTask *task)
 
     for (HolonTaskStackedWidget *taskStackedWidget : taskStackedWidgetList)
     {
-        // fix custom widgets
-        // if (QWidget *widget = task->widget(taskStackedWidget->role()))
-        if (taskStackedWidget->role() == Holon::ParametersRole)
+        if (taskStackedWidget->windowType() == QMetaType::fromType<HolonParametersWindow>())
+        {
             if (QWidget *widget = task->parametersWidget())
                 taskStackedWidget->addTaskWidget(task, widget);
+        }
+        else if (QWidget *widget = task->customWidget(taskStackedWidget->windowType()))
+            taskStackedWidget->addTaskWidget(task, widget);
     }
 
     if (task->isCurrent())

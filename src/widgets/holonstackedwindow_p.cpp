@@ -13,7 +13,7 @@ HolonStackedWindowPrivate::HolonStackedWindowPrivate(HolonStackedWindow *q,
                                                      HolonDesktop *desk,
                                                      HolonAbstractTask *task)
 :   HolonAbstractTaskWindowPrivate(q, desk, task),
-    stackedWidget(new HolonWindowStackedWidget)
+    stackedWidget(new HolonWindowStackedWidget(QMetaType{}))
 { }
 
 void HolonStackedWindowPrivate::addWindow(HolonAbstractWindow *window)
