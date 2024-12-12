@@ -7,7 +7,6 @@
 #include "holondesktop.h"
 #include "holonstackedwindow.h"
 #include "holonwindowarea.h"
-#include <QIcon>
 
 using namespace Qt::Literals::StringLiterals;
 
