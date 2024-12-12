@@ -4,13 +4,13 @@
 #ifndef HOLONPARAMETERSWINDOW_H
 #define HOLONPARAMETERSWINDOW_H
 
-#include "holonabstractwindow.h"
+#include "holontaskattributeswindow.h"
 
 class HolonDesktop;
 class HolonParametersWindowPrivate;
 class HolonSidebar;
 
-class HolonParametersWindow : public HolonAbstractWindow
+class HolonParametersWindow : public HolonTaskAttributesWindow
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(HolonParametersWindow)
@@ -22,13 +22,11 @@ public:
     HolonParametersWindow(QLoaderSettings *settings, HolonSidebar *parent);
     ~HolonParametersWindow();
 
-    QWidget *centralWidget() const override;
     QIcon icon() const override;
     bool isCopyable(const QStringList &to) const override;
     int role() const override;
     QString title() const override;
     QWidget *toolbarWidget() const override;
-    QWidget *widget(int role = Holon::NoRole) const override;
 };
 
 #endif // HOLONPARAMETERSWINDOW_H

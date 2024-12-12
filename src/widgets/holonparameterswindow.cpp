@@ -5,37 +5,24 @@
 #include "holondesktop.h"
 #include "holonparameterswindow_p.h"
 #include "holonsidebar.h"
-#include "holonstackedwidget.h"
-#include <QBoxLayout>
-#include <QHeaderView>
-#include <QIcon>
-#include <QLabel>
-#include <QStackedWidget>
 #include <QLoaderTree>
-#include <QUuid>
 
 using namespace Qt::Literals::StringLiterals;
 
-
 HolonParametersWindow::HolonParametersWindow(QLoaderSettings *settings, HolonDesktop *parent)
-:   HolonAbstractWindow(settings, parent)
+:   HolonTaskAttributesWindow(settings, parent)
 {
     parent->addWindow(this);
 }
 
 HolonParametersWindow::HolonParametersWindow(QLoaderSettings *settings, HolonSidebar *parent)
-:   HolonAbstractWindow(*new HolonParametersWindowPrivate(this, parent->desktop()), settings, parent)
+:   HolonTaskAttributesWindow(*new HolonParametersWindowPrivate(this, parent->desktop()), settings, parent)
 {
     parent->addWindow(this);
 }
 
 HolonParametersWindow::~HolonParametersWindow()
 { }
-
-QWidget *HolonParametersWindow::centralWidget() const
-{
-    return static_cast<HolonParametersWindowPrivate *>(d_ptr.get())->widget();
-}
 
 QIcon HolonParametersWindow::icon() const
 {
@@ -71,10 +58,3 @@ QWidget *HolonParametersWindow::toolbarWidget() const
     return {};
 }
 
-QWidget *HolonParametersWindow::widget(int widgetRole) const
-{
-    if (widgetRole == Holon::NoRole)
-        return static_cast<HolonParametersWindowPrivate *>(d_ptr.get())->widget();
-
-    return {};
-}

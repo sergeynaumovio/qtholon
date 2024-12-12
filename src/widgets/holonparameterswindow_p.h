@@ -4,22 +4,18 @@
 #ifndef HOLONPARAMETERSWINDOW_P_H
 #define HOLONPARAMETERSWINDOW_P_H
 
-#include "holonabstractwindow_p.h"
+#include "holontaskattributeswindow_p.h"
 
 class HolonOpenTaskTreeModel;
-class HolonTaskStackedWidget;
-class QWidget;
+class HolonParametersWindow;
 
-class HolonParametersWindowPrivate : public HolonAbstractWindowPrivate
+class HolonParametersWindowPrivate : public HolonTaskAttributesWindowPrivate
 {
-    HolonTaskStackedWidget *stackedWidget{};
-
 public:
-    HolonParametersWindowPrivate(HolonAbstractWindow *q,
+    HolonParametersWindowPrivate(HolonParametersWindow *q,
                                  HolonDesktop *desktop);
 
     void setOpenTaskTreeModel(HolonOpenTaskTreeModel *openTaskTreeModel);
-    QWidget *widget();
 };
 
 #endif // HOLONPARAMETERSWINDOW_P_H

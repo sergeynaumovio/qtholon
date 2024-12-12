@@ -5,12 +5,12 @@
 #include "holonabstractwindow.h"
 #include "holondesktop.h"
 #include "holonopentasktreemodel.h"
+#include "holonparameterswindow.h"
 #include "holontitlebar.h"
-#include "holonstackedwidget.h"
 #include <QComboBox>
 
-HolonParametersWindowPrivate::HolonParametersWindowPrivate(HolonAbstractWindow *q, HolonDesktop *desk)
-:   HolonAbstractWindowPrivate(q, desk)
+HolonParametersWindowPrivate::HolonParametersWindowPrivate(HolonParametersWindow *q, HolonDesktop *desk)
+:   HolonTaskAttributesWindowPrivate(q, desk)
 { }
 
 void HolonParametersWindowPrivate::setOpenTaskTreeModel(HolonOpenTaskTreeModel *openTaskTreeModel)
@@ -34,18 +34,5 @@ void HolonParametersWindowPrivate::setOpenTaskTreeModel(HolonOpenTaskTreeModel *
         HolonAbstractTask *tsk = static_cast<HolonAbstractTask *>(combobox->model()->index(index, 0).internalPointer());
         desktop->setTask(tsk);
     });
-}
-
-QWidget *HolonParametersWindowPrivate::widget()
-{
-    if (!q_ptr)
-        return nullptr;
-
-    if (stackedWidget)
-        return stackedWidget;
-
-    stackedWidget = new HolonTaskStackedWidget(q_ptr->role());
-
-    return stackedWidget;
 }
 
