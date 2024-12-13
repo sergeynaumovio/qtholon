@@ -9,7 +9,6 @@
 #include <QLoaderSettings>
 
 class HolonAbstractTaskPrivate;
-class HolonAbstractWidget;
 class HolonAbstractWindow;
 class HolonDesktop;
 class HolonTaskFolder;
@@ -30,7 +29,6 @@ protected:
 public:
     ~HolonAbstractTask();
 
-    void addWidget(HolonAbstractWidget *widget);
     void addWindow(HolonAbstractWindow *window);
     virtual QWidget *customWidget(QMetaType taskAttributesWindow) const;
     HolonDesktop *desktop() const;

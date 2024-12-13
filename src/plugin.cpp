@@ -4,7 +4,6 @@
 #include "holoncore.h"
 #include "holoncustomtask.h"
 #include "holondesktop.h"
-#include "holonmessageswidget.h"
 #include "holonmessageswindow.h"
 #include "holonopentasktreewindow.h"
 #include "holonparameterswindow.h"
@@ -54,17 +53,6 @@ public:
             QWidget *widget = qobject_cast<QWidget *>(parent);
             if (!parent || (parent && widget))
                 return new HolonDesktop(settings, widget);
-
-            return parent;
-        }
-
-        if (!qstrcmp(shortName, "MessagesWidget"))
-        {
-            if (qobject_cast<HolonCore *>(parent))
-                return nullptr;
-
-            if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(parent))
-                return new HolonMessagesWidget(settings, task);
 
             return parent;
         }

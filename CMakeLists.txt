@@ -62,8 +62,6 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonabstracttaskwindow.h
             src/widgets/holonabstracttaskwindow_p.cpp
             src/widgets/holonabstracttaskwindow_p.h
-            src/widgets/holonabstractwidget.cpp
-            src/widgets/holonabstractwidget.h
             src/widgets/holonabstractwindow.cpp
             src/widgets/holonabstractwindow.h
             src/widgets/holonabstractwindow_p.cpp
@@ -78,8 +76,6 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holondockwidgetsplitstate.h
             src/widgets/holonmainwindow.cpp
             src/widgets/holonmainwindow.h
-            src/widgets/holonmessageswidget.cpp
-            src/widgets/holonmessageswidget.h
             src/widgets/holonmessageswindow.cpp
             src/widgets/holonmessageswindow.h
             src/widgets/holonopentasktreeview.cpp
@@ -170,7 +166,6 @@ set(QT_HOLON_PUBLIC_HEADERS
     src/core/qtholonglobal.h
     src/tasks/HolonAbstractTask
     src/tasks/holonabstracttask.h
-    src/widgets/HolonAbstractWidget
     src/widgets/HolonAbstractWindow
     src/widgets/HolonDesktop
     src/widgets/HolonSidebar
@@ -181,7 +176,6 @@ set(QT_HOLON_PUBLIC_HEADERS
     src/widgets/HolonThemeColors
     src/widgets/HolonThemeIcons
     src/widgets/HolonThemeStyle
-    src/widgets/holonabstractwidget.h
     src/widgets/holonabstractwindow.h
     src/widgets/holondesktop.h
     src/widgets/holonsidebar.h

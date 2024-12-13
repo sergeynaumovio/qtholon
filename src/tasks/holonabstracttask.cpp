@@ -3,7 +3,6 @@
 
 #include "holonabstracttask.h"
 #include "holonabstracttask_p.h"
-#include "holonabstractwidget.h"
 #include "holonabstractwindow.h"
 #include "holondesktop.h"
 #include "holontaskfolder.h"
@@ -38,14 +37,6 @@ HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonWorkflow *w
 
 HolonAbstractTask::~HolonAbstractTask()
 { }
-
-void HolonAbstractTask::addWidget(HolonAbstractWidget *widget)
-{
-    if (d_ptr->widgetList.contains(widget->role()))
-        return;
-
-    d_ptr->widgetList[widget->role()] = widget;
-}
 
 void HolonAbstractTask::addWindow(HolonAbstractWindow *window)
 {

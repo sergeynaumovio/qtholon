@@ -24,7 +24,6 @@ public:
     HolonWorkflow *const workflow;
     HolonDesktop *const desktop;
     QMap<WidgetRole, QList<HolonAbstractWindow *>> windowList;
-    QMap<WidgetRole, HolonAbstractWidget *> widgetList;
 
     HolonAbstractTaskPrivate(HolonAbstractTask *q = nullptr,
                              HolonTaskFolder *folder = nullptr);
