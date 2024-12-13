@@ -4,6 +4,7 @@
 #include "holondesktop_p.h"
 #include "holonabstracttask.h"
 #include "holonabstracttask_p.h"
+#include "holonabstracttaskwindow.h"
 #include "holonabstractwindow.h"
 #include "holonabstractwindow_p.h"
 #include "holoncore_p.h"
@@ -244,7 +245,7 @@ void HolonDesktopPrivateData::addWindowAreaStackedWidget(HolonWindowAreaStackedW
 
     for (HolonAbstractTask *task : taskList)
     {
-        QList<HolonAbstractWindow *> taskWindowList = task->windows(taskStackedWidget->role());
+        QList<HolonAbstractTaskWindow *> taskWindowList = task->findChildren<HolonAbstractTaskWindow *>();
         if (taskWindowList.size())
         {
             HolonWindowStackedWidget *windowStackedWidget = new HolonWindowStackedWidget(0);

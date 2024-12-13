@@ -4,9 +4,6 @@
 #ifndef HOLONABSTRACTTASK_P_H
 #define HOLONABSTRACTTASK_P_H
 
-#include <QIcon>
-#include <QMap>
-
 class HolonAbstractTask;
 class HolonAbstractWidget;
 class HolonAbstractWindow;
@@ -23,7 +20,6 @@ public:
     HolonTaskFolder *const folder;
     HolonWorkflow *const workflow;
     HolonDesktop *const desktop;
-    QMap<WidgetRole, QList<HolonAbstractWindow *>> windowList;
 
     HolonAbstractTaskPrivate(HolonAbstractTask *q = nullptr,
                              HolonTaskFolder *folder = nullptr);

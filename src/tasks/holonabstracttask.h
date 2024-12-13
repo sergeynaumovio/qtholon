@@ -39,7 +39,6 @@ public:
     bool isOpen() const;
     virtual QWidget *parametersWidget() const = 0;
     virtual QString title() const;
-    QList<HolonAbstractWindow *> windows(int role = Holon::NoRole) const;
 };
 
 #endif // HOLONABSTRACTTASK_H

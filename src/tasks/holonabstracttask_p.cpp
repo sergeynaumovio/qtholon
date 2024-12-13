@@ -6,8 +6,6 @@
 #include "holontaskfolder.h"
 #include "holonworkflow.h"
 #include <QApplication>
-#include <QMap>
-#include <QStyle>
 
 using namespace Qt::Literals::StringLiterals;
 

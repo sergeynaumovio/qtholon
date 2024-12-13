@@ -40,11 +40,6 @@ HolonAbstractTask::~HolonAbstractTask()
 
 void HolonAbstractTask::addWindow(HolonAbstractWindow *window)
 {
-    if (d_ptr->windowList[window->role()].contains(window))
-        return;
-
-    d_ptr->windowList[window->role()].append(window);
-
     if (d_ptr->workflow)
         d_ptr->workflow->desktop()->addWindow(window);
 }
@@ -96,9 +91,3 @@ QString HolonAbstractTask::title() const
 {
     return value(u"title"_s, section().constLast()).toString();
 }
-
-QList<HolonAbstractWindow *> HolonAbstractTask::windows(int windowRole) const
-{
-    return d_ptr->windowList.value(windowRole);
-}
-
