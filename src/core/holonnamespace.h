@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONNAMESPACE_H
@@ -19,15 +19,6 @@ namespace Holon
         Expanded
     };
     Q_ENUM_NS(TreeItem)
-
-    enum WidgetRole
-    {
-        NoRole = 0,
-        ParametersRole = 1,
-        SettingsRole = 2,
-        MessagesRole = 3
-    };
-    Q_ENUM_NS(WidgetRole)
 };
 
 #endif // HOLONNAMESPACE_H
