@@ -13,12 +13,12 @@ HolonStackedWindowPrivate::HolonStackedWindowPrivate(HolonStackedWindow *q,
                                                      HolonDesktop *desk,
                                                      HolonAbstractTask *task)
 :   HolonAbstractTaskWindowPrivate(q, desk, task),
-    stackedWidget(new HolonWindowStackedWidget(QMetaType{}))
+    stackedWidget(new HolonWindowStackedWidget)
 { }
 
 void HolonStackedWindowPrivate::addWindow(HolonAbstractWindow *window)
 {
-    stackedWidget->addWindowWidget(window, window->widget());
+    stackedWidget->addWindowWidget(window, window->centralWidget());
 
     if (!window->contains(u"current"_s))
         window->d_ptr->setCurrent(true);

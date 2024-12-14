@@ -29,11 +29,3 @@ QWidget *HolonTaskWindowAttributesWindow::centralWidget() const
 {
     return static_cast<HolonTaskWindowAttributesWindowPrivate *>(d_ptr.get())->centralWidget();
 }
-
-QWidget *HolonTaskWindowAttributesWindow::widget(int widgetRole) const
-{
-    if (widgetRole == Holon::NoRole)
-        return static_cast<HolonTaskWindowAttributesWindowPrivate *>(d_ptr.get())->centralWidget();
-
-    return {};
-}

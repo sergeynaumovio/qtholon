@@ -67,9 +67,3 @@ QWidget *HolonStackedWindow::toolbarWidget() const
 {
     return {};
 }
-
-QWidget *HolonStackedWindow::widget(int /*role*/) const
-{
-    Q_D(const HolonStackedWindow);
-    return d->stackedWidget;
-}

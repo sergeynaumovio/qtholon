@@ -34,7 +34,7 @@ public:
         if (stackedWidget)
             return stackedWidget;
 
-        stackedWidget = new HolonTaskStackedWidget(q_ptr->role());
+        stackedWidget = new HolonTaskStackedWidget(q_ptr->metaObject()->metaType());
 
         return stackedWidget;
     }
@@ -80,11 +80,6 @@ bool HolonMessagesWindow::isCopyable(const QStringList &to) const
     return false;
 }
 
-int HolonMessagesWindow::role() const
-{
-    return Holon::MessagesRole;
-}
-
 QString HolonMessagesWindow::title() const
 {
     return u"Messages"_s;
@@ -92,13 +87,5 @@ QString HolonMessagesWindow::title() const
 
 QWidget *HolonMessagesWindow::toolbarWidget() const
 {
-    return {};
-}
-
-QWidget *HolonMessagesWindow::widget(int widgetRole) const
-{
-    if (widgetRole == Holon::NoRole)
-        return d_ptr->widget();
-
     return {};
 }

@@ -7,8 +7,8 @@
 #include "holonabstracttaskwindow.h"
 
 class HolonDesktop;
-class HolonTerminalWindowPrivate;
 class HolonStackedWindow;
+class HolonTerminalWindowPrivate;
 
 class HolonTerminalWindow : public HolonAbstractTaskWindow
 {
@@ -24,11 +24,9 @@ public:
     QWidget *centralWidget() const override;
     QIcon icon() const override;
     bool isCopyable(const QStringList &to) const override;
-    int role() const override;
     QWidget *settingsWidget() const override;
     QString title() const override;
     QWidget *toolbarWidget() const override;
-    QWidget *widget(int role = Holon::NoRole) const override;
 };
 
 #endif // HOLONTERMINALWINDOW_H

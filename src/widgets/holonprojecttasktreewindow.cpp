@@ -75,11 +75,3 @@ QWidget *HolonProjectTaskTreeWindow::toolbarWidget() const
 {
     return {};
 }
-
-QWidget *HolonProjectTaskTreeWindow::widget(int widgetRole) const
-{
-    if (widgetRole == Holon::NoRole)
-        return d_ptr->widget();
-
-    return {};
-}

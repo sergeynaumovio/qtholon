@@ -24,7 +24,6 @@ public:
     ~HolonTaskWindowAttributesWindow();
 
     QWidget *centralWidget() const override;
-    QWidget *widget(int role = Holon::NoRole) const override;
 };
 
 #endif // HOLONTASKWINDOWATTRIBUTESWINDOW_H

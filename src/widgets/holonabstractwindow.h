@@ -4,7 +4,6 @@
 #ifndef HOLONABSTRACTWINDOW_H
 #define HOLONABSTRACTWINDOW_H
 
-#include "holonnamespace.h"
 #include "qtholonglobal.h"
 #include <QLoaderSettings>
 
@@ -38,10 +37,8 @@ public:
     HolonDesktop *desktop() const;
     virtual QIcon icon() const;
     bool isCurrent() const;
-    virtual int role() const;
     virtual QString title() const;
     virtual QWidget *toolbarWidget() const = 0;
-    virtual QWidget *widget(int role = Holon::NoRole) const = 0;
 };
 
 #endif // HOLONABSTRACTWINDOW_H

@@ -24,7 +24,6 @@ public:
 
     QIcon icon() const override;
     bool isCopyable(const QStringList &to) const override;
-    int role() const override;
     QString title() const override;
     QWidget *toolbarWidget() const override;
 };

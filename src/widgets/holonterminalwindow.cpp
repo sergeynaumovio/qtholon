@@ -101,11 +101,6 @@ bool HolonTerminalWindow::isCopyable(const QStringList &to) const
     return false;
 }
 
-int HolonTerminalWindow::role() const
-{
-    return Holon::SettingsRole;
-}
-
 QWidget *HolonTerminalWindow::settingsWidget() const
 {
     return new QLabel(section().constLast());
@@ -118,16 +113,5 @@ QString HolonTerminalWindow::title() const
 
 QWidget *HolonTerminalWindow::toolbarWidget() const
 {
-    return {};
-}
-
-QWidget *HolonTerminalWindow::widget(int widgetRole) const
-{
-    if (widgetRole == Holon::NoRole)
-        return static_cast<HolonTerminalWindowPrivate *>(d_ptr.get())->widget();
-
-    if (widgetRole == role())
-        return new QLabel(section().constLast());
-
     return {};
 }

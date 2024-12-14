@@ -19,7 +19,7 @@ QWidget *HolonTaskWindowAttributesWindowPrivate::centralWidget()
     if (stackedWidget)
         return stackedWidget;
 
-    stackedWidget = new HolonWindowAreaStackedWidget(q_ptr->role());
+    stackedWidget = new HolonWindowAreaStackedWidget(q_ptr->metaObject()->metaType());
 
     return stackedWidget;
 }

@@ -42,11 +42,6 @@ bool HolonSettingsWindow::isCopyable(const QStringList &to) const
     return false;
 }
 
-int HolonSettingsWindow::role() const
-{
-    return Holon::SettingsRole;
-}
-
 QString HolonSettingsWindow::title() const
 {
     return u"Settings"_s;

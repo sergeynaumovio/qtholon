@@ -48,7 +48,7 @@ HolonDockWidget::HolonDockWidget(HolonDesktop *desktop,
     d_ptr(this, desktop, parent, window, d)
 {
     setObjectName(std::as_const(window)->section().last());
-    setWidget(window->widget());
+    setWidget(window->centralWidget());
 
     if (HolonAbstractTaskWindow *taskWindow = qobject_cast<HolonAbstractTaskWindow *>(window))
         if (HolonAbstractTask *task = taskWindow->task())

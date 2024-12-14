@@ -43,11 +43,6 @@ bool HolonParametersWindow::isCopyable(const QStringList &to) const
     return false;
 }
 
-int HolonParametersWindow::role() const
-{
-    return Holon::ParametersRole;
-}
-
 QString HolonParametersWindow::title() const
 {
     return u"Parameters"_s;

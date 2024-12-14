@@ -52,11 +52,6 @@ bool HolonAbstractWindow::isCurrent() const
     return value(u"current"_s).toBool();
 }
 
-int HolonAbstractWindow::role() const
-{
-    return Holon::NoRole;
-}
-
 QString HolonAbstractWindow::title() const
 {
     return {};

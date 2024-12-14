@@ -3,7 +3,7 @@
 
 #include "holondesktop.h"
 #include "holonabstracttask.h"
-#include "holonabstractwindow.h"
+#include "holonabstracttaskwindow.h"
 #include "holondesktop_p.h"
 #include "holondockwidget.h"
 #include <QApplication>
@@ -45,9 +45,8 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
         {
             if (object)
                 if (HolonDockWidget *dockWidget = qobject_cast<HolonDockWidget *>(object->parent()))
-                    if (HolonAbstractWindow *window = dockWidget->window())
-                        if (qobject_cast<HolonAbstractTask *>(window->parent()))
-                            setWindow(window);
+                    if (HolonAbstractTaskWindow *window = qobject_cast<HolonAbstractTaskWindow *>(dockWidget->window()))
+                        setTaskWindow(window);
         });
     }
 
@@ -126,14 +125,14 @@ void HolonDesktop::setTask(HolonAbstractTask *task)
     d_ptr->setTask(task);
 }
 
+void HolonDesktop::setTaskWindow(HolonAbstractTaskWindow *window)
+{
+    d_ptr->setTaskWindow(window);
+}
+
 void HolonDesktop::setTheme(HolonTheme *theme)
 {
     d_ptr->setTheme(theme);
-}
-
-void HolonDesktop::setWindow(HolonAbstractWindow *window)
-{
-    d_ptr->setWindow(window);
 }
 
 void HolonDesktop::setWindowArea(HolonWindowArea *windowArea)

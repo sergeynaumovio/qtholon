@@ -25,10 +25,8 @@ public:
     QWidget *centralWidget() const override;
     QIcon icon() const override;
     bool isCopyable(const QStringList &to) const override;
-    int role() const override;
     QString title() const override;
     QWidget *toolbarWidget() const override;
-    QWidget *widget(int role = Holon::NoRole) const override;
 };
 
 #endif // HOLONMESSAGESWINDOW_H

@@ -9,6 +9,7 @@
 
 class HolonAbstractTask;
 class HolonTheme;
+class HolonAbstractTaskWindow;
 class HolonAbstractWindow;
 class HolonDesktop;
 class HolonDesktopPrivateData;
@@ -44,7 +45,7 @@ class HolonDesktopPrivate
     void emitWarning(const QString &warning) const;
     void setLayout();
     void setTask(HolonAbstractTask *task);
-    void setWindow(HolonAbstractWindow *window);
+    void setTaskWindow(HolonAbstractTaskWindow *window);
     void setWindowArea(HolonWindowArea *windowArea);
     void setTheme(HolonTheme *theme);
     HolonAbstractTask *task() const;
