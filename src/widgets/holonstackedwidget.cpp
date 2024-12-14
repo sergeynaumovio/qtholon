@@ -8,18 +8,12 @@
 
 class HolonStackedWidgetPrivate
 {
-    const int widgetRole{-1};
     QMetaType stackedWindowType{};
 
 protected:
     HolonStackedWidget *const q_ptr;
 
 public:
-    HolonStackedWidgetPrivate(HolonStackedWidget *q, int role)
-    :   widgetRole(role),
-        q_ptr(q)
-    { }
-
     HolonStackedWidgetPrivate(HolonStackedWidget *q, QMetaType windowType)
     :   stackedWindowType(windowType),
         q_ptr(q)
@@ -27,7 +21,6 @@ public:
 
     virtual ~HolonStackedWidgetPrivate() { }
 
-    int role() const { return widgetRole; }
     QMetaType windowType() const { return stackedWindowType; }
 };
 
@@ -36,10 +29,6 @@ class HolonTaskStackedWidgetPrivate : public HolonStackedWidgetPrivate
     QHash<HolonAbstractTask *, QWidget *> taskWidget;
 
 public:
-    HolonTaskStackedWidgetPrivate(HolonTaskStackedWidget *q, int role)
-    :   HolonStackedWidgetPrivate(q, role)
-    { }
-
     HolonTaskStackedWidgetPrivate(HolonTaskStackedWidget *q, QMetaType windowType)
     :   HolonStackedWidgetPrivate(q, windowType)
     { }
@@ -70,10 +59,6 @@ class HolonWindowStackedWidgetPrivate : public HolonStackedWidgetPrivate
     QHash<HolonAbstractWindow *, QWidget *> windowWidget;
 
 public:
-    HolonWindowStackedWidgetPrivate(HolonWindowStackedWidget *q, int role)
-    :   HolonStackedWidgetPrivate(q, role)
-    { }
-
     HolonWindowStackedWidgetPrivate(HolonWindowStackedWidget *q, QMetaType windowType)
     :   HolonStackedWidgetPrivate(q, windowType)
     { }
@@ -109,10 +94,6 @@ class HolonWindowAreaStackedWidgetPrivate : public HolonStackedWidgetPrivate
     QHash<HolonWindowArea *, QWidget *> windowAreaWidget;
 
 public:
-    HolonWindowAreaStackedWidgetPrivate(HolonWindowAreaStackedWidget *q, int role)
-    :   HolonStackedWidgetPrivate(q, role)
-    { }
-
     HolonWindowAreaStackedWidgetPrivate(HolonWindowAreaStackedWidget *q, QMetaType windowType)
     :   HolonStackedWidgetPrivate(q, windowType)
     { }
@@ -139,20 +120,11 @@ HolonStackedWidget::HolonStackedWidget(HolonStackedWidgetPrivate &d)
 HolonStackedWidget::~HolonStackedWidget()
 { }
 
-int HolonStackedWidget::role() const
-{
-    return d_ptr->role();
-}
-
 QMetaType HolonStackedWidget::windowType() const
 {
     return d_ptr->windowType();
 }
 
-
-HolonTaskStackedWidget::HolonTaskStackedWidget(int role)
-:   HolonStackedWidget(*new HolonTaskStackedWidgetPrivate(this, role))
-{ }
 
 HolonTaskStackedWidget::HolonTaskStackedWidget(QMetaType windowType)
 :   HolonStackedWidget(*new HolonTaskStackedWidgetPrivate(this, windowType))
@@ -180,10 +152,6 @@ QWidget *HolonTaskStackedWidget::taskWidget(HolonAbstractTask *task) const
 }
 
 
-HolonWindowStackedWidget::HolonWindowStackedWidget(int role)
-:   HolonStackedWidget(*new HolonWindowStackedWidgetPrivate(this, role))
-{ }
-
 HolonWindowStackedWidget::HolonWindowStackedWidget(QMetaType windowType)
 :   HolonStackedWidget(*new HolonWindowStackedWidgetPrivate(this, windowType))
 { }
@@ -209,10 +177,6 @@ void HolonWindowStackedWidget::setCurrentWindow(HolonAbstractWindow *window)
     d->setCurrentWindow(window);
 }
 
-
-HolonWindowAreaStackedWidget::HolonWindowAreaStackedWidget(int role)
-:   HolonStackedWidget(*new HolonWindowAreaStackedWidgetPrivate(this, role))
-{ }
 
 HolonWindowAreaStackedWidget::HolonWindowAreaStackedWidget(QMetaType windowType)
 :   HolonStackedWidget(*new HolonWindowAreaStackedWidgetPrivate(this, windowType))

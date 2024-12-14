@@ -4,7 +4,6 @@
 #ifndef HOLONSTACKEDWIDGET_H
 #define HOLONSTACKEDWIDGET_H
 
-#include "holonnamespace.h"
 #include <QStackedWidget>
 
 class HolonAbstractTask;
@@ -27,7 +26,6 @@ protected:
 public:
     ~HolonStackedWidget();
 
-    int role() const;
     QMetaType windowType() const;
 };
 
@@ -38,7 +36,6 @@ class HolonTaskStackedWidget : public HolonStackedWidget
     Q_DECLARE_PRIVATE(HolonTaskStackedWidget)
 
 public:
-    explicit HolonTaskStackedWidget(int role = Holon::NoRole);
     explicit HolonTaskStackedWidget(QMetaType windowType = {});
     ~HolonTaskStackedWidget();
 
@@ -54,7 +51,6 @@ class HolonWindowStackedWidget : public HolonStackedWidget
     Q_DECLARE_PRIVATE(HolonWindowStackedWidget)
 
 public:
-    explicit HolonWindowStackedWidget(int role = Holon::NoRole);
     explicit HolonWindowStackedWidget(QMetaType windowType = {});
     ~HolonWindowStackedWidget();
 
@@ -70,7 +66,6 @@ class HolonWindowAreaStackedWidget : public HolonStackedWidget
     Q_DECLARE_PRIVATE(HolonWindowAreaStackedWidget)
 
 public:
-    explicit HolonWindowAreaStackedWidget(int role = Holon::NoRole);
     explicit HolonWindowAreaStackedWidget(QMetaType windowType = {});
     ~HolonWindowAreaStackedWidget();
 
