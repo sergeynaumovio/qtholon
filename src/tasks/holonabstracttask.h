@@ -5,7 +5,6 @@
 #define HOLONABSTRACTTASK_H
 
 #include "qtholonglobal.h"
-#include "holonnamespace.h"
 #include <QLoaderSettings>
 
 class HolonAbstractTaskPrivate;
