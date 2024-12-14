@@ -7,8 +7,8 @@
 #include "holonabstractwindow.h"
 
 class HolonDesktop;
-class HolonTaskAttributesWindowPrivate;
 class HolonSidebar;
+class HolonTaskAttributesWindowPrivate;
 
 class Q_HOLON_EXPORT HolonTaskAttributesWindow : public HolonAbstractWindow
 {
