@@ -49,7 +49,7 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
     if (mainWindowStateCache.isNull())
         mainWindowStateCache = q_ptr->value(u"mainWindowState"_s).toByteArray();
 
-    if (!qobject_cast<HolonAbstractTaskWindow *>(window))
+    if (!qobject_cast<HolonAbstractTaskWindow *>(window) && !qobject_cast<HolonAbstractTask *>(window->parent()))
         desktop->addWindow(window);
 
     if (dockByWindow.count() > 1)
@@ -178,10 +178,12 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first,
         };
 
         QStringList toSection;
-        if (HolonAbstractTaskWindow *taskWindow = qobject_cast<HolonAbstractTaskWindow *>(first))
-            toSection = to(taskWindow->task());
+        if (qobject_cast<HolonStackedWindow *>(first))
+            toSection = to(static_cast<HolonAbstractTaskWindow *>(first)->task());
         else if (HolonWindowArea *windowarea = qobject_cast<HolonWindowArea *>(first->parent()))
             toSection = to(windowarea);
+        else if (HolonAbstractTaskWindow *taskWindow = qobject_cast<HolonAbstractTaskWindow *>(first))
+            toSection = to(taskWindow->task());
         else
             return;
 
