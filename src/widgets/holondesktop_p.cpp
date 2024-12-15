@@ -196,6 +196,10 @@ void HolonDesktopPrivateData::addTaskWindow(HolonAbstractTaskWindow *taskWindow)
         return;
 
     windowArea->addWindow(taskWindow);
+
+    if (qobject_cast<HolonStackedWindow *>(taskWindow))
+        return;
+
     windowAreaByTaskWindow.insert(taskWindow, windowArea);
 
     if (taskWindow->isCurrent())
@@ -388,8 +392,13 @@ void HolonDesktopPrivateData::addWidget(QWidget *widget, QWidget *parent)
 
 void HolonDesktopPrivateData::addWindow(HolonAbstractWindow *window)
 {
+    if (HolonStackedWindow *stacked = qobject_cast<HolonStackedWindow *>(window))
+        if (qobject_cast<HolonAbstractTask *>(window->parent()))
+            addTaskWindow(static_cast<HolonAbstractTaskWindow *>(window));
+
     if (HolonAbstractTaskWindow *taskWindow = qobject_cast<HolonAbstractTaskWindow *>(window))
-        return (qobject_cast<HolonDesktop *>(window->parent()) ? void() : addTaskWindow(taskWindow));
+        return (qobject_cast<HolonDesktop *>(window->parent()) ||
+                qobject_cast<HolonStackedWindow *>(window->parent()) ? void() : addTaskWindow(taskWindow));
 
     if (qobject_cast<HolonSidebar *>(window->parent()))
         return addSidebarWindow(window);
@@ -497,7 +506,12 @@ void HolonDesktopPrivateData::setCurrentTask(HolonAbstractTask *task)
 
     if (HolonAbstractWindow *window = currentTaskWindow.value(task))
         if (QWidget *widget = window->centralWidget())
+        {
+            if (HolonWindowStackedWidget *stacked = qobject_cast<HolonWindowStackedWidget *>(widget))
+                widget = stacked->currentWidget();
+
             widget->setFocus();
+        }
 }
 
 void HolonDesktopPrivateData::setCurrentTaskWindow(HolonAbstractTaskWindow *window)
