@@ -8,7 +8,6 @@
 #include <QScopedStorage>
 
 class HolonAbstractTask;
-class HolonTheme;
 class HolonAbstractTaskWindow;
 class HolonAbstractWindow;
 class HolonDesktop;
@@ -17,11 +16,9 @@ class HolonSidebar;
 class HolonSidebarDockWidget;
 class HolonSidebarMainWindow;
 class HolonTaskbar;
+class HolonTheme;
 class HolonWindowArea;
 class HolonWorkflow;
-template<typename> class QList;
-class QResizeEvent;
-class QStackedWidget;
 class QString;
 
 class HolonDesktopPrivate
