@@ -94,7 +94,7 @@ bool HolonTerminalWindow::isCopyable(const QStringList &to) const
     {
         parentSection.removeLast();
         QObject *parent = tree()->object(parentSection);
-        if (qobject_cast<HolonAbstractTask *>(parent))
+        if (qobject_cast<HolonAbstractTask *>(parent) || qobject_cast<HolonStackedWindow *>(parent))
             return true;
     }
 
