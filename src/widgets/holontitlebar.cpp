@@ -3,16 +3,15 @@
 
 #include "holontitlebar.h"
 #include "holonabstracttask.h"
-#include "holonabstracttaskwindow.h"
 #include "holondesktop.h"
 #include "holondockwidget.h"
 #include "holonid.h"
 #include "holonparameterswindow.h"
 #include "holonsidebar.h"
+#include "holonstackedwindow.h"
 #include "holontheme.h"
 #include "holonthemeicons.h"
 #include "holonthemestyle.h"
-#include "holonstackedwindow.h"
 #include "holonwindowarea.h"
 #include "holonwindowarea_p.h"
 #include <QActionGroup>
