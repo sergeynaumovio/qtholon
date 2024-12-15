@@ -103,12 +103,17 @@ QList<HolonAbstractWindow *> HolonTitleBar::siblingWindows(HolonAbstractWindow *
 {
     QList<HolonAbstractWindow *> windowList;
 
-    bool isSidebarWindow = qobject_cast<HolonSidebar *>(window->parent());
-    bool isTaskWindow = qobject_cast<HolonAbstractTask *>(window->parent());
-
-    for (HolonAbstractWindow *second : window->desktop()->findChildren<HolonAbstractWindow *>(Qt::FindDirectChildrenOnly))
-        if ((isSidebarWindow && canSplit(second)) || isTaskWindow)
+    if (qobject_cast<HolonAbstractTask *>(window->parent()))
+    {
+        for (HolonAbstractWindow *second : window->desktop()->findChildren<HolonAbstractTaskWindow *>(Qt::FindDirectChildrenOnly))
             windowList.append(second);
+    }
+    else if (qobject_cast<HolonSidebar *>(window->parent()))
+    {
+        for (HolonAbstractWindow *second : window->desktop()->findChildren<HolonAbstractWindow *>(Qt::FindDirectChildrenOnly))
+            if (canSplit(second))
+                windowList.append(second);
+    }
 
     return windowList;
 }
