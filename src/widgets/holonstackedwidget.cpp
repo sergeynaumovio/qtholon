@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holonstackedwidget.h"
+#include "holonstackedwindow.h"
 #include "holonabstracttask.h"
 #include "holonabstractwindow.h"
 #include <QHash>
@@ -57,6 +58,7 @@ public:
 class HolonWindowStackedWidgetPrivate : public HolonStackedWidgetPrivate
 {
     QHash<HolonAbstractWindow *, QWidget *> windowWidget;
+    HolonAbstractWindow *currentWindow;
 
 public:
     HolonWindowStackedWidgetPrivate(HolonWindowStackedWidget *q, QMetaType windowType)
@@ -69,7 +71,10 @@ public:
         q_ptr->addWidget(widget);
 
         if (window->isCurrent())
+        {
             q_ptr->setCurrentWidget(windowWidget.value(window));
+            currentWindow = window;
+        }
     }
 
     void removeWindowWidget(HolonAbstractWindow *window)
@@ -84,8 +89,19 @@ public:
 
     void setCurrentWindow(HolonAbstractWindow *window)
     {
+        if (HolonStackedWindow *stacked = qobject_cast<HolonStackedWindow *>(window))
+            window = stacked->window();
+
         if (windowWidget.contains(window))
+        {
             q_ptr->setCurrentWidget(windowWidget.value(window));
+            currentWindow = window;
+        }
+    }
+
+    HolonAbstractWindow *window() const
+    {
+        return currentWindow;
     }
 };
 
@@ -177,6 +193,11 @@ void HolonWindowStackedWidget::setCurrentWindow(HolonAbstractWindow *window)
     d->setCurrentWindow(window);
 }
 
+HolonAbstractWindow *HolonWindowStackedWidget::window() const
+{
+    Q_D(const HolonWindowStackedWidget);
+    return d->window();
+}
 
 HolonWindowAreaStackedWidget::HolonWindowAreaStackedWidget(QMetaType windowType)
 :   HolonStackedWidget(*new HolonWindowAreaStackedWidgetPrivate(this, windowType))

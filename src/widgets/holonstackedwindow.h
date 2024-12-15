@@ -27,6 +27,7 @@ public:
     bool isCopyable(const QStringList &to) const override;
     void setWindow(HolonAbstractWindow *window);
     QWidget *toolbarWidget() const override;
+    HolonAbstractWindow *window() const;
 };
 
 #endif // HOLONSTACKEDWINDOW_H

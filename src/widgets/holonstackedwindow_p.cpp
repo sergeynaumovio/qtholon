@@ -37,3 +37,8 @@ void HolonStackedWindowPrivate::setWindow(HolonAbstractWindow *window)
     stackedWidget->setCurrentWindow(window);
     window->d_ptr->setCurrent(true);
 }
+
+HolonAbstractWindow *HolonStackedWindowPrivate::window() const
+{
+    return stackedWidget->window();
+}

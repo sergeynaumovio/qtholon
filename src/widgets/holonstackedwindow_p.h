@@ -24,6 +24,7 @@ public:
 
     void addWindow(HolonAbstractWindow *window);
     void setWindow(HolonAbstractWindow *window);
+    HolonAbstractWindow *window() const;
 };
 
 #endif // HOLONSTACKEDWINDOW_P_H

@@ -67,3 +67,9 @@ QWidget *HolonStackedWindow::toolbarWidget() const
 {
     return {};
 }
+
+HolonAbstractWindow *HolonStackedWindow::window() const
+{
+    Q_D(const HolonStackedWindow);
+    return d->window();
+}
