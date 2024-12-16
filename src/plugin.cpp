@@ -12,6 +12,7 @@
 #include "holonsidebar.h"
 #include "holonstackedwindow.h"
 #include "holontaskfolder.h"
+#include "holontaskstackedwindow.h"
 #include "holonterminalwindow.h"
 #include "holontheme.h"
 #include "holonworkflow.h"
@@ -149,9 +150,6 @@ public:
             if (qobject_cast<HolonCore *>(parent))
                 return nullptr;
 
-            if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(parent))
-                return new HolonStackedWindow(settings, task);
-
             if (HolonWindowArea *windowArea = qobject_cast<HolonWindowArea *>(parent))
                 return new HolonStackedWindow(settings, windowArea);
 
@@ -172,6 +170,17 @@ public:
             return parent;
         }
 
+        if (!qstrcmp(shortName, "TaskStackedWindow"))
+        {
+            if (qobject_cast<HolonCore *>(parent))
+                return nullptr;
+
+            if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(parent))
+                return new HolonTaskStackedWindow(settings, task);
+
+            return parent;
+        }
+
         if (!qstrcmp(shortName, "TerminalWindow"))
         {
             if (qobject_cast<HolonCore *>(parent))
@@ -180,7 +189,7 @@ public:
             if (HolonDesktop *desktop = qobject_cast<HolonDesktop *>(parent))
                 return new HolonTerminalWindow(settings, desktop);
 
-            if (HolonStackedWindow *stacked = qobject_cast<HolonStackedWindow *>(parent))
+            if (HolonTaskStackedWindow *stacked = qobject_cast<HolonTaskStackedWindow *>(parent))
                 return new HolonTerminalWindow(settings, stacked);
 
             if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(parent))
