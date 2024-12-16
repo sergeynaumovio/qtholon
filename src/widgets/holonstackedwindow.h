@@ -13,10 +13,10 @@ class Q_HOLON_EXPORT HolonStackedWindow : public HolonAbstractWindow
     Q_OBJECT
     Q_DECLARE_PRIVATE(HolonStackedWindow)
 
-    friend class HolonWindowAreaPrivate;
+protected:
+    HolonStackedWindow(HolonStackedWindowPrivate &d, QLoaderSettings *settings, QObject *parent);
 
 public:
-    HolonStackedWindow(QLoaderSettings *settings, HolonAbstractTask *parent);
     HolonStackedWindow(QLoaderSettings *settings, HolonWindowArea *parent);
 
     ~HolonStackedWindow();

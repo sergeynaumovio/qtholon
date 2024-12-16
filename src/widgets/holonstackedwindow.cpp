@@ -3,7 +3,6 @@
 
 #include "holonstackedwindow.h"
 #include "holonabstractwindow_p.h"
-#include "holonabstracttask.h"
 #include "holondesktop.h"
 #include "holonsidebar.h"
 #include "holonstackedwidget.h"
@@ -12,10 +11,10 @@
 #include <QIcon>
 #include <QLoaderTree>
 
-HolonStackedWindow::HolonStackedWindow(QLoaderSettings *settings, HolonAbstractTask *parent)
-:   HolonAbstractWindow(*new HolonStackedWindowPrivate(this, parent->desktop(), parent), settings, parent)
+HolonStackedWindow::HolonStackedWindow(HolonStackedWindowPrivate &d, QLoaderSettings *settings, QObject *parent)
+:   HolonAbstractWindow(d, settings, parent)
 {
-    parent->addWindow(this);
+
 }
 
 HolonStackedWindow::HolonStackedWindow(QLoaderSettings *settings, HolonWindowArea *parent)
@@ -50,7 +49,7 @@ bool HolonStackedWindow::isCopyable(const QStringList &to) const
     {
         parentSection.removeLast();
         QObject *parent = tree()->object(parentSection);
-        if (qobject_cast<HolonAbstractTask *>(parent) || qobject_cast<HolonSidebar *>(parent))
+        if (qobject_cast<HolonSidebar *>(parent))
             return true;
     }
 

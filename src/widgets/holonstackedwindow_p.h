@@ -4,7 +4,7 @@
 #ifndef HOLONSTACKEDWINDOW_P_H
 #define HOLONSTACKEDWINDOW_P_H
 
-#include "holonabstracttaskwindow_p.h"
+#include "holonabstractwindow_p.h"
 #include "holonstackedwindow.h"
 
 class HolonAbstractWindow;
@@ -12,15 +12,13 @@ class HolonDesktop;
 class HolonStackedWindow;
 class HolonWindowStackedWidget;
 
-class HolonStackedWindowPrivate : public HolonAbstractTaskWindowPrivate
+class HolonStackedWindowPrivate : public HolonAbstractWindowPrivate
 {
-    Q_DECLARE_PUBLIC(HolonStackedWindow)
-
 public:
     HolonWindowStackedWidget *const stackedWidget;
     HolonAbstractWindow *currentWindow{};
 
-    HolonStackedWindowPrivate(HolonStackedWindow *q, HolonDesktop *desk, HolonAbstractTask *task = nullptr);
+    HolonStackedWindowPrivate(HolonStackedWindow *q, HolonDesktop *desk);
 
     void addWindow(HolonAbstractWindow *window);
     void setWindow(HolonAbstractWindow *window);
