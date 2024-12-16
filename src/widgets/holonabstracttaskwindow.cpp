@@ -5,11 +5,11 @@
 #include "holonabstracttask.h"
 #include "holonabstracttaskwindow_p.h"
 #include "holondesktop.h"
-#include "holonstackedwindow.h"
+#include "holontaskstackedwindow.h"
 
 using namespace Qt::Literals::StringLiterals;
 
-static HolonAbstractTask *task(HolonStackedWindow *parent)
+static HolonAbstractTask *task(HolonTaskStackedWindow *parent)
 {
     return qobject_cast<HolonAbstractTask *>(parent->parent());
 }
@@ -28,7 +28,7 @@ HolonAbstractTaskWindow::HolonAbstractTaskWindow(QLoaderSettings *settings, Holo
 :   HolonAbstractWindow(*new HolonAbstractTaskWindowPrivate(this, parent, nullptr), settings, parent)
 { }
 
-HolonAbstractTaskWindow::HolonAbstractTaskWindow(QLoaderSettings *settings, HolonStackedWindow *parent)
+HolonAbstractTaskWindow::HolonAbstractTaskWindow(QLoaderSettings *settings, HolonTaskStackedWindow *parent)
 :   HolonAbstractWindow(*new HolonAbstractTaskWindowPrivate(this, parent->desktop(), ::task(parent)), settings, parent)
 { }
 

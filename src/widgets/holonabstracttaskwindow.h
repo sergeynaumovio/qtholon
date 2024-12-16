@@ -6,7 +6,9 @@
 
 #include "holonabstractwindow.h"
 
+class HolonAbstractTask;
 class HolonAbstractTaskWindowPrivate;
+class HolonTaskStackedWindow;
 
 class Q_HOLON_EXPORT HolonAbstractTaskWindow : public HolonAbstractWindow
 {
@@ -17,7 +19,7 @@ protected:
     HolonAbstractTaskWindow(HolonAbstractTaskWindowPrivate &d, QLoaderSettings *settings, QObject *parent);
     HolonAbstractTaskWindow(QLoaderSettings *settings, HolonAbstractTask *parent);
     HolonAbstractTaskWindow(QLoaderSettings *settings, HolonDesktop *parent);
-    HolonAbstractTaskWindow(QLoaderSettings *settings, HolonStackedWindow *parent);
+    HolonAbstractTaskWindow(QLoaderSettings *settings, HolonTaskStackedWindow *parent);
 
 public:
     ~HolonAbstractTaskWindow();
