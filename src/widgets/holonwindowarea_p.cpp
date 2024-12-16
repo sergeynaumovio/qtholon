@@ -178,7 +178,7 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first,
         };
 
         QStringList toSection;
-        if (qobject_cast<HolonStackedWindow *>(first))
+        if (qobject_cast<HolonStackedWindow *>(first) && static_cast<HolonAbstractTaskWindow *>(first)->task())
             toSection = to(static_cast<HolonAbstractTaskWindow *>(first)->task());
         else if (HolonWindowArea *windowarea = qobject_cast<HolonWindowArea *>(first->parent()))
             toSection = to(windowarea);
