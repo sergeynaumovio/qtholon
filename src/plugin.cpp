@@ -176,7 +176,12 @@ public:
                 return nullptr;
 
             if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(parent))
+            {
+                if (qobject_cast<HolonTaskFolder *>(task->parent()))
+                    return nullptr;
+
                 return new HolonTaskStackedWindow(settings, task);
+            }
 
             return parent;
         }
@@ -193,7 +198,12 @@ public:
                 return new HolonTerminalWindow(settings, stacked);
 
             if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(parent))
+            {
+                if (qobject_cast<HolonTaskFolder *>(task->parent()))
+                    return nullptr;
+
                 return new HolonTerminalWindow(settings, task);
+            }
 
             return parent;
         }
