@@ -3,6 +3,7 @@
 
 #include "holontitlebar.h"
 #include "holonabstracttask.h"
+#include "holonabstracttaskwindow.h"
 #include "holondesktop.h"
 #include "holondockwidget.h"
 #include "holonid.h"

@@ -392,7 +392,7 @@ void HolonDesktopPrivateData::addWidget(QWidget *widget, QWidget *parent)
 
 void HolonDesktopPrivateData::addWindow(HolonAbstractWindow *window)
 {
-    if (HolonStackedWindow *stacked = qobject_cast<HolonStackedWindow *>(window))
+    if (qobject_cast<HolonStackedWindow *>(window))
         if (qobject_cast<HolonAbstractTask *>(window->parent()))
             addTaskWindow(static_cast<HolonAbstractTaskWindow *>(window));
 
