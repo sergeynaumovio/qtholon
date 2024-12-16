@@ -228,7 +228,7 @@ int HolonThemeStyle::pixelMetric(QStyle::PixelMetric metric,
         case PM_SmallIconSize:
             return 16;
         case PM_TitleBarHeight:
-            return 24;
+            return 25;
         case PM_MenuButtonIndicator:
             return 0;
         default:
