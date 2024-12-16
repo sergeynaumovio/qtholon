@@ -7,7 +7,7 @@
 #include "holondesktop_p.h"
 #include "holondockwidget.h"
 #include "holonstackedwidget.h"
-#include "holonstackedwindow.h"
+#include "holontaskstackedwindow.h"
 #include <QApplication>
 #include <QLoaderTree>
 
@@ -51,17 +51,15 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
             if (HolonWindowStackedWidget *stacked = qobject_cast<HolonWindowStackedWidget *>(object->parent()))
             {
                 if (HolonDockWidget *dockWidget = qobject_cast<HolonDockWidget *>(stacked->parent()))
-                    if (qobject_cast<HolonStackedWindow *>(dockWidget->window()))
-                        if (HolonAbstractTaskWindow *taskWindow = static_cast<HolonAbstractTaskWindow *>(dockWidget->window()))
-                            if (taskWindow->task())
-                                setTaskWindow(taskWindow);
+                    if (HolonTaskStackedWindow *taskStackedWindow = qobject_cast<HolonTaskStackedWindow *>(dockWidget->window()))
+                        setWindow(taskStackedWindow);
 
                 return;
             }
 
             if (HolonDockWidget *dockWidget = qobject_cast<HolonDockWidget *>(object->parent()))
                 if (HolonAbstractTaskWindow *window = qobject_cast<HolonAbstractTaskWindow *>(dockWidget->window()))
-                    setTaskWindow(window);
+                    setWindow(window);
         });
     }
 
@@ -140,14 +138,14 @@ void HolonDesktop::setTask(HolonAbstractTask *task)
     d_ptr->setTask(task);
 }
 
-void HolonDesktop::setTaskWindow(HolonAbstractTaskWindow *window)
-{
-    d_ptr->setTaskWindow(window);
-}
-
 void HolonDesktop::setTheme(HolonTheme *theme)
 {
     d_ptr->setTheme(theme);
+}
+
+void HolonDesktop::setWindow(HolonAbstractWindow *window)
+{
+    d_ptr->setWindow(window);
 }
 
 void HolonDesktop::setWindowArea(HolonWindowArea *windowArea)

@@ -42,7 +42,7 @@ class HolonDesktopPrivate
     void emitWarning(const QString &warning) const;
     void setLayout();
     void setTask(HolonAbstractTask *task);
-    void setTaskWindow(HolonAbstractTaskWindow *window);
+    void setWindow(HolonAbstractWindow *window);
     void setWindowArea(HolonWindowArea *windowArea);
     void setTheme(HolonTheme *theme);
     HolonAbstractTask *task() const;
