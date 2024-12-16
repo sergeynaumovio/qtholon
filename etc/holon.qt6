@@ -2,7 +2,7 @@
 
 [holon]
 class = HolonDesktop
-geometry = QByteArray(AdnQywADAAAAAAAAAAAAAAAAAsYAAALTAAAAAAAAAAAAAALGAAAC0wAAAAAAAAAABVYAAAAAAAAAAAAAAsYAAALT)
+geometry = QByteArray(AdnQywADAAAAAASxAAAAGQAAB8AAAALsAAAEsQAAABkAAAfAAAAC7AAAAAAAAAAABLAAAASxAAAAGQAAB8AAAALs)
 saveShortcut = Ctrl+S
 sidebarMoveShortcut = Alt+M
 
@@ -37,6 +37,10 @@ class = HolonCustomTask
 title = Custom Task A
 
 [holon/task-folder-a/custom-task-1/0]
+class = HolonTaskStackedWindow
+current = true
+
+[holon/task-folder-a/custom-task-1/0/2]
 class = HolonTerminalWindow
 current = true
 title = Terminal
@@ -50,6 +54,10 @@ class = HolonCustomTask
 title = Custom Task B
 
 [holon/task-folder-b/custom-task-2/0]
+class = HolonTaskStackedWindow
+current = true
+
+[holon/task-folder-b/custom-task-2/0/0]
 class = HolonTerminalWindow
 current = true
 title = Terminal
@@ -59,6 +67,10 @@ class = HolonCustomTask
 title = Custom Task C
 
 [holon/task-folder-b/custom-task-3/0]
+class = HolonTaskStackedWindow
+current = true
+
+[holon/task-folder-b/custom-task-3/0/1]
 class = HolonTerminalWindow
 current = true
 title = Terminal
@@ -72,21 +84,21 @@ title = Workflow 1
 class = HolonCustomTask
 current = true
 dockWidgetSplitState = QByteArray(LzIvdCwvMC9i)
-mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAEPAAACTvwCAAAAC/sAAAAWAGQAYQBmAGEAdQBsAHQARABvAGMAawAAAAAA/////wAAAAAAAAAA/AAAAAAAAAJOAAAAuQD////8AgAAAAL8AAAAAAAAAk4AAAC5AP////wCAAAAAvwAAAAAAAABJwAAAAAA/////AIAAAAB+wAAAAIAMwEAAAAAAAABJwAAAAAAAAAA/AAAAAAAAAJOAAAAuQD////8AQAAAAL7AAAAAgAxAQAAAAAAAACgAAAAAAAAAAD8AAAAAAAAAQ8AAACgAP////wCAAAAAvsAAAACADIBAAAAAAAAAScAAABcAP////sAAAACADABAAABKAAAASYAAABcAP////wAAAEoAAABJgAAAAAA/////AEAAAAB+wAAAAIANAEAAAChAAAAoAAAAAAAAAAA+wAAAAIAMAAAAAAA/////wAAAAAAAAAA+wAAAAIAMgAAAAAA/////wAAAAAAAAAA+wAAAAIAMAAAAAAA/////wAAAAAAAAAA+wAAAAIAMQAAAAAA/////wAAAAAAAAAA+wAAAAIAMwAAAAAA/////wAAAAAAAAAA+wAAAAIAMwAAAAAA/////wAAAAAAAAAA+wAAAAIAMQAAAAAA/////wAAAAAAAAAA+wAAAAIAMgAAAAAA/////wAAAAAAAAAA+wAAAAIAMAAAAAAA/////wAAAAAAAAAAAAAAAAAAAk4AAAAEAAAABAAAAAgAAAAI/AAAAAA=)
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAFTAAACTvwCAAAAC/sAAAAWAGQAYQBmAGEAdQBsAHQARABvAGMAawAAAAAA/////wAAAAAAAAAA/AAAAAAAAAJOAAAAuwD////8AgAAAAL8AAAAAAAAAk4AAAC7AP////wCAAAAAvwAAAAAAAABJwAAAAAA/////AIAAAAB+wAAAAIAMwEAAAAAAAABJwAAAAAAAAAA/AAAAAAAAAJOAAAAuwD////8AQAAAAL7AAAAAgAxAQAAAAAAAACgAAAAAAAAAAD8AAAAAAAAAVMAAACpAP////wCAAAAAvsAAAACADIBAAAAAAAAAScAAABdAP////sAAAACADABAAABKAAAASYAAABdAP////wAAAEoAAABJgAAAAAA/////AEAAAAB+wAAAAIANAEAAAChAAAAoAAAAAAAAAAA+wAAAAIAMAAAAAAA/////wAAAAAAAAAA+wAAAAIAMgAAAAAA/////wAAAAAAAAAA+wAAAAIAMAAAAAAA/////wAAAAAAAAAA+wAAAAIAMQAAAAAA/////wAAAAAAAAAA+wAAAAIAMwAAAAAA/////wAAAAAAAAAA+wAAAAIAMwAAAAAA/////wAAAAAAAAAA+wAAAAIAMQAAAAAA/////wAAAAAAAAAA+wAAAAIAMgAAAAAA/////wAAAAAAAAAA+wAAAAIAMAAAAAAA/////wAAAAAAAAAAAAAAAAAAAk4AAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 open = true
 title = Custom Task A
 
 [holon/workflow-1/0/2]
-class = HolonStackedWindow
-current = true
+class = HolonTaskStackedWindow
+current = false
 
 [holon/workflow-1/0/2/1]
 class = HolonTerminalWindow
 current = true
 
 [holon/workflow-1/0/0]
-class = HolonStackedWindow
-current = false
+class = HolonTaskStackedWindow
+current = true
 
 [holon/workflow-1/0/0/0]
 class = HolonTerminalWindow
@@ -101,10 +113,18 @@ open = true
 title = Custom Task B
 
 [holon/workflow-1/1/1]
+class = HolonTaskStackedWindow
+current = true
+
+[holon/workflow-1/1/1/1]
 class = HolonTerminalWindow
-current = false
+current = true
 
 [holon/workflow-1/1/0]
+class = HolonTaskStackedWindow
+current = false
+
+[holon/workflow-1/1/0/0]
 class = HolonTerminalWindow
 current = true
 
@@ -117,10 +137,18 @@ open = true
 title = Custom Task C
 
 [holon/workflow-1/2/1]
+class = HolonTaskStackedWindow
+current = true
+
+[holon/workflow-1/2/1/1]
 class = HolonTerminalWindow
-current = false
+current = true
 
 [holon/workflow-1/2/0]
+class = HolonTaskStackedWindow
+current = false
+
+[holon/workflow-1/2/0/0]
 class = HolonTerminalWindow
 current = true
 
@@ -149,7 +177,7 @@ area = left
 checked = true
 dockWidgetSplitState = QByteArray(LzEvYiwvdC8wL3QsL3QvMS9i)
 mainWindowNestingIndex = 0
-mainWindowNestingState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAAC6AAACuvwCAAAAAfsAAAAKAHQAYQBzAGsAcwEAAAAAAAACugAAALgA///+AAAAAQAAAGgAAAK6/AIAAAAB+wAAABAAcwBlAHQAdABpAG4AZwBzAQAAAAAAAAK6AAAAJgD///4AAAGEAAACugAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
+mainWindowNestingState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAADAAAACuvwCAAAAAfsAAAAKAHQAYQBzAGsAcwEAAAAAAAACugAAALoA///+AAAAAQAAAGgAAAK6/AIAAAAB+wAAABAAcwBlAHQAdABpAG4AZwBzAQAAAAAAAAK6AAAAKQD///4AAAHmAAACugAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAC7AAACuvwCAAAABvwAAAAAAAACugAAALkA/////AIAAAAC+wAAAAIAMAEAAAAAAAABnAAAAFwA////+wAAAAIAMQEAAAGdAAABHQAAAFwA////+wAAAAIAMQAAAAAA/////wAAAAAAAAAA+wAAAAIAMQAAAAAA/////wAAAAAAAAAA+wAAAAIAMQAAAAAA/////wAAAAAAAAAA+wAAAAIAMQAAAAAA/////wAAAAAAAAAA+wAAAAIAMQAAAAAA/////wAAAAAAAAAAAAAAAAAAAroAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 shortcut = Alt+1
 title = 1  Tasks
@@ -195,7 +223,7 @@ class = HolonSidebar
 area = bottom
 checked = true
 mainWindowNestingIndex = 2
-mainWindowNestingState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAAEPAAAAa/wBAAAAAfsAAAAQAG0AZQBzAHMAYQBnAGUAcwEAAAAAAAABDwAAAIMA////AAABDwAAAk4AAAAEAAAABAAAAAgAAAAI/AAAAAA=)
+mainWindowNestingState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAAFTAAAAa/wBAAAAAfsAAAAQAG0AZQBzAHMAYQBnAGUAcwEAAAAAAAABUwAAAIMA////AAABUwAAAk4AAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 shortcut = Alt+4
 title = 4  Messages
 
