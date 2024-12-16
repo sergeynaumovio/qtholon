@@ -8,8 +8,8 @@
 #include "holondockwidget.h"
 #include "holondockwidgetsplitstate.h"
 #include "holonid.h"
-#include "holonstackedwindow.h"
 #include "holonstackedwindow_p.h"
+#include "holontaskstackedwindow.h"
 #include "holontitlebar.h"
 #include "holonwindowarea.h"
 #include <QComboBox>
@@ -178,8 +178,8 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first,
         };
 
         QStringList toSection;
-        if (qobject_cast<HolonStackedWindow *>(first) && static_cast<HolonAbstractTaskWindow *>(first)->task())
-            toSection = to(static_cast<HolonAbstractTaskWindow *>(first)->task());
+        if (HolonTaskStackedWindow *taskStackedWindow = qobject_cast<HolonTaskStackedWindow *>(first))
+            toSection = to(taskStackedWindow->task());
         else if (HolonWindowArea *windowarea = qobject_cast<HolonWindowArea *>(first->parent()))
             toSection = to(windowarea);
         else if (HolonAbstractTaskWindow *taskWindow = qobject_cast<HolonAbstractTaskWindow *>(first))
