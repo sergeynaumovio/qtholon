@@ -4,8 +4,8 @@
 #include "holonterminalwindow.h"
 #include "holonabstracttask.h"
 #include "holonabstracttaskwindow_p.h"
-#include "holonstackedwindow.h"
 #include "holondesktop.h"
+#include "holontaskstackedwindow.h"
 #include <QBoxLayout>
 #include <QIcon>
 #include <QLabel>
@@ -67,8 +67,8 @@ HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonDesktop
     parent->addWindow(this);
 }
 
-HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonStackedWindow *parent)
-    :   HolonAbstractTaskWindow(*new HolonTerminalWindowPrivate(this, parent->desktop(), ::task(parent), settings), settings, parent)
+HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonTaskStackedWindow *parent)
+:   HolonAbstractTaskWindow(*new HolonTerminalWindowPrivate(this, parent->desktop(), ::task(parent), settings), settings, parent)
 {
     parent->addWindow(this);
 }

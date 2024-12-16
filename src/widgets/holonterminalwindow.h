@@ -7,7 +7,7 @@
 #include "holonabstracttaskwindow.h"
 
 class HolonDesktop;
-class HolonStackedWindow;
+class HolonTaskStackedWindow;
 class HolonTerminalWindowPrivate;
 
 class HolonTerminalWindow : public HolonAbstractTaskWindow
@@ -18,7 +18,7 @@ class HolonTerminalWindow : public HolonAbstractTaskWindow
 public:
     HolonTerminalWindow(QLoaderSettings *settings, HolonAbstractTask *parent);
     HolonTerminalWindow(QLoaderSettings *settings, HolonDesktop *parent);
-    HolonTerminalWindow(QLoaderSettings *settings, HolonStackedWindow *parent);
+    HolonTerminalWindow(QLoaderSettings *settings, HolonTaskStackedWindow *parent);
     ~HolonTerminalWindow();
 
     QWidget *centralWidget() const override;
