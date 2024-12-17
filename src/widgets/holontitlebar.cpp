@@ -122,8 +122,6 @@ public:
 
             windowCombobox = new QComboBox(q_ptr);
             {
-                 windowCombobox->setSizePolicy({QSizePolicy::MinimumExpanding, QSizePolicy::Maximum});
-
                 QList<HolonAbstractWindow *> siblingWindowList = siblingWindows(window);
                 for (const HolonAbstractWindow *siblingWindow : siblingWindowList)
                     windowCombobox->addItem(siblingWindow->icon(), siblingWindow->title(), siblingWindow->section());
