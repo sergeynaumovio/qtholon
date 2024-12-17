@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holontitlebar.h"
@@ -9,6 +9,7 @@
 #include "holonid.h"
 #include "holonparameterswindow.h"
 #include "holonsidebar.h"
+#include "holonstackedwidget.h"
 #include "holonstackedwindow.h"
 #include "holontheme.h"
 #include "holonthemeicons.h"
@@ -48,34 +49,281 @@ bool static canSplit(HolonAbstractWindow *window)
 class HolonTitleBarPrivate
 {
 public:
+    HolonTitleBar *const q_ptr;
     HolonDesktop *const desktop;
+    HolonDockWidget *const parent;
+    HolonAbstractWindow *const window;
+    HolonWindowAreaPrivate *const windowarea_d_ptr;
+    HolonThemeIcons *const icons;
+    const bool isStackedSidebarWindow;
+    const bool isTaskWindow;
     QComboBox *windowCombobox{};
+    HolonWindowStackedWidget *stackedToolbar{};
     QToolButton *splitButton{};
     QToolButton *maximizeButton{};
     QToolButton *closeButton{};
     QToolButton *hideWindowAreaButton{};
 
-    HolonTitleBarPrivate(HolonDesktop *desk)
-    :   desktop(desk)
-    { }
+    HolonTitleBarPrivate(HolonTitleBar *q,
+                         HolonDesktop *desk,
+                         HolonDockWidget *prnt,
+                         HolonAbstractWindow *w,
+                         HolonWindowAreaPrivate *windowarea_p)
+    :   q_ptr(q),
+        desktop(desk),
+        parent(prnt),
+        window(w),
+        windowarea_d_ptr(windowarea_p),
+        icons(desktop->theme()->icons()),
+        isStackedSidebarWindow(qobject_cast<HolonStackedWindow *>(window)),
+        isTaskWindow(qobject_cast<HolonAbstractTask *>(window->parent()))
+    {
+        q_ptr->setFixedHeight(QApplication::style()->pixelMetric(QStyle::PM_TitleBarHeight));
+
+        q_ptr->setLayout(new QHBoxLayout(q_ptr));
+        {
+            q_ptr->layout()->setSpacing(0);
+
+            addCombobox();
+            addStackedToolbar();
+            addSplitButton();
+            addMaximizeButton();
+            addCloseButton();
+            addHideWindowAreaButton();
+        }
+    }
+
+    QToolButton *addButton(QIcon icon)
+    {
+        QToolButton *button = new QToolButton(q_ptr);
+        button->hide();
+        button->setFixedHeight(q_ptr->height());
+        button->setFixedWidth(button->height() * 1.2);
+        button->setIcon(icon);
+        q_ptr->layout()->addWidget(button);
+
+        return button;
+    }
+
+    void addCloseButton()
+    {
+        QIcon icon = areaIcon();
+        closeButton = addButton(icon);
+        {
+            QObject::connect(closeButton, &QToolButton::clicked, q_ptr, [this](){ desktop->closeWindow(window); });
+        }
+    }
+
+    void addCombobox()
+    {
+        if (HolonStackedWindow *stacked = qobject_cast<HolonStackedWindow *>(window))
+        {
+            q_ptr->layout()->setContentsMargins({});
+
+            windowCombobox = new QComboBox(q_ptr);
+            {
+                 windowCombobox->setSizePolicy({QSizePolicy::MinimumExpanding, QSizePolicy::Maximum});
+
+                QList<HolonAbstractWindow *> siblingWindowList = siblingWindows(window);
+                for (const HolonAbstractWindow *siblingWindow : siblingWindowList)
+                    windowCombobox->addItem(siblingWindow->icon(), siblingWindow->title(), siblingWindow->section());
+
+                windowCombobox->setCurrentIndex(-1);
+
+                QObject::connect(windowCombobox, &QComboBox::currentIndexChanged, parent, [=, this](int index)
+                {
+                    QStringList section = windowCombobox->itemData(index).toStringList();
+                    QMetaType type = window->tree()->object(section)->metaObject()->metaType();
+                    for (HolonAbstractWindow *child : window->findChildren<HolonAbstractWindow *>(Qt::FindDirectChildrenOnly))
+                    {
+                        if (type == child->metaObject()->metaType())
+                        {
+                            stacked->setWindow(child);
+                            stackedToolbar->setCurrentWindow(child);
+
+                            return;
+                        }
+                    }
+
+                    QStringList to = window->section();
+                    to.append(QString::number(HolonId::createChildId(window)));
+                    window->tree()->copy(section, to);
+                    HolonAbstractWindow *child = qobject_cast<HolonAbstractWindow *>(window->tree()->object(to));
+                    stacked->setWindow(child);
+                    stackedToolbar->setCurrentWindow(child);
+                });
+
+                q_ptr->layout()->addWidget(windowCombobox);
+            }
+        }
+        else if (qobject_cast<HolonParametersWindow *>(window))
+        {
+            q_ptr->layout()->setContentsMargins({});
+
+            windowCombobox = new QComboBox(q_ptr);
+            q_ptr->layout()->addWidget(windowCombobox);
+        }
+        else
+        {
+            q_ptr->layout()->setContentsMargins(5, 0, 0, 0);
+            q_ptr->layout()->addWidget(new QLabel(window->title(), q_ptr));
+        }
+    }
+
+    void addHideWindowAreaButton()
+    {
+        QIcon icon = areaIcon();
+
+        if (qobject_cast<HolonWindowArea *>(window->parent()))
+        {
+            hideWindowAreaButton = addButton(icon);
+            {
+                hideWindowAreaButton->show();
+
+                QObject::connect(hideWindowAreaButton, &QToolButton::clicked, q_ptr, [this]()
+                {
+                    desktop->closeWindowArea(windowarea_d_ptr->q_ptr);
+                });
+            }
+        }
+    }
+
+    void addMaximizeButton()
+    {
+        if (isStackedSidebarWindow || isTaskWindow)
+        {
+            maximizeButton = addButton(icons->maximizeIcon());
+            {
+                QObject::connect(maximizeButton, &QToolButton::clicked, q_ptr, [=, this]()
+                {
+                    windowarea_d_ptr->maximized = !windowarea_d_ptr->maximized;
+                    if (windowarea_d_ptr->maximized)
+                    {
+                        maximizeButton->setIcon(icons->minimizeIcon());
+                        splitButton->setDisabled(true);
+                        closeButton->setDisabled(true);
+                    }
+                    else
+                    {
+                        maximizeButton->setIcon(icons->maximizeIcon());
+                        splitButton->setDisabled(false);
+                        closeButton->setDisabled(false);
+                    }
+
+                    windowarea_d_ptr->maximizeWindow(parent);
+                });
+            }
+        }
+    }
+
+    void addSplitButton()
+    {
+        if (isStackedSidebarWindow || isTaskWindow)
+        {
+            QMenu *menu = new QMenu(parent);
+
+            if (HolonSidebar *sidebar = qobject_cast<HolonSidebar *>(window->parent()))
+            {
+                Qt::Orientation orientation = sidebar->orientation();
+                QList<HolonAbstractWindow *> siblingWindowList = siblingWindows(window);
+                for (int index = 0; index < siblingWindowList.count(); ++index)
+                {
+                    HolonAbstractWindow *siblingWindow = siblingWindowList[index];
+                    QAction *action = new QAction(siblingWindow->icon(), siblingWindow->title(), menu);
+                    menu->addAction(action);
+                    QObject::connect(action, &QAction::triggered, parent, [=, this]
+                    {
+                        windowarea_d_ptr->splitWindow(window, siblingWindow, orientation, index);
+                    });
+                }
+            }
+            else
+            {
+                QAction *split = new QAction(menu);
+                split->setText(u"Split"_s);
+                split->setIcon(icons->splitButtonVerticalMenuIcon());
+                QObject::connect(split, &QAction::triggered, parent, [this]
+                {
+                    windowarea_d_ptr->splitWindow(window, Qt::Vertical);
+                });
+
+                QAction *splitSideBySide = new QAction(menu);
+                splitSideBySide->setText(u"Split Side By Side"_s);
+                splitSideBySide->setIcon(icons->splitButtonHorizontalMenuIcon());
+                QObject::connect(splitSideBySide, &QAction::triggered, parent, [this]
+                {
+                    windowarea_d_ptr->splitWindow(window, Qt::Horizontal);
+                });
+
+                QAction *openNewWidnow = new QAction(menu);
+                openNewWidnow->setText(u"Open in New Window"_s);
+                openNewWidnow->setDisabled(true);
+
+                menu->addActions({split, splitSideBySide, openNewWidnow});
+            }
+
+            splitButton = addButton(icons->splitButtonVerticalIcon());
+            splitButton->show();
+            splitButton->setMenu(menu);
+            splitButton->setPopupMode(QToolButton::InstantPopup);
+        }
+    }
+
+    void addStackedToolbar()
+    {
+        stackedToolbar = new HolonWindowStackedWidget;
+        stackedToolbar->setSizePolicy({QSizePolicy::Maximum, QSizePolicy::Maximum});
+        q_ptr->layout()->addWidget(stackedToolbar);
+    }
 
     void addWindow(HolonAbstractWindow *window)
     {
-        int windowTypeId = window->metaObject()->metaType().id();
+        if (QWidget *toolbarWidget = window->toolbarWidget())
+            stackedToolbar->addWindowWidget(window, toolbarWidget);
+
+        QMetaType windowType = window->metaObject()->metaType();
 
         for (int index{}; index < windowCombobox->count(); ++index)
         {
             QStringList section = windowCombobox->itemData(index).toStringList();
-            int itemTypeId = window->tree()->object(section)->metaObject()->metaType().id();
+            QMetaType itemType = window->tree()->object(section)->metaObject()->metaType();
 
-            if (windowTypeId == itemTypeId)
+            if (windowType == itemType)
             {
-                // fix addToolbar(window);
-
                 if (window->isCurrent())
                     windowCombobox->setCurrentIndex(index);
             }
         }
+    }
+
+    QIcon areaIcon()
+    {
+        Qt::DockWidgetArea area = windowarea_d_ptr->area();
+
+        QIcon icon = area == Qt::LeftDockWidgetArea ? icons->splitButtonCloseLeftIcon() :
+                     area == Qt::RightDockWidgetArea ? icons->splitButtonCloseRightIcon() :
+                     area == Qt::TopDockWidgetArea ? icons->splitButtonCloseTopIcon() :
+                                                     icons->splitButtonCloseBottomIcon();
+        return icon;
+    }
+
+    QList<HolonAbstractWindow *> siblingWindows(HolonAbstractWindow *window)
+    {
+        QList<HolonAbstractWindow *> windowList;
+
+        if (qobject_cast<HolonAbstractTask *>(window->parent()))
+        {
+            for (HolonAbstractWindow *second : window->desktop()->findChildren<HolonAbstractTaskWindow *>(Qt::FindDirectChildrenOnly))
+                windowList.append(second);
+        }
+        else if (qobject_cast<HolonSidebar *>(window->parent()))
+        {
+            for (HolonAbstractWindow *second : window->desktop()->findChildren<HolonAbstractWindow *>(Qt::FindDirectChildrenOnly))
+                if (canSplit(second))
+                    windowList.append(second);
+        }
+
+        return windowList;
     }
 };
 
@@ -99,25 +347,6 @@ public:
     MenuEventFilter(QObject *parent) : QObject(parent) { }
 };
 
-QList<HolonAbstractWindow *> HolonTitleBar::siblingWindows(HolonAbstractWindow *window)
-{
-    QList<HolonAbstractWindow *> windowList;
-
-    if (qobject_cast<HolonAbstractTask *>(window->parent()))
-    {
-        for (HolonAbstractWindow *second : window->desktop()->findChildren<HolonAbstractTaskWindow *>(Qt::FindDirectChildrenOnly))
-            windowList.append(second);
-    }
-    else if (qobject_cast<HolonSidebar *>(window->parent()))
-    {
-        for (HolonAbstractWindow *second : window->desktop()->findChildren<HolonAbstractWindow *>(Qt::FindDirectChildrenOnly))
-            if (canSplit(second))
-                windowList.append(second);
-    }
-
-    return windowList;
-}
-
 void HolonTitleBar::paintEvent(QPaintEvent *)
 {
     QStyle::PrimitiveElement pe = static_cast<QStyle::PrimitiveElement>(HolonThemeStyle::PE_TitleBar);
@@ -131,185 +360,8 @@ HolonTitleBar::HolonTitleBar(HolonDesktop *desktop,
                              HolonAbstractWindow *window,
                              HolonWindowAreaPrivate *windowarea_d_ptr)
 :   QWidget(parent),
-    d_ptr(desktop)
-{
-    setFixedHeight(QApplication::style()->pixelMetric(QStyle::PM_TitleBarHeight));
-
-    setLayout(new QHBoxLayout(this));
-    {
-        layout()->setSpacing(0);
-
-        HolonThemeIcons *icons = desktop->theme()->icons();
-
-        if (HolonStackedWindow *stacked = qobject_cast<HolonStackedWindow *>(window))
-        {
-            layout()->setContentsMargins({});
-
-            QComboBox *&combobox = d_ptr->windowCombobox;
-            combobox = new QComboBox(this);
-            {
-                QList<HolonAbstractWindow *> siblingWindowList = siblingWindows(window);
-                for (const HolonAbstractWindow *siblingWindow : siblingWindowList)
-                    combobox->addItem(siblingWindow->icon(), siblingWindow->title(), siblingWindow->section());
-
-                combobox->setCurrentIndex(-1);
-
-                connect(combobox, &QComboBox::currentIndexChanged, parent, [=](int index)
-                {
-                    QStringList section = combobox->itemData(index).toStringList();
-                    int typeId = window->tree()->object(section)->metaObject()->metaType().id();
-                    for (HolonAbstractWindow *child : window->findChildren<HolonAbstractWindow *>(Qt::FindDirectChildrenOnly))
-                    {
-                        if (typeId == child->metaObject()->metaType().id())
-                        {
-                            stacked->setWindow(child);
-                            // fix setToolbar(window)
-
-                            return;
-                        }
-                    }
-
-                    QStringList to = window->section();
-                    to.append(QString::number(HolonId::createChildId(window)));
-                    window->tree()->copy(section, to);
-                    HolonAbstractWindow *child = qobject_cast<HolonAbstractWindow *>(window->tree()->object(to));
-                    stacked->setWindow(child);
-                });
-
-                layout()->addWidget(combobox);
-            }
-        }
-        else if (qobject_cast<HolonParametersWindow *>(window))
-        {
-            layout()->setContentsMargins({});
-
-            QComboBox *&combobox = d_ptr->windowCombobox;
-            combobox = new QComboBox(this);
-
-            layout()->addWidget(combobox);
-        }
-        else
-        {
-            layout()->setContentsMargins(5, 0, 0, 0);
-            layout()->addWidget(new QLabel(window->title(), this));
-        }
-
-        auto addButton = [=, this](const QIcon &icon)
-        {
-            QToolButton *button = new QToolButton(this);
-            {
-                button->hide();
-                button->setFixedHeight(height());
-                button->setFixedWidth(button->height() * 1.2);
-                button->setIcon(icon);
-                layout()->addWidget(button);
-            }
-            return button;
-        };
-
-        bool isStackedSidebarWindow = qobject_cast<HolonStackedWindow *>(window);
-        bool isTaskWindow = qobject_cast<HolonAbstractTask *>(window->parent());
-
-        if (isStackedSidebarWindow || isTaskWindow)
-        {
-            QMenu *menu = new QMenu(parent);
-
-            if (HolonSidebar *sidebar = qobject_cast<HolonSidebar *>(window->parent()))
-            {
-                Qt::Orientation orientation = sidebar->orientation();
-                QList<HolonAbstractWindow *> siblingWindowList = siblingWindows(window);
-                for (int index = 0; index < siblingWindowList.count(); ++index)
-                {
-                    HolonAbstractWindow *siblingWindow = siblingWindowList[index];
-                    QAction *action = new QAction(siblingWindow->icon(), siblingWindow->title(), menu);
-                    menu->addAction(action);
-                    connect(action, &QAction::triggered, parent, [=]
-                    {
-                        windowarea_d_ptr->splitWindow(window, siblingWindow, orientation, index);
-                    });
-                }
-            }
-            else
-            {
-                QAction *split = new QAction(menu);
-                split->setText(u"Split"_s);
-                split->setIcon(icons->splitButtonVerticalMenuIcon());
-                connect(split, &QAction::triggered, parent, [=]
-                {
-                    windowarea_d_ptr->splitWindow(window, Qt::Vertical);
-                });
-
-                QAction *splitSideBySide = new QAction(menu);
-                splitSideBySide->setText(u"Split Side By Side"_s);
-                splitSideBySide->setIcon(icons->splitButtonHorizontalMenuIcon());
-                connect(splitSideBySide, &QAction::triggered, parent, [=]
-                {
-                    windowarea_d_ptr->splitWindow(window, Qt::Horizontal);
-                });
-
-                QAction *openNewWidnow = new QAction(menu);
-                openNewWidnow->setText(u"Open in New Window"_s);
-                openNewWidnow->setDisabled(true);
-
-                menu->addActions({split, splitSideBySide, openNewWidnow});
-            }
-
-            d_ptr->splitButton = addButton(icons->splitButtonVerticalIcon());
-            d_ptr->splitButton->show();
-            d_ptr->splitButton->setMenu(menu);
-            d_ptr->splitButton->setPopupMode(QToolButton::InstantPopup);
-        }
-
-        if (isStackedSidebarWindow || isTaskWindow)
-        {
-            d_ptr->maximizeButton = addButton(icons->maximizeIcon());
-            {
-                connect(d_ptr->maximizeButton, &QToolButton::clicked, this, [=, this]()
-                {
-                    windowarea_d_ptr->maximized = !windowarea_d_ptr->maximized;
-                    if (windowarea_d_ptr->maximized)
-                    {
-                        d_ptr->maximizeButton->setIcon(icons->minimizeIcon());
-                        d_ptr->splitButton->setDisabled(true);
-                        d_ptr->closeButton->setDisabled(true);
-                    }
-                    else
-                    {
-                        d_ptr->maximizeButton->setIcon(icons->maximizeIcon());
-                        d_ptr->splitButton->setDisabled(false);
-                        d_ptr->closeButton->setDisabled(false);
-                    }
-
-                    windowarea_d_ptr->maximizeWindow(parent);
-                });
-            }
-        }
-
-        Qt::DockWidgetArea area = windowarea_d_ptr->area();
-        QIcon icon = area == Qt::LeftDockWidgetArea ? icons->splitButtonCloseLeftIcon() :
-                     area == Qt::RightDockWidgetArea ? icons->splitButtonCloseRightIcon() :
-                     area == Qt::TopDockWidgetArea ? icons->splitButtonCloseTopIcon() :
-                                                     icons->splitButtonCloseBottomIcon();
-
-        d_ptr->closeButton = addButton(icon);
-        {
-            connect(d_ptr->closeButton, &QToolButton::clicked, this, [=](){ desktop->closeWindow(window); });
-        }
-
-        if (qobject_cast<HolonWindowArea *>(window->parent()))
-        {
-            d_ptr->hideWindowAreaButton = addButton(icon);
-            {
-                d_ptr->hideWindowAreaButton->show();
-
-                connect(d_ptr->hideWindowAreaButton, &QToolButton::clicked, this, [=]()
-                {
-                    desktop->closeWindowArea(windowarea_d_ptr->q_ptr);
-                });
-            }
-        }
-    }
-}
+    d_ptr(this, desktop, parent, window, windowarea_d_ptr)
+{ }
 
 HolonTitleBar::~HolonTitleBar()
 { }
