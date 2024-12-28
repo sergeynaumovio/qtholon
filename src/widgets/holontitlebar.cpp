@@ -274,21 +274,21 @@ public:
         q_ptr->layout()->addWidget(stackedToolbar);
     }
 
-    void addWindow(HolonAbstractWindow *window)
+    void addWindow(HolonAbstractWindow *wnd)
     {
-        if (QWidget *toolbarWidget = window->toolbarWidget())
-            stackedToolbar->addWindowWidget(window, toolbarWidget);
+        if (QWidget *toolbarWidget = wnd->toolbarWidget())
+            stackedToolbar->addWindowWidget(wnd, toolbarWidget);
 
-        QMetaType windowType = window->metaObject()->metaType();
+        QMetaType windowType = wnd->metaObject()->metaType();
 
         for (int index{}; index < windowCombobox->count(); ++index)
         {
             QStringList section = windowCombobox->itemData(index).toStringList();
-            QMetaType itemType = window->tree()->object(section)->metaObject()->metaType();
+            QMetaType itemType = wnd->tree()->object(section)->metaObject()->metaType();
 
             if (windowType == itemType)
             {
-                if (window->isCurrent())
+                if (wnd->isCurrent())
                     windowCombobox->setCurrentIndex(index);
             }
         }
@@ -305,18 +305,18 @@ public:
         return icon;
     }
 
-    QList<HolonAbstractWindow *> siblingWindows(HolonAbstractWindow *window)
+    QList<HolonAbstractWindow *> siblingWindows(HolonAbstractWindow *wnd)
     {
         QList<HolonAbstractWindow *> windowList;
 
-        if (qobject_cast<HolonAbstractTask *>(window->parent()))
+        if (qobject_cast<HolonAbstractTask *>(wnd->parent()))
         {
-            for (HolonAbstractWindow *second : window->desktop()->findChildren<HolonAbstractTaskWindow *>(Qt::FindDirectChildrenOnly))
+            for (HolonAbstractWindow *second : wnd->desktop()->findChildren<HolonAbstractTaskWindow *>(Qt::FindDirectChildrenOnly))
                 windowList.append(second);
         }
-        else if (qobject_cast<HolonSidebar *>(window->parent()))
+        else if (qobject_cast<HolonSidebar *>(wnd->parent()))
         {
-            for (HolonAbstractWindow *second : window->desktop()->findChildren<HolonAbstractWindow *>(Qt::FindDirectChildrenOnly))
+            for (HolonAbstractWindow *second : wnd->desktop()->findChildren<HolonAbstractWindow *>(Qt::FindDirectChildrenOnly))
                 if (canSplit(second))
                     windowList.append(second);
         }
