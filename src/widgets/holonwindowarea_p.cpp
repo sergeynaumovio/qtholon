@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonwindowarea_p.h"
@@ -12,6 +12,7 @@
 #include "holontaskstackedwindow.h"
 #include "holontitlebar.h"
 #include "holonwindowarea.h"
+#include "holonwindowareastate.h"
 #include <QComboBox>
 #include <QLoaderTree>
 #include <QMainWindow>
@@ -19,7 +20,8 @@
 using namespace Qt::Literals::StringLiterals;
 
 HolonWindowAreaPrivate::HolonWindowAreaPrivate(HolonWindowArea *q, HolonDesktop *desk)
-:   q_ptr(q),
+:   windowAreaState(&mainWindow),
+    q_ptr(q),
     desktop(desk),
     mainWindow(new QMainWindow)
 {
@@ -143,7 +145,7 @@ void HolonWindowAreaPrivate::restoreMainWindowStateFromCache()
 
 void HolonWindowAreaPrivate::saveWindowAreaState()
 {
-    q_ptr->setValue(u"mainWindowState"_s, mainWindow->saveState());
+    q_ptr->setValue(u"mainWindowState"_s, windowAreaState->save());
 }
 
 void HolonWindowAreaPrivate::setChecked(bool checked)

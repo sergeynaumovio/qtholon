@@ -1,22 +1,25 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONWINDOWAREA_P_H
 #define HOLONWINDOWAREA_P_H
 
 #include <QMap>
+#include <QScopedStorage>
 
 class HolonAbstractWindow;
 class HolonDesktop;
 class HolonDockWidget;
 class HolonDockWidgetSplitState;
 class HolonWindowArea;
+class HolonWindowAreaState;
 class QMainWindow;
 
 class HolonWindowAreaPrivate
 {
     HolonDockWidgetSplitState *dockWidgetSplitState{};
     QByteArray mainWindowStateCache;
+    const QScopedStorage<HolonWindowAreaState, 8> windowAreaState;
 
 public:
     HolonWindowArea *const q_ptr;
