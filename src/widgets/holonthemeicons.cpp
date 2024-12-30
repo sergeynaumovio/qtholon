@@ -15,6 +15,11 @@ HolonThemeIcons::HolonThemeIcons(QLoaderSettings *settings, HolonTheme *theme)
 HolonThemeIcons::~HolonThemeIcons()
 { }
 
+QIcon HolonThemeIcons::clearIcon() const
+{
+    return d_ptr->clearIcon();
+}
+
 QIcon HolonThemeIcons::closeBackgroundIcon() const
 {
     return d_ptr->closeBackgroundIcon();

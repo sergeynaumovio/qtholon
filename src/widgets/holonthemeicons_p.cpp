@@ -21,6 +21,12 @@ HolonThemeIconsPrivate::HolonThemeIconsPrivate(HolonTheme *t)
 :   theme(t)
 { }
 
+QIcon HolonThemeIconsPrivate::clearIcon()
+{
+    return icon({{u":/holon/clear.xpm"_s,
+                  theme->colors()->iconsBaseColor()}}, clear);
+}
+
 QIcon HolonThemeIconsPrivate::closeBackgroundIcon()
 {
     return icon({{u":/holon/close.xpm"_s,

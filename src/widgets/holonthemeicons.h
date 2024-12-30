@@ -24,6 +24,7 @@ public:
     explicit HolonThemeIcons(QLoaderSettings *settings, HolonTheme *parent);
     ~HolonThemeIcons();
 
+    virtual QIcon clearIcon() const;
     virtual QIcon closeBackgroundIcon() const;
     virtual QIcon closeForegroundIcon() const;
     virtual QIcon dirClosedIcon() const;

@@ -13,6 +13,7 @@ class HolonThemeStyleSheets;
 
 class HolonThemeIconsPrivate
 {
+    QIcon clear;
     QIcon closeBackground;
     QIcon closeForeground;
     QIcon dirClosed;
@@ -38,6 +39,7 @@ public:
 
     HolonThemeIconsPrivate(HolonTheme *t);
 
+    QIcon clearIcon();
     QIcon closeBackgroundIcon();
     QIcon closeForegroundIcon();
     QIcon dirClosedIcon();
