@@ -196,9 +196,6 @@ home = holon/data
 [holon/shell/cd]
 class = QLoaderShellCd
 
-[holon/shell/clear]
-class = QLoaderShellClear
-
 [holon/shell/exit]
 class = QLoaderShellExit
 
