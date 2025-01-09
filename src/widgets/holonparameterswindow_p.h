@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONPARAMETERSWINDOW_P_H
@@ -6,6 +6,7 @@
 
 #include "holontaskattributeswindow_p.h"
 
+class HolonAbstractTask;
 class HolonOpenTaskTreeModel;
 class HolonParametersWindow;
 
@@ -15,6 +16,7 @@ public:
     HolonParametersWindowPrivate(HolonParametersWindow *q,
                                  HolonDesktop *desktop);
 
+    void setCurrentTask(HolonAbstractTask *task);
     void setOpenTaskTreeModel(HolonOpenTaskTreeModel *openTaskTreeModel);
 };
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONDESKTOP_P_H
@@ -27,7 +27,7 @@ class HolonDesktopPrivate
 
     friend class HolonDesktop;
     friend class HolonDesktopPrivateData;
-    const QScopedStorage<HolonDesktopPrivateData, 368> d_ptr;
+    const QScopedStorage<HolonDesktopPrivateData, 400> d_ptr;
 
     HolonDesktopPrivate(HolonDesktop *q);
 

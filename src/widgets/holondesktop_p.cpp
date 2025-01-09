@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holondesktop_p.h"
@@ -95,6 +95,8 @@ public:
     HolonWindowArea *currentWindowArea{};
     HolonWorkflow *currentWorkflow{};
     HolonOpenTaskTreeModel *openTaskTreeModel{};
+    QHash<HolonAbstractWindow *, HolonOpenTaskTreeView *> openTaskTreeViewByWindow;
+    QList<HolonParametersWindow *> parametersWindows;
     HolonTheme *theme{};
 
     HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDesktop *q);
@@ -132,13 +134,25 @@ void HolonDesktopPrivateData::addSidebarWindow(HolonAbstractWindow *window)
         parametersWindow->d_func()->setOpenTaskTreeModel(openTaskTreeModel);
         HolonTaskStackedWidget *taskStackedWidget = static_cast<HolonTaskStackedWidget *>(window->centralWidget());
         addTasksParametersWidgets(taskStackedWidget);
+        parametersWindows.append(parametersWindow);
         return;
     }
 
     if (QWidget *widget = window->centralWidget())
     {
         if (HolonOpenTaskTreeView *openTaskTreeView = qobject_cast<HolonOpenTaskTreeView *>(widget))
-            return openTaskTreeView->setModel(openTaskTreeModel);
+        {
+            HolonStackedWindow *stacked = qobject_cast<HolonStackedWindow *>(window->parent());
+            HolonAbstractWindow *sidebarWindow = (stacked ? stacked : window);
+            openTaskTreeViewByWindow.insert(sidebarWindow, openTaskTreeView);
+
+            openTaskTreeView->setModel(openTaskTreeModel);
+
+            if (currentTask)
+                openTaskTreeView->setCurrentTask(currentTask);
+
+            return;
+        }
 
         if (HolonStackedWidget *stackedWidget = qobject_cast<HolonStackedWidget *>(widget))
         {
@@ -445,6 +459,9 @@ void HolonDesktopPrivateData::closeWindow(HolonAbstractWindow *window)
     {
         sidebar->closeWindow(window);
 
+        if (openTaskTreeViewByWindow.contains(window))
+            openTaskTreeViewByWindow.remove(window);
+
         return;
     }
 
@@ -509,6 +526,12 @@ void HolonDesktopPrivateData::setCurrentTask(HolonAbstractTask *task)
 
     mainWindow->setCurrentTask(task);
     currentTask = task;
+
+    for (HolonOpenTaskTreeView *view : openTaskTreeViewByWindow)
+        view->setCurrentTask(task);
+
+    for (HolonParametersWindow *window : parametersWindows)
+        window->d_func()->setCurrentTask(task);
 
     if (HolonAbstractWindow *window = currentTaskWindow.value(task))
         if (QWidget *widget = window->centralWidget())

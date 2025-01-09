@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONOPENTASKTREEVIEW_H
@@ -7,6 +7,7 @@
 #include <QScopedStorage>
 #include <QTreeView>
 
+class HolonAbstractTask;
 class HolonDesktop;
 class HolonOpenTaskTreeViewPrivate;
 
@@ -27,6 +28,7 @@ public:
     ~HolonOpenTaskTreeView();
 
     HolonDesktop *desktop() const;
+    void setCurrentTask(HolonAbstractTask *task);
     void setModel(QAbstractItemModel *model) override;
 };
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonparameterswindow_p.h"
@@ -13,21 +13,22 @@ HolonParametersWindowPrivate::HolonParametersWindowPrivate(HolonParametersWindow
 :   HolonTaskAttributesWindowPrivate(q, desk)
 { }
 
+void HolonParametersWindowPrivate::setCurrentTask(HolonAbstractTask *tsk)
+{
+    QComboBox *combobox = titleBar->windowComboBox();
+
+    for (int row{}; row < combobox->count(); ++row)
+    {
+        if (tsk == static_cast<HolonAbstractTask *>(combobox->model()->index(row, 0).internalPointer()))
+            return combobox->setCurrentIndex(row);
+    }
+}
+
 void HolonParametersWindowPrivate::setOpenTaskTreeModel(HolonOpenTaskTreeModel *openTaskTreeModel)
 {
     QComboBox *combobox = titleBar->windowComboBox();
     combobox->setModel(openTaskTreeModel);
-
-    for (int index{}; index < combobox->count(); ++index)
-    {
-        HolonAbstractTask *tsk = static_cast<HolonAbstractTask *>(combobox->model()->index(index, 0).internalPointer());
-
-        if (tsk == desktop->task())
-        {
-            combobox->setCurrentIndex(index);
-            break;
-        }
-    }
+    setCurrentTask(desktop->task());
 
     QObject::connect(combobox, &QComboBox::currentIndexChanged, combobox->parent(), [=, this](int index)
     {
