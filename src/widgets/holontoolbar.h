@@ -17,7 +17,7 @@ public:
     HolonToolBar();
     ~HolonToolBar();
 
-    QToolButton *toolButton(QIcon icon);
+    QToolButton *toolButton(QIcon icon, const QString &toolTip);
 };
 
 #endif // HOLONTOOLBAR_H

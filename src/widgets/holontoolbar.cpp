@@ -17,12 +17,13 @@ HolonToolBar::HolonToolBar()
 HolonToolBar::~HolonToolBar()
 { }
 
-QToolButton *HolonToolBar::toolButton(QIcon icon)
+QToolButton *HolonToolBar::toolButton(QIcon icon, const QString &hint)
 {
     QToolButton *button = new QToolButton(this);
     button->setFixedHeight(height());
     button->setFixedWidth(button->height() * 1.2);
     button->setIcon(icon);
+    button->setToolTip(hint);
 
     return button;
 }
