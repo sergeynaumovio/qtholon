@@ -1,10 +1,11 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONWORKFLOW_H
 #define HOLONWORKFLOW_H
 
 #include <QLoaderSettings>
+#include <QScopedStorage>
 
 class HolonAbstractTask;
 class HolonCore;
@@ -16,11 +17,12 @@ class HolonWorkflow : public QObject, public QLoaderSettings
     Q_OBJECT
 
     friend class HolonWorkflowPrivate;
-    const QScopedPointer<HolonWorkflowPrivate> d_ptr;
+    const QScopedStorage<HolonWorkflowPrivate, 72> d_ptr;
 
 public:
-    explicit HolonWorkflow(QLoaderSettings *settings, HolonCore *core);
-    explicit HolonWorkflow(QLoaderSettings *settings, HolonDesktop *desktop);
+    HolonWorkflow(QLoaderSettings *settings, HolonCore *core);
+    HolonWorkflow(QLoaderSettings *settings, HolonDesktop *desktop);
+    HolonWorkflow(QLoaderSettings *settings, HolonWorkflow *workflow);
 
     ~HolonWorkflow();
 
@@ -28,6 +30,7 @@ public:
     HolonCore *core() const;
     HolonDesktop *desktop() const;
     bool isCurrent() const;
+    QString title() const;
 };
 
 #endif // HOLONWORKFLOW_H
