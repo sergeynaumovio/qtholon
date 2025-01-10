@@ -78,15 +78,8 @@ public:
         {
             HolonThemeIcons *icons = desktop->theme()->icons();
 
-            QToolButton *clearButton = toolbar->toolButton(icons->clearIcon(), u"Clear"_s);
-            {
-                toolbar->addWidget(clearButton);
-
-                QObject::connect(clearButton, &QToolButton::clicked, terminal, [this]()
-                {
-                    terminal->clear();
-                });
-            }
+            QToolButton *clearButton = toolbar->addToolButton(icons->clearIcon(), u"Clear"_s);
+            QObject::connect(clearButton, &QToolButton::clicked, terminal, [this](){ terminal->clear(); });
         }
 
         return toolbar;
