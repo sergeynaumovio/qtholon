@@ -11,6 +11,9 @@ HolonAbstractWindowPrivate::HolonAbstractWindowPrivate(HolonAbstractWindow *q, H
     desktop(desk)
 { }
 
+HolonAbstractWindowPrivate::~HolonAbstractWindowPrivate()
+{ }
+
 void HolonAbstractWindowPrivate::setCurrent(bool current)
 {
     q_ptr->setValue(u"current"_s, current);

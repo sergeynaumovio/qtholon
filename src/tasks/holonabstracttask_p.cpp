@@ -25,6 +25,9 @@ HolonAbstractTaskPrivate::HolonAbstractTaskPrivate(HolonAbstractTask *q,
     desktop(w->desktop())
 { }
 
+HolonAbstractTaskPrivate::~HolonAbstractTaskPrivate()
+{ }
+
 void HolonAbstractTaskPrivate::setCurrent(bool current)
 {
     q_ptr->setValue(u"current"_s, current);

@@ -14,6 +14,8 @@ public:
     HolonAbstractTaskWindowPrivate(HolonAbstractWindow *q,
                                    HolonDesktop *desktop,
                                    HolonAbstractTask *task);
+
+    virtual ~HolonAbstractTaskWindowPrivate();
 };
 
 #endif // HOLONABSTRACTTASKWINDOW_P_H

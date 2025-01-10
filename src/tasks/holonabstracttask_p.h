@@ -27,6 +27,8 @@ public:
     HolonAbstractTaskPrivate(HolonAbstractTask *q = nullptr,
                              HolonWorkflow *workflow = nullptr);
 
+    virtual ~HolonAbstractTaskPrivate();
+
     void setCurrent(bool current);
 };
 

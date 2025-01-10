@@ -10,3 +10,6 @@ HolonAbstractTaskWindowPrivate::HolonAbstractTaskWindowPrivate(HolonAbstractWind
     task(tsk)
 { }
 
+HolonAbstractTaskWindowPrivate::~HolonAbstractTaskWindowPrivate()
+{ }
+

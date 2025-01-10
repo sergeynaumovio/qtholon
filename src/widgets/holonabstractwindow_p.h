@@ -17,6 +17,7 @@ public:
     HolonTitleBar *titleBar;
 
     HolonAbstractWindowPrivate(HolonAbstractWindow *q, HolonDesktop *desktop);
+    virtual ~HolonAbstractWindowPrivate();
 
     void setCurrent(bool current);
 };
