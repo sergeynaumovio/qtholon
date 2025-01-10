@@ -8,21 +8,20 @@
 #include "holonwindowarea.h"
 #include "holonworkflow.h"
 #include "holonworkflowscene.h"
-#include <QBoxLayout>
 #include <QComboBox>
 #include <QGraphicsView>
 #include <QIcon>
 #include <QLabel>
 #include <QLoaderTree>
-#include <QScrollBar>
+#include <QStackedWidget>
 
 using namespace Qt::Literals::StringLiterals;
 
 class HolonWorkflowWindowPrivate : public HolonAbstractWindowPrivate
 {
 public:
-    HolonWorkflowScene *scene;
-    QGraphicsView *view{};
+    QStackedWidget *stacked{};
+    QHash<HolonWorkflow *, QGraphicsView *> viewByWorkflow;
 
     HolonWorkflowWindowPrivate(HolonWorkflowWindow *q, HolonDesktop *desk)
     :   HolonAbstractWindowPrivate(q, desk)
@@ -42,15 +41,25 @@ public:
         if (!q_ptr)
             return nullptr;
 
-        if (view)
-            return view;
+        if (stacked)
+            return stacked;
 
-        scene = new HolonWorkflowScene(q_ptr);
-        view = new QGraphicsView(scene);
-        view->setFrameStyle(QFrame::NoFrame);
-        view->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+        stacked = new QStackedWidget;
 
-        return view;
+        if (HolonWorkflow *root = desktop->findChild<HolonWorkflow *>())
+        {
+            for (HolonWorkflow *workflow : root->findChildren<HolonWorkflow *>())
+            {
+                HolonWorkflowScene *scene = new HolonWorkflowScene(q_ptr);
+                QGraphicsView *view = new QGraphicsView(scene);
+                view->setFrameStyle(QFrame::NoFrame);
+                view->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+                stacked->addWidget(view);
+                viewByWorkflow.insert(workflow, view);
+            }
+        }
+
+        return stacked;
     }
 };
 
@@ -61,7 +70,7 @@ HolonWorkflowWindow::HolonWorkflowWindow(QLoaderSettings *settings, HolonDesktop
 }
 
 HolonWorkflowWindow::HolonWorkflowWindow(QLoaderSettings *settings, HolonWindowArea *parent)
-:   HolonAbstractWindow(*new HolonWorkflowWindowPrivate(this, parent->desktop ()), settings, parent)
+:   HolonAbstractWindow(*new HolonWorkflowWindowPrivate(this, parent->desktop()), settings, parent)
 {
     parent->addWindow(this);
 
