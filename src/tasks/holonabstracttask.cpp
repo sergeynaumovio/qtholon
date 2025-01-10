@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonabstracttask.h"
@@ -24,6 +24,12 @@ HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonWorkflow *w
     QLoaderSettings(this, settings),
     d_ptr(new HolonAbstractTaskPrivate(this, workflow))
 {
+    if (!qobject_cast<HolonWorkflow *>(workflow->parent()))
+    {
+        emitError(u"parent object not valid"_s);
+        return;
+    }
+
     if (bool ok = (objectName().toUInt(&ok), ok))
     {
         if (!contains(u"open"_s))
