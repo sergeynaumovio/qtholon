@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holoncore.h"
@@ -233,10 +233,16 @@ public:
         if (!qstrcmp(shortName, "Workflow"))
         {
             if (HolonCore *core = qobject_cast<HolonCore *>(parent))
-                return new HolonWorkflow(settings, core);
+                if (core->findChildren<HolonWorkflow *>(Qt::FindDirectChildrenOnly).isEmpty())
+                    return new HolonWorkflow(settings, core);
 
             if (HolonDesktop *desktop = qobject_cast<HolonDesktop *>(parent))
-                return new HolonWorkflow(settings, desktop);
+                if (desktop->findChildren<HolonWorkflow *>(Qt::FindDirectChildrenOnly).isEmpty())
+                    return new HolonWorkflow(settings, desktop);
+
+            if (HolonWorkflow *workflow = qobject_cast<HolonWorkflow *>(parent))
+                if (!qobject_cast<HolonWorkflow *>(workflow->parent()))
+                    return new HolonWorkflow(settings, workflow);
 
             return parent;
         }
