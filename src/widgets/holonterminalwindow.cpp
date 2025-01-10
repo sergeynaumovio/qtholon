@@ -78,7 +78,7 @@ public:
         {
             HolonThemeIcons *icons = desktop->theme()->icons();
 
-            QToolButton *clearButton = toolbar->toolButton(icons->clearIcon(), "Clear"_L1);
+            QToolButton *clearButton = toolbar->toolButton(icons->clearIcon(), u"Clear"_s);
             {
                 toolbar->addWidget(clearButton);
 
