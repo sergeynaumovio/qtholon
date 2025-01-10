@@ -330,8 +330,6 @@ void HolonDesktopPrivateData::addObject(auto *object, auto &list, auto *&current
     {
         if (!current)
             current = object;
-        else if (qobject_cast<HolonTheme *>(object))
-            desktop_d.emitWarning(u"current theme already set"_s);
         else if (qobject_cast<HolonWorkflow *>(object))
             desktop_d.emitWarning(u"current workflow already set"_s);
     }
