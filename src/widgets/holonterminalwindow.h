@@ -21,12 +21,12 @@ public:
     HolonTerminalWindow(QLoaderSettings *settings, HolonTaskStackedWindow *parent);
     ~HolonTerminalWindow();
 
-    QWidget *centralWidget() const override;
+    QWidget *centralWidget() override;
     QIcon icon() const override;
     bool isCopyable(const QStringList &to) const override;
-    QWidget *settingsWidget() const override;
+    QWidget *settingsWidget() override;
     QString title() const override;
-    QWidget *toolbarWidget() const override;
+    QWidget *toolbarWidget() override;
 };
 
 #endif // HOLONTERMINALWINDOW_H

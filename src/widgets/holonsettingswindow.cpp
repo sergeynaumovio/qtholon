@@ -47,7 +47,7 @@ QString HolonSettingsWindow::title() const
     return u"Settings"_s;
 }
 
-QWidget *HolonSettingsWindow::toolbarWidget() const
+QWidget *HolonSettingsWindow::toolbarWidget()
 {
     return {};
 }

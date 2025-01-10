@@ -23,7 +23,7 @@ public:
     HolonTaskAttributesWindow(QLoaderSettings *settings, HolonSidebar *parent);
     ~HolonTaskAttributesWindow();
 
-    QWidget *centralWidget() const override;
+    QWidget *centralWidget() override;
 };
 
 #endif // HOLONTASKATTRIBUTESWINDOW_H

@@ -48,7 +48,7 @@ QString HolonParametersWindow::title() const
     return u"Parameters"_s;
 }
 
-QWidget *HolonParametersWindow::toolbarWidget() const
+QWidget *HolonParametersWindow::toolbarWidget()
 {
     return {};
 }

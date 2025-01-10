@@ -50,7 +50,7 @@ void HolonAbstractTask::addWindow(HolonAbstractWindow *window)
         d_ptr->workflow->desktop()->addWindow(window);
 }
 
-QWidget *HolonAbstractTask::customWidget(QMetaType /*taskAttributesWindow*/) const
+QWidget *HolonAbstractTask::customWidget(QMetaType /*taskAttributesWindow*/)
 {
     return {};
 }

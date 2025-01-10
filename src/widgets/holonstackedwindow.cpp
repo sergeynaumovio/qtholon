@@ -26,7 +26,7 @@ HolonStackedWindow::HolonStackedWindow(QLoaderSettings *settings, HolonWindowAre
 HolonStackedWindow::~HolonStackedWindow()
 { }
 
-QWidget *HolonStackedWindow::centralWidget() const
+QWidget *HolonStackedWindow::centralWidget()
 {
     return d_func()->stackedWidget;
 }
@@ -62,7 +62,7 @@ void HolonStackedWindow::setWindow(HolonAbstractWindow *window)
     d->setWindow(window);
 }
 
-QWidget *HolonStackedWindow::toolbarWidget() const
+QWidget *HolonStackedWindow::toolbarWidget()
 {
     return {};
 }

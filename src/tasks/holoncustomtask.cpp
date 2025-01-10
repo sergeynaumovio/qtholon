@@ -25,7 +25,7 @@ int HolonCustomTask::exec()
     return 0;
 }
 
-QWidget *HolonCustomTask::parametersWidget() const
+QWidget *HolonCustomTask::parametersWidget()
 {
     return new QLabel(title());
 }

@@ -25,7 +25,8 @@ HolonTaskWindowAttributesWindow::HolonTaskWindowAttributesWindow(QLoaderSettings
 HolonTaskWindowAttributesWindow::~HolonTaskWindowAttributesWindow()
 { }
 
-QWidget *HolonTaskWindowAttributesWindow::centralWidget() const
+QWidget *HolonTaskWindowAttributesWindow::centralWidget()
 {
-    return static_cast<HolonTaskWindowAttributesWindowPrivate *>(d_ptr.get())->centralWidget();
+    Q_D(HolonTaskWindowAttributesWindow);
+    return d->centralWidget();
 }

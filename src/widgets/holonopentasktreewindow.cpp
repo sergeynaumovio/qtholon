@@ -68,7 +68,7 @@ HolonOpenTaskTreeWindow::HolonOpenTaskTreeWindow(QLoaderSettings *settings, Holo
 HolonOpenTaskTreeWindow::~HolonOpenTaskTreeWindow()
 { }
 
-QWidget *HolonOpenTaskTreeWindow::centralWidget() const
+QWidget *HolonOpenTaskTreeWindow::centralWidget()
 {
     return d_ptr->widget();
 }
@@ -97,7 +97,7 @@ QString HolonOpenTaskTreeWindow::title() const
     return u"Open Tasks"_s;
 }
 
-QWidget *HolonOpenTaskTreeWindow::toolbarWidget() const
+QWidget *HolonOpenTaskTreeWindow::toolbarWidget()
 {
     return {};
 }

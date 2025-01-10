@@ -35,7 +35,7 @@ HolonAbstractTaskWindow::HolonAbstractTaskWindow(QLoaderSettings *settings, Holo
 HolonAbstractTaskWindow::~HolonAbstractTaskWindow()
 { }
 
-QWidget *HolonAbstractTaskWindow::customWidget(QMetaType /*taskWindowAttributesWindow*/) const
+QWidget *HolonAbstractTaskWindow::customWidget(QMetaType /*taskWindowAttributesWindow*/)
 {
     return {};
 }

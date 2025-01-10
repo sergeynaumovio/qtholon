@@ -56,7 +56,7 @@ HolonMessagesWindow::HolonMessagesWindow(QLoaderSettings *settings, HolonSidebar
 HolonMessagesWindow::~HolonMessagesWindow()
 { }
 
-QWidget *HolonMessagesWindow::centralWidget() const
+QWidget *HolonMessagesWindow::centralWidget()
 {
     return d_ptr->widget();
 }
@@ -85,7 +85,7 @@ QString HolonMessagesWindow::title() const
     return u"Messages"_s;
 }
 
-QWidget *HolonMessagesWindow::toolbarWidget() const
+QWidget *HolonMessagesWindow::toolbarWidget()
 {
     return {};
 }

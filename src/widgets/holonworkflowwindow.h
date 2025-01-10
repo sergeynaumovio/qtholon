@@ -20,11 +20,11 @@ public:
     HolonWorkflowWindow(QLoaderSettings *settings, HolonWindowArea *parent);
     ~HolonWorkflowWindow();
 
-    QWidget *centralWidget() const override;
+    QWidget *centralWidget() override;
     QIcon icon() const override;
     bool isCopyable(const QStringList &to) const override;
     QString title() const override;
-    QWidget *toolbarWidget() const override;
+    QWidget *toolbarWidget() override;
 };
 
 #endif // HOLONWORKFLOWWINDOW_H

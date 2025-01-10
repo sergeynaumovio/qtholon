@@ -107,9 +107,10 @@ HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonTaskSta
 HolonTerminalWindow::~HolonTerminalWindow()
 { }
 
-QWidget *HolonTerminalWindow::centralWidget() const
+QWidget *HolonTerminalWindow::centralWidget()
 {
-    return static_cast<HolonTerminalWindowPrivate *>(d_ptr.get())->centralWidget();
+    Q_D(HolonTerminalWindow);
+    return d->centralWidget();
 }
 
 QIcon HolonTerminalWindow::icon() const
@@ -132,7 +133,7 @@ bool HolonTerminalWindow::isCopyable(const QStringList &to) const
     return false;
 }
 
-QWidget *HolonTerminalWindow::settingsWidget() const
+QWidget *HolonTerminalWindow::settingsWidget()
 {
     return new QLabel(section().constLast());
 }
@@ -142,7 +143,8 @@ QString HolonTerminalWindow::title() const
     return u"Terminal"_s;
 }
 
-QWidget *HolonTerminalWindow::toolbarWidget() const
+QWidget *HolonTerminalWindow::toolbarWidget()
 {
-    return static_cast<HolonTerminalWindowPrivate *>(d_ptr.get())->toolbarWidget();
+    Q_D(HolonTerminalWindow);
+    return d->toolbarWidget();
 }

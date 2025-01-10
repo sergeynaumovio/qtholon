@@ -25,11 +25,11 @@ public:
     Q_INVOKABLE HolonProjectTaskTreeWindow(QLoaderSettings *settings, HolonStackedWindow *parent);
     ~HolonProjectTaskTreeWindow();
 
-    QWidget *centralWidget() const override;
+    QWidget *centralWidget() override;
     QIcon icon() const override;
     bool isCopyable(const QStringList &to) const override;
     QString title() const override;
-    QWidget *toolbarWidget() const override;
+    QWidget *toolbarWidget() override;
 };
 
 #endif // HOLONPROJECTTASKTREEWINDOW_H

@@ -24,8 +24,8 @@ protected:
 public:
     ~HolonAbstractTaskWindow();
 
-    virtual QWidget *customWidget(QMetaType taskWindowAttributesWindow) const;
-    virtual QWidget *settingsWidget() const = 0;
+    virtual QWidget *customWidget(QMetaType taskWindowAttributesWindow);
+    virtual QWidget *settingsWidget() = 0;
     HolonAbstractTask *task() const;
 };
 

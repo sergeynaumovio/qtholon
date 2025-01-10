@@ -81,9 +81,10 @@ HolonWorkflowWindow::HolonWorkflowWindow(QLoaderSettings *settings, HolonWindowA
 HolonWorkflowWindow::~HolonWorkflowWindow()
 { }
 
-QWidget *HolonWorkflowWindow::centralWidget() const
+QWidget *HolonWorkflowWindow::centralWidget()
 {
-    return static_cast<HolonWorkflowWindowPrivate *>(d_ptr.get())->centralWidget();
+    Q_D(HolonWorkflowWindow);
+    return d->centralWidget();
 }
 
 QIcon HolonWorkflowWindow::icon() const
@@ -110,7 +111,7 @@ QString HolonWorkflowWindow::title() const
     return u"Workflow"_s;
 }
 
-QWidget *HolonWorkflowWindow::toolbarWidget() const
+QWidget *HolonWorkflowWindow::toolbarWidget()
 {
     return {};
 }

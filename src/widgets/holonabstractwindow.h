@@ -32,12 +32,12 @@ protected:
 public:
     ~HolonAbstractWindow();
 
-    virtual QWidget *centralWidget() const = 0;
+    virtual QWidget *centralWidget() = 0;
     HolonDesktop *desktop() const;
     virtual QIcon icon() const;
     bool isCurrent() const;
     virtual QString title() const;
-    virtual QWidget *toolbarWidget() const = 0;
+    virtual QWidget *toolbarWidget() = 0;
 };
 
 #endif // HOLONABSTRACTWINDOW_H

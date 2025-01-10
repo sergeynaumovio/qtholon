@@ -16,7 +16,7 @@ public:
     ~HolonCustomTask();
 
     int exec() override;
-    QWidget *parametersWidget() const override;
+    QWidget *parametersWidget() override;
 };
 
 #endif // HOLONCUSTOMTASK_H

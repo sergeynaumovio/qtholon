@@ -29,14 +29,14 @@ public:
     ~HolonAbstractTask();
 
     void addWindow(HolonAbstractWindow *window);
-    virtual QWidget *customWidget(QMetaType taskAttributesWindow) const;
+    virtual QWidget *customWidget(QMetaType taskAttributesWindow);
     HolonDesktop *desktop() const;
     virtual int exec() = 0;
     virtual QIcon icon() const;
     bool isCopyable(const QStringList &to) const override;
     bool isCurrent() const;
     bool isOpen() const;
-    virtual QWidget *parametersWidget() const = 0;
+    virtual QWidget *parametersWidget() = 0;
     virtual QString title() const;
 };
 

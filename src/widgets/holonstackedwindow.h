@@ -21,12 +21,12 @@ public:
 
     ~HolonStackedWindow();
 
-    QWidget *centralWidget() const override;
+    QWidget *centralWidget() override;
     void addWindow(HolonAbstractWindow *window);
     HolonDesktop *desktop() const;
     bool isCopyable(const QStringList &to) const override;
     void setWindow(HolonAbstractWindow *window);
-    QWidget *toolbarWidget() const override;
+    QWidget *toolbarWidget() override;
     HolonAbstractWindow *window() const;
 };
 
