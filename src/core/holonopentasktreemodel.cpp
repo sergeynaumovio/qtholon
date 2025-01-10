@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonopentasktreemodel.h"
@@ -24,7 +24,7 @@ public:
     {
         if (openTaskList.isEmpty())
             for (HolonWorkflow *workflow : q_ptr->QObject::parent()->findChildren<HolonWorkflow *>())
-                for (HolonAbstractTask *task : workflow->findChildren<HolonAbstractTask *>())
+                for (HolonAbstractTask *task : workflow->findChildren<HolonAbstractTask *>(Qt::FindDirectChildrenOnly))
                     if (task->isOpen())
                         openTaskList.append(task);
 
