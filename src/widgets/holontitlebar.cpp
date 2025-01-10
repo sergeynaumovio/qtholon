@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holontitlebar.h"
@@ -16,6 +16,7 @@
 #include "holonthemestyle.h"
 #include "holonwindowarea.h"
 #include "holonwindowarea_p.h"
+#include "holonworkflowwindow.h"
 #include <QActionGroup>
 #include <QApplication>
 #include <QBoxLayout>
@@ -154,7 +155,7 @@ public:
                 q_ptr->layout()->addWidget(windowCombobox);
             }
         }
-        else if (qobject_cast<HolonParametersWindow *>(window))
+        else if (qobject_cast<HolonParametersWindow *>(window) || qobject_cast<HolonWorkflowWindow *>(window))
         {
             q_ptr->layout()->setContentsMargins({});
 

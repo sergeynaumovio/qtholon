@@ -1,12 +1,10 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONWORKFLOWWINDOW_H
 #define HOLONWORKFLOWWINDOW_H
 
 #include "holonabstractwindow.h"
-#include "holonnamespace.h"
-#include <QScopedStorage>
 
 class HolonDesktop;
 class HolonWindowArea;
@@ -15,8 +13,7 @@ class HolonWorkflowWindowPrivate;
 class HolonWorkflowWindow : public HolonAbstractWindow
 {
     Q_OBJECT
-
-    const QScopedStorage<HolonWorkflowWindowPrivate, 24> d_ptr;
+    Q_DECLARE_PRIVATE(HolonWorkflowWindow)
 
 public:
     HolonWorkflowWindow(QLoaderSettings *settings, HolonDesktop *parent);

@@ -1,11 +1,15 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonworkflowwindow.h"
+#include "holonabstractwindow_p.h"
 #include "holondesktop.h"
+#include "holontitlebar.h"
 #include "holonwindowarea.h"
+#include "holonworkflow.h"
 #include "holonworkflowscene.h"
 #include <QBoxLayout>
+#include <QComboBox>
 #include <QGraphicsView>
 #include <QIcon>
 #include <QLabel>
@@ -14,18 +18,26 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-class HolonWorkflowWindowPrivate
+class HolonWorkflowWindowPrivate : public HolonAbstractWindowPrivate
 {
 public:
-    HolonWorkflowWindow *const q_ptr;
     HolonWorkflowScene *scene;
     QGraphicsView *view{};
 
-    HolonWorkflowWindowPrivate(HolonWorkflowWindow *q = nullptr)
-    :   q_ptr(q)
+    HolonWorkflowWindowPrivate(HolonWorkflowWindow *q, HolonDesktop *desk)
+    :   HolonAbstractWindowPrivate(q, desk)
     { }
 
-    QWidget *widget()
+    void addComboboxItems()
+    {
+        QComboBox *combobox = titleBar->windowComboBox();
+
+        if (HolonWorkflow *root = desktop->findChild<HolonWorkflow *>())
+            for (HolonWorkflow *workflow : root->findChildren<HolonWorkflow *>())
+                combobox->addItem(workflow->title(), QVariant::fromValue(workflow));
+    }
+
+    QWidget *centralWidget()
     {
         if (!q_ptr)
             return nullptr;
@@ -49,10 +61,12 @@ HolonWorkflowWindow::HolonWorkflowWindow(QLoaderSettings *settings, HolonDesktop
 }
 
 HolonWorkflowWindow::HolonWorkflowWindow(QLoaderSettings *settings, HolonWindowArea *parent)
-:   HolonAbstractWindow(settings, parent),
-    d_ptr(this)
+:   HolonAbstractWindow(*new HolonWorkflowWindowPrivate(this, parent->desktop ()), settings, parent)
 {
     parent->addWindow(this);
+
+    Q_D(HolonWorkflowWindow);
+    d->addComboboxItems();
 }
 
 HolonWorkflowWindow::~HolonWorkflowWindow()
@@ -60,7 +74,7 @@ HolonWorkflowWindow::~HolonWorkflowWindow()
 
 QWidget *HolonWorkflowWindow::centralWidget() const
 {
-    return d_ptr->widget();
+    return static_cast<HolonWorkflowWindowPrivate *>(d_ptr.get())->centralWidget();
 }
 
 QIcon HolonWorkflowWindow::icon() const
