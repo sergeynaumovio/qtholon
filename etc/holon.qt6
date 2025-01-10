@@ -193,12 +193,9 @@ title = Terminal
 class = HolonWorkflow
 title = Workflow 2
 
-[holon/data]
-class = QLoaderData
-
 [holon/shell]
 class = QLoaderShell
-home = holon/data
+home = holon/shell
 
 [holon/shell/cd]
 class = QLoaderShellCd
@@ -278,6 +275,3 @@ title = 5  Settings
 
 [holon/settings/window]
 class = HolonSettingsWindow
-
-[holon/storage]
-class = QLoaderStorage
