@@ -640,7 +640,7 @@ HolonDesktopPrivate::HolonDesktopPrivate(HolonDesktop *q)
 :   d_ptr(*this, q),
     q_ptr(q)
 {
-    if (q->contains(u"saveShortcut"_s) == QLoaderSettings::Value)
+    if (q->contains(u"saveShortcut"_s))
     {
         QShortcut *shortcut = new QShortcut(q);
         {
