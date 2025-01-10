@@ -27,7 +27,9 @@ HolonWorkflow::HolonWorkflow(QLoaderSettings *settings, HolonWorkflow *workflow)
 :   QObject(workflow),
     QLoaderSettings(this, settings),
     d_ptr(this, nullptr, workflow->desktop())
-{ }
+{
+    d_ptr->desktop->addWorkflow(this);
+}
 
 HolonWorkflow::~HolonWorkflow()
 { }
