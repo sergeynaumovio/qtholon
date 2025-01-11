@@ -174,6 +174,7 @@ set(QT_HOLON_PUBLIC_HEADERS
     src/core/qtholonglobal.h
     src/tasks/HolonAbstractTask
     src/tasks/holonabstracttask.h
+    src/widgets/HolonAbstractTaskWindow
     src/widgets/HolonAbstractWindow
     src/widgets/HolonDesktop
     src/widgets/HolonSidebar
@@ -186,6 +187,8 @@ set(QT_HOLON_PUBLIC_HEADERS
     src/widgets/HolonThemeIcons
     src/widgets/HolonThemeStyle
     src/widgets/HolonToolBar
+    src/widgets/HolonWindowArea
+    src/widgets/holonabstracttaskwindow.h
     src/widgets/holonabstractwindow.h
     src/widgets/holondesktop.h
     src/widgets/holonsidebar.h
@@ -198,6 +201,7 @@ set(QT_HOLON_PUBLIC_HEADERS
     src/widgets/holonthemeicons.h
     src/widgets/holonthemestyle.h
     src/widgets/holontoolbar.h
+    src/widgets/holonwindowarea.h
 )
 
 set_target_properties(${QT_HOLON_LIBRARY} PROPERTIES
