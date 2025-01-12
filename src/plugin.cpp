@@ -233,11 +233,11 @@ public:
         if (!qstrcmp(shortName, "Workflow"))
         {
             if (HolonCore *core = qobject_cast<HolonCore *>(parent))
-                if (core->findChildren<HolonWorkflow *>(Qt::FindDirectChildrenOnly).isEmpty())
+                if (!core->findChild<HolonWorkflow *>())
                     return new HolonWorkflow(settings, core);
 
             if (HolonDesktop *desktop = qobject_cast<HolonDesktop *>(parent))
-                if (desktop->findChildren<HolonWorkflow *>(Qt::FindDirectChildrenOnly).isEmpty())
+                if (!desktop->findChild<HolonWorkflow *>())
                     return new HolonWorkflow(settings, desktop);
 
             if (HolonWorkflow *workflow = qobject_cast<HolonWorkflow *>(parent))
