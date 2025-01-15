@@ -4,7 +4,7 @@
 #ifndef HOLONDESKTOP_P_H
 #define HOLONDESKTOP_P_H
 
-#include <QMetaType>
+#include <QMetaObject>
 #include <QScopedStorage>
 
 class HolonAbstractTask;
