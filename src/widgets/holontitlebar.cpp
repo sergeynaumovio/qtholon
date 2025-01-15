@@ -282,17 +282,17 @@ public:
         if (QWidget *toolbarWidget = wnd->toolbarWidget())
             stackedToolbar->addWindowWidget(wnd, toolbarWidget);
 
-        QMetaType windowType = wnd->metaObject()->metaType();
-
-        for (int index{}; index < windowCombobox->count(); ++index)
+        if (qobject_cast<HolonStackedWindow *>(wnd->parent()) && wnd->isCurrent())
         {
-            QStringList section = windowCombobox->itemData(index).toStringList();
-            QMetaType itemType = wnd->tree()->object(section)->metaObject()->metaType();
+            QMetaType windowType = wnd->metaObject()->metaType();
 
-            if (windowType == itemType)
+            for (int index{}; index < windowCombobox->count(); ++index)
             {
-                if (wnd->isCurrent())
-                    windowCombobox->setCurrentIndex(index);
+                QStringList section = windowCombobox->itemData(index).toStringList();
+                QMetaType itemType = wnd->tree()->object(section)->metaObject()->metaType();
+
+                if (windowType == itemType)
+                    return windowCombobox->setCurrentIndex(index);
             }
         }
     }

@@ -36,6 +36,9 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
     HolonDockWidget *dock = new HolonDockWidget(desktop, mainWindow, window, this);
     window->d_ptr->titleBar = dock->titleBar();
 
+    if (!qobject_cast<HolonStackedWindow *>(window))
+        dock->titleBar()->addWindow(window);
+
     if (!dockWidgetSplitState)
     {
         dockWidgetSplitState = new HolonDockWidgetSplitState(this);
