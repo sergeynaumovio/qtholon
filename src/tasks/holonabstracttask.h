@@ -6,6 +6,7 @@
 
 #include "qtholonglobal.h"
 #include <QLoaderSettings>
+#include <QObject>
 
 class HolonAbstractTaskPrivate;
 class HolonAbstractWindow;

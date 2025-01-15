@@ -13,6 +13,7 @@
 #include <QBoxLayout>
 #include <QButtonGroup>
 #include <QLabel>
+#include <QMap>
 #include <QMouseEvent>
 #include <QShortcut>
 #include <QStyleOption>

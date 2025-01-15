@@ -5,6 +5,7 @@
 #include "holonabstracttask.h"
 #include "holondesktop_p.h"
 #include "holonwindowarea.h"
+#include <QHash>
 #include <QLoaderTree>
 #include <QStackedWidget>
 

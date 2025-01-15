@@ -4,6 +4,7 @@
 #include "holonsidebarmainwindow.h"
 #include "holonsidebar.h"
 #include "holonsidebardockwidget.h"
+#include <QMap>
 
 using namespace Qt::Literals::StringLiterals;
 

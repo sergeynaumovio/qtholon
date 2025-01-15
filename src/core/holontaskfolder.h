@@ -6,6 +6,7 @@
 
 #include "holonnamespace.h"
 #include <QLoaderSettings>
+#include <QObject>
 #include <QScopedStorage>
 
 class HolonDesktop;
