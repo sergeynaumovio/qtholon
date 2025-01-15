@@ -5,11 +5,13 @@
 #define HOLONWORKFLOW_H
 
 #include <QLoaderSettings>
+#include <QObject>
 #include <QScopedStorage>
 
 class HolonAbstractTask;
 class HolonCore;
 class HolonDesktop;
+class HolonWorkflowModel;
 class HolonWorkflowPrivate;
 
 class HolonWorkflow : public QObject, public QLoaderSettings
@@ -17,7 +19,7 @@ class HolonWorkflow : public QObject, public QLoaderSettings
     Q_OBJECT
 
     friend class HolonWorkflowPrivate;
-    const QScopedStorage<HolonWorkflowPrivate, 72> d_ptr;
+    const QScopedStorage<HolonWorkflowPrivate, 80> d_ptr;
 
 public:
     HolonWorkflow(QLoaderSettings *settings, HolonCore *core);
@@ -29,7 +31,9 @@ public:
     void addTask(HolonAbstractTask *task);
     HolonCore *core() const;
     HolonDesktop *desktop() const;
+    int exec();
     bool isCurrent() const;
+    HolonWorkflowModel *model() const;
     QString title() const;
 };
 

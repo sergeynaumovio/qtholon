@@ -6,6 +6,7 @@
 #include "holoncore.h"
 #include "holondesktop.h"
 #include "holonworkflow_p.h"
+#include "holonworkflowmodel.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -20,6 +21,10 @@ HolonWorkflow::HolonWorkflow(QLoaderSettings *settings, HolonDesktop *desktop)
     QLoaderSettings(this, settings),
     d_ptr(this, nullptr, desktop)
 {
+    if (contains(u"modelState"_s))
+        if (!d_ptr->model->restoreState())
+            emitWarning(u"modelState format not valid, please set model again"_s);
+
     desktop->addWorkflow(this);
 }
 
@@ -49,9 +54,19 @@ HolonDesktop *HolonWorkflow::desktop() const
     return d_ptr->desktop;
 }
 
+int HolonWorkflow::exec()
+{
+    return d_ptr->exec();
+}
+
 bool HolonWorkflow::isCurrent() const
 {
     return value(u"current"_s).toBool();
+}
+
+HolonWorkflowModel *HolonWorkflow::model() const
+{
+    return d_ptr->model;
 }
 
 QString HolonWorkflow::title() const
