@@ -32,6 +32,7 @@ add_library(${QT_HOLON_LIBRARY} SHARED)
 
 target_compile_definitions(${QT_HOLON_LIBRARY}
     PRIVATE QT_NO_CAST_FROM_ASCII
+            QT_LEAN_HEADERS
 )
 
 target_sources(${QT_HOLON_LIBRARY}
