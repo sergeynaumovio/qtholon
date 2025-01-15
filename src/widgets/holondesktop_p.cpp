@@ -409,9 +409,10 @@ void HolonDesktopPrivateData::addWindow(HolonAbstractWindow *window)
         if (qobject_cast<HolonAbstractTask *>(window->parent()))
         {
             if (HolonTaskStackedWindow *taskStackedWindow = qobject_cast<HolonTaskStackedWindow *>(window))
-                addTaskWindow(taskStackedWindow);
-            else if (HolonAbstractTaskWindow *taskWindow = qobject_cast<HolonAbstractTaskWindow *>(window))
-                addTaskWindow(taskWindow);
+                return addTaskWindow(taskStackedWindow);
+
+            if (HolonAbstractTaskWindow *taskWindow = qobject_cast<HolonAbstractTaskWindow *>(window))
+                return addTaskWindow(taskWindow);
         }
 
     if (HolonAbstractTaskWindow *taskWindow = qobject_cast<HolonAbstractTaskWindow *>(window))
