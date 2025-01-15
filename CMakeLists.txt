@@ -157,8 +157,8 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonwindowareastate.h
             src/widgets/holonwindowareaswitch.cpp
             src/widgets/holonwindowareaswitch.h
-            src/widgets/holonworkflowscene.cpp
-            src/widgets/holonworkflowscene.h
+            src/widgets/holonworkflowgraphicsscene.cpp
+            src/widgets/holonworkflowgraphicsscene.h
             src/widgets/holonworkflowwindow.cpp
             src/widgets/holonworkflowwindow.h
             src/plugin.cpp

@@ -7,7 +7,7 @@
 #include "holontitlebar.h"
 #include "holonwindowarea.h"
 #include "holonworkflow.h"
-#include "holonworkflowscene.h"
+#include "holonworkflowgraphicsscene.h"
 #include <QComboBox>
 #include <QGraphicsView>
 #include <QIcon>
@@ -50,7 +50,7 @@ public:
         {
             for (HolonWorkflow *workflow : root->findChildren<HolonWorkflow *>())
             {
-                HolonWorkflowScene *scene = new HolonWorkflowScene(q_ptr);
+                HolonWorkflowGraphicsScene *scene = new HolonWorkflowGraphicsScene(workflow);
                 QGraphicsView *view = new QGraphicsView(scene);
                 view->setFrameStyle(QFrame::NoFrame);
                 view->setAlignment(Qt::AlignLeft | Qt::AlignTop);
