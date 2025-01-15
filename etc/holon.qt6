@@ -246,11 +246,16 @@ class = HolonParametersWindow
 [holon/workflows]
 class = HolonWindowArea
 area = bottom
-checked = false
+checked = true
+dockWidgetSplitState = QByteArray(LzAvbCwvMS9y)
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAALfAAACTvwCAAAAAfwAAAAAAAACTgAAAF0A/////AEAAAAC+wAAAAIAMAEAAAAAAAABDwAAAKIA////+wAAAAIAMQEAAAEQAAABzwAAAKIA////AAAAAAAAAH0AAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 shortcut = Alt+3
 title = 3  Workflows
 
-[holon/workflows/window]
+[holon/workflows/0]
+class = HolonWorkflowWindow
+
+[holon/workflows/1]
 class = HolonWorkflowWindow
 
 [holon/messages]

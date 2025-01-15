@@ -58,6 +58,7 @@ public:
     HolonThemeIcons *const icons;
     const bool isStackedSidebarWindow;
     const bool isTaskWindow;
+    const bool isWorkflowWindow;
     QComboBox *windowCombobox{};
     HolonWindowStackedWidget *stackedToolbar{};
     QToolButton *splitButton{};
@@ -77,7 +78,8 @@ public:
         windowarea_d_ptr(windowarea_p),
         icons(desktop->theme()->icons()),
         isStackedSidebarWindow(qobject_cast<HolonStackedWindow *>(window)),
-        isTaskWindow(qobject_cast<HolonAbstractTask *>(window->parent()))
+        isTaskWindow(qobject_cast<HolonAbstractTask *>(window->parent())),
+        isWorkflowWindow(qobject_cast<HolonWorkflowWindow *>(window))
     {
         q_ptr->setFixedHeight(QApplication::style()->pixelMetric(QStyle::PM_TitleBarHeight));
 
@@ -189,7 +191,7 @@ public:
 
     void addMaximizeButton()
     {
-        if (isStackedSidebarWindow || isTaskWindow)
+        if (isStackedSidebarWindow || isTaskWindow || isWorkflowWindow)
         {
             maximizeButton = addButton(icons->maximizeIcon());
             {
@@ -217,7 +219,7 @@ public:
 
     void addSplitButton()
     {
-        if (isStackedSidebarWindow || isTaskWindow)
+        if (isStackedSidebarWindow || isTaskWindow || isWorkflowWindow)
         {
             QMenu *menu = new QMenu(parent);
 
