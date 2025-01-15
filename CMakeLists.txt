@@ -52,6 +52,8 @@ target_sources(${QT_HOLON_LIBRARY}
             src/core/holonworkflow.h
             src/core/holonworkflow_p.cpp
             src/core/holonworkflow_p.h
+            src/core/holonworkflowitem.cpp
+            src/core/holonworkflowitem.h
             src/core/qtholonglobal.h
             src/tasks/holonabstracttask.cpp
             src/tasks/holonabstracttask.h
@@ -153,8 +155,6 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonwindowareastate.h
             src/widgets/holonwindowareaswitch.cpp
             src/widgets/holonwindowareaswitch.h
-            src/widgets/holonworkflowitem.cpp
-            src/widgets/holonworkflowitem.h
             src/widgets/holonworkflowscene.cpp
             src/widgets/holonworkflowscene.h
             src/widgets/holonworkflowwindow.cpp
