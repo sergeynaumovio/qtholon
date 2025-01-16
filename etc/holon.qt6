@@ -254,9 +254,11 @@ title = 3  Workflows
 
 [holon/workflows/0]
 class = HolonWorkflowWindow
+treeView = true
 
 [holon/workflows/1]
 class = HolonWorkflowWindow
+treeView = false
 
 [holon/messages]
 class = HolonSidebar

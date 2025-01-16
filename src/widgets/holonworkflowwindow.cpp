@@ -4,24 +4,33 @@
 #include "holonworkflowwindow.h"
 #include "holonabstractwindow_p.h"
 #include "holondesktop.h"
+#include "holonthemeicons.h"
 #include "holontitlebar.h"
+#include "holontoolbar.h"
 #include "holonwindowarea.h"
 #include "holonworkflow.h"
 #include "holonworkflowgraphicsscene.h"
+#include "holonworkflowmodel.h"
 #include <QComboBox>
 #include <QGraphicsView>
+#include <QHeaderView>
 #include <QIcon>
 #include <QLabel>
 #include <QLoaderTree>
 #include <QStackedWidget>
+#include <QToolButton>
+#include <QTreeView>
 
 using namespace Qt::Literals::StringLiterals;
 
 class HolonWorkflowWindowPrivate : public HolonAbstractWindowPrivate
 {
+    Q_DECLARE_PUBLIC(HolonWorkflowWindow)
+
 public:
     QStackedWidget *stacked{};
-    QHash<HolonWorkflow *, QGraphicsView *> viewByWorkflow;
+    QHash<HolonWorkflow *, QStackedWidget *> viewByWorkflow;
+    HolonToolBar *toolbar{};
 
     HolonWorkflowWindowPrivate(HolonWorkflowWindow *q, HolonDesktop *desk)
     :   HolonAbstractWindowPrivate(q, desk)
@@ -50,16 +59,77 @@ public:
         {
             for (HolonWorkflow *workflow : root->findChildren<HolonWorkflow *>())
             {
+                QStackedWidget *stackedView = new QStackedWidget;
+
                 HolonWorkflowGraphicsScene *scene = new HolonWorkflowGraphicsScene(workflow);
-                QGraphicsView *view = new QGraphicsView(scene);
-                view->setFrameStyle(QFrame::NoFrame);
-                view->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-                stacked->addWidget(view);
-                viewByWorkflow.insert(workflow, view);
+                QGraphicsView *graphView = new QGraphicsView(scene);
+                graphView->setFrameStyle(QFrame::NoFrame);
+                graphView->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+
+                QTreeView *treeView = new QTreeView;
+                treeView->setFrameStyle(QFrame::NoFrame);
+                treeView->setModel(workflow->model());
+                treeView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+                treeView->header()->hide();
+
+                stackedView->addWidget(graphView);
+                stackedView->addWidget(treeView);
+
+                Q_Q(HolonWorkflowWindow);
+
+                if (q->isTreeView())
+                    stackedView->setCurrentWidget(treeView);
+
+                stacked->addWidget(stackedView);
+                viewByWorkflow.insert(workflow, stackedView);
             }
         }
 
         return stacked;
+    }
+
+    QWidget *toolbarWidget()
+    {
+        if (!q_ptr)
+            return nullptr;
+
+        if (toolbar)
+            return toolbar;
+
+        toolbar = new HolonToolBar;
+
+        if (stacked)
+        {
+            HolonThemeIcons *icons = desktop->theme()->icons();
+
+            QToolButton *treeViewButton = toolbar->addToolButton(icons->expandIcon(), u"Tree View"_s);
+            {
+                treeViewButton->setCheckable(true);
+
+                Q_Q(HolonWorkflowWindow);
+
+                if (q->isTreeView())
+                    treeViewButton->setChecked(true);
+
+                QObject::connect(treeViewButton, &QToolButton::clicked, q, [=, this]()
+                {
+                    QStackedWidget *stackedView = static_cast<QStackedWidget *>(stacked->currentWidget());
+                    stackedView->setCurrentIndex(treeViewButton->isChecked());
+                    q->setTreeView(treeViewButton->isChecked());
+                });
+            }
+
+            QComboBox *combobox = titleBar->windowComboBox();
+            QObject::connect(combobox, &QComboBox::currentIndexChanged, stacked, [=, this]()
+            {
+                HolonWorkflow *currentWorkflow = combobox->currentData().value<HolonWorkflow *>();
+                stacked->setCurrentWidget(viewByWorkflow.value(currentWorkflow));
+                QStackedWidget *stackedView = static_cast<QStackedWidget *>(stacked->currentWidget());
+                stackedView->setCurrentIndex(treeViewButton->isChecked());
+            });
+        }
+
+        return toolbar;
     }
 };
 
@@ -106,6 +176,16 @@ bool HolonWorkflowWindow::isCopyable(const QStringList &to) const
     return false;
 }
 
+bool HolonWorkflowWindow::isTreeView() const
+{
+    return value(u"treeView"_s).toBool();
+}
+
+void HolonWorkflowWindow::setTreeView(bool value)
+{
+    setValue(u"treeView"_s, value);
+}
+
 QString HolonWorkflowWindow::title() const
 {
     return u"Workflow"_s;
@@ -113,5 +193,6 @@ QString HolonWorkflowWindow::title() const
 
 QWidget *HolonWorkflowWindow::toolbarWidget()
 {
-    return {};
+    Q_D(HolonWorkflowWindow);
+    return d->toolbarWidget();
 }

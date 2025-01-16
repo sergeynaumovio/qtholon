@@ -15,6 +15,8 @@ class HolonWorkflowWindow : public HolonAbstractWindow
     Q_OBJECT
     Q_DECLARE_PRIVATE(HolonWorkflowWindow)
 
+    friend class HolonWorkflowWindowPrivate;
+
 public:
     HolonWorkflowWindow(QLoaderSettings *settings, HolonDesktop *parent);
     HolonWorkflowWindow(QLoaderSettings *settings, HolonWindowArea *parent);
@@ -23,6 +25,8 @@ public:
     QWidget *centralWidget() override;
     QIcon icon() const override;
     bool isCopyable(const QStringList &to) const override;
+    bool isTreeView() const;
+    void setTreeView(bool value);
     QString title() const override;
     QWidget *toolbarWidget() override;
 };
