@@ -181,6 +181,7 @@ void HolonDesktopPrivateData::addTasksWidgets(HolonTaskStackedWidget *taskStacke
 
     for (HolonAbstractTask *task : taskList)
     {
+        /// if (task->isCurrent()) TODO: add parametersWidget only for the current task, next load on demand
         if (QWidget *widget = widgetFrom(task))
         {
             taskStackedWidget->addTaskWidget(task, widget);

@@ -177,6 +177,7 @@ public:
 
             if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(parent))
             {
+                /// if (task->isCurrent()) TODO: add stackedWindow only for the current task, next load on demand
                 if (qobject_cast<HolonTaskFolder *>(task->parent()))
                     return nullptr;
 
