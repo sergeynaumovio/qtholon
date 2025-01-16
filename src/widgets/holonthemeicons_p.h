@@ -18,6 +18,7 @@ class HolonThemeIconsPrivate
     QIcon closeForeground;
     QIcon dirClosed;
     QIcon dirOpen;
+    QIcon expand;
     QIcon indicatorArrowDown;
     QIcon indicatorArrowUp;
     QIcon maximize;
@@ -44,6 +45,7 @@ public:
     QIcon closeForegroundIcon();
     QIcon dirClosedIcon();
     QIcon dirOpenIcon();
+    QIcon expandIcon();
     QIcon indicatorArrowDownIcon();
     QIcon indicatorArrowUpIcon();
     QIcon maximizeIcon();

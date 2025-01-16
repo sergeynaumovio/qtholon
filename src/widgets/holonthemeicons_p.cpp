@@ -75,6 +75,12 @@ QIcon HolonThemeIconsPrivate::dirOpenIcon()
     return dirOpen;
 }
 
+QIcon HolonThemeIconsPrivate::expandIcon()
+{
+    return icon({{u":/holon/expand.xpm"_s,
+                  theme->colors()->iconsBaseColor()}}, expand);
+}
+
 QIcon HolonThemeIconsPrivate::indicatorArrowDownIcon()
 {
     return icon({{u":/holon/indicator_arrowdown.xpm"_s,

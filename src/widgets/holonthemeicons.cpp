@@ -40,6 +40,11 @@ QIcon HolonThemeIcons::dirOpenIcon() const
     return d_ptr->dirOpenIcon();
 }
 
+QIcon HolonThemeIcons::expandIcon() const
+{
+    return d_ptr->expandIcon();
+}
+
 QIcon HolonThemeIcons::indicatorArrowDownIcon() const
 {
     return d_ptr->indicatorArrowDownIcon();
