@@ -254,10 +254,12 @@ title = 3  Workflows
 
 [holon/workflows/0]
 class = HolonWorkflowWindow
+current = 2
 treeView = true
 
 [holon/workflows/1]
 class = HolonWorkflowWindow
+current = 1
 treeView = false
 
 [holon/messages]

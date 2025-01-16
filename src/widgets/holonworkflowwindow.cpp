@@ -39,10 +39,17 @@ public:
     void addComboboxItems()
     {
         QComboBox *combobox = titleBar->windowComboBox();
+        Q_Q(HolonWorkflowWindow);
+        int id = q->current();
 
         if (HolonWorkflow *root = desktop->findChild<HolonWorkflow *>())
             for (HolonWorkflow *workflow : root->findChildren<HolonWorkflow *>())
+            {
                 combobox->addItem(workflow->title(), QVariant::fromValue(workflow));
+
+                if (workflow->objectName().toInt() == id)
+                    combobox->setCurrentText(workflow->title());
+            }
     }
 
     QWidget *centralWidget()
@@ -101,12 +108,11 @@ public:
         if (stacked)
         {
             HolonThemeIcons *icons = desktop->theme()->icons();
+            Q_Q(HolonWorkflowWindow);
 
             QToolButton *treeViewButton = toolbar->addToolButton(icons->expandIcon(), u"Tree View"_s);
             {
                 treeViewButton->setCheckable(true);
-
-                Q_Q(HolonWorkflowWindow);
 
                 if (q->isTreeView())
                     treeViewButton->setChecked(true);
@@ -126,6 +132,7 @@ public:
                 stacked->setCurrentWidget(viewByWorkflow.value(currentWorkflow));
                 QStackedWidget *stackedView = static_cast<QStackedWidget *>(stacked->currentWidget());
                 stackedView->setCurrentIndex(treeViewButton->isChecked());
+                q->setCurrent(currentWorkflow->objectName().toInt());
             });
         }
 
@@ -157,6 +164,11 @@ QWidget *HolonWorkflowWindow::centralWidget()
     return d->centralWidget();
 }
 
+int HolonWorkflowWindow::current() const
+{
+    return value(u"current"_s).toInt();
+}
+
 QIcon HolonWorkflowWindow::icon() const
 {
     return {};
@@ -179,6 +191,11 @@ bool HolonWorkflowWindow::isCopyable(const QStringList &to) const
 bool HolonWorkflowWindow::isTreeView() const
 {
     return value(u"treeView"_s).toBool();
+}
+
+void HolonWorkflowWindow::setCurrent(int id)
+{
+    setValue(u"current"_s, id);
 }
 
 void HolonWorkflowWindow::setTreeView(bool value)
