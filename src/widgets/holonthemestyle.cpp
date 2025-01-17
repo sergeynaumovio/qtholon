@@ -111,10 +111,13 @@ void HolonThemeStyle::drawPrimitive(QStyle::PrimitiveElement element,
             painter->fillRect(option->rect, theme()->colors()->mainWindowSeparatorColor());
             break;
         case PE_PanelButtonTool: {
+                bool isPressed = option->state.testAnyFlags({State_Sunken});
                 bool isHovered = option->state.testAnyFlag(QStyle::State_MouseOver);
                 bool isChecked = option->state.testAnyFlag(QStyle::State_On);
 
-                if (isHovered)
+                if (isPressed)
+                    painter->fillRect(option->rect, theme()->colors()->buttonPressedColor());
+                else if (isHovered)
                 {
                     if (isChecked)
                         painter->fillRect(option->rect, theme()->colors()->buttonPressedColor());
