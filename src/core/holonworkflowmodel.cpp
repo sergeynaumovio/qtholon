@@ -49,7 +49,7 @@ public:
 
         HolonWorkflowItem *parent = rootItem;
         HolonWorkflowItem *item{};
-        int taskId;
+        int taskId{};
 
         const QStringList list = path.split(u'/');
 
