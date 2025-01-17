@@ -36,7 +36,7 @@ QVariant HolonTaskFolderModel::data(const QModelIndex &index, int role) const
         if (HolonTaskFolder *folder = qobject_cast<HolonTaskFolder *>(object))
         {
             if (folder->isExpanded())
-                return  folder->icon(Holon::Expanded);
+                return folder->icon(Holon::Expanded);
 
             return folder->icon(Holon::Collapsed);
         }
