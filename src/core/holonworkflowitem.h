@@ -4,33 +4,40 @@
 #ifndef HOLONWORKFLOWITEM_H
 #define HOLONWORKFLOWITEM_H
 
+#include <QMetaObject>
 #include <QScopedStorage>
 
 class HolonWorkflowItemPrivate;
 
 class HolonWorkflowItem
 {
+    Q_GADGET
+
     const QScopedStorage<HolonWorkflowItemPrivate, 40> d_ptr;
 
 public:
-    enum ItemType
+    enum Icon
     {
         Branch,
         Task,
-        ConditionTrue,
         ConditionFalse,
+        ConditionTrue,
         Reference,
         Address
     };
+    Q_ENUM(Icon)
 
-    HolonWorkflowItem(int taskId, ItemType taskType, HolonWorkflowItem *parent = nullptr);
+    HolonWorkflowItem(int taskId, HolonWorkflowItem::Icon icon);
     ~HolonWorkflowItem();
 
     void appendChild(HolonWorkflowItem *item);
-    HolonWorkflowItem *child(int row);
+    HolonWorkflowItem *child(int row) const;
     int childCount() const;
-    int id() const;
+    void clear();
+    HolonWorkflowItem *findChild(int taskId) const;
+    HolonWorkflowItem::Icon icon() const;
     HolonWorkflowItem *parent();
+    int taskId() const;
     int row() const;
 };
 

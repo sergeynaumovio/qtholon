@@ -29,7 +29,7 @@ int HolonWorkflowPrivate::exec()
 {
     if (HolonWorkflowItem *rootItem = model->rootItem())
     {
-        QString rootTaskIndex = QString::number(rootItem->id());
+        QString rootTaskIndex = QString::number(rootItem->taskId());
         if (HolonAbstractTask *rootTask = q_ptr->findChild<HolonAbstractTask *>(rootTaskIndex))
             return rootTask->exec();
 

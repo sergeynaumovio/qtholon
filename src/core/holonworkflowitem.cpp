@@ -7,15 +7,14 @@
 class HolonWorkflowItemPrivate
 {
 public:
-    HolonWorkflowItem *parentItem;
+    HolonWorkflowItem *parentItem{};
     QList<HolonWorkflowItem *> childItems;
-    int itemId;
-    HolonWorkflowItem::ItemType itemType;
+    int taskId;
+    HolonWorkflowItem::Icon icon;
 
-    HolonWorkflowItemPrivate(int taskIndex, HolonWorkflowItem::ItemType taskType, HolonWorkflowItem *parent)
-    :   parentItem(parent),
-        itemId(taskIndex),
-        itemType(taskType)
+    HolonWorkflowItemPrivate(int taskIndex, HolonWorkflowItem::Icon ico)
+    :   taskId(taskIndex),
+        icon(ico)
     { }
 
     ~HolonWorkflowItemPrivate()
@@ -24,8 +23,8 @@ public:
     }
 };
 
-HolonWorkflowItem::HolonWorkflowItem(int taskId, HolonWorkflowItem::ItemType taskType, HolonWorkflowItem *parent)
-:   d_ptr(taskId, taskType, parent)
+HolonWorkflowItem::HolonWorkflowItem(int taskId, HolonWorkflowItem::Icon icon)
+:   d_ptr(taskId, icon)
 { }
 
 HolonWorkflowItem::~HolonWorkflowItem()
@@ -33,10 +32,11 @@ HolonWorkflowItem::~HolonWorkflowItem()
 
 void HolonWorkflowItem::appendChild(HolonWorkflowItem *item)
 {
+    item->d_ptr->parentItem = this;
     d_ptr->childItems.append(item);
 }
 
-HolonWorkflowItem *HolonWorkflowItem::child(int row)
+HolonWorkflowItem *HolonWorkflowItem::child(int row) const
 {
     return d_ptr->childItems.value(row);
 }
@@ -46,14 +46,34 @@ int HolonWorkflowItem::childCount() const
     return d_ptr->childItems.count();
 }
 
-int HolonWorkflowItem::id() const
+void HolonWorkflowItem::clear()
 {
-    return d_ptr->itemId;
+    qDeleteAll(d_ptr->childItems);
+    d_ptr->childItems.clear();
+}
+
+HolonWorkflowItem *HolonWorkflowItem::findChild(int taskIndex) const
+{
+    for (HolonWorkflowItem *item : d_ptr->childItems)
+        if (item->taskId () == taskIndex)
+            return item;
+
+    return nullptr;
+}
+
+HolonWorkflowItem::Icon HolonWorkflowItem::icon() const
+{
+    return d_ptr->icon;
 }
 
 HolonWorkflowItem *HolonWorkflowItem::parent()
 {
     return d_ptr->parentItem;
+}
+
+int HolonWorkflowItem::taskId() const
+{
+    return d_ptr->taskId;
 }
 
 int HolonWorkflowItem::row() const
