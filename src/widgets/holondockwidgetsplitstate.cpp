@@ -200,9 +200,10 @@ bool HolonDockWidgetSplitState::restoreSplitFromPath(const QString &path)
                     continue;
                 }
                 else if (parent->children().size() < 2)
+                {
                     parent = new HolonDockWidgetItem(element, {}, split);
-                else
-                    return false;
+                    continue;
+                }
             }
             else if ((object = parent->findChild<HolonDockWidgetSplit *>(element, Qt::FindDirectChildrenOnly)))
             {
@@ -212,20 +213,22 @@ bool HolonDockWidgetSplitState::restoreSplitFromPath(const QString &path)
             else if (parent->children().size() < 2)
             {
                 if (Qt::DockWidgetArea area = fromString(element))
+                {
                     parent = new HolonDockWidgetSplit(area, split);
-                else
-                    return false;
+                    continue;
+                }
             }
-            else
-                return false;
         }
         else if (HolonDockWidgetItem *item = qobject_cast<HolonDockWidgetItem *>(parent))
         {
             if (Qt::DockWidgetArea area = fromString(element))
+            {
                 item->area = area;
-            else
-                return false;
+                continue;
+            }
         }
+
+        return false;
     }
 
     return true;
