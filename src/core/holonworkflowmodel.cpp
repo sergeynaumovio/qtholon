@@ -2,8 +2,10 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holonworkflowmodel.h"
+#include "holonabstracttask.h"
 #include "holonworkflow.h"
 #include "holonworkflowitem.h"
+#include <QIcon>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -11,16 +13,74 @@ class HolonWorkflowModelPrivate
 {
 public:
     HolonWorkflow *const workflow;
-    const QScopedPointer<HolonWorkflowItem> rootItem;
+    HolonWorkflowItem *const rootItem;
 
     HolonWorkflowModelPrivate(HolonWorkflow *w)
     :   workflow(w),
         rootItem(new HolonWorkflowItem(workflow->objectName().toInt(), HolonWorkflowItem::Branch))
     { }
 
-    bool restoreState()
+    ~HolonWorkflowModelPrivate()
     {
-        return false;
+        delete rootItem;
+    }
+
+    bool restoreStateFromPath(const QString &path)
+    {
+        auto fromString = [](const QString &element) -> HolonWorkflowItem::Icon
+        {
+            if (element == 't'_L1)
+                return HolonWorkflowItem::Task;
+
+            if (element == "cf"_L1)
+                return HolonWorkflowItem::ConditionFalse;
+
+            if (element == "ct"_L1)
+                return HolonWorkflowItem::ConditionTrue;
+
+            if (element == 'r'_L1)
+                return HolonWorkflowItem::Reference;
+
+            if (element == 'a'_L1)
+                return HolonWorkflowItem::Address;
+
+            return {};
+        };
+
+        HolonWorkflowItem *parent = rootItem;
+        HolonWorkflowItem *item{};
+        int taskId;
+
+        const QStringList list = path.split(u'/');
+
+        for (int i{}, first_i{}, last_i = list.size() - 1, pre_last_i = last_i - 1; i < list.size(); ++i)
+        {
+            if (i != last_i)
+            {
+                if (bool ok = (taskId = list.at(i).toInt(&ok), ok))
+                {
+                    if ((item = parent->findChild(taskId)))
+                    {
+                        parent = item;
+                        continue;
+                    }
+                    else if (i == pre_last_i)
+                        continue;
+                }
+            }
+            else if (i != first_i)
+            {
+                if (HolonWorkflowItem::Icon icon = fromString(list.at(i)))
+                {
+                    parent->appendChild(new HolonWorkflowItem(taskId, icon));
+                    continue;
+                }
+            }
+
+            return false;
+        }
+
+        return true;
     }
 };
 
@@ -34,49 +94,107 @@ HolonWorkflowModel::~HolonWorkflowModel()
 
 int HolonWorkflowModel::columnCount(const QModelIndex &/*parent*/) const
 {
-    return 2;
+    return 1;
 }
 
 QVariant HolonWorkflowModel::data(const QModelIndex &index, int role) const
 {
-    Q_UNUSED(index);
-    Q_UNUSED(role);
+    if (!index.isValid())
+        return QVariant();
+
+    if (role == Qt::DecorationRole)
+    {
+        HolonWorkflowItem *item = static_cast<HolonWorkflowItem *>(index.internalPointer());
+
+        if (HolonAbstractTask *task = d_ptr->workflow->findChild<HolonAbstractTask *>(QString::number(item->taskId())))
+            return task->icon();
+
+        return QVariant();
+    }
+
+    if (role == Qt::DisplayRole)
+    {
+        HolonWorkflowItem *item = static_cast<HolonWorkflowItem *>(index.internalPointer());
+
+        if (HolonAbstractTask *task = d_ptr->workflow->findChild<HolonAbstractTask *>(QString::number(item->taskId())))
+            return task->title();
+
+        return QString(u"task id not found: "_s + QString::number(item->taskId()));
+    }
+
+    if (role == Qt::CheckStateRole)
+        return Qt::Checked;
 
     return QVariant();
 }
 
 QModelIndex HolonWorkflowModel::index(int row, int column, const QModelIndex &parent) const
 {
-    Q_UNUSED(row);
-    Q_UNUSED(column);
-    Q_UNUSED(parent);
+    if (!hasIndex(row, column, parent))
+        return QModelIndex();
+
+    HolonWorkflowItem *parentItem;
+
+    if (!parent.isValid())
+        parentItem = d_ptr->rootItem;
+    else
+        parentItem = static_cast<HolonWorkflowItem *>(parent.internalPointer());
+
+    if (HolonWorkflowItem *childItem = parentItem->child(row))
+        return createIndex(row, column, childItem);
 
     return QModelIndex();
 }
 
-QModelIndex HolonWorkflowModel::parent(const QModelIndex &child) const
+QModelIndex HolonWorkflowModel::parent(const QModelIndex &index) const
 {
-    Q_UNUSED(child);
+    if (!index.isValid())
+        return QModelIndex();
 
-    return QModelIndex();
+    HolonWorkflowItem *childItem = static_cast<HolonWorkflowItem *>(index.internalPointer());
+    HolonWorkflowItem *parentItem = childItem->parent();
+
+    if (parentItem == d_ptr->rootItem)
+        return QModelIndex();
+
+    return createIndex(parentItem->row(), 0, parentItem);
 }
 
 bool HolonWorkflowModel::restoreState()
 {
     if (d_ptr->workflow->contains(u"modelState"_s))
-        return d_ptr->restoreState();
+    {
+        QStringList list = d_ptr->workflow->value(u"modelState"_s).toString().split(u',');
+        for (const QString &path : list)
+        {
+            if (path.isEmpty() || !d_ptr->restoreStateFromPath(path))
+            {
+                d_ptr->rootItem->clear();
+
+                return false;
+            }
+        }
+    }
 
     return true;
 }
 
 HolonWorkflowItem *HolonWorkflowModel::rootItem() const
 {
-    return d_ptr->rootItem.get();
+    return d_ptr->rootItem;
 }
 
 int HolonWorkflowModel::rowCount(const QModelIndex &parent) const
 {
-    Q_UNUSED(parent);
+    if (parent.column() > 0)
+        return 0;
 
-    return 0;
+    HolonWorkflowItem *parentItem;
+
+    if (!parent.isValid())
+        parentItem = d_ptr->rootItem;
+    else
+        parentItem = static_cast<HolonWorkflowItem *>(parent.internalPointer());
+
+    return parentItem->childCount();
 }

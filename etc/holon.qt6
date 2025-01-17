@@ -81,6 +81,7 @@ class = HolonWorkflow
 [holon/workflow/1]
 class = HolonWorkflow
 current = true
+modelState = 0/t,1/cf,1/2/t,3/t
 title = Workflow 1
 
 [holon/workflow/1/0]
@@ -260,7 +261,7 @@ treeView = true
 [holon/workflows/1]
 class = HolonWorkflowWindow
 current = 1
-treeView = false
+treeView = true
 
 [holon/messages]
 class = HolonSidebar

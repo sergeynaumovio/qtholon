@@ -21,10 +21,6 @@ HolonWorkflow::HolonWorkflow(QLoaderSettings *settings, HolonDesktop *desktop)
     QLoaderSettings(this, settings),
     d_ptr(this, nullptr, desktop)
 {
-    if (contains(u"modelState"_s))
-        if (!d_ptr->model->restoreState())
-            emitWarning(u"modelState format not valid, please set model again"_s);
-
     desktop->addWorkflow(this);
 }
 
@@ -34,6 +30,10 @@ HolonWorkflow::HolonWorkflow(QLoaderSettings *settings, HolonWorkflow *workflow)
     d_ptr(this, nullptr, workflow->desktop())
 {
     d_ptr->desktop->addWorkflow(this);
+
+    if (contains(u"modelState"_s))
+        if (!d_ptr->model->restoreState())
+            emitWarning(u"modelState format not valid, please set model again"_s);
 }
 
 HolonWorkflow::~HolonWorkflow()
