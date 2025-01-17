@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holonworkflowwindow.h"
+#include "holonabstracttask.h"
 #include "holonabstractwindow_p.h"
 #include "holondesktop.h"
 #include "holonthemeicons.h"
@@ -10,6 +11,7 @@
 #include "holonwindowarea.h"
 #include "holonworkflow.h"
 #include "holonworkflowgraphicsscene.h"
+#include "holonworkflowitem.h"
 #include "holonworkflowmodel.h"
 #include <QComboBox>
 #include <QGraphicsView>
@@ -73,11 +75,22 @@ public:
                 graphView->setFrameStyle(QFrame::NoFrame);
                 graphView->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 
+
                 QTreeView *treeView = new QTreeView;
                 treeView->setFrameStyle(QFrame::NoFrame);
                 treeView->setModel(workflow->model());
                 treeView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
                 treeView->header()->hide();
+
+                QObject::connect(treeView, &QTreeView::clicked, desktop, [=, this](const QModelIndex &index)
+                {
+                    HolonWorkflowItem *clickedItem = static_cast<HolonWorkflowItem *>(index.internalPointer());
+                    QString taskId = QString::number(clickedItem->taskId());
+
+                    if (HolonAbstractTask *clickedTask = workflow->findChild<HolonAbstractTask *>(taskId))
+                        desktop->setTask(clickedTask);
+                });
+
 
                 stackedView->addWidget(graphView);
                 stackedView->addWidget(treeView);
