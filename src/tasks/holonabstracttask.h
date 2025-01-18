@@ -32,7 +32,7 @@ public:
     void addWindow(HolonAbstractWindow *window);
     virtual QWidget *customWidget(QMetaType taskAttributesWindow);
     HolonDesktop *desktop() const;
-    virtual int exec() = 0;
+    virtual bool exec() = 0;
     virtual QIcon icon() const;
     bool isCopyable(const QStringList &to) const override;
     bool isCurrent() const;

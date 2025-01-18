@@ -20,9 +20,9 @@ HolonCustomTask::HolonCustomTask(QLoaderSettings *settings, HolonWorkflow *workf
 HolonCustomTask::~HolonCustomTask()
 { }
 
-int HolonCustomTask::exec()
+bool HolonCustomTask::exec()
 {
-    return 0;
+    return true;
 }
 
 QWidget *HolonCustomTask::parametersWidget()

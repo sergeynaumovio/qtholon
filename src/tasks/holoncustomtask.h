@@ -15,7 +15,7 @@ public:
     HolonCustomTask(QLoaderSettings *settings, HolonWorkflow *workflow);
     ~HolonCustomTask();
 
-    int exec() override;
+    bool exec() override;
     QWidget *parametersWidget() override;
 };
 
