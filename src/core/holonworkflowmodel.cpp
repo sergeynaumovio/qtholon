@@ -25,18 +25,18 @@ public:
         delete rootItem;
     }
 
-    bool restoreStateFromPath(const QString &path)
+    bool restoreStateFromPath(QStringView path)
     {
-        auto fromString = [](const QString &element) -> HolonWorkflowItem::Icon
+        auto fromString = [](QStringView element) -> HolonWorkflowItem::Icon
         {
             if (element == 't'_L1)
                 return HolonWorkflowItem::Task;
 
-            if (element == "cf"_L1)
-                return HolonWorkflowItem::ConditionFalse;
+            if (element == 'y'_L1)
+                return HolonWorkflowItem::Yes;
 
-            if (element == "ct"_L1)
-                return HolonWorkflowItem::ConditionTrue;
+            if (element == 'n'_L1)
+                return HolonWorkflowItem::No;
 
             if (element == 'r'_L1)
                 return HolonWorkflowItem::Reference;
@@ -51,7 +51,7 @@ public:
         HolonWorkflowItem *item{};
         int taskId{};
 
-        const QStringList list = path.split(u'/');
+        const QList<QStringView> list = path.split(u'/');
 
         for (int i{}, first_i{}, last_i = list.size() - 1, pre_last_i = last_i - 1; i < list.size(); ++i)
         {
@@ -164,8 +164,10 @@ bool HolonWorkflowModel::restoreState()
 {
     if (d_ptr->workflow->contains(u"modelState"_s))
     {
-        QStringList list = d_ptr->workflow->value(u"modelState"_s).toString().split(u',');
-        for (const QString &path : list)
+        const QString value(d_ptr->workflow->value(u"modelState"_s).toString());
+        const QStringView view(value);
+        const QList<QStringView> list = view.split(u',');
+        for (QStringView path : list)
         {
             if (path.isEmpty() || !d_ptr->restoreStateFromPath(path))
             {

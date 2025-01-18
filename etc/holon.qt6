@@ -81,7 +81,7 @@ class = HolonWorkflow
 [holon/workflow/1]
 class = HolonWorkflow
 current = true
-modelState = 0/t,1/cf,1/2/t,3/t
+modelState = 0/t,1/y,1/2/t,3/t
 title = Workflow 1
 
 [holon/workflow/1/0]

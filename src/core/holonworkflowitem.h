@@ -20,8 +20,8 @@ public:
     {
         Branch,
         Task,
-        ConditionFalse,
-        ConditionTrue,
+        Yes,
+        No,
         Reference,
         Address
     };
