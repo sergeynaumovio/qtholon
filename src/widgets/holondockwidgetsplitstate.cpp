@@ -182,15 +182,17 @@ bool HolonDockWidgetSplitState::restoreSplitFromPath(QStringView path)
     };
 
     QObject *parent = rootSplit;
-    const QList<QStringView> list = path.split(u'/');
+    int i = -1;
 
-    for (int i = list.first().isEmpty(), v; i < list.size(); ++i)
+    for (QStringView element : QStringTokenizer{path, u'/'})
     {
-        QStringView element = list.at(i);
+        if (i == -1 && element.isEmpty())
+            continue;
+
         if (HolonDockWidgetSplit *split = qobject_cast<HolonDockWidgetSplit *>(parent))
         {
             QObject *object;
-            if (bool ok = (v = element.toUInt(&ok), ok))
+            if (bool ok = (i = element.toUInt(&ok), ok))
             {
                 if ((object = parent->findChild<HolonDockWidgetItem *>(element, Qt::FindDirectChildrenOnly)))
                 {
@@ -235,9 +237,7 @@ bool HolonDockWidgetSplitState::restoreSplitFromPath(QStringView path)
 bool HolonDockWidgetSplitState::restoreSplitState()
 {
     const QString value(QString::fromLocal8Bit(d_ptr->q_ptr->value(u"dockWidgetSplitState"_s).toByteArray()));
-    const QStringView view(value);
-    const QList<QStringView> list = view.split(u',');
-    for (QStringView path : list)
+    for (QStringView path : QStringTokenizer{value, u','})
     {
         if (!restoreSplitFromPath(path))
         {

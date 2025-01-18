@@ -50,14 +50,20 @@ public:
         HolonWorkflowItem *parent = rootItem;
         HolonWorkflowItem *item{};
         int taskId{};
+        int last_i{-1};
 
-        const QList<QStringView> list = path.split(u'/');
+        for (auto _ : QStringTokenizer{path, u'/'})
+            ++last_i;
 
-        for (int i{}, first_i{}, last_i = list.size() - 1, pre_last_i = last_i - 1; i < list.size(); ++i)
+        int i{-1}, first_i{}, pre_last_i = last_i - 1;
+
+        for (QStringView element : QStringTokenizer{path, u'/'})
         {
+            ++i;
+
             if (i != last_i)
             {
-                if (bool ok = (taskId = list.at(i).toInt(&ok), ok))
+                if (bool ok = (taskId = element.toInt(&ok), ok))
                 {
                     if ((item = parent->findChild(taskId)))
                     {
@@ -70,7 +76,7 @@ public:
             }
             else if (i != first_i)
             {
-                if (HolonWorkflowItem::Icon icon = fromString(list.at(i)))
+                if (HolonWorkflowItem::Icon icon = fromString(element))
                 {
                     parent->appendChild(new HolonWorkflowItem(taskId, icon));
                     continue;
@@ -165,9 +171,7 @@ bool HolonWorkflowModel::restoreState()
     if (d_ptr->workflow->contains(u"modelState"_s))
     {
         const QString value(d_ptr->workflow->value(u"modelState"_s).toString());
-        const QStringView view(value);
-        const QList<QStringView> list = view.split(u',');
-        for (QStringView path : list)
+        for (QStringView path : QStringTokenizer{value, u','})
         {
             if (path.isEmpty() || !d_ptr->restoreStateFromPath(path))
             {
