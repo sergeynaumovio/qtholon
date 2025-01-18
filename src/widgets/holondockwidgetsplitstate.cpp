@@ -47,7 +47,7 @@ HolonDockWidgetItem::HolonDockWidgetItem(HolonDockWidget *widget,
     dock->titleBar()->setDockWidgetArea(area);
 }
 
-HolonDockWidgetItem::HolonDockWidgetItem(const QString &objectName,
+HolonDockWidgetItem::HolonDockWidgetItem(QStringView objectName,
                                          Qt::DockWidgetArea position,
                                          HolonDockWidgetSplit *parent)
 :   QObject(parent),
@@ -162,9 +162,9 @@ void HolonDockWidgetSplitState::removeSplit(HolonDockWidget *firstDock)
     }
 }
 
-bool HolonDockWidgetSplitState::restoreSplitFromPath(const QString &path)
+bool HolonDockWidgetSplitState::restoreSplitFromPath(QStringView path)
 {
-    auto fromString = [](const QString &element) -> Qt::DockWidgetArea
+    auto fromString = [](QStringView element) -> Qt::DockWidgetArea
     {
         if (element == 'l'_L1)
             return Qt::LeftDockWidgetArea;
@@ -182,17 +182,15 @@ bool HolonDockWidgetSplitState::restoreSplitFromPath(const QString &path)
     };
 
     QObject *parent = rootSplit;
-    QStringList list = path.split(u'/');
+    const QList<QStringView> list = path.split(u'/');
 
-    if (list.first() == ""_L1)
-        list.removeFirst();
-
-    for (const QString &element : list)
+    for (int i = list.first().isEmpty(), v; i < list.size(); ++i)
     {
+        QStringView element = list.at(i);
         if (HolonDockWidgetSplit *split = qobject_cast<HolonDockWidgetSplit *>(parent))
         {
             QObject *object;
-            if (bool ok = (element.toUInt(&ok), ok))
+            if (bool ok = (v = element.toUInt(&ok), ok))
             {
                 if ((object = parent->findChild<HolonDockWidgetItem *>(element, Qt::FindDirectChildrenOnly)))
                 {
@@ -236,9 +234,10 @@ bool HolonDockWidgetSplitState::restoreSplitFromPath(const QString &path)
 
 bool HolonDockWidgetSplitState::restoreSplitState()
 {
-    QByteArray value(d_ptr->q_ptr->value(u"dockWidgetSplitState"_s).toByteArray());
-    QStringList list = QString(QLatin1StringView(value.data())).split(u',');
-    for (const QString &path : list)
+    const QString value(QString::fromLocal8Bit(d_ptr->q_ptr->value(u"dockWidgetSplitState"_s).toByteArray()));
+    const QStringView view(value);
+    const QList<QStringView> list = view.split(u',');
+    for (QStringView path : list)
     {
         if (!restoreSplitFromPath(path))
         {
