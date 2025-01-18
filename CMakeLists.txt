@@ -57,6 +57,8 @@ target_sources(${QT_HOLON_LIBRARY}
             src/core/holonworkflowmodel.cpp
             src/core/holonworkflowmodel.h
             src/core/qtholonglobal.h
+            src/tasks/holonabstractcondition.cpp
+            src/tasks/holonabstractcondition.h
             src/tasks/holonabstracttask.cpp
             src/tasks/holonabstracttask.h
             src/tasks/holonabstracttask_p.cpp
@@ -175,7 +177,9 @@ set(QT_HOLON_PUBLIC_HEADERS
     src/core/holoncore.h
     src/core/holonnamespace.h
     src/core/qtholonglobal.h
+    src/tasks/HolonAbstractCondition
     src/tasks/HolonAbstractTask
+    src/tasks/holonabstractcondition.h
     src/tasks/holonabstracttask.h
     src/widgets/HolonAbstractTaskWindow
     src/widgets/HolonAbstractWindow
