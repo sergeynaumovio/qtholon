@@ -3,7 +3,6 @@
 
 #include "holonworkflowgraphicsscene.h"
 #include "holonworkflow.h"
-#include "holonworkflowitem.h"
 #include <QGraphicsPolygonItem>
 #include <QGraphicsSceneMouseEvent>
 
@@ -35,6 +34,8 @@ public:
     :   q_ptr(q),
         workflow(w)
     {
+        Q_UNUSED(workflow)
+
         addItem();
     }
 
