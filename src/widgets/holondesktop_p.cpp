@@ -35,10 +35,7 @@
 #include <QApplication>
 #include <QLayout>
 #include <QLoaderTree>
-#include <QRegularExpression>
 #include <QShortcut>
-#include <QStackedWidget>
-#include <QStringList>
 
 using namespace Qt::Literals::StringLiterals;
 using MainWindowNestingIndex = int;
