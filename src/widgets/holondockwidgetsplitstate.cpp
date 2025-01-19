@@ -188,9 +188,9 @@ bool HolonDockWidgetSplitState::restoreSplitFromPath(QStringView path)
         if (HolonDockWidgetSplit *split = qobject_cast<HolonDockWidgetSplit *>(parent))
         {
             QObject *object;
-            int i;
+            int _;
 
-            if (bool ok = (i = element.toUInt(&ok), ok))
+            if (bool ok = (_ = element.toUInt(&ok), ok))
             {
                 if ((object = parent->findChild<HolonDockWidgetItem *>(element, Qt::FindDirectChildrenOnly)))
                 {
