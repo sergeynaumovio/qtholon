@@ -182,16 +182,14 @@ bool HolonDockWidgetSplitState::restoreSplitFromPath(QStringView path)
     };
 
     QObject *parent = rootSplit;
-    int i = -1;
 
     for (QStringView element : QStringTokenizer{path, u'/'})
     {
-        if (i == -1 && element.isEmpty())
-            continue;
-
         if (HolonDockWidgetSplit *split = qobject_cast<HolonDockWidgetSplit *>(parent))
         {
             QObject *object;
+            int i;
+
             if (bool ok = (i = element.toUInt(&ok), ok))
             {
                 if ((object = parent->findChild<HolonDockWidgetItem *>(element, Qt::FindDirectChildrenOnly)))
@@ -236,7 +234,8 @@ bool HolonDockWidgetSplitState::restoreSplitFromPath(QStringView path)
 
 bool HolonDockWidgetSplitState::restoreSplitState()
 {
-    const QString value(QString::fromLocal8Bit(d_ptr->q_ptr->value(u"dockWidgetSplitState"_s).toByteArray()));
+    QString value(d_ptr->q_ptr->value(u"dockWidgetSplitState"_s).toString());
+
     for (QStringView path : QStringTokenizer{value, u','})
     {
         if (!restoreSplitFromPath(path))
@@ -252,8 +251,9 @@ bool HolonDockWidgetSplitState::restoreSplitState()
 void HolonDockWidgetSplitState::saveSplitState()
 {
     QStringList splitState;
+    splitState.reserve(4);
     saveSplitStateRecursive(splitState, u""_s, rootSplit);
-    d_ptr->setValue(u"dockWidgetSplitState"_s, splitState.join(u',').toLocal8Bit());
+    d_ptr->setValue(u"dockWidgetSplitState"_s, splitState.join(u','));
 }
 
 void HolonDockWidgetSplitState::saveSplitStateRecursive(QStringList &splitState, const QString &section, QObject *parent)
@@ -265,12 +265,20 @@ void HolonDockWidgetSplitState::saveSplitStateRecursive(QStringList &splitState,
         QString childSection = section;
 
         if (HolonDockWidgetSplit *split = qobject_cast<HolonDockWidgetSplit *>(child))
-            childSection += u'/' + toString(split->area);
+        {
+            if (childSection.size())
+                childSection += u'/';
+
+            childSection += toString(split->area);
+        }
         else if (HolonDockWidgetItem *item = qobject_cast<HolonDockWidgetItem *>(child))
         {
             if (item->dock)
             {
-                childSection += u'/' + item->objectName() + u'/' + toString(item->area);
+                if (childSection.size())
+                    childSection += u'/';
+
+                childSection += item->objectName() + u'/' + toString(item->area);
                 splitState.append(childSection);
             }
         }
