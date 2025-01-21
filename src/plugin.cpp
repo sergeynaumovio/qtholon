@@ -31,11 +31,10 @@ class Plugin : public QObject, QLoaderPluginInterface
 public:
     QObject *object(QLoaderSettings *settings, QObject *parent) const override
     {
-        QByteArray className = settings->className();
-        const char *shortName = className.data() + qstrlen("Holon");
+        const char *shortName = settings->className() + std::char_traits<char>::length("Holon");
         bool coreApp = !qobject_cast<QApplication *>(QCoreApplication::instance());
 
-        if (!qstrcmp(shortName, "CustomTask"))
+        if (!strcmp(shortName, "CustomTask"))
         {
             if (HolonTaskFolder *folder = qobject_cast<HolonTaskFolder *>(parent))
                 return new HolonCustomTask(settings, folder);
@@ -46,7 +45,7 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "Desktop"))
+        if (!strcmp(shortName, "Desktop"))
         {
             if (coreApp)
                 return new HolonCore(settings, parent);
@@ -58,7 +57,7 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "MessagesWindow"))
+        if (!strcmp(shortName, "MessagesWindow"))
         {
             if (qobject_cast<HolonCore *>(parent))
                 return nullptr;
@@ -72,7 +71,7 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "OpenTaskTreeWindow"))
+        if (!strcmp(shortName, "OpenTaskTreeWindow"))
         {
             if (qobject_cast<HolonCore *>(parent))
                 return nullptr;
@@ -89,7 +88,7 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "ParametersWindow"))
+        if (!strcmp(shortName, "ParametersWindow"))
         {
             if (qobject_cast<HolonCore *>(parent))
                 return nullptr;
@@ -103,7 +102,7 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "ProjectTaskTreeWindow"))
+        if (!strcmp(shortName, "ProjectTaskTreeWindow"))
         {
             if (qobject_cast<HolonCore *>(parent))
                 return nullptr;
@@ -120,7 +119,7 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "SettingsWindow"))
+        if (!strcmp(shortName, "SettingsWindow"))
         {
             if (qobject_cast<HolonCore*>(parent))
                 return nullptr;
@@ -134,7 +133,7 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "Sidebar"))
+        if (!strcmp(shortName, "Sidebar"))
         {
             if (qobject_cast<HolonCore *>(parent))
                 return nullptr;
@@ -145,7 +144,7 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "StackedWindow"))
+        if (!strcmp(shortName, "StackedWindow"))
         {
             if (qobject_cast<HolonCore *>(parent))
                 return nullptr;
@@ -156,7 +155,7 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "TaskFolder"))
+        if (!strcmp(shortName, "TaskFolder"))
         {
             if (qobject_cast<HolonCore *>(parent))
                 return nullptr;
@@ -170,7 +169,7 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "TaskStackedWindow"))
+        if (!strcmp(shortName, "TaskStackedWindow"))
         {
             if (qobject_cast<HolonCore *>(parent))
                 return nullptr;
@@ -187,7 +186,7 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "TerminalWindow"))
+        if (!strcmp(shortName, "TerminalWindow"))
         {
             if (qobject_cast<HolonCore *>(parent))
                 return nullptr;
@@ -209,7 +208,7 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "Theme"))
+        if (!strcmp(shortName, "Theme"))
         {
             if (qobject_cast<HolonCore *>(parent))
                 return nullptr;
@@ -220,7 +219,7 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "WindowArea"))
+        if (!strcmp(shortName, "WindowArea"))
         {
             if (qobject_cast<HolonCore *>(parent))
                 return nullptr;
@@ -231,7 +230,7 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "Workflow"))
+        if (!strcmp(shortName, "Workflow"))
         {
             if (HolonCore *core = qobject_cast<HolonCore *>(parent))
                 if (!core->findChild<HolonWorkflow *>())
@@ -248,7 +247,7 @@ public:
             return parent;
         }
 
-        if (!qstrcmp(shortName, "WorkflowWindow"))
+        if (!strcmp(shortName, "WorkflowWindow"))
         {
             if (qobject_cast<HolonCore *>(parent))
                 return nullptr;
