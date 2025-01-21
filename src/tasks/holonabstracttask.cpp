@@ -5,6 +5,7 @@
 #include "holonabstracttask_p.h"
 #include "holonabstractwindow.h"
 #include "holondesktop.h"
+#include "holonid.h"
 #include "holontaskfolder.h"
 #include "holontheme.h"
 #include "holonthemeicons.h"
@@ -68,16 +69,15 @@ QIcon HolonAbstractTask::icon() const
     return desktop()->theme()->icons()->taskIcon();
 }
 
-bool HolonAbstractTask::isCopyable(const QStringList &to) const
+bool HolonAbstractTask::isCopyable(QStringView to) const
 {
-    QStringList parentSection = to;
-    if (to.size() > 1)
-    {
-        parentSection.removeLast();
-        QObject *parent = tree()->object(parentSection);
+    QStringView toParent = HolonId::parentSection(to);
 
-        if (qobject_cast<HolonWorkflow *>(parent))
-            return true;
+    if (toParent.size())
+    {
+        if (QObject *parent = tree()->object(toParent))
+            if (qobject_cast<HolonWorkflow *>(parent))
+                return true;
     }
 
     return false;
@@ -95,5 +95,8 @@ bool HolonAbstractTask::isOpen() const
 
 QString HolonAbstractTask::title() const
 {
-    return value(u"title"_s, section().constLast()).toString();
+    if (contains(u"title"_s))
+        return value(u"title"_s).toString();
+
+    return section().toString();
 }

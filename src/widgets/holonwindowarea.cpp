@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonwindowarea.h"
@@ -75,5 +75,8 @@ void HolonWindowArea::splitWindow(HolonAbstractWindow *first, HolonAbstractWindo
 
 QString HolonWindowArea::title() const
 {
-    return value(u"title"_s, section().constLast()).toString();
+    if (contains(u"title"_s))
+        return value(u"title"_s).toString();
+
+    return section().toString();
 }

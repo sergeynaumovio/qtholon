@@ -1,7 +1,8 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonsidebarmainwindow.h"
+#include "holonid.h"
 #include "holonsidebar.h"
 #include "holonsidebardockwidget.h"
 #include <QMap>
@@ -43,7 +44,7 @@ HolonSidebarDockWidget *HolonSidebarMainWindow::addSidebar(HolonSidebar *sidebar
     if (dockName.isEmpty() || !d_ptr->groupDock.contains(dockName))
     {
         if (dockName.isEmpty())
-            dockName = sidebar->section().constLast();
+            dockName = HolonId::objectName(sidebar->section()).toString();
 
         sidebarDock = new HolonSidebarDockWidget(d_ptr->desktop_d, dockName, this);
         addDockWidget(Qt::LeftDockWidgetArea, sidebarDock);

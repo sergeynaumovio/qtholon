@@ -1,8 +1,9 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonsettingswindow.h"
 #include "holondesktop.h"
+#include "holonid.h"
 #include "holonsidebar.h"
 #include <QLoaderTree>
 
@@ -28,15 +29,15 @@ QIcon HolonSettingsWindow::icon() const
     return {};
 }
 
-bool HolonSettingsWindow::isCopyable(const QStringList &to) const
+bool HolonSettingsWindow::isCopyable(QStringView to) const
 {
-    QStringList parentSection = to;
-    if (to.size() > 1)
+    QStringView toParent = HolonId::parentSection(to);
+
+    if (toParent.size())
     {
-        parentSection.removeLast();
-        QObject *parent = tree()->object(parentSection);
-        if (qobject_cast<HolonSidebar *>(parent))
-            return true;
+        if (QObject *parent = tree()->object(toParent))
+            if (qobject_cast<HolonSidebar *>(parent))
+                return true;
     }
 
     return false;

@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONSETTINGSWINDOW_H
@@ -21,7 +21,7 @@ public:
     ~HolonSettingsWindow();
 
     QIcon icon() const override;
-    bool isCopyable(const QStringList &to) const override;
+    bool isCopyable(QStringView to) const override;
     QString title() const override;
     QWidget *toolbarWidget() override;
 };

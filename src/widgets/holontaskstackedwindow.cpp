@@ -1,9 +1,10 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holontaskstackedwindow.h"
 #include "holonabstracttask.h"
 #include "holondesktop.h"
+#include "holonid.h"
 #include "holonstackedwidget.h"
 #include "holontaskstackedwindow_p.h"
 #include <QLoaderTree>
@@ -17,15 +18,15 @@ HolonTaskStackedWindow::HolonTaskStackedWindow(QLoaderSettings *settings, HolonA
 HolonTaskStackedWindow::~HolonTaskStackedWindow()
 { }
 
-bool HolonTaskStackedWindow::isCopyable(const QStringList &to) const
+bool HolonTaskStackedWindow::isCopyable(QStringView to) const
 {
-    QStringList parentSection = to;
-    if (to.size() > 1)
+    QStringView toParent = HolonId::parentSection(to);
+
+    if (toParent.size())
     {
-        parentSection.removeLast();
-        QObject *parent = tree()->object(parentSection);
-        if (qobject_cast<HolonAbstractTask *>(parent))
-            return true;
+        if (QObject *parent = tree()->object(toParent))
+            if (qobject_cast<HolonAbstractTask *>(parent))
+                return true;
     }
 
     return false;

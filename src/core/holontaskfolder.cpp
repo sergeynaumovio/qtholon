@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holontaskfolder.h"
@@ -70,5 +70,5 @@ void HolonTaskFolder::setExpanded(bool expanded)
 
 QString HolonTaskFolder::title() const
 {
-    return value(u"title"_s, section().constLast()).toString();
+    return value(u"title"_s, section().toString()).toString();
 }

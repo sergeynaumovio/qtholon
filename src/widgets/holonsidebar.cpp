@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonsidebar.h"
@@ -65,6 +65,6 @@ QByteArray HolonSidebar::mainWindowNestingState() const
 
 Qt::Orientation HolonSidebar::orientation() const
 {
-    QByteArray area = value(u"area"_s).toByteArray();
-    return (area == "left" || area == "right" ? Qt::Vertical : Qt::Horizontal);
+    QString area = value(u"area"_s).toString();
+    return (area == "left"_L1 || area == "right"_L1 ? Qt::Vertical : Qt::Horizontal);
 }

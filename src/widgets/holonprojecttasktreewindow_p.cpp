@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonprojecttasktreewindow_p.h"
@@ -56,8 +56,8 @@ QWidget *HolonProjectTaskTreeWindowPrivate::widget()
             if (!workflow)
                 return;
 
-            QStringList to = workflow->section();
-            to.append(QString::number(HolonId::createChildId(workflow)));
+            QString to = workflow->section().toString();
+            to += u'/' + QString::number(HolonId::createChildId(workflow));
             tree->copy(clickedObjectSettings->section(), to);
         }();
 

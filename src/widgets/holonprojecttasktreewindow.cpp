@@ -4,6 +4,7 @@
 #include "holonprojecttasktreewindow.h"
 #include "holonabstracttask.h"
 #include "holondesktop.h"
+#include "holonid.h"
 #include "holonprojecttasktreewindow_p.h"
 #include "holonsidebar.h"
 #include "holonstackedwindow.h"
@@ -52,15 +53,15 @@ QIcon HolonProjectTaskTreeWindow::icon() const
     return {};
 }
 
-bool HolonProjectTaskTreeWindow::isCopyable(const QStringList &to) const
+bool HolonProjectTaskTreeWindow::isCopyable(QStringView to) const
 {
-    QStringList parentSection = to;
-    if (to.size() > 1)
+    QStringView toParent = HolonId::parentSection(to);
+
+    if (toParent.size())
     {
-        parentSection.removeLast();
-        QObject *parent = tree()->object(parentSection);
-        if (qobject_cast<HolonSidebar *>(parent) || qobject_cast<HolonStackedWindow *>(parent))
-            return true;
+        if (QObject *parent = tree()->object(toParent))
+            if (qobject_cast<HolonSidebar *>(parent) || qobject_cast<HolonStackedWindow *>(parent))
+                return true;
     }
 
     return false;

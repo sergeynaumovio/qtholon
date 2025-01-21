@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONTASKSTACKEDWINDOW_H
@@ -20,7 +20,7 @@ public:
 
     ~HolonTaskStackedWindow();
 
-    bool isCopyable(const QStringList &to) const;
+    bool isCopyable(QStringView to) const;
     HolonAbstractTask *task() const;
 };
 

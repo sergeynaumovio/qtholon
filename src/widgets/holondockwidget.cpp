@@ -1,9 +1,10 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holondockwidget.h"
 #include "holonabstracttask.h"
 #include "holonabstracttaskwindow.h"
+#include "holonid.h"
 #include "holontitlebar.h"
 #include "holonwindowarea.h"
 #include "holonwindowarea_p.h"
@@ -47,7 +48,7 @@ HolonDockWidget::HolonDockWidget(HolonDesktop *desktop,
 :   QDockWidget(parent),
     d_ptr(this, desktop, parent, window, d)
 {
-    setObjectName(std::as_const(window)->section().last());
+    setObjectName(HolonId::objectName(window->section()));
     setWidget(window->centralWidget());
 
     if (HolonAbstractTaskWindow *taskWindow = qobject_cast<HolonAbstractTaskWindow *>(window))

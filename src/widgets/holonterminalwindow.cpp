@@ -5,6 +5,7 @@
 #include "holonabstracttask.h"
 #include "holonabstracttaskwindow_p.h"
 #include "holondesktop.h"
+#include "holonid.h"
 #include "holontaskstackedwindow.h"
 #include "holonthemeicons.h"
 #include "holontoolbar.h"
@@ -118,16 +119,15 @@ QIcon HolonTerminalWindow::icon() const
     return {};
 }
 
-bool HolonTerminalWindow::isCopyable(const QStringList &to) const
+bool HolonTerminalWindow::isCopyable(QStringView to) const
 {
-    QStringList parentSection = to;
+    QStringView toParent = HolonId::parentSection(to);
 
-    if (to.size() > 1)
+    if (toParent.size())
     {
-        parentSection.removeLast();
-        QObject *parent = tree()->object(parentSection);
-        if (qobject_cast<HolonAbstractTask *>(parent) || qobject_cast<HolonStackedWindow *>(parent))
-            return true;
+        if (QObject *parent = tree()->object(toParent))
+            if (qobject_cast<HolonAbstractTask *>(parent) || qobject_cast<HolonStackedWindow *>(parent))
+                return true;
     }
 
     return false;
@@ -135,7 +135,7 @@ bool HolonTerminalWindow::isCopyable(const QStringList &to) const
 
 QWidget *HolonTerminalWindow::settingsWidget()
 {
-    return new QLabel(section().constLast());
+    return new QLabel(section().toString());
 }
 
 QString HolonTerminalWindow::title() const

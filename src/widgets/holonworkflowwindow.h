@@ -25,7 +25,7 @@ public:
     QWidget *centralWidget() override;
     int current() const;
     QIcon icon() const override;
-    bool isCopyable(const QStringList &to) const override;
+    bool isCopyable(QStringView to) const override;
     bool isTreeView() const;
     void setCurrent(int id);
     void setTreeView(bool value);

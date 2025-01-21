@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONABSTRACTTASK_H
@@ -34,7 +34,7 @@ public:
     HolonDesktop *desktop() const;
     virtual bool exec() = 0;
     virtual QIcon icon() const;
-    bool isCopyable(const QStringList &to) const override;
+    bool isCopyable(QStringView to) const override;
     bool isCurrent() const;
     bool isOpen() const;
     virtual QWidget *parametersWidget() = 0;

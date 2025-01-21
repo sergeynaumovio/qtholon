@@ -5,6 +5,7 @@
 #include "holonabstracttask.h"
 #include "holonabstractwindow_p.h"
 #include "holondesktop.h"
+#include "holonid.h"
 #include "holonthemeicons.h"
 #include "holontitlebar.h"
 #include "holontoolbar.h"
@@ -187,15 +188,15 @@ QIcon HolonWorkflowWindow::icon() const
     return {};
 }
 
-bool HolonWorkflowWindow::isCopyable(const QStringList &to) const
+bool HolonWorkflowWindow::isCopyable(QStringView to) const
 {
-    QStringList parentSection = to;
-    if (to.size() > 1)
+    QStringView toParent = HolonId::parentSection(to);
+
+    if (toParent.size())
     {
-        parentSection.removeLast();
-        QObject *parent = tree()->object(parentSection);
-        if (qobject_cast<HolonWindowArea *>(parent))
-            return true;
+        if (QObject *parent = tree()->object(toParent))
+            if (qobject_cast<HolonWindowArea *>(parent))
+                return true;
     }
 
     return false;

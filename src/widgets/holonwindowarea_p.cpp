@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonwindowarea_p.h"
@@ -173,16 +173,16 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first,
 {
     if (HolonDockWidget *firstDock = dockByWindow.value(first))
     {
-        auto to = [](auto *object) -> QStringList
+        auto to = [](auto *object) -> QString
         {
             int id = HolonId::createChildId(object);
-            QStringList section = object->section();
-            section.append(QString::number(id));
+            QString section = object->section().toString();
+            section += u'/' + QString::number(id);
 
             return section;
         };
 
-        QStringList toSection;
+        QString toSection;
         if (HolonTaskStackedWindow *taskStackedWindow = qobject_cast<HolonTaskStackedWindow *>(first))
             toSection = to(taskStackedWindow->task());
         else if (HolonWindowArea *windowarea = qobject_cast<HolonWindowArea *>(first->parent()))
@@ -192,7 +192,7 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first,
         else
             return;
 
-        QStringList fromSection;
+        QStringView fromSection;
         if (qobject_cast<HolonStackedWindow *>(first))
             fromSection = first->section();
         else

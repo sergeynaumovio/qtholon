@@ -1,8 +1,9 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonopentasktreewindow.h"
 #include "holondesktop.h"
+#include "holonid.h"
 #include "holonsidebar.h"
 #include "holonopentasktreeview.h"
 #include "holonstackedwindow.h"
@@ -78,15 +79,15 @@ QIcon HolonOpenTaskTreeWindow::icon() const
     return {};
 }
 
-bool HolonOpenTaskTreeWindow::isCopyable(const QStringList &to) const
+bool HolonOpenTaskTreeWindow::isCopyable(QStringView to) const
 {
-    QStringList parentSection = to;
-    if (to.size() > 1)
+    QStringView toParent = HolonId::parentSection(to);
+
+    if (toParent.size())
     {
-        parentSection.removeLast();
-        QObject *parent = tree()->object(parentSection);
-        if (qobject_cast<HolonSidebar *>(parent) || qobject_cast<HolonStackedWindow *>(parent))
-            return true;
+        if (QObject *parent = tree()->object(toParent))
+            if (qobject_cast<HolonSidebar *>(parent) || qobject_cast<HolonStackedWindow *>(parent))
+                return true;
     }
 
     return false;

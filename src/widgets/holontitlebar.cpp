@@ -127,13 +127,13 @@ public:
             {
                 QList<HolonAbstractWindow *> siblingWindowList = siblingWindows(window);
                 for (const HolonAbstractWindow *siblingWindow : siblingWindowList)
-                    windowCombobox->addItem(siblingWindow->icon(), siblingWindow->title(), siblingWindow->section());
+                    windowCombobox->addItem(siblingWindow->icon(), siblingWindow->title(), siblingWindow->section().toString());
 
                 windowCombobox->setCurrentIndex(-1);
 
                 QObject::connect(windowCombobox, &QComboBox::currentIndexChanged, parent, [=, this](int index)
                 {
-                    QStringList section = windowCombobox->itemData(index).toStringList();
+                    QString section = windowCombobox->itemData(index).toString();
                     QMetaType type = window->tree()->object(section)->metaObject()->metaType();
                     for (HolonAbstractWindow *child : window->findChildren<HolonAbstractWindow *>(Qt::FindDirectChildrenOnly))
                     {
@@ -146,7 +146,7 @@ public:
                         }
                     }
 
-                    QStringList to = window->section();
+                    QString to = window->section().toString() + u'/';
                     to.append(QString::number(HolonId::createChildId(window)));
                     window->tree()->copy(section, to);
                     HolonAbstractWindow *child = qobject_cast<HolonAbstractWindow *>(window->tree()->object(to));
@@ -288,7 +288,7 @@ public:
 
             for (int index{}; index < windowCombobox->count(); ++index)
             {
-                QStringList section = windowCombobox->itemData(index).toStringList();
+                QString section = windowCombobox->itemData(index).toString();
                 QMetaType itemType = wnd->tree()->object(section)->metaObject()->metaType();
 
                 if (windowType == itemType)
