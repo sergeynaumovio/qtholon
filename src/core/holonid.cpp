@@ -1,7 +1,9 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonid.h"
+#include <QObject>
+#include <QSet>
 
 uint HolonId::createChildId(QObject *parent)
 {
@@ -15,4 +17,16 @@ uint HolonId::createChildId(QObject *parent)
     while (children.contains(++id));
 
     return id;
+}
+
+QStringView HolonId::objectName(QStringView section)
+{
+    return section.sliced(section.lastIndexOf(u'/', -1) + 1);
+}
+
+QStringView HolonId::parentSection(QStringView section)
+{
+    int splitIndex = section.lastIndexOf(u'/', -2);
+
+    return (splitIndex == -1 ? QStringView{} : section.first(splitIndex));
 }

@@ -1,16 +1,20 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONID_H
 #define HOLONID_H
 
-#include <QObject>
-#include <QSet>
+#include "qtholonglobal.h"
+#include <QStringView>
+
+class QObject;
 
 namespace HolonId
 {
 
-uint createChildId(QObject *parent);
+Q_HOLON_EXPORT uint createChildId(QObject *parent);
+Q_HOLON_EXPORT QStringView objectName(QStringView section);
+Q_HOLON_EXPORT QStringView parentSection(QStringView section);
 
 } // namespace HolonId
 
