@@ -188,7 +188,7 @@ bool HolonDockWidgetSplitState::restoreSplitFromPath(QStringView path)
         if (HolonDockWidgetSplit *split = qobject_cast<HolonDockWidgetSplit *>(parent))
         {
             QObject *object;
-            int _;
+            [[maybe_unused]] int _;
 
             if (bool ok = (_ = element.toUInt(&ok), ok))
             {
