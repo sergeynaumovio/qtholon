@@ -75,8 +75,5 @@ void HolonWindowArea::splitWindow(HolonAbstractWindow *first, HolonAbstractWindo
 
 QString HolonWindowArea::title() const
 {
-    if (contains(u"title"_s))
-        return value(u"title"_s).toString();
-
-    return section().toString();
+     return value(u"title"_s, section()).toString();
 }

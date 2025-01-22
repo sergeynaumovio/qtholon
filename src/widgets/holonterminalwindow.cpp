@@ -135,7 +135,7 @@ bool HolonTerminalWindow::isCopyable(QStringView to) const
 
 QWidget *HolonTerminalWindow::settingsWidget()
 {
-    return new QLabel(section().toString());
+    return new QLabel(section());
 }
 
 QString HolonTerminalWindow::title() const

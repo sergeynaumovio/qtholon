@@ -70,5 +70,5 @@ void HolonTaskFolder::setExpanded(bool expanded)
 
 QString HolonTaskFolder::title() const
 {
-    return value(u"title"_s, section().toString()).toString();
+    return value(u"title"_s, section()).toString();
 }

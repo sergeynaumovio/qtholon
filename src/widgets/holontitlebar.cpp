@@ -127,7 +127,7 @@ public:
             {
                 QList<HolonAbstractWindow *> siblingWindowList = siblingWindows(window);
                 for (const HolonAbstractWindow *siblingWindow : siblingWindowList)
-                    windowCombobox->addItem(siblingWindow->icon(), siblingWindow->title(), siblingWindow->section().toString());
+                    windowCombobox->addItem(siblingWindow->icon(), siblingWindow->title(), siblingWindow->section());
 
                 windowCombobox->setCurrentIndex(-1);
 
@@ -146,7 +146,7 @@ public:
                         }
                     }
 
-                    QString to = window->section().toString() + u'/';
+                    QString to = window->section() + u'/';
                     to.append(QString::number(HolonId::createChildId(window)));
                     window->tree()->copy(section, to);
                     HolonAbstractWindow *child = qobject_cast<HolonAbstractWindow *>(window->tree()->object(to));

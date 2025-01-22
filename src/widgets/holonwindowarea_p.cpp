@@ -176,7 +176,7 @@ void HolonWindowAreaPrivate::splitWindow(HolonAbstractWindow *first,
         auto to = [](auto *object) -> QString
         {
             int id = HolonId::createChildId(object);
-            QString section = object->section().toString();
+            QString section = object->section();
             section += u'/' + QString::number(id);
 
             return section;

@@ -56,7 +56,7 @@ QWidget *HolonProjectTaskTreeWindowPrivate::widget()
             if (!workflow)
                 return;
 
-            QString to = workflow->section().toString();
+            QString to = workflow->section();
             to += u'/' + QString::number(HolonId::createChildId(workflow));
             tree->copy(clickedObjectSettings->section(), to);
         }();

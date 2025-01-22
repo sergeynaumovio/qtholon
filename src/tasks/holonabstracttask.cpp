@@ -95,8 +95,5 @@ bool HolonAbstractTask::isOpen() const
 
 QString HolonAbstractTask::title() const
 {
-    if (contains(u"title"_s))
-        return value(u"title"_s).toString();
-
-    return section().toString();
+    return value(u"title"_s, section()).toString();
 }
