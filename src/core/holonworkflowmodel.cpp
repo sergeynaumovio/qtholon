@@ -50,10 +50,7 @@ public:
         HolonWorkflowItem *parent = rootItem;
         HolonWorkflowItem *item{};
         int taskId{};
-        int last_i{-1};
-
-        for (auto _ : QStringTokenizer{path, u'/'})
-            ++last_i;
+        int last_i = path.count(u'/');
 
         int i{-1}, first_i{}, pre_last_i = last_i - 1;
 
