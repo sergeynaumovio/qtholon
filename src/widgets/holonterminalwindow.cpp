@@ -49,7 +49,8 @@ public:
             return terminal;
 
         terminal = new QLoaderTerminal(settings);
-        shell = terminal->shell ();
+        terminal->setFrameStyle(QFrame::NoFrame);
+        shell = terminal->shell();
 
         QObject::connect(q_ptr->desktop(), &QObject::destroyed, q_ptr, [this] { close = false; });
 
