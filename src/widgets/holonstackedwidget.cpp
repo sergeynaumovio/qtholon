@@ -68,6 +68,7 @@ public:
     void addWindowWidget(HolonAbstractWindow *window, QWidget *widget)
     {
         windowWidget.insert(window, widget);
+        widget->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
         q_ptr->addWidget(widget);
 
         if (window->isCurrent())
@@ -94,7 +95,13 @@ public:
 
         if (windowWidget.contains(window))
         {
+            q_ptr->currentWidget()->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+
+            QWidget *widget = windowWidget.value(window);
             q_ptr->setCurrentWidget(windowWidget.value(window));
+            widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            widget->adjustSize();
+            q_ptr->adjustSize();
             currentWindow = window;
         }
     }
