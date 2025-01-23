@@ -4,6 +4,7 @@
 #include "holoncore.h"
 #include "holoncustomtask.h"
 #include "holondesktop.h"
+#include "holonmarkupeditorwindow.h"
 #include "holonmessageswindow.h"
 #include "holonopentasktreewindow.h"
 #include "holonparameterswindow.h"
@@ -53,6 +54,28 @@ public:
             QWidget *widget = qobject_cast<QWidget *>(parent);
             if (!parent || (parent && widget))
                 return new HolonDesktop(settings, widget);
+
+            return parent;
+        }
+
+        if (!strcmp(shortName, "MarkupEditorWindow"))
+        {
+            if (qobject_cast<HolonCore *>(parent))
+                return nullptr;
+
+            if (HolonDesktop *desktop = qobject_cast<HolonDesktop *>(parent))
+                return new HolonMarkupEditorWindow(settings, desktop);
+
+            if (HolonTaskStackedWindow *stacked = qobject_cast<HolonTaskStackedWindow *>(parent))
+                return new HolonMarkupEditorWindow(settings, stacked);
+
+            if (HolonAbstractTask *task = qobject_cast<HolonAbstractTask *>(parent))
+            {
+                if (qobject_cast<HolonTaskFolder *>(task->parent()))
+                    return nullptr;
+
+                return new HolonMarkupEditorWindow(settings, task);
+            }
 
             return parent;
         }

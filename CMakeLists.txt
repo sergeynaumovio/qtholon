@@ -83,6 +83,8 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holondockwidgetsplitstate.h
             src/widgets/holonmainwindow.cpp
             src/widgets/holonmainwindow.h
+            src/widgets/holonmarkupeditorwindow.cpp
+            src/widgets/holonmarkupeditorwindow.h
             src/widgets/holonmessageswindow.cpp
             src/widgets/holonmessageswindow.h
             src/widgets/holonopentasktreeview.cpp

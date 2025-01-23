@@ -2,7 +2,7 @@
 
 [holon]
 class = HolonDesktop
-geometry = QByteArray(AdnQywADAAAAAAAuAAAADAAABDYAAAL8AAAALgAAACkAAAQ2AAAC/AAAAAAAAAAABDgAAAAuAAAAKQAABDYAAAL8)
+geometry = QByteArray(AdnQywADAAAAAATKAAAEgQAACNIAAAdOAAAEygAABIEAAAjSAAAHTgAAAAAAAAAABLAAAATKAAAEgQAACNIAAAdO)
 saveShortcut = Ctrl+S
 sidebarMoveShortcut = Alt+M
 
@@ -23,6 +23,10 @@ class = HolonSettingsWindow
 
 [holon/messages-window]
 class = HolonMessagesWindow
+
+[holon/markupeditor-window]
+class = HolonMarkupEditorWindow
+current = true
 
 [holon/terminal-window]
 class = HolonTerminalWindow
@@ -110,7 +114,7 @@ current = true
 
 [holon/workflow/1/1]
 class = HolonCustomTask
-current = false
+current = true
 dockWidgetSplitState = 0/l,1/r
 mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAALfAAACTvwCAAAAAfwAAAAAAAACTgAAAF0A/////AEAAAAC+wAAAAIAMAEAAAAAAAAB6gAAAMEA////+wAAAAIAMQEAAAHrAAAA9AAAAMEA////AAAAAAAAAk4AAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 open = true
@@ -122,6 +126,10 @@ current = true
 
 [holon/workflow/1/1/0/1]
 class = HolonTerminalWindow
+current = false
+
+[holon/workflow/1/1/0/0]
+class = HolonMarkupEditorWindow
 current = true
 
 [holon/workflow/1/1/1]
@@ -132,11 +140,15 @@ current = true
 class = HolonTerminalWindow
 current = true
 
+[holon/workflow/1/1/1/0]
+class = HolonMarkupEditorWindow
+current = false
+
 [holon/workflow/1/2]
 class = HolonCustomTask
-current = true
+current = false
 dockWidgetSplitState = 0/b,t/1/l,t/2/r
-mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAALfAAACTvwCAAAAAfwAAAAAAAACTgAAALsA/////AIAAAAC/AAAAAAAAAGZAAAAXQD////8AQAAAAL7AAAAAgAxAQAAAAAAAAEBAAAAwQD////7AAAAAgAyAQAAAQIAAAHdAAAAwQD////7AAAAAgAwAQAAAZoAAAC0AAAAXQD///8AAAAAAAACTgAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAK1AAACV/wCAAAAAfwAAAAAAAACVwAAALsA/////AIAAAAC/AAAAAAAAAGfAAAAXQD////8AQAAAAL7AAAAAgAxAQAAAAAAAADyAAAAxAD////7AAAAAgAyAQAAAPMAAAHCAAAAxAD////7AAAAAgAwAQAAAaAAAAC3AAAAXQD///8AAAAAAAACVwAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 open = true
 title = Custom Task C
 
@@ -146,6 +158,10 @@ current = true
 
 [holon/workflow/1/2/1/1]
 class = HolonTerminalWindow
+current = false
+
+[holon/workflow/1/2/1/0]
+class = HolonMarkupEditorWindow
 current = true
 
 [holon/workflow/1/2/0]
@@ -162,6 +178,10 @@ current = true
 
 [holon/workflow/1/2/2/1]
 class = HolonTerminalWindow
+current = false
+
+[holon/workflow/1/2/2/0]
+class = HolonMarkupEditorWindow
 current = true
 
 [holon/workflow/1/3]
@@ -213,8 +233,8 @@ area = left
 checked = true
 dockWidgetSplitState = 1/b,0/t
 mainWindowNestingIndex = 0
-mainWindowNestingState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAADAAAACuvwCAAAAAfsAAAAKAHQAYQBzAGsAcwEAAAAAAAACugAAAFwA///+AAAAAQAAAGgAAAK6/AIAAAAB+wAAABAAcwBlAHQAdABpAG4AZwBzAQAAAAAAAAK6AAAAKAD///4AAALfAAACugAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
-mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAADAAAACuvwCAAAAAfwAAAAAAAACugAAALsA/////AIAAAAC/AAAAAAAAAG/AAAAXQD////8AgAAAAL7AAAAAgAwAQAAAAAAAAG/AAAAXQD////7AAAAAgAyAQAAAOAAAADfAAAAAAAAAAD7AAAAAgAxAQAAAcAAAAD6AAAAXQD///8AAAAAAAACugAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
+mainWindowNestingState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAADAAAACtPwCAAAAAfsAAAAKAHQAYQBzAGsAcwEAAAAAAAACtAAAALoA///+AAAAAQAAAIIAAAK0/AIAAAAB+wAAABAAcwBlAHQAdABpAG4AZwBzAQAAAAAAAAK0AAAAJwD///4AAALFAAACtAAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAADAAAACtPwCAAAAAfwAAAAAAAACtAAAALsA/////AIAAAAC/AAAAAAAAAFgAAAAXQD////8AgAAAAL7AAAAAgAwAQAAAAAAAAFgAAAAXQD////7AAAAAgAyAQAAAOAAAADfAAAAAAAAAAD7AAAAAgAxAQAAAWEAAAFTAAAAXQD///8AAAAAAAACsgAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 shortcut = Alt+1
 title = 1  Tasks
 
@@ -239,9 +259,9 @@ current = true
 [holon/parameters]
 class = HolonSidebar
 area = left
-checked = false
+checked = true
 mainWindowNestingIndex = 1
-mainWindowNestingState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAACRAAACuvwCAAAAAfsAAAAUAHAAYQByAGEAbQBlAHQAZQByAHMBAAAAAAAAAroAAAAmAP///gAAATIAAAK6AAAABAAAAAQAAAAIAAAACPwAAAAA)
+mainWindowNestingState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAACSAAACtPwCAAAAAfsAAAAUAHAAYQByAGEAbQBlAHQAZQByAHMBAAAAAAAAArQAAAAnAP///gAAArUAAAK0AAAABAAAAAQAAAAIAAAACPwAAAAA)
 shortcut = Alt+2
 title = 2  Parameters
 
@@ -251,9 +271,9 @@ class = HolonParametersWindow
 [holon/workflows]
 class = HolonWindowArea
 area = bottom
-checked = true
+checked = false
 dockWidgetSplitState = 0/l,1/r
-mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAALHAAACTvwCAAAAAfwAAAAAAAACTgAAAF0A/////AEAAAAC+wAAAAIAMAEAAAAAAAABHQAAAMAA////+wAAAAIAMQEAAAEeAAABqQAAAMAA////AAAAAAAAAk4AAAAEAAAABAAAAAgAAAAI/AAAAAA=)
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAALFAAACV/wCAAAAAfwAAAAAAAACVwAAAF0A/////AEAAAAC+wAAAAIAMAEAAAAAAAABHQAAAMAA////+wAAAAIAMQEAAAEeAAABpwAAAMAA////AAAAAAAAAlUAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 shortcut = Alt+3
 title = 3  Workflows
 
@@ -272,7 +292,7 @@ class = HolonSidebar
 area = bottom
 checked = true
 mainWindowNestingIndex = 2
-mainWindowNestingState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAALHAAAAa/wBAAAAAfsAAAAQAG0AZQBzAHMAYQBnAGUAcwEAAAAAAAACxwAAAIMA////AAACxwAAAk4AAAAEAAAABAAAAAgAAAAI/AAAAAA=)
+mainWindowNestingState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAAK1AAAAXPwBAAAAAfsAAAAQAG0AZQBzAHMAYQBnAGUAcwEAAAAAAAACtQAAAIMA////AAACtQAAAlcAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 shortcut = Alt+4
 title = 4  Messages
 
@@ -282,7 +302,7 @@ class = HolonMessagesWindow
 [holon/settings]
 class = HolonSidebar
 area = right
-checked = true
+checked = false
 mainWindowNestingIndex = 0
 shortcut = Alt+5
 title = 5  Settings
