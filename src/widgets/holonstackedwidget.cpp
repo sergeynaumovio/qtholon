@@ -95,13 +95,18 @@ public:
 
         if (windowWidget.contains(window))
         {
-            q_ptr->currentWidget()->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-
-            QWidget *widget = windowWidget.value(window);
             q_ptr->setCurrentWidget(windowWidget.value(window));
-            widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-            widget->adjustSize();
-            q_ptr->adjustSize();
+
+            for (int i = 0; i < q_ptr->count(); ++i)
+            {
+                QSizePolicy::Policy policy = QSizePolicy::Ignored;
+
+                if (i == q_ptr->currentIndex())
+                    policy = QSizePolicy::Expanding;
+
+                q_ptr->widget(i)->setSizePolicy(policy, policy);
+            }
+
             currentWindow = window;
         }
     }
