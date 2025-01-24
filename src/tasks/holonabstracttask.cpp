@@ -42,6 +42,11 @@ HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonWorkflow *w
         emitError(u"task id not valid"_s);
 }
 
+bool HolonAbstractTask::setValue(const QString &key, const QVariant &value)
+{
+    return QLoaderSettings::setValue(key, value);
+}
+
 HolonAbstractTask::~HolonAbstractTask()
 { }
 
@@ -96,4 +101,9 @@ bool HolonAbstractTask::isOpen() const
 QString HolonAbstractTask::title() const
 {
     return value(u"title"_s, section()).toString();
+}
+
+QVariant HolonAbstractTask::value(const QString &key, const QVariant &defaultValue) const
+{
+    return QLoaderSettings::value(key, defaultValue);
 }

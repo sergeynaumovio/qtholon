@@ -26,6 +26,8 @@ protected:
     HolonAbstractTask(QLoaderSettings *settings, HolonTaskFolder *folder);
     HolonAbstractTask(QLoaderSettings *settings, HolonWorkflow *workflow);
 
+    Q_INVOKABLE bool setValue(const QString &key, const QVariant &value);
+
 public:
     ~HolonAbstractTask();
 
@@ -38,7 +40,8 @@ public:
     bool isCurrent() const;
     bool isOpen() const;
     virtual QWidget *parametersWidget() = 0;
-    virtual QString title() const;
+    Q_INVOKABLE virtual QString title() const;
+    Q_INVOKABLE QVariant value(const QString &key, const QVariant &defaultValue = QVariant()) const;
 };
 
 #endif // HOLONABSTRACTTASK_H
