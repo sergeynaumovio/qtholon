@@ -16,8 +16,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 
-find_package(QT NAMES Qt6 COMPONENTS Widgets REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} 6.9 COMPONENTS Widgets REQUIRED)
+find_package(QT NAMES Qt6)
+find_package(Qt${QT_VERSION_MAJOR} 6.9 REQUIRED COMPONENTS QuickWidgets)
 find_package(Qt${QT_VERSION_MAJOR}Loader)
 
 if(NOT APPLE)
@@ -221,6 +221,7 @@ set_target_properties(${QT_HOLON_LIBRARY} PROPERTIES
 )
 
 target_link_libraries(${QT_HOLON_LIBRARY}
+    PRIVATE Qt${QT_VERSION_MAJOR}::QuickWidgets
     PRIVATE Qt${QT_VERSION_MAJOR}Loader
 )
 
