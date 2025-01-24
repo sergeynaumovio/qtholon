@@ -7,14 +7,11 @@
 #include "holonabstracttask.h"
 #include <QScopedStorage>
 
-class HolonCustomTaskParametersWidget;
 class HolonCustomTaskPrivate;
 
 class HolonCustomTask : public HolonAbstractTask
 {
     Q_OBJECT
-
-    friend HolonCustomTaskParametersWidget;
 
     const QScopedStorage<HolonCustomTaskPrivate, 16> d_ptr;
 

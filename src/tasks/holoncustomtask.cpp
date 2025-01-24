@@ -8,49 +8,15 @@
 #include <QBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
+#include <QQmlContext>
+#include <QQuickWidget>
 
 using namespace Qt::Literals::StringLiterals;
-
-class HolonCustomTaskParametersWidget : public QWidget
-{
-    HolonCustomTask *const q_ptr;
-
-public:
-    HolonCustomTaskParametersWidget(HolonCustomTask *q)
-    :   q_ptr(q)
-    {
-        QVBoxLayout *layout = new QVBoxLayout(this);
-        {
-            auto addParameter = [=, this](const QString &parameterName, const QString &propertyName)
-            {
-                QHBoxLayout *hbox = new QHBoxLayout;
-                {
-                    QLineEdit *edit = new QLineEdit(this);
-                    edit->setText(q_ptr->value(propertyName).toString());
-
-                    connect(edit, &QLineEdit::textChanged, this, [propertyName, this](const QString &text)
-                    {
-                        q_ptr->setValue(propertyName, text);
-                    });
-
-                    hbox->addWidget(new QLabel(parameterName + u":", this));
-                    hbox->addWidget(edit);
-                    layout->addLayout(hbox);
-                }
-            };
-
-            addParameter(u"Parameter A"_s, u"a"_s);
-            addParameter(u"Parameter B"_s, u"b"_s);
-            addParameter(u"Parameter C"_s, u"c"_s);
-            layout->addStretch();
-        }
-    }
-};
 
 class HolonCustomTaskPrivate
 {
     HolonCustomTask *const q_ptr;
-    HolonCustomTaskParametersWidget *parameters{};
+    QQuickWidget *view{};
 
 public:
     HolonCustomTaskPrivate(HolonCustomTask *q = nullptr)
@@ -62,12 +28,14 @@ public:
         if (!q_ptr)
             return nullptr;
 
-        if (parameters)
-            return parameters;
+        if (view)
+            return view;
 
-        parameters = new HolonCustomTaskParametersWidget(q_ptr);
+        view = new QQuickWidget;
+        view->rootContext()->setContextProperty(u"settings"_s, q_ptr);
+        view->setSource(q_ptr->value(u"qml"_s).toString());
 
-        return parameters;
+        return view;
     }
 };
 
