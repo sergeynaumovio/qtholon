@@ -89,12 +89,12 @@ title = Workflow 1
 
 [holon/workflow/1/0]
 class = HolonCustomTask
-a = 1
-b = value B
+a = value A
 current = false
 dockWidgetSplitState = 0/t,1/b
 mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAALfAAACTvwCAAAAAfwAAAAAAAACTgAAALsA/////AIAAAAC+wAAAAIAMgEAAAAAAAABJwAAAAAAAAAA/AAAAAAAAAJOAAAAuwD////8AgAAAAL7AAAAAgAwAQAAAAAAAAC5AAAAXQD////7AAAAAgAxAQAAALoAAAGUAAAAXQD///8AAAAAAAACTgAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 open = true
+qml = qml/customTaskA.qml
 title = Custom Task A
 
 [holon/workflow/1/0/0]
@@ -119,12 +119,12 @@ current = true
 
 [holon/workflow/1/1]
 class = HolonCustomTask
-a = value A
-b = 2
+b = value B
 current = true
 dockWidgetSplitState = 0/l,1/r
 mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAJsAAACV/wCAAAAAfwAAAAAAAACVwAAAF0A/////AEAAAAC+wAAAAIAMAEAAAAAAAABiQAAAMQA////+wAAAAIAMQEAAAGKAAAA4gAAAOIA////AAAAAAAAAlcAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 open = true
+qml = qml/customTaskB.qml
 title = Custom Task B
 
 [holon/workflow/1/1/0]
@@ -153,12 +153,12 @@ current = false
 
 [holon/workflow/1/2]
 class = HolonCustomTask
-b = 3
-c = value C
+c = value C1
 current = false
 dockWidgetSplitState = 0/b,t/1/l,t/2/r
 mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAK1AAACV/wCAAAAAfwAAAAAAAACVwAAALsA/////AIAAAAC/AAAAAAAAAGfAAAAXQD////8AQAAAAL7AAAAAgAxAQAAAAAAAADyAAAAxAD////7AAAAAgAyAQAAAPMAAAHCAAAAxAD////7AAAAAgAwAQAAAaAAAAC3AAAAXQD///8AAAAAAAACVwAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 open = true
+qml = qml/customTaskC.qml
 title = Custom Task C
 
 [holon/workflow/1/2/1]
@@ -195,12 +195,12 @@ current = true
 
 [holon/workflow/1/3]
 class = HolonCustomTask
-b = value B
-c = 4
+c = value C2
 current = false
 dockWidgetSplitState = 1/t,0/b
 mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAALfAAACTvwCAAAAAfwAAAAAAAACTgAAALsA/////AEAAAAC/AAAAAAAAALfAAAAwQD////8AgAAAAL7AAAAAgAxAQAAAAAAAACqAAAAXQD////7AAAAAgAwAQAAAKsAAAGjAAAAXQD////7AAAAAgAyAQAAAhQAAADLAAAAAAAAAAAAAAAAAAACTgAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 open = true
+qml = qml/customTaskC.qml
 title = Custom Task C
 
 [holon/workflow/1/3/1]
