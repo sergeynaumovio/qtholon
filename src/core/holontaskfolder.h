@@ -5,6 +5,7 @@
 #define HOLONTASKFOLDER_H
 
 #include "holonnamespace.h"
+#include "qtholonglobal.h"
 #include <QLoaderSettings>
 #include <QObject>
 #include <QScopedStorage>
@@ -12,7 +13,7 @@
 class HolonDesktop;
 class HolonTaskFolderPrivate;
 
-class HolonTaskFolder : public QObject, public QLoaderSettings
+class Q_HOLON_EXPORT HolonTaskFolder : public QObject, public QLoaderSettings
 {
     Q_OBJECT
 

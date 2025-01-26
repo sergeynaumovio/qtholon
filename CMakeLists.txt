@@ -1,4 +1,7 @@
-cmake_minimum_required(VERSION 3.15)
+# Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+# SPDX-License-Identifier: 0BSD
+
+cmake_minimum_required(VERSION 3.18)
 
 project(QtHolon LANGUAGES CXX)
 
@@ -176,8 +179,12 @@ target_include_directories(${QT_HOLON_LIBRARY}
 
 set(QT_HOLON_PUBLIC_HEADERS
     src/core/HolonCore
+    src/core/HolonTaskFolder
+    src/core/HolonWorkflow
     src/core/holoncore.h
     src/core/holonnamespace.h
+    src/core/holontaskfolder.h
+    src/core/holonworkflow.h
     src/core/qtholonglobal.h
     src/tasks/HolonAbstractCondition
     src/tasks/HolonAbstractTask

@@ -4,6 +4,7 @@
 #ifndef HOLONWORKFLOW_H
 #define HOLONWORKFLOW_H
 
+#include "qtholonglobal.h"
 #include <QLoaderSettings>
 #include <QObject>
 #include <QScopedStorage>
@@ -14,7 +15,7 @@ class HolonDesktop;
 class HolonWorkflowModel;
 class HolonWorkflowPrivate;
 
-class HolonWorkflow : public QObject, public QLoaderSettings
+class Q_HOLON_EXPORT HolonWorkflow : public QObject, public QLoaderSettings
 {
     Q_OBJECT
 
