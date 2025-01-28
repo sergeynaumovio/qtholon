@@ -9,6 +9,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QQmlContext>
+#include <QQmlEngine>
 #include <QQuickWidget>
 
 using namespace Qt::Literals::StringLiterals;
@@ -32,6 +33,23 @@ public:
             return view;
 
         view = new QQuickWidget;
+
+        QObject::connect(view, &QQuickWidget::sceneGraphError, q_ptr, [](QQuickWindow::SceneGraphError error, const QString &message)
+        {
+            qDebug() << error << message;
+        });
+
+        QObject::connect(view, &QQuickWidget::statusChanged, q_ptr, [this](QQuickWidget::Status status)
+        {
+            if (status == QQuickWidget::Error)
+                qDebug() << view->errors();
+        });
+
+        QObject::connect(view->engine(), &QQmlEngine::warnings, q_ptr, [](const QList<QQmlError> &warnings)
+        {
+            qDebug() << warnings;
+        });
+
         view->rootContext()->setContextProperty(u"settings"_s, q_ptr);
         view->setSource(q_ptr->value(u"qml"_s).toString());
 
