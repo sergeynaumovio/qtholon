@@ -27,7 +27,7 @@ class HolonDesktopPrivate
 
     friend class HolonDesktop;
     friend class HolonDesktopPrivateData;
-    const QScopedStorage<HolonDesktopPrivateData, 400> d_ptr;
+    const QScopedStorage<HolonDesktopPrivateData, 408> d_ptr;
 
     HolonDesktopPrivate(HolonDesktop *q);
 

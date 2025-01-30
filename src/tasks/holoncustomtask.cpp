@@ -11,6 +11,7 @@
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QQuickWidget>
+#include <sbkpython.h>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -28,6 +29,12 @@ public:
     {
         if (!q_ptr)
             return nullptr;
+
+        const char *script = R"(import holon
+print(settings.value("title"))
+settings.setValue("python", "on"))";
+
+        PyRun_SimpleString(script);
 
         if (view)
             return view;

@@ -14,6 +14,8 @@
 #include <QPainter>
 #include <QStyledItemDelegate>
 
+#define emit
+
 class HolonTaskDelegate : public QStyledItemDelegate
 {
     HolonOpenTaskTreeView *const view;

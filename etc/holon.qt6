@@ -120,9 +120,9 @@ current = true
 [holon/workflow/1/1]
 class = HolonCustomTask
 b = value B
-current = true
+current = false
 dockWidgetSplitState = 0/l,1/r
-mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAJsAAACV/wCAAAAAfwAAAAAAAACVwAAAF0A/////AEAAAAC+wAAAAIAMAEAAAAAAAABiQAAAMQA////+wAAAAIAMQEAAAGKAAAA4gAAAOIA////AAAAAAAAAlcAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAJsAAACV/wCAAAAAfwAAAAAAAACVwAAAF0A/////AEAAAAC+wAAAAIAMAEAAAAAAAABhQAAAMgA////+wAAAAIAMQEAAAGGAAAA5gAAAOYA////AAAAAAAAAlcAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 open = true
 qml = qml/customTaskB.qml
 title = Custom Task B
@@ -154,7 +154,7 @@ current = false
 [holon/workflow/1/2]
 class = HolonCustomTask
 c = value C1
-current = false
+current = true
 dockWidgetSplitState = 0/b,t/1/l,t/2/r
 mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAK1AAACV/wCAAAAAfwAAAAAAAACVwAAALsA/////AIAAAAC/AAAAAAAAAGfAAAAXQD////8AQAAAAL7AAAAAgAxAQAAAAAAAADyAAAAxAD////7AAAAAgAyAQAAAPMAAAHCAAAAxAD////7AAAAAgAwAQAAAaAAAAC3AAAAXQD///8AAAAAAAACVwAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 open = true

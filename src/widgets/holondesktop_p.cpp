@@ -16,6 +16,7 @@
 #include "holonparameterswindow_p.h"
 #include "holonprojecttasktreewindow.h"
 #include "holonprojecttasktreewindow_p.h"
+#include "holonpythonsettings.h"
 #include "holonsettingswindow.h"
 #include "holonsidebar.h"
 #include "holonsidebar_p.h"
@@ -42,6 +43,8 @@ using MainWindowNestingIndex = int;
 
 class HolonDesktopPrivateData : public HolonCorePrivate
 {
+    HolonPythonSettings pythonSettings;
+
     void addSidebarWindow(HolonAbstractWindow *window);
     void addTasksCustomWidgets(HolonTaskStackedWidget *taskStackedWidget, QMetaType sidebarWindow);
     void addTasksParametersWidgets(HolonTaskStackedWidget *taskStackedWidget);
@@ -108,6 +111,7 @@ public:
     void addWorkflow(HolonWorkflow *workflow);
     void closeTask(HolonAbstractTask *task);
     void closeWindow(HolonAbstractWindow *window);
+    bool initPythonSettings();
     void removeUncheckedSidebars(HolonSidebarMainWindow *sidebarMainWindow);
     void setCurrentTask(HolonAbstractTask *task);
     void setCurrentWindow(HolonAbstractWindow *window);
@@ -489,6 +493,11 @@ void HolonDesktopPrivateData::closeWindow(HolonAbstractWindow *window)
     }
 }
 
+bool HolonDesktopPrivateData::initPythonSettings()
+{
+    return pythonSettings.init(q_ptr);
+}
+
 void HolonDesktopPrivateData::removeUncheckedSidebars(HolonSidebarMainWindow *sidebarMainWindow)
 {
     QMapIterator it(sidebars.mainWindowByDock);
@@ -647,6 +656,9 @@ HolonDesktopPrivate::HolonDesktopPrivate(HolonDesktop *q)
             QObject::connect(shortcut, &QShortcut::activated, q, [q] { q->tree()->save(); });
         }
     }
+
+    if (!d_ptr->initPythonSettings())
+        q_ptr->emitWarning(u"Python module not loaded"_s);
 }
 
 void HolonDesktopPrivate::addSidebar(HolonSidebar *sidebar)
