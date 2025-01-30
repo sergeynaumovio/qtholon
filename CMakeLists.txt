@@ -9,7 +9,11 @@ if(MSVC)
     cmake_policy(SET CMP0092 NEW) # Disable passing /W3 by default on MSVC
     add_compile_options(/W4 /WX)
 else()
-    add_compile_options(-Wall -Werror)
+    if(MSVC)
+        add_compile_options(-Wall -Werror -Wextra)
+    else()
+        add_compile_options(-Wall -Werror)
+    endif()
 endif()
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -173,8 +177,10 @@ target_sources(${QT_HOLON_LIBRARY}
             src/plugin.cpp
 )
 
-get_target_property(QT_HOLON_SOURCES ${QT_HOLON_LIBRARY} SOURCES)
-set_source_files_properties(${QT_HOLON_SOURCES} PROPERTIES COMPILE_FLAGS -Wextra)
+if(NOT MSVC)
+    get_target_property(QT_HOLON_SOURCES ${QT_HOLON_LIBRARY} SOURCES)
+    set_source_files_properties(${QT_HOLON_SOURCES} PROPERTIES COMPILE_FLAGS -Wextra)
+endif()
 
 target_include_directories(${QT_HOLON_LIBRARY}
     PRIVATE src/core
