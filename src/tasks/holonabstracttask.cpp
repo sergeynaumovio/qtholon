@@ -18,7 +18,13 @@ HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonTaskFolder 
 :   QObject(folder),
     QLoaderSettings(this, settings),
     d_ptr(new HolonAbstractTaskPrivate(this, folder))
-{ }
+{
+    if (contains(u"current"_s))
+        setValue(u"current"_s, {});
+
+    if (contains(u"open"_s))
+        setValue(u"open"_s, {});
+}
 
 HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonWorkflow *workflow)
 :   QObject(workflow),
@@ -33,6 +39,9 @@ HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonWorkflow *w
 
     if (bool ok = (objectName().toUInt(&ok), ok))
     {
+        if (!contains(u"current"_s))
+            setValue(u"current"_s, true);
+
         if (!contains(u"open"_s))
             setValue(u"open"_s, true);
 
