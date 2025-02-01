@@ -179,18 +179,26 @@ void HolonDesktopPrivateData::addTasksParametersWidgets(HolonTaskStackedWidget *
 void HolonDesktopPrivateData::addTasksWidgets(HolonTaskStackedWidget *taskStackedWidget, auto widgetFrom)
 {
     taskStackedWidgetList.append(taskStackedWidget);
+    HolonAbstractTask *current = currentTask;
 
     for (HolonAbstractTask *task : taskList)
     {
+        currentTask = task;
+
         /// if (task->isCurrent()) TODO: add parametersWidget only for the current task, next load on demand
         if (QWidget *widget = widgetFrom(task))
         {
             taskStackedWidget->addTaskWidget(task, widget);
 
             if (task->isCurrent())
+            {
                 taskStackedWidget->setCurrentTask(task);
+                current = task;
+            }
         }
     }
+
+    currentTask = current;
 }
 
 void HolonDesktopPrivateData::addTaskWindow(auto *window)
@@ -385,6 +393,9 @@ void HolonDesktopPrivateData::addTask(HolonAbstractTask *task)
 
     taskList.append(task);
 
+    if (task->isCurrent())
+        currentTask = task;
+
     for (HolonTaskStackedWidget *taskStackedWidget : taskStackedWidgetList)
     {
         if (taskStackedWidget->windowType() == QMetaType::fromType<HolonParametersWindow>())
@@ -395,9 +406,6 @@ void HolonDesktopPrivateData::addTask(HolonAbstractTask *task)
         else if (QWidget *widget = task->customWidget(taskStackedWidget->windowType()))
             taskStackedWidget->addTaskWidget(task, widget);
     }
-
-    if (task->isCurrent())
-        currentTask = task;
 }
 
 void HolonDesktopPrivateData::addWidget(QWidget *widget, QWidget *parent)
