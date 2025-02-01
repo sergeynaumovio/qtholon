@@ -58,7 +58,7 @@ void HolonWindowAreaPrivate::addWindow(HolonAbstractWindow *window)
         desktop->addWindow(window);
 
     if (dockByWindow.count() > 1)
-        for (const HolonDockWidget *dockWidget : dockByWindow)
+        for (const HolonDockWidget *dockWidget : std::as_const(dockByWindow))
         {
             dockWidget->titleBar()->showControlButtons();
             dockWidget->titleBar()->hideSidebarButton();
@@ -104,7 +104,7 @@ void HolonWindowAreaPrivate::closeWindow(HolonAbstractWindow *window)
 
     if(maximized)
     {
-        for (HolonDockWidget *w : dockList)
+        for (HolonDockWidget *w : std::as_const(dockList))
             w->show();
 
         maximized = false;
@@ -127,14 +127,14 @@ void HolonWindowAreaPrivate::maximizeWindow(HolonDockWidget *dock)
     {
         cacheMainWindowState();
 
-        for (HolonDockWidget *w : dockList)
+        for (HolonDockWidget *w : std::as_const(dockList))
             w->hide();
 
         dock->show();
     }
     else
     {
-        for (HolonDockWidget *w : dockList)
+        for (HolonDockWidget *w : std::as_const(dockList))
             w->show();
 
         restoreMainWindowStateFromCache();

@@ -181,7 +181,7 @@ void HolonDesktopPrivateData::addTasksWidgets(HolonTaskStackedWidget *taskStacke
     taskStackedWidgetList.append(taskStackedWidget);
     HolonAbstractTask *current = currentTask;
 
-    for (HolonAbstractTask *task : taskList)
+    for (HolonAbstractTask *task : std::as_const(taskList))
     {
         currentTask = task;
 
@@ -240,7 +240,7 @@ void HolonDesktopPrivateData::addTaskWindow(auto *window)
 
     QMetaType settingsType = QMetaType::fromType<HolonSettingsWindow>();
 
-    for (HolonTaskStackedWidget *taskStackedWidget : taskStackedWidgetList)
+    for (HolonTaskStackedWidget *taskStackedWidget : std::as_const(taskStackedWidgetList))
     {
         QMetaType windowType = taskStackedWidget->windowType();
         QWidget *widget = taskStackedWidget->taskWidget(task);
@@ -277,7 +277,7 @@ void HolonDesktopPrivateData::addWindowAreaStackedWidget(HolonWindowAreaStackedW
     windowAreaStackedWidget->addWindowAreaWidget(nullptr, taskStackedWidget);
     taskStackedWidgetList.append(taskStackedWidget);
 
-    for (HolonAbstractTask *task : taskList)
+    for (HolonAbstractTask *task : std::as_const(taskList))
     {
         QList<HolonAbstractTaskWindow *> taskWindowList = task->findChildren<HolonAbstractTaskWindow *>();
         if (taskWindowList.size())
@@ -288,7 +288,7 @@ void HolonDesktopPrivateData::addWindowAreaStackedWidget(HolonWindowAreaStackedW
             if (task->isCurrent())
                 taskStackedWidget->setCurrentTask(task);
 
-            for (HolonAbstractTaskWindow *taskWindow : taskWindowList)
+            for (HolonAbstractTaskWindow *taskWindow : std::as_const(taskWindowList))
             {
                 if (QWidget *widget = (windowType == settingsType ? taskWindow->settingsWidget() :
                                                                     taskWindow->customWidget(windowType)))
@@ -396,7 +396,7 @@ void HolonDesktopPrivateData::addTask(HolonAbstractTask *task)
     if (task->isCurrent())
         currentTask = task;
 
-    for (HolonTaskStackedWidget *taskStackedWidget : taskStackedWidgetList)
+    for (HolonTaskStackedWidget *taskStackedWidget : std::as_const(taskStackedWidgetList))
     {
         if (taskStackedWidget->windowType() == QMetaType::fromType<HolonParametersWindow>())
         {
@@ -530,7 +530,7 @@ void HolonDesktopPrivateData::removeUncheckedSidebars(HolonSidebarMainWindow *si
 
 void HolonDesktopPrivateData::setCurrentTask(HolonAbstractTask *task)
 {
-    for (HolonTaskStackedWidget *taskStackedWidget : taskStackedWidgetList)
+    for (HolonTaskStackedWidget *taskStackedWidget : std::as_const(taskStackedWidgetList))
     {
         taskStackedWidget->setCurrentTask(task);
 
@@ -541,10 +541,10 @@ void HolonDesktopPrivateData::setCurrentTask(HolonAbstractTask *task)
     mainWindow->setCurrentTask(task);
     currentTask = task;
 
-    for (HolonOpenTaskTreeView *view : openTaskTreeViewByWindow)
+    for (HolonOpenTaskTreeView *view : std::as_const(openTaskTreeViewByWindow))
         view->setCurrentTask(task);
 
-    for (HolonParametersWindow *window : parametersWindows)
+    for (HolonParametersWindow *window : std::as_const(parametersWindows))
         window->d_func()->setCurrentTask(task);
 
     if (HolonAbstractWindow *window = currentTaskWindow.value(task))
@@ -559,7 +559,7 @@ void HolonDesktopPrivateData::setCurrentTask(HolonAbstractTask *task)
 
 void HolonDesktopPrivateData::setCurrentWindow(HolonAbstractWindow *window)
 {
-    for (HolonTaskStackedWidget *taskStackedWidget : taskStackedWidgetList)
+    for (HolonTaskStackedWidget *taskStackedWidget : std::as_const(taskStackedWidgetList))
         if (auto *windowStackedWidget = qobject_cast<HolonWindowStackedWidget *>(taskStackedWidget->currentWidget()))
             windowStackedWidget->setCurrentWindow(window);
 
