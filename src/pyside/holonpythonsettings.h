@@ -13,8 +13,6 @@ class HolonPythonSettings
     friend class HolonDesktopPrivateData;
     HolonDesktop *desktop{};
 
-    bool init(HolonDesktop *desktop);
-
 public:
     bool setValue(const QString &key, const QVariant &value);
     QVariant value(const QString &key, const QVariant &defaultValue = QVariant()) const;

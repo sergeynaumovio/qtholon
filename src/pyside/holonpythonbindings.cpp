@@ -1,11 +1,8 @@
 // Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
-#include "holonpythonsettings.h"
-#include "holonabstracttask.h"
-#include "holondesktop.h"
+#include "holonpythonbindings.h"
 #include <QCoreApplication>
-#include <QLoaderTree>
 #include <QOperatingSystemVersion>
 #include <sbkconverter.h>
 #include <sbkmodule.h>
@@ -34,7 +31,7 @@ static void initVirtualEnvironment()
     }
 }
 
-static bool init()
+bool HolonPythonBindings::init()
 {
     if (qEnvironmentVariableIsSet(virtualEnvVar))
         initVirtualEnvironment();
@@ -57,14 +54,12 @@ static bool init()
     return true;
 }
 
-static bool bind(HolonPythonSettings *object)
+bool HolonPythonBindings::bind( int objectIndex, const char *pythonObjectName, void *object)
 {
     const char *moduleName = "__main__";
-    const char *pythonObjectName = "settings";
-
-    PyTypeObject *typeObject = SbkholonTypes[0];
-
+    PyTypeObject *typeObject = SbkholonTypes[objectIndex * 2];
     PyObject *pyObject = Shiboken::Conversions::pointerToPython(typeObject, object);
+
     if (!pyObject)
     {
         qWarning() << __FUNCTION__ << "Failed to create wrapper for" << object;
@@ -97,24 +92,4 @@ static bool bind(HolonPythonSettings *object)
     }
 
     return true;
-}
-
-bool HolonPythonSettings::init(HolonDesktop *desk)
-{
-    desktop = desk;
-
-    if (!::init() || !bind(this))
-        return false;
-
-    return true;
-}
-
-bool HolonPythonSettings::setValue(const QString &key, const QVariant &value)
-{
-    return desktop->task()->setValue(key, value);
-}
-
-QVariant HolonPythonSettings::value(const QString &key, const QVariant &defaultValue) const
-{
-    return desktop->task()->value(key, defaultValue);
 }

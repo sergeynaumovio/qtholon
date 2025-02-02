@@ -5,5 +5,6 @@
 #define HOLONPYTHONWRAPPER_H
 
 #include "holonpythonsettings.h"
+#include "holonpythontask.h"
 
 #endif // HOLONPYTHONWRAPPER_H

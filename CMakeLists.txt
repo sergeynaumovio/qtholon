@@ -51,8 +51,6 @@ target_sources(${QT_HOLON_LIBRARY}
             src/core/holonnamespace.h
             src/core/holonopentasktreemodel.cpp
             src/core/holonopentasktreemodel.h
-            src/core/holonpythonsettings.cpp
-            src/core/holonpythonsettings.h
             src/core/holontaskfolder.cpp
             src/core/holontaskfolder.h
             src/core/holontaskfoldermodel.cpp
@@ -66,6 +64,12 @@ target_sources(${QT_HOLON_LIBRARY}
             src/core/holonworkflowmodel.cpp
             src/core/holonworkflowmodel.h
             src/core/qtholonglobal.h
+            src/pyside/holonpythonbindings.cpp
+            src/pyside/holonpythonbindings.h
+            src/pyside/holonpythonsettings.cpp
+            src/pyside/holonpythonsettings.h
+            src/pyside/holonpythontask.cpp
+            src/pyside/holonpythontask.h
             src/tasks/holonabstractcondition.cpp
             src/tasks/holonabstractcondition.h
             src/tasks/holonabstracttask.cpp
@@ -184,6 +188,7 @@ endif()
 
 target_include_directories(${QT_HOLON_LIBRARY}
     PRIVATE src/core
+            src/pyside
             src/tasks
             src/widgets
 )
@@ -354,7 +359,7 @@ macro(pyside_config option output_var)
     endif()
 
     execute_process(
-      COMMAND ${python_interpreter} "${CMAKE_SOURCE_DIR}/utils/pyside_config.py"
+      COMMAND ${python_interpreter} "${CMAKE_SOURCE_DIR}/src/pyside/pyside_config.py"
               ${option}
       OUTPUT_VARIABLE ${output_var}
       OUTPUT_STRIP_TRAILING_WHITESPACE)
@@ -404,8 +409,8 @@ if (QtCore_is_framework)
 endif()
 
 # Set up the options to pass to shiboken.
-set(WRAPPED_HEADER ${CMAKE_SOURCE_DIR}/src/core/holonpythonwrapper.h)
-set(TYPESYSTEM_FILE ${CMAKE_SOURCE_DIR}/holonpackage.xml)
+set(WRAPPED_HEADER ${CMAKE_SOURCE_DIR}/src/pyside/holonpythonwrapper.h)
+set(TYPESYSTEM_FILE ${CMAKE_SOURCE_DIR}/src/pyside/holonpackage.xml)
 
 set(SHIBOKEN_OPTIONS --generator-set=shiboken --enable-parent-ctor-heuristic
     --enable-pyside-extensions --enable-return-value-heuristic --use-isnull-as-nb-bool
@@ -421,6 +426,7 @@ set(SHIBOKEN_OPTIONS --generator-set=shiboken --enable-parent-ctor-heuristic
 set(GENERATED_SOURCES
     ${CMAKE_CURRENT_BINARY_DIR}/holon/holon_module_wrapper.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/holon/holonpythonsettings_wrapper.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/holon/holonpythontask_wrapper.cpp
 )
 
 set(GENERATED_SOURCES_DEPENDENCIES
