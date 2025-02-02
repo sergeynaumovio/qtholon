@@ -13,6 +13,7 @@ class HolonCustomTask : public HolonAbstractTask
 {
     Q_OBJECT
 
+    friend class HolonCustomTaskPrivate;
     const QScopedStorage<HolonCustomTaskPrivate, 16> d_ptr;
 
 public:

@@ -6,6 +6,9 @@
 #include "holontaskfolder.h"
 #include "holonworkflow.h"
 #include <QBoxLayout>
+#include <QByteArray>
+#include <QFile>
+#include <QFileInfo>
 #include <QLabel>
 #include <QLineEdit>
 #include <QQmlContext>
@@ -18,7 +21,7 @@ using namespace Qt::Literals::StringLiterals;
 class HolonCustomTaskPrivate
 {
     HolonCustomTask *const q_ptr;
-    QQuickWidget *view{};
+    QWidget *widget{};
 
 public:
     HolonCustomTaskPrivate(HolonCustomTask *q = nullptr)
@@ -30,37 +33,62 @@ public:
         if (!q_ptr)
             return nullptr;
 
-        const char *script = R"(import holon
-print(settings.value("title"))
-settings.setValue("python", "on"))";
+        if (widget)
+            return widget;
 
-        PyRun_SimpleString(script);
+        QString property(u"parametersWidget"_s);
+        QString fileName(q_ptr->value(property).toString());
+        QFileInfo fileInfo(fileName);
 
-        if (view)
-            return view;
-
-        view = new QQuickWidget;
-
-        QObject::connect(view, &QQuickWidget::sceneGraphError, q_ptr, [](QQuickWindow::SceneGraphError error, const QString &message)
+        if (fileInfo.exists())
         {
-            qDebug() << error << message;
-        });
+            if (fileInfo.suffix() == "py"_L1)
+            {
+                QFile file(fileName);
 
-        QObject::connect(view, &QQuickWidget::statusChanged, q_ptr, [this](QQuickWidget::Status status)
-        {
-            if (status == QQuickWidget::Error)
-                qDebug() << view->errors();
-        });
+                if (file.open(QFile::ReadOnly | QFile::Text))
+                {
+                    widget = new QWidget;
 
-        QObject::connect(view->engine(), &QQmlEngine::warnings, q_ptr, [](const QList<QQmlError> &warnings)
-        {
-            qDebug() << warnings;
-        });
+                    QByteArray script = file.readAll();
+                    PyRun_SimpleString(script);
+                }
+            }
+            else if (fileInfo.suffix() == "qml"_L1)
+            {
+                QQuickWidget *view = new QQuickWidget;
 
-        view->rootContext()->setContextProperty(u"settings"_s, q_ptr);
-        view->setSource(q_ptr->value(u"qml"_s).toString());
+                QObject::connect(view, &QQuickWidget::sceneGraphError, q_ptr, [](QQuickWindow::SceneGraphError error, const QString &message)
+                {
+                    qDebug() << error << message;
+                });
 
-        return view;
+                QObject::connect(view, &QQuickWidget::statusChanged, q_ptr, [=](QQuickWidget::Status status)
+                {
+                    if (status == QQuickWidget::Error)
+                        qDebug() << view->errors();
+                });
+
+                QObject::connect(view->engine(), &QQmlEngine::warnings, q_ptr, [](const QList<QQmlError> &warnings)
+                {
+                    qDebug() << warnings;
+                });
+
+                view->rootContext()->setContextProperty(u"settings"_s, q_ptr);
+                view->setSource(fileName);
+
+                widget = view;
+            }
+            else
+                q_ptr->emitWarning(u"file format not valid: "_s + fileName);
+        }
+        else
+            q_ptr->emitWarning(u"file not found: "_s + fileName);
+
+        if (!widget)
+            widget = new QWidget;
+
+        return widget;
     }
 };
 
