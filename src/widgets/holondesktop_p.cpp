@@ -16,7 +16,9 @@
 #include "holonparameterswindow_p.h"
 #include "holonprojecttasktreewindow.h"
 #include "holonprojecttasktreewindow_p.h"
+#include "holonpythonbindings.h"
 #include "holonpythonsettings.h"
+#include "holonpythontask.h"
 #include "holonsettingswindow.h"
 #include "holonsidebar.h"
 #include "holonsidebar_p.h"
@@ -44,6 +46,7 @@ using MainWindowNestingIndex = int;
 class HolonDesktopPrivateData : public HolonCorePrivate
 {
     HolonPythonSettings pythonSettings;
+    HolonPythonTask pythonTask;
 
     void addSidebarWindow(HolonAbstractWindow *window);
     void addTasksCustomWidgets(HolonTaskStackedWidget *taskStackedWidget, QMetaType sidebarWindow);
@@ -111,7 +114,7 @@ public:
     void addWorkflow(HolonWorkflow *workflow);
     void closeTask(HolonAbstractTask *task);
     void closeWindow(HolonAbstractWindow *window);
-    bool initPythonSettings();
+    bool initPythonBindings();
     void removeUncheckedSidebars(HolonSidebarMainWindow *sidebarMainWindow);
     void setCurrentTask(HolonAbstractTask *task);
     void setCurrentWindow(HolonAbstractWindow *window);
@@ -501,9 +504,19 @@ void HolonDesktopPrivateData::closeWindow(HolonAbstractWindow *window)
     }
 }
 
-bool HolonDesktopPrivateData::initPythonSettings()
+bool HolonDesktopPrivateData::initPythonBindings()
 {
-    return pythonSettings.init(q_ptr);
+    pythonSettings.desktop = q_ptr;
+    pythonTask.desktop = q_ptr;
+
+    if (!HolonPythonBindings::init() ||
+        !HolonPythonBindings::bind(0, "settings", &pythonSettings) ||
+        !HolonPythonBindings::bind(1, "task", &pythonTask))
+    {
+        return false;
+    }
+
+    return true;
 }
 
 void HolonDesktopPrivateData::removeUncheckedSidebars(HolonSidebarMainWindow *sidebarMainWindow)
@@ -665,7 +678,7 @@ HolonDesktopPrivate::HolonDesktopPrivate(HolonDesktop *q)
         }
     }
 
-    if (!d_ptr->initPythonSettings())
+    if (!d_ptr->initPythonBindings())
         q_ptr->emitWarning(u"Python module not loaded"_s);
 }
 
