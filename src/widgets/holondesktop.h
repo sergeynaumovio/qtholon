@@ -12,6 +12,7 @@ class HolonAbstractTask;
 class HolonAbstractWindow;
 class HolonDesktopPrivate;
 class HolonSidebar;
+class HolonTaskThread;
 class HolonTheme;
 class HolonWindowArea;
 class HolonWorkflow;
@@ -46,6 +47,7 @@ public:
     void setWindow(HolonAbstractWindow *window);
     void setWindowArea(HolonWindowArea *windowArea);
     HolonAbstractTask *task() const;
+    HolonTaskThread *taskThread() const;
     HolonTheme *theme() const;
     HolonWorkflow *workflow() const;
 };

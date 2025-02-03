@@ -16,6 +16,7 @@ class HolonSidebar;
 class HolonSidebarDockWidget;
 class HolonSidebarMainWindow;
 class HolonTaskbar;
+class HolonTaskThread;
 class HolonTheme;
 class HolonWindowArea;
 class HolonWorkflow;
@@ -27,7 +28,7 @@ class HolonDesktopPrivate
 
     friend class HolonDesktop;
     friend class HolonDesktopPrivateData;
-    const QScopedStorage<HolonDesktopPrivateData, 416> d_ptr;
+    const QScopedStorage<HolonDesktopPrivateData, 424> d_ptr;
 
     HolonDesktopPrivate(HolonDesktop *q);
 
@@ -46,6 +47,7 @@ class HolonDesktopPrivate
     void setWindowArea(HolonWindowArea *windowArea);
     void setTheme(HolonTheme *theme);
     HolonAbstractTask *task() const;
+    HolonTaskThread *taskThread() const;
     HolonTheme *theme() const;
     HolonWorkflow *workflow() const;
 

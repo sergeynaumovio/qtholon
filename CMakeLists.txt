@@ -78,6 +78,8 @@ target_sources(${QT_HOLON_LIBRARY}
             src/tasks/holonabstracttask_p.h
             src/tasks/holoncustomtask.cpp
             src/tasks/holoncustomtask.h
+            src/tasks/holontaskthread.cpp
+            src/tasks/holontaskthread.h
             src/widgets/holonabstracttaskwindow.cpp
             src/widgets/holonabstracttaskwindow.h
             src/widgets/holonabstracttaskwindow_p.cpp
@@ -204,8 +206,10 @@ set(QT_HOLON_PUBLIC_HEADERS
     src/core/qtholonglobal.h
     src/tasks/HolonAbstractCondition
     src/tasks/HolonAbstractTask
+    src/tasks/HolonTaskThread
     src/tasks/holonabstractcondition.h
     src/tasks/holonabstracttask.h
+    src/tasks/holontaskthread.h
     src/widgets/HolonAbstractTaskWindow
     src/widgets/HolonAbstractWindow
     src/widgets/HolonDesktop

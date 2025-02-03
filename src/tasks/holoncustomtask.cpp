@@ -14,6 +14,7 @@
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QQuickWidget>
+#include <QThread>
 #include <sbkpython.h>
 
 using namespace Qt::Literals::StringLiterals;
@@ -108,6 +109,9 @@ HolonCustomTask::~HolonCustomTask()
 
 bool HolonCustomTask::exec()
 {
+    if (QThread::currentThread()->isInterruptionRequested())
+        return false;
+
     return true;
 }
 

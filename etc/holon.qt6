@@ -5,6 +5,7 @@ class = HolonDesktop
 geometry = QByteArray(AdnQywADAAAAAAAuAAAEZAAABDYAAAdOAAAALgAABIEAAAQ2AAAHTgAAAAAAAAAABDgAAAAuAAAEgQAABDYAAAdO)
 saveShortcut = Ctrl+S
 sidebarMoveShortcut = Alt+M
+startTaskShortcut = F5
 
 [holon/theme]
 class = HolonTheme

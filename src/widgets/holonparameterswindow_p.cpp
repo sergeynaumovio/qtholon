@@ -6,8 +6,15 @@
 #include "holondesktop.h"
 #include "holonopentasktreemodel.h"
 #include "holonparameterswindow.h"
+#include "holontaskthread.h"
+#include "holonthemeicons.h"
 #include "holontitlebar.h"
+#include "holontoolbar.h"
 #include <QComboBox>
+#include <QShortcut>
+#include <QToolButton>
+
+using namespace Qt::Literals::StringLiterals;
 
 HolonParametersWindowPrivate::HolonParametersWindowPrivate(HolonParametersWindow *q, HolonDesktop *desk)
 :   HolonTaskAttributesWindowPrivate(q, desk)
@@ -37,3 +44,51 @@ void HolonParametersWindowPrivate::setOpenTaskTreeModel(HolonOpenTaskTreeModel *
     });
 }
 
+QWidget *HolonParametersWindowPrivate::toolbarWidget()
+{
+    if (!q_ptr)
+        return nullptr;
+
+    if (toolbar)
+        return toolbar;
+
+    toolbar = new HolonToolBar;
+
+    QIcon runIcon;
+    QIcon stopIcon;
+
+    QToolButton *execButton = toolbar->addToolButton(runIcon, u"Run Task"_s);
+
+    HolonTaskThread *taskThread = desktop->taskThread();
+
+    auto stopButton = [=]()
+    {
+        execButton->setIcon(stopIcon);
+        execButton->setToolTip(u"Stop Task"_s);
+        taskThread->start();
+    };
+
+    const QString startTaskShortcut = desktop->value(u"startTaskShortcut"_s).toString();
+    QShortcut *shortcut = new QShortcut(QKeySequence(startTaskShortcut), desktop);
+
+    QObject::connect(shortcut, &QShortcut::activated, desktop, [=]()
+    {
+        stopButton();
+    });
+
+    QObject::connect(execButton, &QToolButton::clicked, q_ptr, [=, this]()
+    {
+        if (taskThread->isRunning())
+            taskThread->requestInterruption();
+
+       stopButton();
+    });
+
+    QObject::connect(taskThread, &QThread::finished, q_ptr, [=, this]()
+    {
+        execButton->setIcon(runIcon);
+        execButton->setToolTip(u"Run Task"_s);
+    });
+
+    return toolbar;
+}

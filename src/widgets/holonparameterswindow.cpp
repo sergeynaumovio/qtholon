@@ -51,6 +51,7 @@ QString HolonParametersWindow::title() const
 
 QWidget *HolonParametersWindow::toolbarWidget()
 {
-    return {};
+    Q_D(HolonParametersWindow);
+    return d->toolbarWidget();
 }
 

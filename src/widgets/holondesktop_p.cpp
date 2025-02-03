@@ -28,6 +28,7 @@
 #include "holonstackedwidget.h"
 #include "holontaskbar.h"
 #include "holontaskstackedwindow.h"
+#include "holontaskthread.h"
 #include "holontheme.h"
 #include "holontheme_p.h"
 #include "holonthemestyle.h"
@@ -101,6 +102,8 @@ public:
     QHash<HolonAbstractWindow *, HolonOpenTaskTreeView *> openTaskTreeViewByWindow;
     QList<HolonParametersWindow *> parametersWindows;
     HolonTheme *theme{};
+
+    HolonTaskThread *const taskThread;
 
     HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDesktop *q);
     ~HolonDesktopPrivateData() { }
@@ -321,8 +324,11 @@ HolonDesktopPrivateData::HolonDesktopPrivateData(HolonDesktopPrivate &d, HolonDe
             return HolonDesktopPrivate::TaskbarArea::Top;
 
         return HolonDesktopPrivate::TaskbarArea::Bottom;
-    }())
+    }()),
+    taskThread(new HolonTaskThread(q))
 {
+    taskThread->setObjectName(u"task"_s);
+
     QShortcut *shortcut = new QShortcut(QKeySequence(sidebarMoveShortcut), q_ptr);
     QObject::connect(shortcut, &QShortcut::activated, q_ptr, [this]()
     {
@@ -790,6 +796,11 @@ void HolonDesktopPrivate::setTheme(HolonTheme *theme)
 HolonAbstractTask *HolonDesktopPrivate::task() const
 {
     return d_ptr->currentTask;
+}
+
+HolonTaskThread *HolonDesktopPrivate::taskThread() const
+{
+    return d_ptr->taskThread;
 }
 
 HolonTheme *HolonDesktopPrivate::theme() const

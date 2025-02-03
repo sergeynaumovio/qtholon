@@ -158,6 +158,11 @@ HolonAbstractTask *HolonDesktop::task() const
     return d_ptr->task();
 }
 
+HolonTaskThread *HolonDesktop::taskThread() const
+{
+    return d_ptr->taskThread();
+}
+
 HolonTheme *HolonDesktop::theme() const
 {
     return d_ptr->theme();

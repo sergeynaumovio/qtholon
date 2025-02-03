@@ -9,15 +9,19 @@
 class HolonAbstractTask;
 class HolonOpenTaskTreeModel;
 class HolonParametersWindow;
+class HolonToolBar;
 
 class HolonParametersWindowPrivate : public HolonTaskAttributesWindowPrivate
 {
+    HolonToolBar *toolbar{};
+
 public:
     HolonParametersWindowPrivate(HolonParametersWindow *q,
                                  HolonDesktop *desktop);
 
     void setCurrentTask(HolonAbstractTask *task);
     void setOpenTaskTreeModel(HolonOpenTaskTreeModel *openTaskTreeModel);
+    QWidget *toolbarWidget();
 };
 
 #endif // HOLONPARAMETERSWINDOW_P_H
