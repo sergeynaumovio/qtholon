@@ -9,6 +9,7 @@
 #include <QWidget>
 
 class HolonAbstractTask;
+class HolonAbstractTaskWindow;
 class HolonAbstractWindow;
 class HolonDesktopPrivate;
 class HolonSidebar;
@@ -48,6 +49,7 @@ public:
     void setWindowArea(HolonWindowArea *windowArea);
     HolonAbstractTask *task() const;
     HolonTaskThread *taskThread() const;
+    HolonAbstractTaskWindow *taskWindow() const;
     HolonTheme *theme() const;
     HolonWorkflow *workflow() const;
 };

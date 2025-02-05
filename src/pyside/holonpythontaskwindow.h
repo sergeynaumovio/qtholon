@@ -1,14 +1,15 @@
 // Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
-#ifndef HOLONPYTHONSETTINGS_H
-#define HOLONPYTHONSETTINGS_H
+#ifndef HOLONPYTHONTASKWINDOW_H
+#define HOLONPYTHONTASKWINDOW_H
 
 #include <QtCore/QVariant>
 
 class HolonDesktop;
+class QWidget;
 
-class HolonPythonSettings
+class HolonPythonTaskWindow
 {
     friend class HolonDesktopPrivateData;
     HolonDesktop *desktop{};
@@ -18,4 +19,4 @@ public:
     QVariant value(const QString &key, const QVariant &defaultValue = QVariant()) const;
 };
 
-#endif // HOLONPYTHONSETTINGS_H
+#endif // HOLONPYTHONTASKWINDOW_H

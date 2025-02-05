@@ -4,7 +4,7 @@
 #ifndef HOLONPYTHONWRAPPER_H
 #define HOLONPYTHONWRAPPER_H
 
-#include "holonpythonsettings.h"
 #include "holonpythontask.h"
+#include "holonpythontaskwindow.h"
 
 #endif // HOLONPYTHONWRAPPER_H

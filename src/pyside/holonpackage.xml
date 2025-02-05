@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <typesystem package="holon">
     <load-typesystem name="typesystem_widgets.xml" generate="no"/>
-    <object-type name="HolonPythonSettings"/>
     <object-type name="HolonPythonTask"/>
+    <object-type name="HolonPythonTaskWindow"/>
 </typesystem>

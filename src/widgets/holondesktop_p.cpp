@@ -17,8 +17,8 @@
 #include "holonprojecttasktreewindow.h"
 #include "holonprojecttasktreewindow_p.h"
 #include "holonpythonbindings.h"
-#include "holonpythonsettings.h"
 #include "holonpythontask.h"
+#include "holonpythontaskwindow.h"
 #include "holonsettingswindow.h"
 #include "holonsidebar.h"
 #include "holonsidebar_p.h"
@@ -46,8 +46,8 @@ using MainWindowNestingIndex = int;
 
 class HolonDesktopPrivateData : public HolonCorePrivate
 {
-    HolonPythonSettings pythonSettings;
-    HolonPythonTask pythonTask;
+    HolonPythonTask pyTask;
+    HolonPythonTaskWindow pyTaskWindow;
 
     void addSidebarWindow(HolonAbstractWindow *window);
     void addTasksCustomWidgets(HolonTaskStackedWidget *taskStackedWidget, QMetaType sidebarWindow);
@@ -512,12 +512,12 @@ void HolonDesktopPrivateData::closeWindow(HolonAbstractWindow *window)
 
 bool HolonDesktopPrivateData::initPythonBindings()
 {
-    pythonSettings.desktop = q_ptr;
-    pythonTask.desktop = q_ptr;
+    pyTask.desktop = q_ptr;
+    pyTaskWindow.desktop = q_ptr;
 
     if (!HolonPythonBindings::init() ||
-        !HolonPythonBindings::bind(0, "settings", &pythonSettings) ||
-        !HolonPythonBindings::bind(1, "task", &pythonTask))
+        !HolonPythonBindings::bind(0, "task", &pyTask) ||
+        !HolonPythonBindings::bind(1, "taskWindow", &pyTaskWindow))
     {
         return false;
     }
@@ -801,6 +801,11 @@ HolonAbstractTask *HolonDesktopPrivate::task() const
 HolonTaskThread *HolonDesktopPrivate::taskThread() const
 {
     return d_ptr->taskThread;
+}
+
+HolonAbstractTaskWindow *HolonDesktopPrivate::taskWindow() const
+{
+    return qobject_cast<HolonAbstractTaskWindow *>(d_ptr->currentTaskWindow.value(d_ptr->currentTask));
 }
 
 HolonTheme *HolonDesktopPrivate::theme() const

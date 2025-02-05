@@ -48,6 +48,7 @@ class HolonDesktopPrivate
     void setTheme(HolonTheme *theme);
     HolonAbstractTask *task() const;
     HolonTaskThread *taskThread() const;
+    HolonAbstractTaskWindow *taskWindow() const;
     HolonTheme *theme() const;
     HolonWorkflow *workflow() const;
 

@@ -1,5 +1,5 @@
 import time
 print("start")
-print(settings.value("a"))
+print(task.value("a"))
 time.sleep(5)
 print("finished\n")

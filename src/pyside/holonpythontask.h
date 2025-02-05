@@ -4,6 +4,8 @@
 #ifndef HOLONPYTHONTASK_H
 #define HOLONPYTHONTASK_H
 
+#include <QtCore/QVariant>
+
 class HolonDesktop;
 class QWidget;
 
@@ -14,6 +16,8 @@ class HolonPythonTask
 
 public:
     QWidget *parametersWidget() const;
+    bool setValue(const QString &key, const QVariant &value);
+    QVariant value(const QString &key, const QVariant &defaultValue = QVariant()) const;
 };
 
 #endif // HOLONPYTHONTASK_H

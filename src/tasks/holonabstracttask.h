@@ -20,7 +20,7 @@ class Q_HOLON_EXPORT HolonAbstractTask : public QObject, public QLoaderSettings
 
     friend class HolonAbstractTaskPrivate;
     friend class HolonDesktopPrivate;
-    friend class HolonPythonSettings;
+    friend class HolonPythonTask;
     const QScopedPointer<HolonAbstractTaskPrivate> d_ptr;
 
 protected:

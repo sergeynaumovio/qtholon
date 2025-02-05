@@ -15,6 +15,8 @@ class Q_HOLON_EXPORT HolonAbstractTaskWindow : public HolonAbstractWindow
     Q_OBJECT
     Q_DECLARE_PRIVATE(HolonAbstractTaskWindow)
 
+    friend class HolonPythonTaskWindow;
+
 protected:
     HolonAbstractTaskWindow(HolonAbstractTaskWindowPrivate &d, QLoaderSettings *settings, QObject *parent);
     HolonAbstractTaskWindow(QLoaderSettings *settings, HolonAbstractTask *parent);
