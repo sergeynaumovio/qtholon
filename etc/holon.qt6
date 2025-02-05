@@ -161,6 +161,7 @@ class = HolonCustomTask
 a = value C1
 current = true
 dockWidgetSplitState = 0/b,t/1/l,t/2/r
+exec = python/customTaskC.py
 mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAK1AAACV/wCAAAAAfwAAAAAAAACVwAAALsA/////AIAAAAC/AAAAAAAAAGfAAAAXQD////8AQAAAAL7AAAAAgAxAQAAAAAAAADyAAAAxAD////7AAAAAgAyAQAAAPMAAAHCAAAAxAD////7AAAAAgAwAQAAAaAAAAC3AAAAXQD///8AAAAAAAACVwAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 open = true
 parametersWidget = python/customTaskWidget.py

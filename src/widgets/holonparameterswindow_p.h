@@ -5,6 +5,7 @@
 #define HOLONPARAMETERSWINDOW_P_H
 
 #include "holontaskattributeswindow_p.h"
+#include <sbkpython.h>
 
 class HolonAbstractTask;
 class HolonOpenTaskTreeModel;
@@ -14,6 +15,7 @@ class HolonToolBar;
 class HolonParametersWindowPrivate : public HolonTaskAttributesWindowPrivate
 {
     HolonToolBar *toolbar{};
+    PyThreadState *pyMainThreadState;
 
 public:
     HolonParametersWindowPrivate(HolonParametersWindow *q,

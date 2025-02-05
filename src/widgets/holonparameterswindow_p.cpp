@@ -61,31 +61,32 @@ QWidget *HolonParametersWindowPrivate::toolbarWidget()
 
     HolonTaskThread *taskThread = desktop->taskThread();
 
-    auto stopButton = [=]()
-    {
-        execButton->setIcon(stopIcon);
-        execButton->setToolTip(u"Stop Task"_s);
-        taskThread->start();
-    };
-
     const QString startTaskShortcut = desktop->value(u"startTaskShortcut"_s).toString();
     QShortcut *shortcut = new QShortcut(QKeySequence(startTaskShortcut), desktop);
 
-    QObject::connect(shortcut, &QShortcut::activated, desktop, [=]()
-    {
-        stopButton();
-    });
-
-    QObject::connect(execButton, &QToolButton::clicked, q_ptr, [=, this]()
+    QObject::connect(shortcut, &QShortcut::activated, desktop, [=, this]()
     {
         if (taskThread->isRunning())
             taskThread->requestInterruption();
+        else
+        {
+            execButton->setIcon(stopIcon);
+            execButton->setToolTip(u"Stop Task"_s);
 
-       stopButton();
+            pyMainThreadState = PyEval_SaveThread();
+            taskThread->start();
+        }
+    });
+
+    QObject::connect(execButton, &QToolButton::clicked, q_ptr, [=]()
+    {
+        shortcut->activated();
     });
 
     QObject::connect(taskThread, &QThread::finished, q_ptr, [=, this]()
     {
+        PyEval_RestoreThread(pyMainThreadState);
+
         execButton->setIcon(runIcon);
         execButton->setToolTip(u"Run Task"_s);
     });

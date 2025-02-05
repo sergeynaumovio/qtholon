@@ -109,6 +109,26 @@ HolonCustomTask::~HolonCustomTask()
 
 bool HolonCustomTask::exec()
 {
+    QString fileName(value(u"exec"_s).toString());
+    QFileInfo fileInfo(fileName);
+
+    if (fileInfo.exists())
+    {
+        if (fileInfo.suffix() == "py"_L1)
+        {
+            QFile file(fileName);
+
+            if (file.open(QFile::ReadOnly | QFile::Text))
+            {
+                QByteArray script = file.readAll();
+
+                PyGILState_STATE state = PyGILState_Ensure();
+                PyRun_SimpleString(script);
+                PyGILState_Release(state);
+            }
+        }
+    }
+
     if (QThread::currentThread()->isInterruptionRequested())
         return false;
 
