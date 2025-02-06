@@ -87,7 +87,11 @@ QWidget *HolonParametersWindowPrivate::toolbarWidget()
 
     QObject::connect(taskThread, &QThread::finished, q_ptr, [=, this]()
     {
-        PyEval_RestoreThread(pyMainThreadState);
+        if (pyMainThreadState)
+        {
+            PyEval_RestoreThread(pyMainThreadState);
+            pyMainThreadState = nullptr;
+        }
 
         execButton->setIcon(runIcon);
         execButton->setToolTip(u"Run Task"_s);

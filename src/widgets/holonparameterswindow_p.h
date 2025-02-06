@@ -15,7 +15,7 @@ class HolonToolBar;
 class HolonParametersWindowPrivate : public HolonTaskAttributesWindowPrivate
 {
     HolonToolBar *toolbar{};
-    PyThreadState *pyMainThreadState;
+    PyThreadState *pyMainThreadState{};
 
 public:
     HolonParametersWindowPrivate(HolonParametersWindow *q,
