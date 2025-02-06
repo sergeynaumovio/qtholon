@@ -15,6 +15,7 @@ class HolonPythonTask
     HolonDesktop *desktop{};
 
 public:
+    bool isInterruptionRequested() const;
     QWidget *parametersWidget() const;
     bool setValue(const QString &key, const QVariant &value);
     QVariant value(const QString &key, const QVariant &defaultValue = QVariant()) const;

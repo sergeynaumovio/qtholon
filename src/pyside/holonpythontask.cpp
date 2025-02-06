@@ -4,8 +4,14 @@
 #include "holonpythontask.h"
 #include "holonabstracttask.h"
 #include "holondesktop.h"
+#include "holontaskthread.h"
 
 using namespace Qt::Literals::StringLiterals;
+
+bool HolonPythonTask::isInterruptionRequested() const
+{
+    return desktop->taskThread()->isInterruptionRequested();
+}
 
 QWidget *HolonPythonTask::parametersWidget() const
 {
