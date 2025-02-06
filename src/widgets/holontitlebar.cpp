@@ -126,7 +126,7 @@ public:
             windowCombobox = new QComboBox(q_ptr);
             {
                 QList<HolonAbstractWindow *> siblingWindowList = siblingWindows(window);
-                for (const HolonAbstractWindow *siblingWindow : siblingWindowList)
+                for (const HolonAbstractWindow *siblingWindow : std::as_const(siblingWindowList))
                     windowCombobox->addItem(siblingWindow->icon(), siblingWindow->title(), siblingWindow->section());
 
                 windowCombobox->setCurrentIndex(-1);
@@ -135,7 +135,9 @@ public:
                 {
                     QString section = windowCombobox->itemData(index).toString();
                     QMetaType type = window->tree()->object(section)->metaObject()->metaType();
-                    for (HolonAbstractWindow *child : window->findChildren<HolonAbstractWindow *>(Qt::FindDirectChildrenOnly))
+
+                    const auto windows = window->findChildren<HolonAbstractWindow *>(Qt::FindDirectChildrenOnly);
+                    for (HolonAbstractWindow *child : windows)
                     {
                         if (type == child->metaObject()->metaType())
                         {
@@ -314,12 +316,14 @@ public:
 
         if (qobject_cast<HolonAbstractTask *>(wnd->parent()))
         {
-            for (HolonAbstractWindow *second : wnd->desktop()->findChildren<HolonAbstractTaskWindow *>(Qt::FindDirectChildrenOnly))
+            const auto windows = wnd->desktop()->findChildren<HolonAbstractTaskWindow *>(Qt::FindDirectChildrenOnly);
+            for (HolonAbstractWindow *second : windows)
                 windowList.append(second);
         }
         else if (qobject_cast<HolonSidebar *>(wnd->parent()))
         {
-            for (HolonAbstractWindow *second : wnd->desktop()->findChildren<HolonAbstractWindow *>(Qt::FindDirectChildrenOnly))
+            const auto windows = wnd->desktop()->findChildren<HolonAbstractWindow *>(Qt::FindDirectChildrenOnly);
+            for (HolonAbstractWindow *second : windows)
                 if (canSplit(second))
                     windowList.append(second);
         }

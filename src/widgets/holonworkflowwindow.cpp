@@ -46,13 +46,16 @@ public:
         int id = q->current();
 
         if (HolonWorkflow *root = desktop->findChild<HolonWorkflow *>())
-            for (HolonWorkflow *workflow : root->findChildren<HolonWorkflow *>())
+        {
+            const auto workflows = root->findChildren<HolonWorkflow *>();
+            for (HolonWorkflow *workflow : workflows)
             {
                 combobox->addItem(workflow->title(), QVariant::fromValue(workflow));
 
                 if (workflow->objectName().toInt() == id)
                     combobox->setCurrentText(workflow->title());
             }
+        }
     }
 
     QWidget *centralWidget()
@@ -67,7 +70,8 @@ public:
 
         if (HolonWorkflow *root = desktop->findChild<HolonWorkflow *>())
         {
-            for (HolonWorkflow *workflow : root->findChildren<HolonWorkflow *>())
+            const auto workflows = root->findChildren<HolonWorkflow *>();
+            for (HolonWorkflow *workflow : workflows)
             {
                 QStackedWidget *stackedView = new QStackedWidget;
 

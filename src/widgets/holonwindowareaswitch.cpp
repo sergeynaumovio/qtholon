@@ -138,7 +138,8 @@ HolonSidebarButton::HolonSidebarButton(HolonWindowAreaSwitchPrivate &swtch_d,
             {
                 desktop_d.restoreSidebar(sidebar);
 
-                for (QAbstractButton *button : buttonGroup->buttons())
+                const auto buttons = buttonGroup->buttons();
+                for (QAbstractButton *button : buttons)
                 {
                     if (button != this && button->isChecked())
                         button->setChecked(false);
@@ -180,7 +181,8 @@ HolonWindowAreaButton::HolonWindowAreaButton(HolonWindowAreaSwitchPrivate &swtch
         {
             desktop_d.q_ptr->setWindowArea(windowArea);
 
-            for (QAbstractButton *button : switch_d.windowAreaButtonGroup->buttons())
+            const auto buttons = switch_d.windowAreaButtonGroup->buttons();
+            for (QAbstractButton *button : buttons)
             {
                 if (button != this && button->isChecked())
                     button->setChecked(false);

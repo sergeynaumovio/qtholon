@@ -14,6 +14,8 @@
 #include <QShortcut>
 #include <QToolButton>
 
+#define emit
+
 using namespace Qt::Literals::StringLiterals;
 
 HolonParametersWindowPrivate::HolonParametersWindowPrivate(HolonParametersWindow *q, HolonDesktop *desk)
@@ -80,7 +82,7 @@ QWidget *HolonParametersWindowPrivate::toolbarWidget()
 
     QObject::connect(execButton, &QToolButton::clicked, q_ptr, [=]()
     {
-        shortcut->activated();
+        emit shortcut->activated();
     });
 
     QObject::connect(taskThread, &QThread::finished, q_ptr, [=, this]()

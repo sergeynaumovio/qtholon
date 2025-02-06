@@ -54,7 +54,7 @@ void HolonWorkflowItem::clear()
 
 HolonWorkflowItem *HolonWorkflowItem::findChild(int taskIndex) const
 {
-    for (HolonWorkflowItem *item : d_ptr->childItems)
+    for (HolonWorkflowItem *item : std::as_const(d_ptr->childItems))
         if (item->taskId () == taskIndex)
             return item;
 

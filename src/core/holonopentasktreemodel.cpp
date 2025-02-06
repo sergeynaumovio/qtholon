@@ -23,10 +23,16 @@ public:
     int rowCount()
     {
         if (openTaskList.isEmpty())
-            for (HolonWorkflow *workflow : q_ptr->QObject::parent()->findChildren<HolonWorkflow *>())
-                for (HolonAbstractTask *task : workflow->findChildren<HolonAbstractTask *>(Qt::FindDirectChildrenOnly))
+        {
+            const auto workflows = q_ptr->QObject::parent()->findChildren<HolonWorkflow *>();
+            for (HolonWorkflow *workflow : workflows)
+            {
+                const auto tasks = workflow->findChildren<HolonAbstractTask *>(Qt::FindDirectChildrenOnly);
+                for (HolonAbstractTask *task : tasks)
                     if (task->isOpen())
                         openTaskList.append(task);
+            }
+        }
 
         return openTaskList.size();
     }
