@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonthemeicons_p.h"
@@ -105,6 +105,15 @@ QIcon HolonThemeIconsPrivate::minimizeIcon()
                   theme->colors()->iconsBaseColor()}}, minimize);
 }
 
+QIcon HolonThemeIconsPrivate::runTaskIcon()
+{
+    return icon({{u":/holon/run.xpm"_s,
+                  theme->colors()->runColor()},
+
+                 {u":/holon/run_task.xpm"_s,
+                  theme->colors()->panelTextColorMid()}}, runTask);
+}
+
 QIcon HolonThemeIconsPrivate::splitButtonCloseBottomIcon()
 {
     return icon({{u":/holon/splitbutton_closebottom.xpm"_s,
@@ -151,6 +160,12 @@ QIcon HolonThemeIconsPrivate::splitButtonVerticalMenuIcon()
 {
     return icon({{u":/holon/splitbutton_vertical.xpm"_s,
                   theme->colors()->iconsMenuColor()}}, splitVerticalMenu);
+}
+
+QIcon HolonThemeIconsPrivate::stopIcon()
+{
+    return icon({{u":/holon/stop.xpm"_s,
+                  theme->colors()->stopColor()}}, stop);
 }
 
 QIcon HolonThemeIconsPrivate::taskIcon()

@@ -56,8 +56,10 @@ QWidget *HolonParametersWindowPrivate::toolbarWidget()
 
     toolbar = new HolonToolBar;
 
-    QIcon runIcon;
-    QIcon stopIcon;
+    HolonThemeIcons *icons = desktop->theme()->icons();
+
+    QIcon runIcon = icons->runTaskIcon();
+    QIcon stopIcon = icons->stopIcon();
 
     QToolButton *execButton = toolbar->addToolButton(runIcon, u"Run Task"_s);
 

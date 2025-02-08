@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONTHEMEICONS_H
@@ -34,6 +34,7 @@ public:
     virtual QIcon indicatorArrowUpIcon() const;
     virtual QIcon maximizeIcon() const;
     virtual QIcon minimizeIcon() const;
+    virtual QIcon runTaskIcon() const;
     virtual QIcon splitButtonCloseBottomIcon() const;
     virtual QIcon splitButtonCloseLeftIcon() const;
     virtual QIcon splitButtonCloseRightIcon() const;
@@ -42,6 +43,7 @@ public:
     virtual QIcon splitButtonHorizontalMenuIcon() const;
     virtual QIcon splitButtonVerticalIcon() const;
     virtual QIcon splitButtonVerticalMenuIcon() const;
+    virtual QIcon stopIcon() const;
     virtual QIcon taskIcon() const;
     HolonTheme *theme() const;
 };

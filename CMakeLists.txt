@@ -275,6 +275,10 @@ qt_add_resources(${QT_HOLON_LIBRARY} "Holon"
           share/icons/minimize.xpm
           share/icons/minimize@2x.xpm
           share/icons/quit.svg
+          share/icons/run.xpm
+          share/icons/run@2x.xpm
+          share/icons/run_task.xpm
+          share/icons/run_task@2x.xpm
           share/icons/screwdriver.svg
           share/icons/splitbutton_closebottom.xpm
           share/icons/splitbutton_closebottom@2x.xpm
@@ -288,6 +292,8 @@ qt_add_resources(${QT_HOLON_LIBRARY} "Holon"
           share/icons/splitbutton_horizontal@2x.xpm
           share/icons/splitbutton_vertical.xpm
           share/icons/splitbutton_vertical@2x.xpm
+          share/icons/stop.xpm
+          share/icons/stop@2x.xpm
 )
 
 include(GNUInstallDirs)

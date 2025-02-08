@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonthemecolors.h"
@@ -63,6 +63,21 @@ QColor HolonThemeColors::panelTextColorDark() const
 QColor HolonThemeColors::panelTextColorLight() const
 {
     return d_ptr->panelTextColorLight();
+}
+
+QColor HolonThemeColors::panelTextColorMid() const
+{
+    return d_ptr->panelTextColorMid();
+}
+
+QColor HolonThemeColors::runColor() const
+{
+    return d_ptr->runColor();
+}
+
+QColor HolonThemeColors::stopColor() const
+{
+    return d_ptr->stopColor();
 }
 
 HolonTheme *HolonThemeColors::theme() const

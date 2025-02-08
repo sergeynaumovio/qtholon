@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONTHEMEICONS_P_H
@@ -23,6 +23,7 @@ class HolonThemeIconsPrivate
     QIcon indicatorArrowUp;
     QIcon maximize;
     QIcon minimize;
+    QIcon runTask;
     QIcon splitButtonCloseBottom;
     QIcon splitButtonCloseLeft;
     QIcon splitButtonCloseRight;
@@ -31,6 +32,7 @@ class HolonThemeIconsPrivate
     QIcon splitHorizontalMenu;
     QIcon splitVertical;
     QIcon splitVerticalMenu;
+    QIcon stop;
     QIcon task;
 
     QIcon icon(const QList<HolonMaskColor<FileName>> &masks, QIcon &value);
@@ -50,6 +52,7 @@ public:
     QIcon indicatorArrowUpIcon();
     QIcon maximizeIcon();
     QIcon minimizeIcon();
+    QIcon runTaskIcon();
     QIcon splitButtonCloseBottomIcon();
     QIcon splitButtonCloseLeftIcon();
     QIcon splitButtonCloseRightIcon();
@@ -58,6 +61,7 @@ public:
     QIcon splitButtonHorizontalMenuIcon();
     QIcon splitButtonVerticalIcon();
     QIcon splitButtonVerticalMenuIcon();
+    QIcon stopIcon();
     QIcon taskIcon();
 };
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonthemeicons.h"
@@ -65,6 +65,11 @@ QIcon HolonThemeIcons::minimizeIcon() const
     return d_ptr->minimizeIcon();
 }
 
+QIcon HolonThemeIcons::runTaskIcon() const
+{
+    return d_ptr->runTaskIcon();
+}
+
 QIcon HolonThemeIcons::splitButtonCloseBottomIcon() const
 {
     return d_ptr->splitButtonCloseBottomIcon();
@@ -103,6 +108,11 @@ QIcon HolonThemeIcons::splitButtonVerticalIcon() const
 QIcon HolonThemeIcons::splitButtonVerticalMenuIcon() const
 {
     return d_ptr->splitButtonVerticalMenuIcon();
+}
+
+QIcon HolonThemeIcons::stopIcon() const
+{
+    return d_ptr->stopIcon();
 }
 
 QIcon HolonThemeIcons::taskIcon() const

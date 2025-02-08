@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonthemecolors_p.h"
@@ -72,6 +72,21 @@ QColor HolonThemeColorsPrivate::panelTextColorDark()
 QColor HolonThemeColorsPrivate::panelTextColorLight()
 {
     return color(u"panelTextColorLight"_s, panelTextLight, {255, 255, 255});
+}
+
+QColor HolonThemeColorsPrivate::panelTextColorMid()
+{
+    return color(u"panelTextColorMid"_s, panelTextMid, {144, 144, 144});
+}
+
+QColor HolonThemeColorsPrivate::runColor()
+{
+    return color(u"runColor"_s, run, {109, 168, 56});
+}
+
+QColor HolonThemeColorsPrivate::stopColor()
+{
+    return color(u"stopColor"_s, stop, {255, 140, 140});
 }
 
 QColor HolonThemeColorsPrivate::toolButtonSeparatorColor()

@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONTHEMECOLORS_P_H
@@ -25,6 +25,9 @@ class HolonThemeColorsPrivate
     QColor mainWindowSeparator;
     QColor panelTextDark;
     QColor panelTextLight;
+    QColor panelTextMid;
+    QColor run;
+    QColor stop;
     QColor toolButtonSeparator;
 
     QColor color(const QString &key, QColor &value, const QColor &defaultValue);
@@ -44,6 +47,9 @@ public:
     QColor mainWindowSeparatorColor();
     QColor panelTextColorDark();
     QColor panelTextColorLight();
+    QColor panelTextColorMid();
+    QColor runColor();
+    QColor stopColor();
     QColor toolButtonSeparatorColor();
 };
 

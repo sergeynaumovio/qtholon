@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONTHEMECOLORS_H
@@ -33,6 +33,9 @@ public:
     virtual QColor mainWindowSeparatorColor() const;
     virtual QColor panelTextColorDark() const;
     virtual QColor panelTextColorLight() const;
+    virtual QColor panelTextColorMid() const;
+    virtual QColor runColor() const;
+    virtual QColor stopColor() const;
     HolonTheme *theme() const;
     virtual QColor toolButtonSeparatorColor() const;
 };
