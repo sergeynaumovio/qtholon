@@ -105,6 +105,12 @@ QIcon HolonThemeIconsPrivate::minimizeIcon()
                   theme->colors()->iconsBaseColor()}}, minimize);
 }
 
+QIcon HolonThemeIconsPrivate::runIcon()
+{
+    return icon({{u":/holon/run.xpm"_s,
+                  theme->colors()->runColor()}}, run);
+}
+
 QIcon HolonThemeIconsPrivate::runTaskIcon()
 {
     return icon({{u":/holon/run.xpm"_s,

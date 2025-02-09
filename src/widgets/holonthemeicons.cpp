@@ -65,6 +65,11 @@ QIcon HolonThemeIcons::minimizeIcon() const
     return d_ptr->minimizeIcon();
 }
 
+QIcon HolonThemeIcons::runIcon() const
+{
+    return d_ptr->runIcon();
+}
+
 QIcon HolonThemeIcons::runTaskIcon() const
 {
     return d_ptr->runTaskIcon();

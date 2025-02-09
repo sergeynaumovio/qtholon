@@ -58,10 +58,9 @@ QWidget *HolonParametersWindowPrivate::toolbarWidget()
 
     HolonThemeIcons *icons = desktop->theme()->icons();
 
-    QIcon runIcon = icons->runTaskIcon();
-    QIcon stopIcon = icons->stopIcon();
-
-    QToolButton *execButton = toolbar->addToolButton(runIcon, u"Run Task"_s);
+    QToolButton *runButton = toolbar->addToolButton(icons->runIcon(), u"Run Task"_s);
+    QToolButton *stopButton = toolbar->addToolButton(icons->stopIcon(), u"Stop Task"_s);
+    stopButton->setDisabled(true);
 
     HolonTaskThread *taskThread = desktop->taskThread();
 
@@ -74,15 +73,20 @@ QWidget *HolonParametersWindowPrivate::toolbarWidget()
             taskThread->requestInterruption();
         else
         {
-            execButton->setIcon(stopIcon);
-            execButton->setToolTip(u"Stop Task"_s);
+            runButton->setDisabled(true);
+            stopButton->setEnabled(true);
 
             pyMainThreadState = PyEval_SaveThread();
             taskThread->start();
         }
     });
 
-    QObject::connect(execButton, &QToolButton::clicked, q_ptr, [=]()
+    QObject::connect(runButton, &QToolButton::clicked, q_ptr, [=]()
+    {
+        emit shortcut->activated();
+    });
+
+    QObject::connect(stopButton, &QToolButton::clicked, q_ptr, [=]()
     {
         emit shortcut->activated();
     });
@@ -95,8 +99,8 @@ QWidget *HolonParametersWindowPrivate::toolbarWidget()
             pyMainThreadState = nullptr;
         }
 
-        execButton->setIcon(runIcon);
-        execButton->setToolTip(u"Run Task"_s);
+        runButton->setEnabled(true);
+        stopButton->setDisabled(true);
     });
 
     return toolbar;

@@ -34,6 +34,7 @@ public:
     virtual QIcon indicatorArrowUpIcon() const;
     virtual QIcon maximizeIcon() const;
     virtual QIcon minimizeIcon() const;
+    virtual QIcon runIcon() const;
     virtual QIcon runTaskIcon() const;
     virtual QIcon splitButtonCloseBottomIcon() const;
     virtual QIcon splitButtonCloseLeftIcon() const;

@@ -23,6 +23,7 @@ class HolonThemeIconsPrivate
     QIcon indicatorArrowUp;
     QIcon maximize;
     QIcon minimize;
+    QIcon run;
     QIcon runTask;
     QIcon splitButtonCloseBottom;
     QIcon splitButtonCloseLeft;
@@ -52,6 +53,7 @@ public:
     QIcon indicatorArrowUpIcon();
     QIcon maximizeIcon();
     QIcon minimizeIcon();
+    QIcon runIcon();
     QIcon runTaskIcon();
     QIcon splitButtonCloseBottomIcon();
     QIcon splitButtonCloseLeftIcon();
