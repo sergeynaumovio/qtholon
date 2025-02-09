@@ -1,5 +1,5 @@
 /* XPM */
-static char * run_xpm[] = {
+static char *run[] = {
 "16 16 21 1",
 " 	g #FFFFFF",
 ".	g #4C4C4C",

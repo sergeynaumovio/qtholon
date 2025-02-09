@@ -1,14 +1,11 @@
 /* XPM */
 static char *splitbutton_closeleft[] = {
-/* width height colors chars_per_pixel */
 "16 16 5 1 ",
-/* colors */
 "  c black",
 ". c gray50",
 "X c #888888",
 "o c gray75",
 "O c white",
-/* pixels */
 "OOOOOOOOOOOOOOOO",
 "OOOOOOOOOOOOOOOO",
 "OOOOOOOOOOOOOOOO",
@@ -24,5 +21,4 @@ static char *splitbutton_closeleft[] = {
 "OO OOOOOO  OOOOO",
 "OO         OOOOO",
 "OOOOOOOOOOOOOOOO",
-"OOOOOOOOOOOOOOOO"
-};
+"OOOOOOOOOOOOOOOO"};

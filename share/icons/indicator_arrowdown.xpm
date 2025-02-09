@@ -1,11 +1,8 @@
 /* XPM */
 static char *indicator_arrowdown[] = {
-/* width height colors chars_per_pixel */
 "16 16 2 1 ",
-/* colors */
 "  c black",
 "O c white",
-/* pixels */
 "OOOOOOOOOOOOOOOO",
 "OOOOOOOOOOOOOOOO",
 "OOOOOOOOOOOOOOOO",
@@ -21,5 +18,4 @@ static char *indicator_arrowdown[] = {
 "OOOOOOOO OOOOOOO",
 "OOOOOOOOOOOOOOOO",
 "OOOOOOOOOOOOOOOO",
-"OOOOOOOOOOOOOOOO"
-};
+"OOOOOOOOOOOOOOOO"};

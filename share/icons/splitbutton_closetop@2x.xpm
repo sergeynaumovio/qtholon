@@ -1,13 +1,10 @@
 /* XPM */
 static char *_splitbutton_closetop_2x[] = {
-/* width height colors chars_per_pixel */
 "32 32 4 1 ",
-/* colors */
 "  c black",
 ". c #777777",
 "X c gray50",
 "o c white",
-/* pixels */
 "oooooooooooooooooooooooooooooooo",
 "oooooooooooooooooooooooooooooooo",
 "oooooooooooooooooooooooooooooooo",
@@ -39,5 +36,4 @@ static char *_splitbutton_closetop_2x[] = {
 "oooooooooooooooooooooooooooooooo",
 "oooooooooooooooooooooooooooooooo",
 "oooooooooooooooooooooooooooooooo",
-"oooooooooooooooooooooooooooooooo"
-};
+"oooooooooooooooooooooooooooooooo"};

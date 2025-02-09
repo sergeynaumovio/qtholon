@@ -1,5 +1,5 @@
 /* XPM */
-static char * run_task@2x_xpm[] = {
+static char *run_task_2x[] = {
 "32 32 5 1",
 " 	c #FFFFFF",
 ".	c #000000",

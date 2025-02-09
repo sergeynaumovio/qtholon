@@ -1,5 +1,5 @@
 /* XPM */
-static char * clear_xpm[] = {
+static char *clear[] = {
 "16 16 20 1",
 " 	g #FFFFFF",
 ".	g #3A3A3A",

@@ -1,5 +1,5 @@
 /* XPM */
-static char * clear_2x[] = {
+static char *clear_2x[] = {
 "32 32 28 1",
 " 	g #FFFFFF",
 ".	g #B4B4B4",
