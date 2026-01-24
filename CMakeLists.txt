@@ -1,4 +1,4 @@
-# Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+# Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 # SPDX-License-Identifier: 0BSD
 
 cmake_minimum_required(VERSION 3.18)
@@ -24,7 +24,7 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 
 find_package(QT NAMES Qt6)
-find_package(Qt${QT_VERSION_MAJOR} 6.8 REQUIRED COMPONENTS QuickWidgets)
+find_package(Qt${QT_VERSION_MAJOR} 6.10 REQUIRED COMPONENTS QuickWidgets)
 find_package(Qt${QT_VERSION_MAJOR}Loader)
 
 if(NOT APPLE)
