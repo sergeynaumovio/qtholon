@@ -44,9 +44,16 @@ bool HolonPythonBindings::init()
 
     Py_Initialize();
     qAddPostRoutine(pyFinalize);
+    PyObject *module = PyImport_ImportModule("holon");
+    const bool pyErrorOccurred = (PyErr_Occurred() != nullptr);
 
-    if (!PyInit_holon() || PyErr_Occurred())
+    if (module != nullptr && !pyErrorOccurred)
+        Py_DECREF(module);
+    else
     {
+        if (pyErrorOccurred)
+            PyErr_Print();
+
         qWarning("Failed to initialize the module.");
         return false;
     }
@@ -54,7 +61,7 @@ bool HolonPythonBindings::init()
     return true;
 }
 
-bool HolonPythonBindings::bind( int objectIndex, const char *pythonObjectName, void *object)
+bool HolonPythonBindings::bind(int objectIndex, const char *pythonObjectName, void *object)
 {
     const char *moduleName = "__main__";
     PyTypeObject *typeObject = SbkholonTypes[objectIndex * 2];
