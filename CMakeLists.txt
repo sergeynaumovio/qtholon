@@ -388,7 +388,7 @@ pyside_config(--shiboken-generator-path SHIBOKEN_GENERATOR_PATH)
 pyside_config(--pyside-path PYSIDE_PATH)
 
 pyside_config(--python-include-path PYTHON_INCLUDE_DIR)
-pyside_config(--shiboken-generator-include-path SHIBOKEN_GENERATOR_INCLUDE_DIR 1)
+pyside_config(--shiboken-include-path SHIBOKEN_INCLUDE_DIR 1)
 pyside_config(--pyside-include-path PYSIDE_INCLUDE_DIR 1)
 
 pyside_config(--python-link-flags-cmake PYTHON_LINKING_DATA 0)
@@ -482,7 +482,7 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 # Apply relevant include and link flags.
 target_include_directories(${QT_HOLON_LIBRARY}
     PRIVATE ${PYTHON_INCLUDE_DIR}
-    PRIVATE ${SHIBOKEN_GENERATOR_INCLUDE_DIR}
+    PRIVATE ${SHIBOKEN_INCLUDE_DIR}
     PRIVATE ${PYSIDE_INCLUDE_DIR}
     PRIVATE ${PYSIDE_ADDITIONAL_INCLUDES}
 )
