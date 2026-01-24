@@ -1,8 +1,9 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonpythonbindings.h"
 #include <QCoreApplication>
+#include <QDebug>
 #include <QOperatingSystemVersion>
 #include <sbkconverter.h>
 #include <sbkmodule.h>

@@ -1,10 +1,8 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONPYTHONBINDINGS_H
 #define HOLONPYTHONBINDINGS_H
-
-#include <QtCore/QVariant>
 
 class HolonPythonBindings
 {
