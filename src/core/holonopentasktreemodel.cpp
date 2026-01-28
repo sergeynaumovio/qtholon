@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonopentasktreemodel.h"
@@ -94,6 +94,21 @@ bool HolonOpenTaskTreeModel::insertRows(int position, int rows, const QModelInde
 QModelIndex HolonOpenTaskTreeModel::parent(const QModelIndex &) const
 {
     return QModelIndex();
+}
+
+bool HolonOpenTaskTreeModel::removeRows(int row, int count, const QModelIndex &parent)
+{
+    if (row < 0 || row + count > d_ptr->openTaskList.size())
+        return false;
+
+    beginRemoveRows(parent, row, row + count - 1);
+
+    for (int i = 0; i < count; ++i)
+        d_ptr->openTaskList.removeAt(row);
+
+    endRemoveRows();
+
+    return true;
 }
 
 QModelIndex HolonOpenTaskTreeModel::restoreCurrentIndex() const

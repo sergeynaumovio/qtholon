@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONOPENTASKTREEMODEL_H
@@ -28,6 +28,7 @@ public:
     QModelIndex index(int row, int column = 0, const QModelIndex &parent = QModelIndex()) const override;
     bool insertRows(int position, int rows, const QModelIndex &parent = QModelIndex()) override;
     QModelIndex parent(const QModelIndex &child) const override;
+    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
     QModelIndex restoreCurrentIndex() const;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 };
