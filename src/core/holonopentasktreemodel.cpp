@@ -77,7 +77,7 @@ QVariant HolonOpenTaskTreeModel::data(const QModelIndex &index, int role) const
 
 QModelIndex HolonOpenTaskTreeModel::index(int row, int column, const QModelIndex &parent) const
 {
-    if (parent.isValid())
+    if (parent.isValid() || row < 0 || row > d_ptr->openTaskList.size() || column < 0 || column > 1)
         return QModelIndex();
 
     QModelIndex index = createIndex(row, column, d_ptr->openTaskList.at(row));
