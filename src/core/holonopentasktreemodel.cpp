@@ -18,23 +18,15 @@ public:
 
     HolonOpenTaskTreeModelPrivate(HolonOpenTaskTreeModel *q)
     :   q_ptr(q)
-    { }
-
-    int rowCount()
     {
-        if (openTaskList.isEmpty())
+        const auto workflows = q_ptr->QObject::parent()->findChildren<HolonWorkflow *>();
+        for (HolonWorkflow *workflow : workflows)
         {
-            const auto workflows = q_ptr->QObject::parent()->findChildren<HolonWorkflow *>();
-            for (HolonWorkflow *workflow : workflows)
-            {
-                const auto tasks = workflow->findChildren<HolonAbstractTask *>(Qt::FindDirectChildrenOnly);
-                for (HolonAbstractTask *task : tasks)
-                    if (task->isOpen())
-                        openTaskList.append(task);
-            }
+            const auto tasks = workflow->findChildren<HolonAbstractTask *>(Qt::FindDirectChildrenOnly);
+            for (HolonAbstractTask *task : tasks)
+                if (task->isOpen())
+                    openTaskList.append(task);
         }
-
-        return openTaskList.size();
     }
 };
 
@@ -114,5 +106,5 @@ int HolonOpenTaskTreeModel::rowCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return d_ptr->rowCount();
+    return d_ptr->openTaskList.size();
 }
