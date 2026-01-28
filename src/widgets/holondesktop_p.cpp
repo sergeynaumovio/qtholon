@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holondesktop_p.h"
@@ -133,6 +133,9 @@ public:
 
 void HolonDesktopPrivateData::addSidebarWindow(HolonAbstractWindow *window)
 {
+    if (!openTaskTreeModel)
+        openTaskTreeModel = new HolonOpenTaskTreeModel(q_ptr);
+
     if (HolonProjectTaskTreeWindow *projectTaskTreeWindow = qobject_cast<HolonProjectTaskTreeWindow *>(window))
         projectTaskTreeWindow->d_ptr->setOpenTaskTreeModel(openTaskTreeModel);
 
@@ -460,9 +463,6 @@ void HolonDesktopPrivateData::addWindowArea(HolonWindowArea *windowArea)
 
 void HolonDesktopPrivateData::addWorkflow(HolonWorkflow *workflow)
 {
-    if (!openTaskTreeModel)
-        openTaskTreeModel = new HolonOpenTaskTreeModel(q_ptr);
-
     addObject(workflow, workflowList, currentWorkflow);
 }
 
