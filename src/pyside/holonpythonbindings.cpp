@@ -10,11 +10,11 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-extern "C" PyObject *PyInit_holon();
-extern PyTypeObject **SbkholonTypes;
-extern SbkConverter **SbkholonTypeConverters;
+extern "C" PyObject *PyInit_Holon();
+extern PyTypeObject **SbkHolonTypes;
+extern SbkConverter **SbkHolonTypeConverters;
 
-static const char builtinModuleName[] = "holon";
+static const char builtinModuleName[] = "Holon";
 static const char virtualEnvVar[] = "VIRTUAL_ENV";
 
 static void pyFinalize()
@@ -37,7 +37,7 @@ bool HolonPythonBindings::init()
     if (qEnvironmentVariableIsSet(virtualEnvVar))
         initVirtualEnvironment();
 
-    if (PyImport_AppendInittab(builtinModuleName, PyInit_holon) == -1)
+    if (PyImport_AppendInittab(builtinModuleName, PyInit_Holon) == -1)
     {
         qWarning("Failed to add the module '%s' to the table of built-in modules.", builtinModuleName);
         return false;
@@ -45,7 +45,7 @@ bool HolonPythonBindings::init()
 
     Py_Initialize();
     qAddPostRoutine(pyFinalize);
-    PyObject *module = PyImport_ImportModule("holon");
+    PyObject *module = PyImport_ImportModule("Holon");
     const bool pyErrorOccurred = (PyErr_Occurred() != nullptr);
 
     if (module != nullptr && !pyErrorOccurred)
@@ -65,7 +65,7 @@ bool HolonPythonBindings::init()
 bool HolonPythonBindings::bind(int objectIndex, const char *pythonObjectName, void *object)
 {
     const char *moduleName = "__main__";
-    PyTypeObject *typeObject = SbkholonTypes[objectIndex * 2];
+    PyTypeObject *typeObject = SbkHolonTypes[objectIndex * 2];
     PyObject *pyObject = Shiboken::Conversions::pointerToPython(typeObject, object);
 
     if (!pyObject)
