@@ -171,6 +171,9 @@ public:
             q_ptr->layout()->setContentsMargins(5, 0, 0, 0);
             q_ptr->layout()->addWidget(new QLabel(window->title(), q_ptr));
         }
+
+        if (windowCombobox)
+            windowCombobox->setFixedHeight(QApplication::style()->pixelMetric(QStyle::PM_TitleBarHeight));
     }
 
     void addHideWindowAreaButton()
