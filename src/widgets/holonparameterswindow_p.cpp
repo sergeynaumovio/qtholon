@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonparameterswindow_p.h"
@@ -13,6 +13,14 @@
 #include <QComboBox>
 #include <QShortcut>
 #include <QToolButton>
+
+#if !BUILD_WITH_PYSIDE
+
+struct PyThreadState{};
+static constexpr PyThreadState *PyEval_SaveThread() { return nullptr; }
+static constexpr void PyEval_RestoreThread(PyThreadState *) {}
+
+#endif
 
 #define emit
 

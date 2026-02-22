@@ -16,6 +16,8 @@ else()
     endif()
 endif()
 
+option(BUILD_WITH_PYSIDE "Build with PySide support" OFF)
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD 20)
@@ -64,12 +66,6 @@ target_sources(${QT_HOLON_LIBRARY}
             src/core/holonworkflowmodel.cpp
             src/core/holonworkflowmodel.h
             src/core/qtholonglobal.h
-            src/pyside/holonpythonbindings.cpp
-            src/pyside/holonpythonbindings.h
-            src/pyside/holonpythontask.cpp
-            src/pyside/holonpythontask.h
-            src/pyside/holonpythontaskwindow.cpp
-            src/pyside/holonpythontaskwindow.h
             src/tasks/holonabstractcondition.cpp
             src/tasks/holonabstractcondition.h
             src/tasks/holonabstracttask.cpp
@@ -183,6 +179,25 @@ target_sources(${QT_HOLON_LIBRARY}
             src/plugin.cpp
 )
 
+if(BUILD_WITH_PYSIDE)
+    target_compile_definitions(${QT_HOLON_LIBRARY}
+        PRIVATE BUILD_WITH_PYSIDE=1
+    )
+
+    target_sources(${QT_HOLON_LIBRARY}
+        PRIVATE src/pyside/holonpythonbindings.cpp
+                src/pyside/holonpythonbindings.h
+                src/pyside/holonpythontask.cpp
+                src/pyside/holonpythontask.h
+                src/pyside/holonpythontaskwindow.cpp
+                src/pyside/holonpythontaskwindow.h
+    )
+
+    target_include_directories(${QT_HOLON_LIBRARY}
+        PRIVATE src/pyside
+    )
+endif()
+
 if(NOT MSVC)
     get_target_property(QT_HOLON_SOURCES ${QT_HOLON_LIBRARY} SOURCES)
     set_source_files_properties(${QT_HOLON_SOURCES} PROPERTIES COMPILE_FLAGS -Wextra)
@@ -190,7 +205,6 @@ endif()
 
 target_include_directories(${QT_HOLON_LIBRARY}
     PRIVATE src/core
-            src/pyside
             src/tasks
             src/widgets
 )
@@ -360,198 +374,6 @@ if(NOT python_interpreter)
 endif()
 message(STATUS "Using python interpreter: ${python_interpreter}")
 
-# Macro to get various pyside / python include / link flags.
-macro(pyside_config option output_var)
-    if(${ARGC} GREATER 2)
-        set(is_list ${ARGV2})
-    else()
-        set(is_list "")
-    endif()
-
-    execute_process(
-      COMMAND ${python_interpreter} "${CMAKE_SOURCE_DIR}/src/pyside/pyside_config.py"
-              ${option}
-      OUTPUT_VARIABLE ${output_var}
-      OUTPUT_STRIP_TRAILING_WHITESPACE)
-
-    if ("${${output_var}}" STREQUAL "")
-        message(FATAL_ERROR "Error: Calling pyside_config.py ${option} returned no output.")
-    endif()
-    if(is_list)
-        string (REPLACE " " ";" ${output_var} "${${output_var}}")
-    endif()
-endmacro()
-
-# Query for the shiboken6-generator path, PySide6 path, Python path, include paths and linker flags.
-pyside_config(--shiboken-module-path SHIBOKEN_MODULE_PATH)
-pyside_config(--shiboken-generator-path SHIBOKEN_GENERATOR_PATH)
-pyside_config(--pyside-path PYSIDE_PATH)
-
-pyside_config(--python-include-path PYTHON_INCLUDE_DIR)
-pyside_config(--shiboken-include-path SHIBOKEN_INCLUDE_DIR 1)
-pyside_config(--pyside-include-path PYSIDE_INCLUDE_DIR 1)
-
-pyside_config(--python-link-flags-cmake PYTHON_LINKING_DATA 0)
-pyside_config(--shiboken-module-shared-libraries-cmake SHIBOKEN_MODULE_SHARED_LIBRARIES 0)
-pyside_config(--pyside-shared-libraries-cmake PYSIDE_SHARED_LIBRARIES 0)
-
-# Print the computed variables
-message(STATUS "Shiboken module path: ${SHIBOKEN_MODULE_PATH}")
-message(STATUS "Shiboken generator path: ${SHIBOKEN_GENERATOR_PATH}")
-message(STATUS "PySide path: ${PYSIDE_PATH}")
-message(STATUS "Python include path: ${PYTHON_INCLUDE_DIR}")
-message(STATUS "Shiboken include path: ${SHIBOKEN_INCLUDE_DIR}")
-message(STATUS "PySide include path: ${PYSIDE_INCLUDE_DIR}")
-message(STATUS "Python linking data: ${PYTHON_LINKING_DATA}")
-message(STATUS "Shiboken module shared libraries: ${SHIBOKEN_MODULE_SHARED_LIBRARIES}")
-message(STATUS "PySide shared libraries: ${PYSIDE_SHARED_LIBRARIES}")
-
-set(SHIBOKEN_PATH "${SHIBOKEN_GENERATOR_PATH}/shiboken6${CMAKE_EXECUTABLE_SUFFIX}")
-
-if(NOT EXISTS ${SHIBOKEN_PATH})
-    message(FATAL_ERROR "Shiboken executable not found at path: ${SHIBOKEN_PATH}")
-endif()
-
-# Get all relevant Qt include dirs, to pass them on to shiboken.
-get_property(QT_WIDGETS_INCLUDE_DIRS TARGET Qt6::Widgets PROPERTY INTERFACE_INCLUDE_DIRECTORIES)
-set(INCLUDES "")
-foreach(INCLUDE_DIR ${QT_WIDGETS_INCLUDE_DIRS})
-    list(APPEND INCLUDES "-I${INCLUDE_DIR}")
-endforeach()
-
-# On macOS, check if Qt is a framework build. This affects how include paths should be handled.
-get_target_property(QtCore_is_framework Qt6::Core FRAMEWORK)
-if (QtCore_is_framework)
-    get_target_property(qt_core_library_location Qt6::Core LOCATION)
-    # PYSIDE-623: We move up until the directory contains all the frameworks.
-    #             This is "lib" in ".../lib/QtCore.framework/Versions/A/QtCore".
-    get_filename_component(lib_dir "${qt_core_library_location}/../../../.." ABSOLUTE)
-    list(APPEND INCLUDES "--framework-include-paths=${lib_dir}")
-endif()
-
-# Set up the options to pass to shiboken.
-set(WRAPPED_HEADER ${CMAKE_SOURCE_DIR}/src/pyside/holonpythonwrapper.h)
-set(TYPESYSTEM_FILE ${CMAKE_SOURCE_DIR}/src/pyside/holonpackage.xml)
-
-set(SHIBOKEN_OPTIONS --generator-set=shiboken --enable-parent-ctor-heuristic
-    --enable-pyside-extensions --enable-return-value-heuristic --use-isnull-as-nb-bool
-    --avoid-protected-hack
-    ${INCLUDES}
-    -I${CMAKE_SOURCE_DIR}
-    -T${CMAKE_SOURCE_DIR}
-    -T${PYSIDE_PATH}/typesystems
-    --output-directory=${CMAKE_CURRENT_BINARY_DIR}
-)
-
-# Specify which sources will be generated by shiboken, and their dependencies.
-set(GENERATED_SOURCES
-    ${CMAKE_CURRENT_BINARY_DIR}/Holon/holon_module_wrapper.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/Holon/holonpythontask_wrapper.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/Holon/holonpythontaskwindow_wrapper.cpp
-)
-
-set(GENERATED_SOURCES_DEPENDENCIES
-    ${WRAPPED_HEADER}
-    ${TYPESYSTEM_FILE}
-)
-
-# Add custom target to run shiboken.
-add_custom_command(
-    OUTPUT ${GENERATED_SOURCES}
-    COMMAND ${SHIBOKEN_PATH}
-    ${SHIBOKEN_OPTIONS} ${WRAPPED_HEADER} ${TYPESYSTEM_FILE}
-    DEPENDS ${GENERATED_SOURCES_DEPENDENCIES}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    COMMENT "Running generator for ${TYPESYSTEM_FILE}."
-)
-
-target_sources(${QT_HOLON_LIBRARY}
-    PRIVATE ${GENERATED_SOURCES}
-)
-
-# We need to include the headers for the module bindings that we use.
-set(PYSIDE_ADDITIONAL_INCLUDES "")
-foreach(INCLUDE_DIR ${PYSIDE_INCLUDE_DIR})
-    list(APPEND PYSIDE_ADDITIONAL_INCLUDES "${INCLUDE_DIR}/QtCore")
-    list(APPEND PYSIDE_ADDITIONAL_INCLUDES "${INCLUDE_DIR}/QtGui")
-    list(APPEND PYSIDE_ADDITIONAL_INCLUDES "${INCLUDE_DIR}/QtWidgets")
-endforeach()
-
-# =============================================================================================
-# !!! (The section below is deployment related, so in a real world application you will want to
-# take care of this properly with some custom script or tool).
-# =============================================================================================
-# Enable rpaths so that the example can be executed from the build dir.
-set(CMAKE_SKIP_BUILD_RPATH FALSE)
-set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-set(CMAKE_INSTALL_RPATH ${PYSIDE_PATH} ${SHIBOKEN_MODULE_PATH})
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-# =============================================================================================
-# !!! End of dubious section.
-# =============================================================================================
-
-# Apply relevant include and link flags.
-target_include_directories(${QT_HOLON_LIBRARY}
-    PRIVATE ${PYTHON_INCLUDE_DIR}
-    PRIVATE ${SHIBOKEN_INCLUDE_DIR}
-    PRIVATE ${PYSIDE_INCLUDE_DIR}
-    PRIVATE ${PYSIDE_ADDITIONAL_INCLUDES}
-)
-
-# Find and link to the python library.
-list(GET PYTHON_LINKING_DATA 0 PYTHON_LIBDIR)
-list(GET PYTHON_LINKING_DATA 1 PYTHON_LIB)
-find_library(PYTHON_LINK_FLAGS ${PYTHON_LIB} PATHS ${PYTHON_LIBDIR} HINTS ${PYTHON_LIBDIR})
-
-target_link_libraries(${QT_HOLON_LIBRARY}
-    PRIVATE ${PYTHON_LINK_FLAGS}
-    PRIVATE ${SHIBOKEN_MODULE_SHARED_LIBRARIES}
-    PRIVATE ${PYSIDE_SHARED_LIBRARIES}
-)
-
-# Same as CONFIG += no_keywords to avoid syntax errors in object.h due to the usage of the word Slot
-target_compile_definitions(${QT_HOLON_LIBRARY}
-    PRIVATE QT_NO_KEYWORDS
-)
-
-if(WIN32)
-    # =============================================================================================
-    # !!! (The section below is deployment related, so in a real world application you will want to
-    # take care of this properly (this is simply to eliminate errors that users usually encounter.
-    # =============================================================================================
-    # Circumvent some "#pragma comment(lib)"s in "include/pyconfig.h" which might force to link
-    # against a wrong python shared library.
-
-    set(PYTHON_VERSIONS_LIST 3 36 37 38 39)
-    set(PYTHON_ADDITIONAL_LINK_FLAGS "")
-    foreach(VER ${PYTHON_VERSIONS_LIST})
-        set(PYTHON_ADDITIONAL_LINK_FLAGS
-            "${PYTHON_ADDITIONAL_LINK_FLAGS} /NODEFAULTLIB:\"python${VER}_d.lib\"")
-        set(PYTHON_ADDITIONAL_LINK_FLAGS
-            "${PYTHON_ADDITIONAL_LINK_FLAGS} /NODEFAULTLIB:\"python${VER}.lib\"")
-    endforeach()
-
-    set_target_properties(${QT_HOLON_LIBRARY} PROPERTIES LINK_FLAGS "${PYTHON_ADDITIONAL_LINK_FLAGS}")
-
-    # Add custom target to hard link PySide6 shared libraries (just like in qmake example), so you
-    # don't have to set PATH manually to point to the PySide6 package.
-    set(shared_libraries ${SHIBOKEN_MODULE_SHARED_LIBRARIES} ${PYSIDE_SHARED_LIBRARIES})
-    foreach(LIBRARY_PATH ${shared_libraries})
-        string(REGEX REPLACE ".lib$" ".dll" LIBRARY_PATH ${LIBRARY_PATH})
-        get_filename_component(BASE_NAME ${LIBRARY_PATH} NAME)
-        file(TO_NATIVE_PATH ${LIBRARY_PATH} SOURCE_PATH)
-        file(TO_NATIVE_PATH "${CMAKE_CURRENT_BINARY_DIR}/${BASE_NAME}" DEST_PATH)
-        add_custom_command(OUTPUT "${BASE_NAME}"
-                            COMMAND mklink /H "${DEST_PATH}" "${SOURCE_PATH}"
-                            DEPENDS ${LIBRARY_PATH}
-                            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-                            COMMENT "Creating hardlink to PySide6 shared library ${BASE_NAME}")
-
-        # Fake target that depends on the previous one, but has special ALL keyword, which means
-        # it will always be executed.
-        add_custom_target("fake_${BASE_NAME}" ALL DEPENDS ${BASE_NAME})
-    endforeach()
-    # =============================================================================================
-    # !!! End of dubious section.
-    # =============================================================================================
+if(BUILD_WITH_PYSIDE)
+    include(cmake/QtHolonPySideSetup.cmake)
 endif()

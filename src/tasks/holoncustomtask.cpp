@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holoncustomtask.h"
@@ -15,7 +15,12 @@
 #include <QQmlEngine>
 #include <QQuickWidget>
 #include <QThread>
+
+#if BUILD_WITH_PYSIDE
+
 #include <sbkpython.h>
+
+#endif
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -45,6 +50,9 @@ public:
         {
             if (fileInfo.suffix() == "py"_L1)
             {
+
+#if BUILD_WITH_PYSIDE
+
                 QFile file(fileName);
 
                 if (file.open(QFile::ReadOnly | QFile::Text))
@@ -54,6 +62,13 @@ public:
                     QByteArray script = file.readAll();
                     PyRun_SimpleString(script);
                 }
+
+#else
+
+                q_ptr->emitWarning(u"python not supported: "_s + fileName);
+
+#endif
+
             }
             else if (fileInfo.suffix() == "qml"_L1)
             {
@@ -122,9 +137,18 @@ bool HolonCustomTask::exec()
             {
                 QByteArray script = file.readAll();
 
+#if BUILD_WITH_PYSIDE
+
                 PyGILState_STATE state = PyGILState_Ensure();
                 PyRun_SimpleString(script);
                 PyGILState_Release(state);
+
+#else
+
+                emitWarning(u"python not supported: "_s + fileName);
+
+#endif
+
             }
         }
     }
