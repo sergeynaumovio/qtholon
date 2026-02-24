@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonstackedwindow_p.h"
@@ -24,18 +24,17 @@ void HolonStackedWindowPrivate::addWindow(HolonAbstractWindow *window)
     desktop->addWindow(window);
 }
 
-void HolonStackedWindowPrivate::setWindow(HolonAbstractWindow *window)
+HolonAbstractWindow *HolonStackedWindowPrivate::currentWindow() const
 {
-    if (currentWindow)
-        currentWindow->d_ptr->setCurrent(false);
+    return stackedWidget->currentWindow();
+}
 
-    currentWindow = window;
+void HolonStackedWindowPrivate::setCurrentWindow(HolonAbstractWindow *window)
+{
+    if (currentWindow())
+        currentWindow()->d_ptr->setCurrent(false);
 
     stackedWidget->setCurrentWindow(window);
     window->d_ptr->setCurrent(true);
 }
 
-HolonAbstractWindow *HolonStackedWindowPrivate::window() const
-{
-    return stackedWidget->window();
-}

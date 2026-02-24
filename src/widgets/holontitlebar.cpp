@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holontitlebar.h"
@@ -119,7 +119,7 @@ public:
 
     void addCombobox()
     {
-        if (HolonStackedWindow *stacked = qobject_cast<HolonStackedWindow *>(window))
+        if (HolonStackedWindow *stackedWindow = qobject_cast<HolonStackedWindow *>(window))
         {
             q_ptr->layout()->setContentsMargins({});
 
@@ -141,7 +141,7 @@ public:
                     {
                         if (type == child->metaObject()->metaType())
                         {
-                            stacked->setWindow(child);
+                            stackedWindow->setCurrentWindow(child);
                             stackedToolbar->setCurrentWindow(child);
 
                             return;
@@ -152,7 +152,8 @@ public:
                     to.append(QString::number(HolonId::createChildId(window)));
                     window->tree()->copy(section, to);
                     HolonAbstractWindow *child = qobject_cast<HolonAbstractWindow *>(window->tree()->object(to));
-                    stacked->setWindow(child);
+
+                    stackedWindow->setCurrentWindow(child);
                     stackedToolbar->setCurrentWindow(child);
                 });
 

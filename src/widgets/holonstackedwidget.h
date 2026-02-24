@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONSTACKEDWIDGET_H
@@ -55,9 +55,9 @@ public:
     ~HolonWindowStackedWidget();
 
     void addWindowWidget(HolonAbstractWindow *window, QWidget *widget);
+    HolonAbstractWindow *currentWindow() const;
     void removeWindowWidget(HolonAbstractWindow *window);
     void setCurrentWindow(HolonAbstractWindow *window);
-    HolonAbstractWindow *window() const;
 };
 
 

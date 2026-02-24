@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonstackedwindow.h"
@@ -38,6 +38,12 @@ void HolonStackedWindow::addWindow(HolonAbstractWindow *window)
     d->addWindow(window);
 }
 
+HolonAbstractWindow *HolonStackedWindow::currentWindow() const
+{
+    Q_D(const HolonStackedWindow);
+    return d->currentWindow ();
+}
+
 HolonDesktop *HolonStackedWindow::desktop() const
 {
     return d_ptr->desktop;
@@ -57,10 +63,10 @@ bool HolonStackedWindow::isCopyable(QStringView to) const
     return false;
 }
 
-void HolonStackedWindow::setWindow(HolonAbstractWindow *window)
+void HolonStackedWindow::setCurrentWindow(HolonAbstractWindow *window)
 {
     Q_D(HolonStackedWindow);
-    d->setWindow(window);
+    d->setCurrentWindow(window);
 }
 
 QWidget *HolonStackedWindow::toolbarWidget()
@@ -68,8 +74,3 @@ QWidget *HolonStackedWindow::toolbarWidget()
     return {};
 }
 
-HolonAbstractWindow *HolonStackedWindow::window() const
-{
-    Q_D(const HolonStackedWindow);
-    return d->window();
-}

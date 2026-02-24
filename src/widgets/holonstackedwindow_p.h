@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONSTACKEDWINDOW_P_H
@@ -16,13 +16,12 @@ class HolonStackedWindowPrivate : public HolonAbstractWindowPrivate
 {
 public:
     HolonWindowStackedWidget *const stackedWidget;
-    HolonAbstractWindow *currentWindow{};
 
     HolonStackedWindowPrivate(HolonStackedWindow *q, HolonDesktop *desk);
 
     void addWindow(HolonAbstractWindow *window);
-    void setWindow(HolonAbstractWindow *window);
-    HolonAbstractWindow *window() const;
+    HolonAbstractWindow *currentWindow() const;
+    void setCurrentWindow(HolonAbstractWindow *window);
 };
 
 #endif // HOLONSTACKEDWINDOW_P_H

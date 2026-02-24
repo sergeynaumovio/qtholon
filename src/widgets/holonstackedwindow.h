@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONSTACKEDWINDOW_H
@@ -23,11 +23,11 @@ public:
 
     QWidget *centralWidget() override;
     void addWindow(HolonAbstractWindow *window);
+    HolonAbstractWindow *currentWindow() const;
     HolonDesktop *desktop() const;
     bool isCopyable(QStringView to) const override;
-    void setWindow(HolonAbstractWindow *window);
+    void setCurrentWindow(HolonAbstractWindow *window);
     QWidget *toolbarWidget() override;
-    HolonAbstractWindow *window() const;
 };
 
 #endif // HOLONSTACKEDWINDOW_H
