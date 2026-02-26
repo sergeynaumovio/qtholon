@@ -116,7 +116,7 @@ HolonCustomTask::HolonCustomTask(QLoaderSettings *settings, HolonWorkflow *workf
 :   HolonAbstractTask(settings, workflow),
     d_ptr(this)
 {
-    workflow->desktop()->addTask(this);
+    workflow->addTask(this);
 }
 
 HolonCustomTask::~HolonCustomTask()

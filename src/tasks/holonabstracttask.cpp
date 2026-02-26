@@ -44,8 +44,6 @@ HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonWorkflow *w
 
         if (!contains(u"open"_s))
             setValue(u"open"_s, true);
-
-        workflow->addTask(this);
     }
     else
         emitError(u"task id not valid"_s);

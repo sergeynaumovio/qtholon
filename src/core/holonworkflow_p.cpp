@@ -3,6 +3,7 @@
 
 #include "holonworkflow_p.h"
 #include "holonabstracttask.h"
+#include "holondesktop.h"
 #include "holonworkflow.h"
 #include "holonworkflowitem.h"
 #include "holonworkflowmodel.h"
@@ -21,8 +22,8 @@ HolonWorkflowPrivate::~HolonWorkflowPrivate()
 
 void HolonWorkflowPrivate::addTask(HolonAbstractTask *task)
 {
-
-    Q_UNUSED(task)
+    // TODO: move to Core
+    desktop->addTask(task);
 }
 
 int HolonWorkflowPrivate::exec()
