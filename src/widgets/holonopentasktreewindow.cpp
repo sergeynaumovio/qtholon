@@ -7,13 +7,7 @@
 #include "holonsidebar.h"
 #include "holonopentasktreeview.h"
 #include "holonstackedwindow.h"
-#include <QBoxLayout>
-#include <QHeaderView>
-#include <QIcon>
-#include <QLabel>
 #include <QLoaderTree>
-#include <QTreeView>
-#include <QUuid>
 
 using namespace Qt::Literals::StringLiterals;
 

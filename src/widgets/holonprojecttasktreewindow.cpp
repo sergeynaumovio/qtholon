@@ -2,21 +2,12 @@
 // SPDX-License-Identifier: 0BSD
 
 #include "holonprojecttasktreewindow.h"
-#include "holonabstracttask.h"
 #include "holondesktop.h"
 #include "holonid.h"
 #include "holonprojecttasktreewindow_p.h"
 #include "holonsidebar.h"
 #include "holonstackedwindow.h"
-#include "holontaskfolder.h"
-#include "holontaskfoldermodel.h"
-#include "holonworkflow.h"
-#include <QBoxLayout>
-#include <QHeaderView>
-#include <QIcon>
-#include <QLabel>
 #include <QLoaderTree>
-#include <QTreeView>
 
 using namespace Qt::Literals::StringLiterals;
 
