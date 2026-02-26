@@ -52,6 +52,11 @@ void HolonParametersWindowPrivate::setOpenTaskTreeModel(HolonOpenTaskTreeModel *
         HolonAbstractTask *tsk = static_cast<HolonAbstractTask *>(combobox->model()->index(index, 0).internalPointer());
         desktop->setTask(tsk);
     });
+
+    QObject::connect(openTaskTreeModel, &QAbstractItemModel::rowsInserted, combobox, [=](const QModelIndex &, int row)
+    {
+        combobox->setCurrentIndex(row);
+    });
 }
 
 QWidget *HolonParametersWindowPrivate::toolbarWidget()
