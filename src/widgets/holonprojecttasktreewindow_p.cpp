@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonprojecttasktreewindow_p.h"
@@ -9,6 +9,7 @@
 #include "holontaskfolder.h"
 #include "holontaskfoldermodel.h"
 #include "holonprojecttasktreewindow.h"
+#include "holontaskthread.h"
 #include "holonworkflow.h"
 #include "qloadertree.h"
 #include <QHeaderView>
@@ -42,6 +43,9 @@ QWidget *HolonProjectTaskTreeWindowPrivate::widget()
 
     QTreeView::connect(view, &QTreeView::doubleClicked, view, [=, this](QModelIndex index)
     {
+        if (desktop->taskThread()->isRunning())
+            return;
+
         QObject *clickedObject = static_cast<QObject *>(index.internalPointer());
         if (!qobject_cast<HolonAbstractTask *>(clickedObject))
             return;

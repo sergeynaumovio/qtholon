@@ -736,6 +736,9 @@ void HolonDesktopPrivate::addTask(HolonAbstractTask *task)
     if (!task)
         return;
 
+    if (q_ptr->taskThread()->isRunning())
+        return q_ptr->emitWarning(u"task not added"_s);
+
     d_ptr->addTask(task);
 }
 
