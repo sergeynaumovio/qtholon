@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonpythontaskwindow.h"
@@ -9,10 +9,10 @@ using namespace Qt::Literals::StringLiterals;
 
 bool HolonPythonTaskWindow::setValue(const QString &key, const QVariant &value)
 {
-    return desktop->taskWindow()->setValue(key, value);
+    return desktop->currentTaskWindow()->setValue(key, value);
 }
 
 QVariant HolonPythonTaskWindow::value(const QString &key, const QVariant &defaultValue) const
 {
-    return desktop->taskWindow()->value(key, defaultValue);
+    return desktop->currentTaskWindow()->value(key, defaultValue);
 }

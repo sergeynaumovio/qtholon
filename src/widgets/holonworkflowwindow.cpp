@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonworkflowwindow.h"
@@ -93,7 +93,7 @@ public:
                     QString taskId = QString::number(clickedItem->taskId());
 
                     if (HolonAbstractTask *clickedTask = workflow->findChild<HolonAbstractTask *>(taskId))
-                        desktop->setTask(clickedTask);
+                        desktop->setCurrentTask(clickedTask);
                 });
 
 

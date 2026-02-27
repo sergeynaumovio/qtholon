@@ -56,7 +56,7 @@ QWidget *HolonProjectTaskTreeWindowPrivate::widget()
 
         [=, this]()
         {
-            HolonWorkflow *workflow = desktop->workflow();
+            HolonWorkflow *workflow = desktop->currentWorkflow();
             if (!workflow)
                 return;
 

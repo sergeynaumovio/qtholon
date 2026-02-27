@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonpythontask.h"
@@ -15,15 +15,15 @@ bool HolonPythonTask::isInterruptionRequested() const
 
 QWidget *HolonPythonTask::parametersWidget() const
 {
-    return desktop->task()->parametersWidget();
+    return desktop->currentTask()->parametersWidget();
 }
 
 bool HolonPythonTask::setValue(const QString &key, const QVariant &value)
 {
-    return desktop->task()->setValue(key, value);
+    return desktop->currentTask()->setValue(key, value);
 }
 
 QVariant HolonPythonTask::value(const QString &key, const QVariant &defaultValue) const
 {
-    return desktop->task()->value(key, defaultValue);
+    return desktop->currentTask()->value(key, defaultValue);
 }

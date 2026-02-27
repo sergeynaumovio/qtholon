@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONDESKTOP_H
@@ -43,15 +43,15 @@ public:
     void closeTask(HolonAbstractTask *task);
     void closeWindow(HolonAbstractWindow *window);
     void closeWindowArea(HolonWindowArea *windowArea);
-    void setTask(HolonAbstractTask *task);
+    HolonAbstractTask *currentTask() const;
+    HolonAbstractTaskWindow *currentTaskWindow() const;
+    HolonWorkflow *currentWorkflow() const;
+    void setCurrentTask(HolonAbstractTask *task);
+    void setCurrentWindow(HolonAbstractWindow *window);
+    void setCurrentWindowArea(HolonWindowArea *windowArea);
     void setTheme(HolonTheme *theme);
-    void setWindow(HolonAbstractWindow *window);
-    void setWindowArea(HolonWindowArea *windowArea);
-    HolonAbstractTask *task() const;
     HolonTaskThread *taskThread() const;
-    HolonAbstractTaskWindow *taskWindow() const;
     HolonTheme *theme() const;
-    HolonWorkflow *workflow() const;
 };
 
 #endif // HOLONDESKTOP_H

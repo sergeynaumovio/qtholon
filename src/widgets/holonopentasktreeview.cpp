@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonopentasktreeview.h"
@@ -175,14 +175,14 @@ void HolonOpenTaskTreeView::setModel(QAbstractItemModel *model)
     {
         QModelIndex index = model->index(row, 0);
         HolonAbstractTask *addedTask = static_cast<HolonAbstractTask *>(index.internalPointer());
-        desktop()->setTask(addedTask);
+        desktop()->setCurrentTask(addedTask);
         setCurrentIndex(index);
     });
 
     connect(this, &QTreeView::clicked, this, [=, this](const QModelIndex &index)
     {
         HolonAbstractTask *clickedTask = static_cast<HolonAbstractTask *>(index.internalPointer());
-        desktop()->setTask(clickedTask);
+        desktop()->setCurrentTask(clickedTask);
     });
 
     connect(this, &HolonOpenTaskTreeView::closeActivated, this, [=, this](const QModelIndex &index)

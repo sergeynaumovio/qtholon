@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holondesktop.h"
@@ -52,14 +52,14 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
             {
                 if (HolonDockWidget *dockWidget = qobject_cast<HolonDockWidget *>(stacked->parent()))
                     if (HolonTaskStackedWindow *taskStackedWindow = qobject_cast<HolonTaskStackedWindow *>(dockWidget->window()))
-                        setWindow(taskStackedWindow);
+                        setCurrentWindow(taskStackedWindow);
 
                 return;
             }
 
             if (HolonDockWidget *dockWidget = qobject_cast<HolonDockWidget *>(object->parent()))
                 if (HolonAbstractTaskWindow *window = qobject_cast<HolonAbstractTaskWindow *>(dockWidget->window()))
-                    setWindow(window);
+                    setCurrentWindow(window);
         });
     }
 
@@ -133,9 +133,34 @@ void HolonDesktop::closeWindowArea(HolonWindowArea *windowArea)
     d_ptr->closeWindowArea(windowArea);
 }
 
-void HolonDesktop::setTask(HolonAbstractTask *task)
+HolonAbstractTask *HolonDesktop::currentTask() const
 {
-    d_ptr->setTask(task);
+    return d_ptr->currentTask();
+}
+
+HolonAbstractTaskWindow *HolonDesktop::currentTaskWindow() const
+{
+    return d_ptr->currentTaskWindow();
+}
+
+HolonWorkflow *HolonDesktop::currentWorkflow() const
+{
+    return d_ptr->currentWorkflow();
+}
+
+void HolonDesktop::setCurrentTask(HolonAbstractTask *task)
+{
+    d_ptr->setCurrentTask(task);
+}
+
+void HolonDesktop::setCurrentWindow(HolonAbstractWindow *window)
+{
+    d_ptr->setCurrentWindow(window);
+}
+
+void HolonDesktop::setCurrentWindowArea(HolonWindowArea *windowArea)
+{
+    d_ptr->setCurrentWindowArea(windowArea);
 }
 
 void HolonDesktop::setTheme(HolonTheme *theme)
@@ -143,37 +168,12 @@ void HolonDesktop::setTheme(HolonTheme *theme)
     d_ptr->setTheme(theme);
 }
 
-void HolonDesktop::setWindow(HolonAbstractWindow *window)
-{
-    d_ptr->setWindow(window);
-}
-
-void HolonDesktop::setWindowArea(HolonWindowArea *windowArea)
-{
-    d_ptr->setWindowArea(windowArea);
-}
-
-HolonAbstractTask *HolonDesktop::task() const
-{
-    return d_ptr->task();
-}
-
 HolonTaskThread *HolonDesktop::taskThread() const
 {
     return d_ptr->taskThread();
 }
 
-HolonAbstractTaskWindow *HolonDesktop::taskWindow() const
-{
-    return d_ptr->taskWindow();
-}
-
 HolonTheme *HolonDesktop::theme() const
 {
     return d_ptr->theme();
-}
-
-HolonWorkflow *HolonDesktop::workflow() const
-{
-    return d_ptr->workflow();
 }

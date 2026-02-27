@@ -85,7 +85,7 @@ bool HolonOpenTaskTreeModel::insertRows(int position, int rows, const QModelInde
 {
     beginInsertRows(parent, position, position + rows);
     if (HolonDesktop *desktop = qobject_cast<HolonDesktop *>(QObject::parent()))
-        d_ptr->openTaskList.append(desktop->workflow()->findChildren<HolonAbstractTask *>().constLast());
+        d_ptr->openTaskList.append(desktop->currentWorkflow()->findChildren<HolonAbstractTask *>().constLast());
     endInsertRows();
 
     return true;

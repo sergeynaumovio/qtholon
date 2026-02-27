@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonwindowareaswitch.h"
@@ -179,7 +179,7 @@ HolonWindowAreaButton::HolonWindowAreaButton(HolonWindowAreaSwitchPrivate &swtch
     {
         if (checked)
         {
-            desktop_d.q_ptr->setWindowArea(windowArea);
+            desktop_d.q_ptr->setCurrentWindowArea(windowArea);
 
             const auto buttons = switch_d.windowAreaButtonGroup->buttons();
             for (QAbstractButton *button : buttons)
@@ -189,6 +189,6 @@ HolonWindowAreaButton::HolonWindowAreaButton(HolonWindowAreaSwitchPrivate &swtch
             }
         }
         else if (!switch_d.windowAreaButtonGroup->checkedButton())
-            desktop_d.q_ptr->setWindowArea(nullptr);
+            desktop_d.q_ptr->setCurrentWindowArea(nullptr);
     });
 }

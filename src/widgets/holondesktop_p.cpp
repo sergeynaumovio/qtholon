@@ -772,6 +772,21 @@ void HolonDesktopPrivate::closeWindowArea(HolonWindowArea *windowArea)
     taskbar()->sidebarSwitch()->closeWindowArea(windowArea);
 }
 
+HolonAbstractTask *HolonDesktopPrivate::currentTask() const
+{
+    return d_ptr->currentTask;
+}
+
+HolonAbstractTaskWindow *HolonDesktopPrivate::currentTaskWindow() const
+{
+    return qobject_cast<HolonAbstractTaskWindow *>(d_ptr->currentTaskWindow.value(d_ptr->currentTask));
+}
+
+HolonWorkflow *HolonDesktopPrivate::currentWorkflow() const
+{
+    return d_ptr->currentWorkflow;
+}
+
 void HolonDesktopPrivate::emitWarning(const QString &warning) const
 {
     q_ptr->emitWarning(warning);
@@ -782,7 +797,7 @@ void HolonDesktopPrivate::setLayout()
     d_ptr->setLayout();
 }
 
-void HolonDesktopPrivate::setTask(HolonAbstractTask *task)
+void HolonDesktopPrivate::setCurrentTask(HolonAbstractTask *task)
 {
     if (!task || task == d_ptr->currentTask)
         return;
@@ -795,7 +810,7 @@ void HolonDesktopPrivate::setTask(HolonAbstractTask *task)
     task->d_ptr->setCurrent(true);
 }
 
-void HolonDesktopPrivate::setWindow(HolonAbstractWindow *window)
+void HolonDesktopPrivate::setCurrentWindow(HolonAbstractWindow *window)
 {
     if (window == d_ptr->currentWindow)
         return;
@@ -809,7 +824,7 @@ void HolonDesktopPrivate::setWindow(HolonAbstractWindow *window)
         window->d_ptr->setCurrent(true);
 }
 
-void HolonDesktopPrivate::setWindowArea(HolonWindowArea *windowArea)
+void HolonDesktopPrivate::setCurrentWindowArea(HolonWindowArea *windowArea)
 {
     if (windowArea == d_ptr->currentWindowArea)
         return;
@@ -835,19 +850,9 @@ void HolonDesktopPrivate::setTheme(HolonTheme *theme)
     }
 }
 
-HolonAbstractTask *HolonDesktopPrivate::task() const
-{
-    return d_ptr->currentTask;
-}
-
 HolonTaskThread *HolonDesktopPrivate::taskThread() const
 {
     return d_ptr->taskThread;
-}
-
-HolonAbstractTaskWindow *HolonDesktopPrivate::taskWindow() const
-{
-    return qobject_cast<HolonAbstractTaskWindow *>(d_ptr->currentTaskWindow.value(d_ptr->currentTask));
 }
 
 HolonTheme *HolonDesktopPrivate::theme() const
@@ -877,11 +882,6 @@ HolonTaskbar *HolonDesktopPrivate::taskbar() const
 HolonDesktopPrivate::TaskbarArea HolonDesktopPrivate::taskbarArea() const
 {
     return d_ptr->taskbarArea;
-}
-
-HolonWorkflow *HolonDesktopPrivate::workflow() const
-{
-    return d_ptr->currentWorkflow;
 }
 
 void HolonDesktopPrivate::removeSidebar(HolonSidebar *sidebar)
