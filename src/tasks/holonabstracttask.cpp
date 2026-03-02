@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonabstracttask.h"
@@ -39,7 +39,7 @@ HolonAbstractTask::HolonAbstractTask(QLoaderSettings *settings, HolonWorkflow *w
 
     if (bool ok = (objectName().toUInt(&ok), ok))
     {
-        if (!contains(u"current"_s))
+        if (tree()->isLoaded())
             setValue(u"current"_s, true);
 
         if (!contains(u"open"_s))
