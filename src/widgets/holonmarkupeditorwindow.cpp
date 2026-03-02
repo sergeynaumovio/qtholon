@@ -1,9 +1,8 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonmarkupeditorwindow.h"
 #include "holonabstracttask.h"
-#include "holonabstracttaskwindow_p.h"
 #include "holondesktop.h"
 #include "holonid.h"
 #include "holontaskstackedwindow.h"
@@ -15,23 +14,16 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-static HolonAbstractTask *task(HolonStackedWindow *parent)
-{
-    return qobject_cast<HolonAbstractTask *>(parent->parent());
-}
-
-class HolonMarkupEditorWindowPrivate : public HolonAbstractTaskWindowPrivate
+class HolonMarkupEditorWindowPrivate
 {
 public:
+    HolonMarkupEditorWindow *const q_ptr;
     QLoaderSettings *const settings;
     QLoaderMarkupEditor *editor{};
     HolonToolBar *toolbar{};
 
-    HolonMarkupEditorWindowPrivate(HolonMarkupEditorWindow *q = nullptr,
-                                   HolonDesktop *desk = nullptr,
-                                   HolonAbstractTask *t = nullptr,
-                                   QLoaderSettings *s = nullptr)
-    :   HolonAbstractTaskWindowPrivate(q, desk, t),
+    HolonMarkupEditorWindowPrivate(HolonMarkupEditorWindow *q = nullptr, QLoaderSettings *s = nullptr)
+    :   q_ptr(q),
         settings(s)
     { }
 
@@ -64,7 +56,8 @@ public:
 };
 
 HolonMarkupEditorWindow::HolonMarkupEditorWindow(QLoaderSettings *settings, HolonAbstractTask *parent)
-:   HolonAbstractTaskWindow(*new HolonMarkupEditorWindowPrivate(this, parent->desktop(), parent, settings), settings, parent)
+:   HolonAbstractTaskWindow(settings, parent),
+    d_ptr(this, settings)
 {
     parent->addWindow(this);
 }
@@ -76,7 +69,8 @@ HolonMarkupEditorWindow::HolonMarkupEditorWindow(QLoaderSettings *settings, Holo
 }
 
 HolonMarkupEditorWindow::HolonMarkupEditorWindow(QLoaderSettings *settings, HolonTaskStackedWindow *parent)
-:   HolonAbstractTaskWindow(*new HolonMarkupEditorWindowPrivate(this, parent->desktop(), ::task(parent), settings), settings, parent)
+:   HolonAbstractTaskWindow(settings, parent),
+    d_ptr(this, settings)
 {
     parent->addWindow(this);
 }
@@ -86,8 +80,7 @@ HolonMarkupEditorWindow::~HolonMarkupEditorWindow()
 
 QWidget *HolonMarkupEditorWindow::centralWidget()
 {
-    Q_D(HolonMarkupEditorWindow);
-    return d->centralWidget();
+    return d_ptr->centralWidget();
 }
 
 QIcon HolonMarkupEditorWindow::icon() const
@@ -121,6 +114,5 @@ QString HolonMarkupEditorWindow::title() const
 
 QWidget *HolonMarkupEditorWindow::toolbarWidget()
 {
-    Q_D(HolonMarkupEditorWindow);
-    return d->toolbarWidget();
+    return d_ptr->toolbarWidget();
 }

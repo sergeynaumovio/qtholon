@@ -1,10 +1,11 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONMARKUPEDITORWINDOW_H
 #define HOLONMARKUPEDITORWINDOW_H
 
 #include "holonabstracttaskwindow.h"
+#include <QScopedStorage>
 
 class HolonDesktop;
 class HolonMarkupEditorWindowPrivate;
@@ -13,7 +14,8 @@ class HolonTaskStackedWindow;
 class HolonMarkupEditorWindow : public HolonAbstractTaskWindow
 {
     Q_OBJECT
-    Q_DECLARE_PRIVATE(HolonMarkupEditorWindow)
+
+    const QScopedStorage<HolonMarkupEditorWindowPrivate, 32> d_ptr;
 
 public:
     HolonMarkupEditorWindow(QLoaderSettings *settings, HolonAbstractTask *parent);

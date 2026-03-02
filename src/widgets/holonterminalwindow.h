@@ -1,10 +1,11 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONTERMINALWINDOW_H
 #define HOLONTERMINALWINDOW_H
 
 #include "holonabstracttaskwindow.h"
+#include <QScopedStorage>
 
 class HolonDesktop;
 class HolonTaskStackedWindow;
@@ -13,7 +14,8 @@ class HolonTerminalWindowPrivate;
 class HolonTerminalWindow : public HolonAbstractTaskWindow
 {
     Q_OBJECT
-    Q_DECLARE_PRIVATE(HolonTerminalWindow)
+
+    const QScopedStorage<HolonTerminalWindowPrivate, 48> d_ptr;
 
 public:
     HolonTerminalWindow(QLoaderSettings *settings, HolonAbstractTask *parent);

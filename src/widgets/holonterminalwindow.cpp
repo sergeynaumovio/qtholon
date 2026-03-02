@@ -1,9 +1,8 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonterminalwindow.h"
 #include "holonabstracttask.h"
-#include "holonabstracttaskwindow_p.h"
 #include "holondesktop.h"
 #include "holonid.h"
 #include "holontaskstackedwindow.h"
@@ -18,25 +17,18 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-static HolonAbstractTask *task(HolonStackedWindow *parent)
-{
-    return qobject_cast<HolonAbstractTask *>(parent->parent());
-}
-
-class HolonTerminalWindowPrivate : public HolonAbstractTaskWindowPrivate
+class HolonTerminalWindowPrivate
 {
 public:
+    HolonTerminalWindow *const q_ptr;
     QLoaderSettings *const settings;
     bool close{true};
     QLoaderTerminal *terminal{};
     QLoaderShell *shell{};
     HolonToolBar *toolbar{};
 
-    HolonTerminalWindowPrivate(HolonTerminalWindow *q = nullptr,
-                               HolonDesktop *desk = nullptr,
-                               HolonAbstractTask *t = nullptr,
-                               QLoaderSettings *s = nullptr)
-    :   HolonAbstractTaskWindowPrivate(q, desk, t),
+    HolonTerminalWindowPrivate(HolonTerminalWindow *q = nullptr, QLoaderSettings *s = nullptr)
+    :   q_ptr(q),
         settings(s)
     { }
 
@@ -78,7 +70,7 @@ public:
 
         if (terminal)
         {
-            HolonThemeIcons *icons = desktop->theme()->icons();
+            HolonThemeIcons *icons = q_ptr->desktop()->theme()->icons();
 
             QToolButton *clearButton = toolbar->addToolButton(icons->clearIcon(), u"Clear"_s);
             QObject::connect(clearButton, &QToolButton::clicked, terminal, [this](){ terminal->clear(); });
@@ -89,7 +81,8 @@ public:
 };
 
 HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonAbstractTask *parent)
-:   HolonAbstractTaskWindow(*new HolonTerminalWindowPrivate(this, parent->desktop(), parent, settings), settings, parent)
+:   HolonAbstractTaskWindow(settings, parent),
+    d_ptr(this, settings)
 {
     parent->addWindow(this);
 }
@@ -101,7 +94,8 @@ HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonDesktop
 }
 
 HolonTerminalWindow::HolonTerminalWindow(QLoaderSettings *settings, HolonTaskStackedWindow *parent)
-:   HolonAbstractTaskWindow(*new HolonTerminalWindowPrivate(this, parent->desktop(), ::task(parent), settings), settings, parent)
+:   HolonAbstractTaskWindow(settings, parent),
+    d_ptr(this, settings)
 {
     parent->addWindow(this);
 }
@@ -111,8 +105,7 @@ HolonTerminalWindow::~HolonTerminalWindow()
 
 QWidget *HolonTerminalWindow::centralWidget()
 {
-    Q_D(HolonTerminalWindow);
-    return d->centralWidget();
+    return d_ptr->centralWidget();
 }
 
 QIcon HolonTerminalWindow::icon() const
@@ -146,6 +139,5 @@ QString HolonTerminalWindow::title() const
 
 QWidget *HolonTerminalWindow::toolbarWidget()
 {
-    Q_D(HolonTerminalWindow);
-    return d->toolbarWidget();
+    return d_ptr->toolbarWidget();
 }
