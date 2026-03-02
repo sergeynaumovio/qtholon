@@ -52,7 +52,8 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
             {
                 if (HolonDockWidget *dockWidget = qobject_cast<HolonDockWidget *>(stacked->parent()))
                     if (HolonTaskStackedWindow *taskStackedWindow = qobject_cast<HolonTaskStackedWindow *>(dockWidget->window()))
-                        setCurrentWindow(taskStackedWindow);
+                        if (HolonAbstractTaskWindow *window = qobject_cast<HolonAbstractTaskWindow *>(taskStackedWindow->currentWindow()))
+                            setCurrentWindow(window);
 
                 return;
             }

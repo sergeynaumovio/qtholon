@@ -260,8 +260,14 @@ void HolonDesktopPrivateData::addTaskWindow(auto *window)
         return;
 
     HolonAbstractTaskWindow *taskWindow = qobject_cast<HolonAbstractTaskWindow *>(window);
+    HolonTaskStackedWindow *taskStackedWindow = qobject_cast<HolonTaskStackedWindow *>(window->parent());
 
-    if (taskWindow->isCurrent())
+    if (q_ptr->tree()->isLoaded())
+        desktop_d.setCurrentWindow(taskWindow);
+
+    const bool isCurrentTaskWindow = (taskWindow->isCurrent() && (!taskStackedWindow || taskStackedWindow->isCurrent()));
+
+    if (isCurrentTaskWindow)
     {
         currentTaskWindow[task] = taskWindow;
 
@@ -295,7 +301,7 @@ void HolonDesktopPrivateData::addTaskWindow(auto *window)
             windowStackedWidget->addWindowWidget(taskWindow, widget);
             stackedWidgetByTaskWindow.insert(taskWindow, windowStackedWidget);
 
-            if (taskWindow->isCurrent())
+            if (isCurrentTaskWindow)
                 currentTaskWindow[task] = taskWindow;
         }
     }
@@ -815,13 +821,21 @@ void HolonDesktopPrivate::setCurrentWindow(HolonAbstractWindow *window)
     if (window == d_ptr->currentWindow)
         return;
 
-    if (d_ptr->currentWindow && d_ptr->currentTaskWindow.value(d_ptr->currentTask) == d_ptr->currentWindow)
-        d_ptr->currentWindow->d_ptr->setCurrent(false);
+    if (d_ptr->currentWindow)
+    {
+        if (HolonTaskStackedWindow *taskStackedWindow = qobject_cast<HolonTaskStackedWindow *>(d_ptr->currentWindow->parent()))
+            taskStackedWindow->d_ptr->setCurrent(false);
+        else if (d_ptr->currentTaskWindow.value(d_ptr->currentTask) == d_ptr->currentWindow)
+            d_ptr->currentWindow->d_ptr->setCurrent(false);
+    }
 
-    d_ptr->setCurrentWindow(window);
+    if (HolonTaskStackedWindow *taskStackedWindow = qobject_cast<HolonTaskStackedWindow *>(window->parent()))
+        taskStackedWindow->d_ptr->setCurrent(true);
 
     if (window)
         window->d_ptr->setCurrent(true);
+
+    d_ptr->setCurrentWindow(window);
 }
 
 void HolonDesktopPrivate::setCurrentWindowArea(HolonWindowArea *windowArea)
