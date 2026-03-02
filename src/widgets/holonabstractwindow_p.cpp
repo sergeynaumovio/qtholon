@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonabstractwindow_p.h"
@@ -16,5 +16,5 @@ HolonAbstractWindowPrivate::~HolonAbstractWindowPrivate()
 
 void HolonAbstractWindowPrivate::setCurrent(bool current)
 {
-    q_ptr->setValue(u"current"_s, current);
+    q_ptr->setValue(u"current"_s, (current ? true : QVariant()));
 }
