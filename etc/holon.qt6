@@ -2,7 +2,7 @@
 
 [holon]
 class = HolonDesktop
-geometry = QByteArray(AdnQywADAAAAAAAuAAAEZAAABDYAAAdOAAAALgAABIEAAAQ2AAAHTgAAAAAAAAAABDgAAAAuAAAEgQAABDYAAAdO)
+geometry = QByteArray(AdnQywADAAAAAAAwAAAEigAABDgAAAdsAAAAMAAABIoAAAQ4AAAHbAAAAAEAAAAABLAAAAAwAAAEigAABDgAAAds)
 saveShortcut = Ctrl+S
 sidebarMoveShortcut = Alt+M
 startTaskShortcut = F5
@@ -27,11 +27,9 @@ class = HolonMessagesWindow
 
 [holon/markupeditor-window]
 class = HolonMarkupEditorWindow
-current = true
 
 [holon/terminal-window]
 class = HolonTerminalWindow
-current = true
 
 [holon/task-folder-a]
 class = HolonTaskFolder
@@ -45,11 +43,9 @@ title = Custom Task A
 
 [holon/task-folder-a/custom-task-1/0]
 class = HolonTaskStackedWindow
-current = true
 
 [holon/task-folder-a/custom-task-1/0/2]
 class = HolonMarkupEditorWindow
-current = true
 
 [holon/task-folder-b]
 class = HolonTaskFolder
@@ -62,11 +58,9 @@ title = Custom Task B
 
 [holon/task-folder-b/custom-task-2/0]
 class = HolonTaskStackedWindow
-current = true
 
 [holon/task-folder-b/custom-task-2/0/0]
 class = HolonTerminalWindow
-current = true
 title = Terminal
 
 [holon/task-folder-b/custom-task-3]
@@ -76,11 +70,9 @@ title = Custom Task C
 
 [holon/task-folder-b/custom-task-3/0]
 class = HolonTaskStackedWindow
-current = true
 
 [holon/task-folder-b/custom-task-3/0/1]
 class = HolonTerminalWindow
-current = true
 title = Terminal
 
 [holon/workflow]
@@ -95,7 +87,6 @@ title = Workflow 1
 [holon/workflow/1/0]
 class = HolonCustomTask
 a = value A
-current = false
 dockWidgetSplitState = 0/t,1/b
 mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAALfAAACTvwCAAAAAfwAAAAAAAACTgAAALsA/////AIAAAAC+wAAAAIAMgEAAAAAAAABJwAAAAAAAAAA/AAAAAAAAAJOAAAAuwD////8AgAAAAL7AAAAAgAwAQAAAAAAAAC5AAAAXQD////7AAAAAgAxAQAAALoAAAGUAAAAXQD///8AAAAAAAACTgAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 open = true
@@ -104,41 +95,39 @@ title = Custom Task A
 
 [holon/workflow/1/0/0]
 class = HolonTaskStackedWindow
-current = false
 
 [holon/workflow/1/0/0/1]
 class = HolonTerminalWindow
-current = true
 
 [holon/workflow/1/0/0/0]
 class = HolonMarkupEditorWindow
-current = false
+current = true
 
 [holon/workflow/1/0/1]
 class = HolonTaskStackedWindow
-current = false
+current = true
 
 [holon/workflow/1/0/1/1]
 class = HolonTerminalWindow
+
+[holon/workflow/1/0/1/0]
+class = HolonMarkupEditorWindow
 current = true
 
 [holon/workflow/1/1]
 class = HolonCustomTask
 a = value B
-current = false
 dockWidgetSplitState = 0/l,1/r
-mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAJsAAACV/wCAAAAAfwAAAAAAAACVwAAAF0A/////AEAAAAC+wAAAAIAMAEAAAAAAAABhQAAAMgA////+wAAAAIAMQEAAAGGAAAA5gAAAOYA////AAAAAAAAAlcAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAHMAAACbPwCAAAAAfwAAAAAAAACbAAAAF0A/////AEAAAAC+wAAAAIAMAEAAAAAAAAA5QAAAMgA////+wAAAAIAMQEAAADmAAAA5gAAAOYA////AAAAAAAAAmwAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 open = true
 parametersWidget = python/customTaskWidget.py
 title = Custom Task B
 
 [holon/workflow/1/1/0]
 class = HolonTaskStackedWindow
-current = true
 
 [holon/workflow/1/1/0/1]
 class = HolonTerminalWindow
-current = false
 
 [holon/workflow/1/1/0/0]
 class = HolonMarkupEditorWindow
@@ -150,11 +139,10 @@ current = true
 
 [holon/workflow/1/1/1/1]
 class = HolonTerminalWindow
-current = true
 
 [holon/workflow/1/1/1/0]
 class = HolonMarkupEditorWindow
-current = false
+current = true
 
 [holon/workflow/1/2]
 class = HolonCustomTask
@@ -162,18 +150,16 @@ a = value C1
 current = true
 dockWidgetSplitState = 0/b,t/1/l,t/2/r
 exec = python/customTaskC.py
-mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAK1AAACV/wCAAAAAfwAAAAAAAACVwAAALsA/////AIAAAAC/AAAAAAAAAGfAAAAXQD////8AQAAAAL7AAAAAgAxAQAAAAAAAADyAAAAxAD////7AAAAAgAyAQAAAPMAAAHCAAAAxAD////7AAAAAgAwAQAAAaAAAAC3AAAAXQD///8AAAAAAAACVwAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAAHNAAACbPwCAAAAAfwAAAAAAAACbAAAALsA/////AIAAAAC/AAAAAAAAAGtAAAAXQD////8AQAAAAL7AAAAAgAxAQAAAAAAAADmAAAA5gD////7AAAAAgAyAQAAAOcAAADmAAAA5gD////7AAAAAgAwAQAAAa4AAAC+AAAAXQD///8AAAAAAAACbAAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 open = true
 parametersWidget = python/customTaskWidget.py
 title = Custom Task C
 
 [holon/workflow/1/2/1]
 class = HolonTaskStackedWindow
-current = true
 
 [holon/workflow/1/2/1/1]
 class = HolonTerminalWindow
-current = false
 
 [holon/workflow/1/2/1/0]
 class = HolonMarkupEditorWindow
@@ -189,11 +175,6 @@ current = true
 
 [holon/workflow/1/2/2]
 class = HolonTaskStackedWindow
-current = true
-
-[holon/workflow/1/2/2/1]
-class = HolonTerminalWindow
-current = false
 
 [holon/workflow/1/2/2/0]
 class = HolonMarkupEditorWindow
@@ -202,7 +183,6 @@ current = true
 [holon/workflow/1/3]
 class = HolonCustomTask
 a = value C2
-current = false
 dockWidgetSplitState = 1/t,0/b
 mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAALfAAACTvwCAAAAAfwAAAAAAAACTgAAALsA/////AEAAAAC/AAAAAAAAALfAAAAwQD////8AgAAAAL7AAAAAgAxAQAAAAAAAACqAAAAXQD////7AAAAAgAwAQAAAKsAAAGjAAAAXQD////7AAAAAgAyAQAAAhQAAADLAAAAAAAAAAAAAAAAAAACTgAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 open = true
@@ -211,7 +191,6 @@ title = Custom Task C
 
 [holon/workflow/1/3/1]
 class = HolonTaskStackedWindow
-current = true
 
 [holon/workflow/1/3/1/1]
 class = HolonTerminalWindow
@@ -220,7 +199,6 @@ title = Terminal
 
 [holon/workflow/1/3/0]
 class = HolonTaskStackedWindow
-current = true
 
 [holon/workflow/1/3/0/1]
 class = HolonTerminalWindow
@@ -250,8 +228,8 @@ area = left
 checked = true
 dockWidgetSplitState = 1/b,0/t
 mainWindowNestingIndex = 0
-mainWindowNestingState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAADAAAACtPwCAAAAAfsAAAAKAHQAYQBzAGsAcwEAAAAAAAACtAAAALoA///+AAAAAQAAAIIAAAK0/AIAAAAB+wAAABAAcwBlAHQAdABpAG4AZwBzAQAAAAAAAAK0AAAAJwD///4AAALFAAACtAAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
-mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAADAAAACtPwCAAAAAfwAAAAAAAACtAAAALsA/////AIAAAAC/AAAAAAAAAFgAAAAXQD////8AgAAAAL7AAAAAgAwAQAAAAAAAAFgAAAAXQD////7AAAAAgAyAQAAAOAAAADfAAAAAAAAAAD7AAAAAgAxAQAAAWEAAAFTAAAAXQD///8AAAAAAAACsgAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
+mainWindowNestingState = QByteArray(AAAA/wAAAAD9AAAAAgAAAAAAAADAAAACyfwCAAAAAfsAAAAKAHQAYQBzAGsAcwEAAAAAAAACyQAAALoA///+AAAAAQAAAJEAAALJ/AIAAAAB+wAAABAAcwBlAHQAdABpAG4AZwBzAQAAAAAAAALJAAAAKQD///4AAAK2AAACyQAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
+mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAADAAAACyfwCAAAAAfwAAAAAAAACyQAAALsA/////AIAAAAC/AAAAAAAAAFrAAAAXQD////8AgAAAAL7AAAAAgAwAQAAAAAAAAFrAAAAXQD////7AAAAAgAyAQAAAOAAAADfAAAAAAAAAAD7AAAAAgAxAQAAAWwAAAFdAAAAXQD///8AAAAAAAACxwAAAAQAAAAEAAAACAAAAAj8AAAAAA==)
 shortcut = Alt+1
 title = 1  Tasks
 
@@ -267,7 +245,6 @@ class = HolonStackedWindow
 
 [holon/tasks/1/0]
 class = HolonProjectTaskTreeWindow
-current = false
 
 [holon/tasks/1/1]
 class = HolonOpenTaskTreeWindow
@@ -278,7 +255,7 @@ class = HolonSidebar
 area = left
 checked = true
 mainWindowNestingIndex = 1
-mainWindowNestingState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAADbAAACtPwCAAAAAfsAAAAUAHAAYQByAGEAbQBlAHQAZQByAHMBAAAAAAAAArQAAAB4AP///gAAAmwAAAK0AAAABAAAAAQAAAAIAAAACPwAAAAA)
+mainWindowNestingState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAADoAAACyfwCAAAAAfsAAAAUAHAAYQByAGEAbQBlAHQAZQByAHMBAAAAAAAAAskAAABDAP///gAAAc0AAALJAAAABAAAAAQAAAAIAAAACPwAAAAA)
 shortcut = Alt+2
 title = 2  Parameters
 
@@ -309,7 +286,7 @@ class = HolonSidebar
 area = bottom
 checked = true
 mainWindowNestingIndex = 2
-mainWindowNestingState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAAJsAAAAXPwBAAAAAfsAAAAQAG0AZQBzAHMAYQBnAGUAcwEAAAAAAAACbAAAAIMA////AAACbAAAAlcAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
+mainWindowNestingState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAMAAAHNAAAAXPwBAAAAAfsAAAAQAG0AZQBzAHMAYQBnAGUAcwEAAAAAAAABzQAAAIMA////AAABzQAAAmwAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 shortcut = Alt+4
 title = 4  Messages
 
@@ -319,7 +296,7 @@ class = HolonMessagesWindow
 [holon/settings]
 class = HolonSidebar
 area = right
-checked = false
+checked = true
 mainWindowNestingIndex = 0
 shortcut = Alt+5
 title = 5  Settings
