@@ -709,8 +709,18 @@ void HolonDesktopPrivateData::setVBoxLayout(QWidget *&widget, const QString &nam
     parent->layout()->addWidget(widget);
 }
 
-HolonDesktopPrivate::HolonDesktopPrivate(HolonDesktop *q)
-:   d_ptr(*this, q),
+HolonDesktopPrivate::HolonDesktopPrivate(HolonDesktop *q) :
+
+#if Q_HOLON_DEBUG
+
+    d_ptr(new HolonDesktopPrivateData(*this, q)),
+
+#else
+
+    d_ptr(*this, q),
+
+#endif
+
     q_ptr(q)
 {
     if (q->contains(u"saveShortcut"_s))

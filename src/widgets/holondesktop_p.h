@@ -5,6 +5,7 @@
 #define HOLONDESKTOP_P_H
 
 #include <QMetaObject>
+#include <QScopedPointer>
 #include <QScopedStorage>
 
 class HolonAbstractTask;
@@ -28,7 +29,17 @@ class HolonDesktopPrivate
 
     friend class HolonDesktop;
     friend class HolonDesktopPrivateData;
+
+#if Q_HOLON_DEBUG
+
+    const QScopedPointer<HolonDesktopPrivateData> d_ptr;
+
+#else
+
     const QScopedStorage<HolonDesktopPrivateData, 424> d_ptr;
+
+#endif
+
 
     HolonDesktopPrivate(HolonDesktop *q);
 

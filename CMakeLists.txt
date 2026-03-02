@@ -44,6 +44,12 @@ target_compile_definitions(${QT_HOLON_LIBRARY}
             QT_LEAN_HEADERS
 )
 
+if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+    target_compile_definitions(${QT_HOLON_LIBRARY}
+        PRIVATE Q_HOLON_DEBUG=1
+    )
+endif()
+
 target_sources(${QT_HOLON_LIBRARY}
     PRIVATE src/core/holoncore.cpp
             src/core/holoncore.h
