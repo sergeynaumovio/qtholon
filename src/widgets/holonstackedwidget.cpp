@@ -5,6 +5,7 @@
 #include "holonstackedwindow.h"
 #include "holonabstracttask.h"
 #include "holonabstractwindow.h"
+#include "holontaskstackedwindow.h"
 #include <QHash>
 
 class HolonStackedWidgetPrivate
@@ -72,7 +73,9 @@ public:
         windowWidget.insert(window, widget);
         q_ptr->addWidget(widget);
 
-        if (window->isCurrent())
+        HolonTaskStackedWindow *taskStackedWindow = qobject_cast<HolonTaskStackedWindow *>(window->parent());
+
+        if (!currentWindow || (window->isCurrent() && (!taskStackedWindow || taskStackedWindow->isCurrent())))
         {
             q_ptr->setCurrentWidget(windowWidget.value(window));
             currentWindow = window;
