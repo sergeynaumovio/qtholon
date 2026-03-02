@@ -16,10 +16,6 @@ HolonStackedWindowPrivate::HolonStackedWindowPrivate(HolonStackedWindow *q, Holo
 void HolonStackedWindowPrivate::addWindow(HolonAbstractWindow *window)
 {
     stackedWidget->addWindowWidget(window, window->centralWidget());
-
-    if (!window->contains(u"current"_s))
-        window->d_ptr->setCurrent(true);
-
     titleBar->addWindow(window);
     desktop->addWindow(window);
 }
