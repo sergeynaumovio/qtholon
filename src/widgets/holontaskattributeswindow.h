@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONTASKATTRIBUTESWINDOW_H
@@ -24,6 +24,7 @@ public:
     ~HolonTaskAttributesWindow();
 
     QWidget *centralWidget() override;
+    QWidget *toolbarWidget() override;
 };
 
 #endif // HOLONTASKATTRIBUTESWINDOW_H

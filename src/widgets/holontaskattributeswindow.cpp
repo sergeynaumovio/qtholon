@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holontaskattributeswindow.h"
@@ -25,4 +25,9 @@ QWidget *HolonTaskAttributesWindow::centralWidget()
 {
     Q_D(HolonTaskAttributesWindow);
     return d->centralWidget();
+}
+
+QWidget *HolonTaskAttributesWindow::toolbarWidget()
+{
+    return {};
 }
