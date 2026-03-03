@@ -43,8 +43,9 @@ HolonAbstractTaskWindow::HolonAbstractTaskWindow(QLoaderSettings *settings, Holo
         if (tree()->isLoaded())
             setValue(u"current"_s, true);
 
-        if (!contains(u"open"_s))
-            setValue(u"open"_s, true);
+        // TODO: use "open" property
+        // if (!contains(u"open"_s))
+        //     setValue(u"open"_s, true);
     }
     else
         emitError(u"task id not valid"_s);
