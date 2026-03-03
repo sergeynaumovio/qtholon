@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONWORKFLOWWINDOW_H
@@ -28,6 +28,7 @@ public:
     bool isCopyable(QStringView to) const override;
     bool isTreeView() const;
     void setCurrent(int id);
+    QWidget *settingsWidget();
     void setTreeView(bool value);
     QString title() const override;
     QWidget *toolbarWidget() override;

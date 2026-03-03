@@ -216,6 +216,11 @@ void HolonWorkflowWindow::setCurrent(int id)
     setValue(u"current"_s, id);
 }
 
+QWidget *HolonWorkflowWindow::settingsWidget()
+{
+    return new QLabel(section());
+}
+
 void HolonWorkflowWindow::setTreeView(bool value)
 {
     setValue(u"treeView"_s, value);
