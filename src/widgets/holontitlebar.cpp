@@ -136,25 +136,28 @@ public:
                     QString section = windowCombobox->itemData(index).toString();
                     QMetaType type = window->tree()->object(section)->metaObject()->metaType();
 
+                    auto setCurrentWindow = [=, this](HolonAbstractWindow *child)
+                    {
+                        stackedWindow->setCurrentWindow(child);
+                        stackedToolbar->setCurrentWindow(child);
+
+                        if (window->tree()->isLoaded())
+                            desktop->setCurrentWindow(child);
+
+                        child->centralWidget()->setFocus();
+                    };
+
                     const auto windows = window->findChildren<HolonAbstractWindow *>(Qt::FindDirectChildrenOnly);
                     for (HolonAbstractWindow *child : windows)
-                    {
                         if (type == child->metaObject()->metaType())
-                        {
-                            stackedWindow->setCurrentWindow(child);
-                            stackedToolbar->setCurrentWindow(child);
-
-                            return;
-                        }
-                    }
+                            return setCurrentWindow(child);
 
                     QString to = window->section() + u'/';
                     to.append(QString::number(HolonId::createChildId(window)));
                     window->tree()->copy(section, to);
                     HolonAbstractWindow *child = qobject_cast<HolonAbstractWindow *>(window->tree()->object(to));
 
-                    stackedWindow->setCurrentWindow(child);
-                    stackedToolbar->setCurrentWindow(child);
+                    setCurrentWindow(child);
                 });
 
                 q_ptr->layout()->addWidget(windowCombobox);
