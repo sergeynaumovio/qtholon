@@ -1,16 +1,16 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #ifndef HOLONSETTINGSWINDOW_H
 #define HOLONSETTINGSWINDOW_H
 
-#include "holontaskwindowattributeswindow.h"
+#include "holonabstractattributeswindow.h"
 
 class HolonDesktop;
 class HolonSettingsWindowPrivate;
 class HolonSidebar;
 
-class HolonSettingsWindow : public HolonTaskWindowAttributesWindow
+class HolonSettingsWindow : public HolonAbstractAttributesWindow
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(HolonSettingsWindow)
