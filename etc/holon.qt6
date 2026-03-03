@@ -262,21 +262,20 @@ title = 2  Parameters
 [holon/parameters/window]
 class = HolonParametersWindow
 
-[holon/workflows]
+[holon/workflow-window-area]
 class = HolonWindowArea
 area = bottom
-checked = false
 dockWidgetSplitState = 0/l,1/r
 mainWindowState = QByteArray(AAAA/wAAAAD9AAAAAQAAAAAAAALFAAACV/wCAAAAAfwAAAAAAAACVwAAAF0A/////AEAAAAC+wAAAAIAMAEAAAAAAAABHQAAAMAA////+wAAAAIAMQEAAAEeAAABpwAAAMAA////AAAAAAAAAlUAAAAEAAAABAAAAAgAAAAI/AAAAAA=)
 shortcut = Alt+3
 title = 3  Workflows
 
-[holon/workflows/0]
+[holon/workflow-window-area/0]
 class = HolonWorkflowWindow
 current = 2
 treeView = true
 
-[holon/workflows/1]
+[holon/workflow-window-area/1]
 class = HolonWorkflowWindow
 current = 1
 treeView = true

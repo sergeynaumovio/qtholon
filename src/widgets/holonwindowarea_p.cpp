@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonwindowarea_p.h"
@@ -153,7 +153,7 @@ void HolonWindowAreaPrivate::saveWindowAreaState()
 
 void HolonWindowAreaPrivate::setChecked(bool checked)
 {
-    q_ptr->setValue(u"checked"_s, checked);
+    q_ptr->setValue(u"checked"_s, (checked ? true : QVariant()));
 }
 
 void HolonWindowAreaPrivate::setValue(const QString &key, const QVariant &value)

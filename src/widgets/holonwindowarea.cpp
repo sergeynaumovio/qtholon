@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
+// Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
 #include "holonwindowarea.h"
@@ -55,7 +55,7 @@ HolonDesktop *HolonWindowArea::desktop() const
 
 bool HolonWindowArea::isChecked() const
 {
-    return value(u"checked"_s, false).toBool();
+    return value(u"checked"_s).toBool();
 }
 
 QIcon HolonWindowArea::icon() const
