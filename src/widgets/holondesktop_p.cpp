@@ -342,7 +342,7 @@ void HolonDesktopPrivateData::addWindowAreaStackedWidget(HolonWindowAreaStackedW
         }
     }
 
-    for (HolonWindowArea *windowArea : windowAreaList)
+    for (HolonWindowArea *windowArea : std::as_const(windowAreaList))
     {
         HolonWindowStackedWidget *windowStackedWidget = new HolonWindowStackedWidget(windowType);
         windowAreaStackedWidget->addWindowAreaWidget(windowArea, windowStackedWidget);
@@ -352,7 +352,7 @@ void HolonDesktopPrivateData::addWindowAreaStackedWidget(HolonWindowAreaStackedW
 
         QList<HolonAbstractWindow *> windowList = windowArea->findChildren<HolonAbstractWindow *>();
 
-        for (HolonAbstractWindow *window : windowList)
+        for (HolonAbstractWindow *window : std::as_const(windowList))
             if (HolonSettingsWidgetInterface *interface = qobject_cast<HolonSettingsWidgetInterface *>(window))
                 if (QWidget *widget = interface->settingsWidget())
                     windowStackedWidget->addWindowWidget (window, widget);
@@ -655,7 +655,7 @@ void HolonDesktopPrivateData::setCurrentWindowArea(HolonWindowArea *windowArea)
 {
     mainWindow->setCurrentWindowArea(windowArea);
 
-    for (HolonWindowAreaStackedWidget *windowAreaStackedWidget : windowAreaStackedWidgetList)
+    for (HolonWindowAreaStackedWidget *windowAreaStackedWidget : std::as_const(windowAreaStackedWidgetList))
         windowAreaStackedWidget->setCurrentWindowArea(windowArea);
 
     // TODO: fix current window
@@ -877,7 +877,7 @@ void HolonDesktopPrivate::setCurrentWindow(HolonAbstractWindow *window)
         d_ptr->currentWindow = window;
 
 
-        for (HolonWindowAreaStackedWidget *windowAreaStackedWidget : d_ptr->windowAreaStackedWidgetList)
+        for (HolonWindowAreaStackedWidget *windowAreaStackedWidget : std::as_const(d_ptr->windowAreaStackedWidgetList))
             if (auto *windowStackedWidget = qobject_cast<HolonWindowStackedWidget *>(windowAreaStackedWidget->currentWidget()))
                 windowStackedWidget->setCurrentWindow(window);
 
