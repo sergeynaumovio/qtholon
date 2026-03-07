@@ -120,6 +120,7 @@ target_sources(${QT_HOLON_LIBRARY}
             src/widgets/holonprojecttasktreewindow.h
             src/widgets/holonprojecttasktreewindow_p.cpp
             src/widgets/holonprojecttasktreewindow_p.h
+            src/widgets/holonsettingswidgetinterface.h
             src/widgets/holonsettingswindow.cpp
             src/widgets/holonsettingswindow.h
             src/widgets/holonsidebar.cpp
@@ -234,6 +235,7 @@ set(QT_HOLON_PUBLIC_HEADERS
     src/widgets/HolonAbstractTaskWindow
     src/widgets/HolonAbstractWindow
     src/widgets/HolonDesktop
+    src/widgets/HolonSettingsWidgetInterface
     src/widgets/HolonSidebar
     src/widgets/HolonStackedWindow
     src/widgets/HolonTaskAttributesWindow
@@ -248,6 +250,7 @@ set(QT_HOLON_PUBLIC_HEADERS
     src/widgets/holonabstracttaskwindow.h
     src/widgets/holonabstractwindow.h
     src/widgets/holondesktop.h
+    src/widgets/holonsettingswidgetinterface.h
     src/widgets/holonsidebar.h
     src/widgets/holontaskstackedwindow.h
     src/widgets/holonstackedwindow.h

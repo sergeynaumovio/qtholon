@@ -5,14 +5,17 @@
 #define HOLONWORKFLOWWINDOW_H
 
 #include "holonabstractwindow.h"
+#include "holonsettingswidgetinterface.h"
 
 class HolonDesktop;
 class HolonWindowArea;
 class HolonWorkflowWindowPrivate;
 
-class HolonWorkflowWindow : public HolonAbstractWindow
+class HolonWorkflowWindow : public HolonAbstractWindow,
+                            public HolonSettingsWidgetInterface
 {
     Q_OBJECT
+    Q_INTERFACES(HolonSettingsWidgetInterface)
     Q_DECLARE_PRIVATE(HolonWorkflowWindow)
 
     friend class HolonWorkflowWindowPrivate;
@@ -23,15 +26,15 @@ public:
     ~HolonWorkflowWindow();
 
     QWidget *centralWidget() override;
-    int current() const;
     QIcon icon() const override;
     bool isCopyable(QStringView to) const override;
     bool isTreeView() const;
-    void setCurrent(int id);
-    QWidget *settingsWidget();
+    QWidget *settingsWidget() override;
     void setTreeView(bool value);
+    void setWorkflowId(int id);
     QString title() const override;
     QWidget *toolbarWidget() override;
+    int workflowId() const;
 };
 
 #endif // HOLONWORKFLOWWINDOW_H

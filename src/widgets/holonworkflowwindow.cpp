@@ -43,7 +43,7 @@ public:
     {
         QComboBox *combobox = titleBar->windowComboBox();
         Q_Q(HolonWorkflowWindow);
-        int id = q->current();
+        int id = q->workflowId();
 
         if (HolonWorkflow *root = desktop->findChild<HolonWorkflow *>())
         {
@@ -150,7 +150,7 @@ public:
                 stacked->setCurrentWidget(viewByWorkflow.value(currentWorkflow));
                 QStackedWidget *stackedView = static_cast<QStackedWidget *>(stacked->currentWidget());
                 stackedView->setCurrentIndex(treeViewButton->isChecked());
-                q->setCurrent(currentWorkflow->objectName().toInt());
+                q->setWorkflowId(currentWorkflow->objectName().toInt());
             });
         }
 
@@ -182,11 +182,6 @@ QWidget *HolonWorkflowWindow::centralWidget()
     return d->centralWidget();
 }
 
-int HolonWorkflowWindow::current() const
-{
-    return value(u"current"_s).toInt();
-}
-
 QIcon HolonWorkflowWindow::icon() const
 {
     return {};
@@ -211,11 +206,6 @@ bool HolonWorkflowWindow::isTreeView() const
     return value(u"treeView"_s).toBool();
 }
 
-void HolonWorkflowWindow::setCurrent(int id)
-{
-    setValue(u"current"_s, id);
-}
-
 QWidget *HolonWorkflowWindow::settingsWidget()
 {
     return new QLabel(section());
@@ -224,6 +214,11 @@ QWidget *HolonWorkflowWindow::settingsWidget()
 void HolonWorkflowWindow::setTreeView(bool value)
 {
     setValue(u"treeView"_s, value);
+}
+
+void HolonWorkflowWindow::setWorkflowId(int id)
+{
+    setValue(u"workflowId"_s, id);
 }
 
 QString HolonWorkflowWindow::title() const
@@ -235,4 +230,9 @@ QWidget *HolonWorkflowWindow::toolbarWidget()
 {
     Q_D(HolonWorkflowWindow);
     return d->toolbarWidget();
+}
+
+int HolonWorkflowWindow::workflowId() const
+{
+    return value(u"workflowId"_s).toInt();
 }

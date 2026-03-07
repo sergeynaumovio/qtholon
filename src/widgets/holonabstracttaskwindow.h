@@ -5,14 +5,17 @@
 #define HOLONABSTRACTTASKWINDOW_H
 
 #include "holonabstractwindow.h"
+#include "holonsettingswidgetinterface.h"
 
 class HolonAbstractTask;
 class HolonAbstractTaskWindowPrivate;
 class HolonTaskStackedWindow;
 
-class Q_HOLON_EXPORT HolonAbstractTaskWindow : public HolonAbstractWindow
+class Q_HOLON_EXPORT HolonAbstractTaskWindow : public HolonAbstractWindow,
+                                               public HolonSettingsWidgetInterface
 {
     Q_OBJECT
+    Q_INTERFACES(HolonSettingsWidgetInterface)
     Q_DECLARE_PRIVATE(HolonAbstractTaskWindow)
 
     friend class HolonPythonTaskWindow;
@@ -27,7 +30,6 @@ public:
     ~HolonAbstractTaskWindow();
 
     virtual QWidget *customWidget(QMetaType taskWindowAttributesWindow);
-    virtual QWidget *settingsWidget() = 0;
     HolonAbstractTask *task() const;
 };
 
