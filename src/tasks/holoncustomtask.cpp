@@ -1,6 +1,12 @@
 // Copyright (C) 2026 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
+#if BUILD_WITH_PYSIDE
+
+#include <Python.h>
+
+#endif
+
 #include "holoncustomtask.h"
 #include "holondesktop.h"
 #include "holontaskfolder.h"

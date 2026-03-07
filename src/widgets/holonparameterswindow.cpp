@@ -1,6 +1,12 @@
 // Copyright (C) 2025 Sergey Naumov <sergey@naumov.io>
 // SPDX-License-Identifier: 0BSD
 
+#if BUILD_WITH_PYSIDE
+
+#include <Python.h>
+
+#endif
+
 #include "holonparameterswindow.h"
 #include "holondesktop.h"
 #include "holonid.h"
