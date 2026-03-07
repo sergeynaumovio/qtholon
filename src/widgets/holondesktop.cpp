@@ -58,9 +58,20 @@ HolonDesktop::HolonDesktop(QLoaderSettings *settings, QWidget *parent)
                 return;
             }
 
-            if (HolonDockWidget *dockWidget = qobject_cast<HolonDockWidget *>(object->parent()))
-                if (HolonAbstractTaskWindow *window = qobject_cast<HolonAbstractTaskWindow *>(dockWidget->window()))
-                    setCurrentWindow(window);
+            while ((object = object->parent()))
+            {
+                if (HolonDockWidget *dockWidget = qobject_cast<HolonDockWidget *>(object->parent()))
+                {
+                    if (HolonAbstractTaskWindow *window = qobject_cast<HolonAbstractTaskWindow *>(dockWidget->window()))
+                        return setCurrentWindow(window);
+
+                    if (HolonAbstractWindow *window = dockWidget->window())
+                        if (qobject_cast<HolonSettingsWidgetInterface *>(window))
+                            return setCurrentWindow(window);
+
+                    return;
+                }
+            }
         });
     }
 
