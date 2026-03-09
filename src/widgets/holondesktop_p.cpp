@@ -353,6 +353,9 @@ void HolonDesktopPrivateData::addWindowAreaStackedWidget(HolonWindowAreaStackedW
         HolonWindowStackedWidget *windowStackedWidget = new HolonWindowStackedWidget(windowType);
         windowAreaStackedWidget->addWindowAreaWidget(windowArea, windowStackedWidget);
 
+        if (windowArea->isChecked())
+            windowAreaStackedWidget->setCurrentWindowArea(windowArea);
+
         if (windowType != settingsType)
             return;
 
