@@ -646,7 +646,8 @@ void HolonDesktopPrivateData::setCurrentTask(HolonAbstractTask *task)
             if (HolonWindowStackedWidget *stacked = qobject_cast<HolonWindowStackedWidget *>(widget))
                 widget = stacked->currentWidget();
 
-            widget->setFocus();
+            if (!currentWindowArea)
+                widget->setFocus();
         }
 }
 
@@ -662,16 +663,16 @@ void HolonDesktopPrivateData::setCurrentTaskWindow(HolonAbstractTaskWindow *wind
 
 void HolonDesktopPrivateData::setCurrentWindowArea(HolonWindowArea *windowArea)
 {
+    currentWindowByWindowArea[currentWindowArea] = currentWindow;
+    currentWindow = (windowArea ? currentWindowByWindowArea[windowArea] : currentTaskWindow[currentTask]);
+    currentWindowArea = windowArea;
+
     mainWindow->setCurrentWindowArea(windowArea);
 
     for (HolonWindowAreaStackedWidget *windowAreaStackedWidget : std::as_const(windowAreaStackedWidgetList))
         windowAreaStackedWidget->setCurrentWindowArea(windowArea);
 
-    // TODO: fix current window
-
-    currentWindowByWindowArea[currentWindowArea] = currentWindow;
-    currentWindow = currentWindowByWindowArea[windowArea];
-    currentWindowArea = windowArea;
+    currentWindow->centralWidget()->setFocus();
 }
 
 void HolonDesktopPrivateData::setHBoxLayout(QWidget *&widget, const QString &name, QWidget *parent)
@@ -899,7 +900,10 @@ void HolonDesktopPrivate::setCurrentWindow(HolonAbstractWindow *window)
         if (d_ptr->currentWindow)
         {
             if (HolonTaskStackedWindow *taskStackedWindow = qobject_cast<HolonTaskStackedWindow *>(d_ptr->currentWindow->parent()))
-                taskStackedWindow->d_ptr->setCurrent(false);
+            {
+                if (taskStackedWindow->task () == d_ptr->currentTask)
+                    taskStackedWindow->d_ptr->setCurrent(false);
+            }
             else if (d_ptr->currentTaskWindow.value(d_ptr->currentTask) == d_ptr->currentWindow)
                 d_ptr->currentWindow->d_ptr->setCurrent(false);
         }
