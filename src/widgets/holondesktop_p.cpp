@@ -564,13 +564,25 @@ void HolonDesktopPrivateData::closeWindow(HolonAbstractWindow *window)
         windowAreaByTaskWindow.remove(window);
     }
 
-    if (HolonWindowStackedWidget *stackedWidget = stackedWidgetByTaskWindow.value(window))
+    auto removeTaskWindowWidget = [this](HolonAbstractWindow *window)
     {
-        stackedWidget->removeWindowWidget(window);
-        stackedWidgetByTaskWindow.remove(window);
+        if (HolonWindowStackedWidget *stackedWidget = stackedWidgetByTaskWindow.value(window))
+        {
+            stackedWidget->removeWindowWidget(window);
+            stackedWidgetByTaskWindow.remove(window);
+        }
+    };
+
+    if (qobject_cast<HolonAbstractTaskWindow *>(window))
+        removeTaskWindowWidget(window);
+    else if (HolonTaskStackedWindow *taskStackedWindow = qobject_cast<HolonTaskStackedWindow *>(window))
+    {
+        QList<HolonAbstractTaskWindow *> taskWindowList = taskStackedWindow->findChildren<HolonAbstractTaskWindow *>();
+        for (HolonAbstractWindow *window : std::as_const(taskWindowList))
+            removeTaskWindowWidget(window);
     }
 
-    if (window == currentWindow)
+    if (currentWindow && (window == currentWindow || window == currentWindow->parent()))
     {
         currentWindow = nullptr;
         currentTaskWindow.remove(currentTask);
@@ -825,6 +837,9 @@ void HolonDesktopPrivate::closeTask(HolonAbstractTask *task)
 
 void HolonDesktopPrivate::closeWindow(HolonAbstractWindow *window)
 {
+    if (!window)
+        return;
+
     d_ptr->closeWindow(window);
 }
 
