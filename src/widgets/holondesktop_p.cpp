@@ -47,7 +47,6 @@
 #include "holonthemestyle_p.h"
 #include "holonwindowareaswitch.h"
 #include "holonworkflow.h"
-#include "holonworkflowwindow.h"
 #include <QApplication>
 #include <QLayout>
 #include <QLoaderTree>
@@ -111,11 +110,15 @@ public:
     } sidebars;
 
     QList<HolonTaskStackedWidget *> taskStackedWidgetList;
+
+    // TODO: add stacked widgets to this list
     QList<HolonWindowStackedWidget *> windowStackedWidgetList;
     QList<HolonWindowAreaStackedWidget *> windowAreaStackedWidgetList;
 
     QHash<HolonAbstractWindow *, HolonWindowArea *> windowAreaByTaskWindow;
-    QHash<HolonAbstractWindow *, HolonWindowStackedWidget *> stackedWidgetByTaskWindow;
+
+    // TODO: add multiple stacked widgets for abstract window
+    QHash<HolonAbstractWindow *, HolonWindowStackedWidget *> stackedWidgetByWindow; // settings
 
     HolonAbstractTask *currentTask{};
     QHash<HolonAbstractTask *, HolonAbstractWindow *> currentTaskWindow;
@@ -243,7 +246,7 @@ void HolonDesktopPrivateData::addTasksWidgets(HolonTaskStackedWidget *taskStacke
 
 void HolonDesktopPrivateData::addTaskWindow(auto *window)
 {
-    if (stackedWidgetByTaskWindow.contains(window))
+    if (stackedWidgetByWindow.contains(window))
         return;
 
     HolonAbstractTask *task = window->task();
@@ -307,7 +310,7 @@ void HolonDesktopPrivateData::addTaskWindow(auto *window)
                                                     taskWindow->customWidget(windowType))))
         {
             windowStackedWidget->addWindowWidget(taskWindow, widget);
-            stackedWidgetByTaskWindow.insert(taskWindow, windowStackedWidget);
+            stackedWidgetByWindow.insert(taskWindow, windowStackedWidget);
 
             if (isCurrentTaskWindow)
                 currentTaskWindow[task] = taskWindow;
@@ -342,7 +345,7 @@ void HolonDesktopPrivateData::addWindowAreaStackedWidget(HolonWindowAreaStackedW
                                                                     taskWindow->customWidget(windowType)))
                 {
                     windowStackedWidget->addWindowWidget(taskWindow, widget);
-                    stackedWidgetByTaskWindow.insert(taskWindow, windowStackedWidget);
+                    stackedWidgetByWindow.insert(taskWindow, windowStackedWidget);
                 }
             }
         }
@@ -364,7 +367,10 @@ void HolonDesktopPrivateData::addWindowAreaStackedWidget(HolonWindowAreaStackedW
         for (HolonAbstractWindow *window : std::as_const(windowList))
             if (HolonSettingsWidgetInterface *interface = qobject_cast<HolonSettingsWidgetInterface *>(window))
                 if (QWidget *widget = interface->settingsWidget())
-                    windowStackedWidget->addWindowWidget (window, widget);
+                {
+                    windowStackedWidget->addWindowWidget(window, widget);
+                    stackedWidgetByWindow.insert(window, windowStackedWidget);
+                }
     }
 }
 
@@ -550,10 +556,22 @@ void HolonDesktopPrivateData::closeWindow(HolonAbstractWindow *window)
         return;
     }
 
-    if (qobject_cast<HolonWorkflowWindow *>(window))
+    auto removeWindowWidget = [this](HolonAbstractWindow *window)
     {
-        HolonWindowArea *windowArea = qobject_cast<HolonWindowArea *>(window->parent());
-        windowArea->closeWindow(window);
+        if (HolonWindowStackedWidget *stackedWidget = stackedWidgetByWindow.value(window))
+        {
+            stackedWidget->removeWindowWidget(window);
+            stackedWidgetByWindow.remove(window);
+        }
+    };
+
+    if (currentWindowArea)
+    {
+        currentWindowArea->closeWindow(window);
+        removeWindowWidget(window);
+
+        if (window == currentWindow)
+            currentWindow = nullptr;
 
         return;
     }
@@ -564,22 +582,13 @@ void HolonDesktopPrivateData::closeWindow(HolonAbstractWindow *window)
         windowAreaByTaskWindow.remove(window);
     }
 
-    auto removeTaskWindowWidget = [this](HolonAbstractWindow *window)
-    {
-        if (HolonWindowStackedWidget *stackedWidget = stackedWidgetByTaskWindow.value(window))
-        {
-            stackedWidget->removeWindowWidget(window);
-            stackedWidgetByTaskWindow.remove(window);
-        }
-    };
-
     if (qobject_cast<HolonAbstractTaskWindow *>(window))
-        removeTaskWindowWidget(window);
+        removeWindowWidget(window);
     else if (HolonTaskStackedWindow *taskStackedWindow = qobject_cast<HolonTaskStackedWindow *>(window))
     {
         QList<HolonAbstractTaskWindow *> taskWindowList = taskStackedWindow->findChildren<HolonAbstractTaskWindow *>();
         for (HolonAbstractWindow *window : std::as_const(taskWindowList))
-            removeTaskWindowWidget(window);
+            removeWindowWidget(window);
     }
 
     if (currentWindow && (window == currentWindow || window == currentWindow->parent()))
