@@ -587,8 +587,8 @@ void HolonDesktopPrivateData::closeWindow(HolonAbstractWindow *window)
     else if (HolonTaskStackedWindow *taskStackedWindow = qobject_cast<HolonTaskStackedWindow *>(window))
     {
         QList<HolonAbstractTaskWindow *> taskWindowList = taskStackedWindow->findChildren<HolonAbstractTaskWindow *>();
-        for (HolonAbstractWindow *window : std::as_const(taskWindowList))
-            removeWindowWidget(window);
+        for (HolonAbstractTaskWindow *taskWindow : std::as_const(taskWindowList))
+            removeWindowWidget(taskWindow);
     }
 
     if (currentWindow && (window == currentWindow || window == currentWindow->parent()))
