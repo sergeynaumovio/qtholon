@@ -326,6 +326,7 @@ void HolonDesktopPrivateData::addTaskWindow(auto *window)
     }
 }
 
+// add settings window
 void HolonDesktopPrivateData::addWindowAreaStackedWidget(HolonWindowAreaStackedWidget *windowAreaStackedWidget)
 {
     windowAreaStackedWidgetList.append(windowAreaStackedWidget);
@@ -529,8 +530,36 @@ void HolonDesktopPrivateData::addWindow(HolonAbstractWindow *window)
 
     if (HolonWindowArea *windowArea = qobject_cast<HolonWindowArea *>(window->parent()))
     {
-        if (window->isCurrent())
+        // if any windowAreaStackedWidget is loaded (settings)
+        for (HolonWindowAreaStackedWidget *windowAreaStackedWidget : std::as_const (windowAreaStackedWidgetList))
+            if (QWidget *currentWidget = windowAreaStackedWidget->currentWidget())
+                if (HolonWindowStackedWidget *windowStackedWidget = qobject_cast<HolonWindowStackedWidget *>(currentWidget))
+                {
+                    if (windowStackedWidget->windowType() == QMetaType::fromType<HolonSettingsWindow>())
+                        if (HolonSettingsWidgetInterface *interface = qobject_cast<HolonSettingsWidgetInterface *>(window))
+                            if (QWidget *widget = interface->settingsWidget())
+                            {
+                                windowStackedWidget->addWindowWidget(window, widget);
+                                settingsStackedWidgetByWindow.insert(window, windowStackedWidget);
+                            }
+
+                    // TODO: add customStackedWidgetByWindow
+                }
+
+        if (q_ptr->tree()->isLoaded())
+        {
             currentWindowByWindowArea[windowArea] = window;
+            window->centralWidget()->setFocus();
+            desktop_d.setCurrentWindow(window);
+        }
+        else if (windowArea->isChecked())
+        {
+            if (!currentWindowByWindowArea.contains(windowArea) || window->isCurrent())
+            {
+                currentWindowByWindowArea[windowArea] = window;
+                currentWindow = window;
+            }
+        }
 
         return;
     }
