@@ -552,12 +552,14 @@ void HolonDesktopPrivateData::addWindow(HolonAbstractWindow *window)
             window->centralWidget()->setFocus();
             desktop_d.setCurrentWindow(window);
         }
-        else if (windowArea->isChecked())
+        else
         {
             if (!currentWindowByWindowArea.contains(windowArea) || window->isCurrent())
             {
                 currentWindowByWindowArea[windowArea] = window;
-                currentWindow = window;
+
+                if (windowArea->isChecked())
+                    currentWindow = window;
             }
         }
 
