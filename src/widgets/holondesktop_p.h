@@ -36,7 +36,7 @@ class HolonDesktopPrivate
 
 #else
 
-    const QScopedStorage<HolonDesktopPrivateData, 456> d_ptr;
+    const QScopedStorage<HolonDesktopPrivateData, 432> d_ptr;
 
 #endif
 
